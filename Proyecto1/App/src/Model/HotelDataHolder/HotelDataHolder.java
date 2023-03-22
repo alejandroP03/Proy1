@@ -3,6 +3,7 @@ package Model.HotelDataHolder;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONException;
@@ -12,13 +13,18 @@ import Model.HotelObjects.HotelObject;
 
 public abstract class HotelDataHolder<HotelObj extends HotelObject> {
     Map<String, HotelObj> dataHolder;
-    File dataFile;
+    File jSONDataFile;
 
-    public abstract void loadPersistentData(File dataFile);
+    HotelDataHolder(File jSONDataFile){
+        this.dataHolder = new HashMap<String, HotelObj>();
+        this.jSONDataFile = jSONDataFile;
+    }
+
+    public abstract void loadPersistentData(File jSONDataFile);
 
     public abstract void objectCreator();
 
-    public void SavePersistentData(File dataFile) throws JSONException, IOException {
+    public void SavePersistentData(File jSONDataFile) throws JSONException, IOException {
         /*
          * Guarda en un archivo un objeto json con los pares llave valor, donde la llave
          * es el identificador del objeto (habitacion, tarifa, reserva, etc)
@@ -31,16 +37,21 @@ public abstract class HotelDataHolder<HotelObj extends HotelObject> {
          * <b>post:<b> El archivo <<objetoDeHotel>>.json va a tener todos los objetos de
          * dataHolder
          * 
-         * @param dataFile Archivo donde se va a guardar la información de los objetos
+         * @param jSONDataFile Archivo donde se va a guardar la información de los objetos
          * 
          */
+
         JSONObject jsonObj = new JSONObject();
 
-        for (Map.Entry<String, HotelObj> jsonElementEntry : dataHolder.entrySet())
+        for (Map.Entry<String, HotelObj> jsonElementEntry : this.dataHolder.entrySet())
             jsonObj.put(jsonElementEntry.getKey(), jsonElementEntry.getValue().getJsonObject());
 
-        FileWriter fileReader = new FileWriter(dataFile);
+        FileWriter fileReader = new FileWriter(jSONDataFile);
         fileReader.write(jsonObj.toString());
         fileReader.close();
+    }
+
+    public Map<String, HotelObj> getData(){
+        return dataHolder;
     }
 }
