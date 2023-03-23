@@ -1,6 +1,6 @@
-package Model.WorkersAuth;
+package Controller.WorkersAuth;
 
-public class Employee implements User {
+public class Admin implements User {
     @Override
     public String getUserName() {
         return null;

@@ -1,4 +1,4 @@
-package Model.WorkersAuth;
+package Controller.WorkersAuth;
 
 public interface User {
     public String getUserName();

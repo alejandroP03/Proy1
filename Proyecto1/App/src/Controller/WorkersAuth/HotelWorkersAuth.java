@@ -1,4 +1,4 @@
-package Model.WorkersAuth;
+package Controller.WorkersAuth;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package Model.RegisterHandler;
+package Controller.RegisterHandler;
 
 import java.util.List;
 

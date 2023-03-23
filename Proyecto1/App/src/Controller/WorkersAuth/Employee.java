@@ -1,6 +1,6 @@
-package Model.WorkersAuth;
+package Controller.WorkersAuth;
 
-public class Recepcionist implements User {
+public class Employee implements User {
     @Override
     public String getUserName() {
         return null;
@@ -20,5 +20,4 @@ public class Recepcionist implements User {
     public String setPassword() {
         return null;
     }
-
 }

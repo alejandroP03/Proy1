@@ -1,4 +1,4 @@
-package Model.RegisterHandler;
+package Controller.RegisterHandler;
 
 public class RegisterHandler {
     //attributes
