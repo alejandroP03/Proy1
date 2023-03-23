@@ -1,4 +1,4 @@
-package RegisterHandler;
+package Model.RegisterHandler;
 
 public class CompanionGuest {
 }
