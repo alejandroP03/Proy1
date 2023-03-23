@@ -1,30 +1,31 @@
 package Model.HotelDataHolder;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import Model.HotelObjects.HotelObject;
 
 public abstract class HotelDataHolder<HotelObj extends HotelObject> {
-    Map<String, HotelObj> dataHolder;
-    File jSONDataFile;
+    private Map<String, HotelObj> dataHolder;
+    private File jSONDataFile;
+    private boolean isFileLoaded;
 
-    HotelDataHolder(File jSONDataFile){
+    public HotelDataHolder(File jSONDataFile) {
         this.dataHolder = new HashMap<String, HotelObj>();
         this.jSONDataFile = jSONDataFile;
     }
 
-    public abstract void loadPersistentData(File jSONDataFile);
 
-    public abstract void objectCreator();
+    public abstract void loadPersistentData() throws FileNotFoundException, IOException, ParseException;
 
-    public void SavePersistentData(File jSONDataFile) throws JSONException, IOException {
+    public void SavePersistentData() throws IOException {
         /*
          * Guarda en un archivo un objeto json con los pares llave valor, donde la llave
          * es el identificador del objeto (habitacion, tarifa, reserva, etc)
@@ -35,23 +36,41 @@ public abstract class HotelDataHolder<HotelObj extends HotelObject> {
          * 1. El mapa ya debe estar inicializado
          * 2. El archivo existe en App/Data
          * <b>post:<b> El archivo <<objetoDeHotel>>.json va a tener todos los objetos de
-         * dataHolder
+         * dataHolder (el archivo se va a sobreescribir)
          * 
-         * @param jSONDataFile Archivo donde se va a guardar la información de los objetos
+         * @param jSONDataFile Archivo donde se va a guardar la información de los
+         * objetos
          * 
          */
 
-        JSONObject jsonObj = new JSONObject();
+        HashMap<String, Object> objData = new HashMap<String, Object>();
 
         for (Map.Entry<String, HotelObj> jsonElementEntry : this.dataHolder.entrySet())
-            jsonObj.put(jsonElementEntry.getKey(), jsonElementEntry.getValue().getJsonObject());
 
-        FileWriter fileReader = new FileWriter(jSONDataFile);
-        fileReader.write(jsonObj.toString());
+            objData.put(jsonElementEntry.getKey(), jsonElementEntry.getValue().getJsonObject());
+
+        FileWriter fileReader = new FileWriter(this.jSONDataFile);
+        fileReader.write(JSONObject.toJSONString(objData));
         fileReader.close();
     }
 
-    public Map<String, HotelObj> getData(){
+    public Map<String, HotelObj> getData() {
         return dataHolder;
+    }
+
+    public void setDataHolder(Map<String, HotelObj> dataHolder) {
+        this.dataHolder = dataHolder;
+    }
+
+    public File getjSONDataFile() {
+        return jSONDataFile;
+    }
+
+    public void setFileLoaded(boolean isFileLoaded) {
+        this.isFileLoaded = isFileLoaded;
+    }
+
+    public boolean getIsFileLoaded() {
+        return isFileLoaded;
     }
 }

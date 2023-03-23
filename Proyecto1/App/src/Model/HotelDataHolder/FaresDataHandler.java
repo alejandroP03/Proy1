@@ -1,8 +1,9 @@
 package Model.HotelDataHolder;
 
 import java.io.File;
+import java.util.Map;
 
-import Model.HotelObjects.RoomFare;
+import Model.HotelObjects.RoomRelated.RoomFare;
 
 public class FaresDataHandler extends HotelDataHolder<RoomFare> {
 
@@ -17,8 +18,8 @@ public class FaresDataHandler extends HotelDataHolder<RoomFare> {
     }
 
     @Override
-    public void loadPersistentData(File dataFile) {
+    public Map<String, RoomFare> loadPersistentData() {
         // TODO Auto-generated method stub
-
+        return null;
     }
 }
