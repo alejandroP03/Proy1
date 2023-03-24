@@ -10,7 +10,7 @@ import Model.HotelObjects.HotelObject;
 public class Room implements HotelObject {
     private String roomId;
     private String location;
-    private int capacity;
+    private int capacity = 0;
     private boolean isOccupied;
     private ArrayList<LocalDate> bookedDates;
     private ArrayList<Bed> beds;
@@ -20,20 +20,26 @@ public class Room implements HotelObject {
 
     public Room(String roomId,
             String location,
-            int capacity,
             boolean isOccupied,
             ArrayList<Bed> beds,
             ArrayList<RoomFeatures> featuresList,
             TypeRoom type) {
         this.roomId = roomId;
         this.location = location;
-        this.capacity = capacity;
         this.isOccupied = isOccupied;
         this.bookedDates = new ArrayList<LocalDate>();
         this.beds = beds;
         this.featuresList = featuresList;
         this.type = type;
         this.roomFares = new ArrayList<RoomFare>();
+    }
+
+    public void setBookedDates(ArrayList<LocalDate> bookedDates) {
+        this.bookedDates = bookedDates;
+    }
+
+    public void setRoomFares(ArrayList<RoomFare> roomFares) {
+        this.roomFares = roomFares;
     }
 
     public ArrayList<Bed> getBeds() {
@@ -45,6 +51,10 @@ public class Room implements HotelObject {
     }
 
     public int getCapacity() {
+        for (Bed bed : beds) {
+            capacity += bed.getBedSize();
+        }
+
         return capacity;
     }
 
@@ -70,6 +80,19 @@ public class Room implements HotelObject {
 
     public boolean getIsOcupied() {
         return isOccupied;
+    }
+
+    public String createTypeRoomId(){
+        String typeRoomId = type.toString();
+        for (Bed bed : beds) {
+            typeRoomId += '_' + bed.toString();
+        }
+
+        for (RoomFeatures features : featuresList) {
+            typeRoomId += '_' + features.toString();
+        }
+
+        return typeRoomId;
     }
 
     public JSONObject getJsonObject() {

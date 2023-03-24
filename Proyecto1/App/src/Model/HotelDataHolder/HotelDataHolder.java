@@ -1,14 +1,12 @@
 package Model.HotelDataHolder;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
 import Model.HotelObjects.HotelObject;
 
@@ -23,7 +21,7 @@ public abstract class HotelDataHolder<HotelObj extends HotelObject> {
     }
 
 
-    public abstract void loadPersistentData() throws FileNotFoundException, IOException, ParseException;
+    public abstract void loadPersistentData() throws Exception;
 
     public void SavePersistentData() throws IOException {
         /*
@@ -69,6 +67,7 @@ public abstract class HotelDataHolder<HotelObj extends HotelObject> {
     public void setFileLoaded(boolean isFileLoaded) {
         this.isFileLoaded = isFileLoaded;
     }
+
 
     public boolean getIsFileLoaded() {
         return isFileLoaded;
