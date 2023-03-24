@@ -22,7 +22,7 @@ import Model.HotelObjects.RoomRelated.TypeRoom;
 public class RoomsDataHandler extends HotelDataHolder<Room> {
     HashMap<HashSet<Object>, RoomFares> roomFaresMap;
 
-    RoomsDataHandler(File roomsJSONFile, HashMap<HashSet<Object>, RoomFares> roomFaresMap) {
+    public RoomsDataHandler(File roomsJSONFile, HashMap<HashSet<Object>, RoomFares> roomFaresMap) {
         super(roomsJSONFile);
         this.roomFaresMap = roomFaresMap;
     }
@@ -121,7 +121,7 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
                     }
                     newRoom.setBookedDates(bookedDays);
 
-                    // Despues de creada la habitación se buscan las tarifas relacionada
+                    // Despues de creada la habitación se buscan las tarifas relacionadas
 
                     RoomFares newRoomFares = roomFaresMap.get(newRoom.createTypeRoomId());
                     ArrayList<Fare> listOfFares = newRoomFares.getFaresForRoomType();
