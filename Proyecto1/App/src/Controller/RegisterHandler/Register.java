@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
-import Model.BillService.ConsumeRecorder;
+import Controller.BillService.ConsumeRecorder;
 import Model.HotelObjects.HotelObject;
 
 public class Register implements HotelObject {

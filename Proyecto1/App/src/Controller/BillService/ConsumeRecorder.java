@@ -1,4 +1,4 @@
-package Model.BillService;
+package Controller.BillService;
 
 public class ConsumeRecorder {
 }
