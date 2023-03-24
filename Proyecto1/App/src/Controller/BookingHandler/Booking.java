@@ -19,10 +19,7 @@ public class Booking implements HotelObject {
     private int numberOfGuests;
     private LocalDate initialDate;
     private LocalDate finalDate;
-
     private Hotel roomsToReserve;
-
-
     private ArrayList<Room> roomsReserved;
 
 

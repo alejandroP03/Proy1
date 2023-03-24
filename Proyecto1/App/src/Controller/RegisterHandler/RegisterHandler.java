@@ -1,30 +1,44 @@
 package Controller.RegisterHandler;
 
 import Controller.Hotel;
+import Model.HotelObjects.RoomRelated.Room;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RegisterHandler {
     //attributes
 
-    //TODO Corregir las relaciones que hay con hotel (No se han puesto)
+
     private Hotel availableRooms;
+
+    private Group group;
+    private PrincipalGuest responsibleGuest;
+    private boolean hasBooking;
 
 
     //methods
-    public void getAsociatedBooking(){
+    public void createRegister(String name, String dni, String email, String phoneNumber, ArrayList<CompanionGuest> group){
+        // crea instncia del prinicpalGuest
+        this.responsibleGuest = new PrincipalGuest(name, dni, email, phoneNumber);
+        // crea la instancia de group
+        this.group = new Group(group);
 
     }
-    public void getResponsibleData(){
+
+    private void getAsociatedBooking(){
+        // buscar en hotel
+    }
+    public PrincipalGuest getResponsibleData(){
+        return this.responsibleGuest;
 
     }
-    public void getGroupData(){
-
+    public Group getGroupData(){
+        return this.group;
     }
-    private void getCompanionData(){
 
-    }
-    public void roomAsigner(){
+    public void roomAsigner(HashMap<String, Room> availableRooms){
+
 
     }
     public void closeRegistration(){
@@ -33,6 +47,8 @@ public class RegisterHandler {
     private void saveRegistration(){
 
     }
+
+
 
 
 }

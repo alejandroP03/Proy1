@@ -11,8 +11,6 @@ public class Register implements HotelObject {
     //attributes
     private int id;
 
-    private Group group;
-    private PrincipalGuest responsibleGuest;
     private RegisterHandler assignedRooms;
     private ArrayList<ConsumeRecorder> consumedServicesList;
     private ArrayList<ConsumeRecorder> consumedFoodsList;

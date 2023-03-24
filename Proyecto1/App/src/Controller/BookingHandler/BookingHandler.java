@@ -12,9 +12,9 @@ public class BookingHandler {
     //Metodos
     public void createBooking(String reserviourName , String reserviourDNI, String reserviourPhone, String reserviourEmail, String reserviourSupportCardNumber, int numberOfGuests, LocalDate initialDate, LocalDate finalDate){
         openBooking = new Booking(reserviourName,reserviourDNI, reserviourPhone, reserviourEmail, reserviourSupportCardNumber, numberOfGuests, initialDate,finalDate );
-
+        changeRoomStatus();
     }
-    private void changeRoomStatus(Booking openBooking){
+    private void changeRoomStatus(){
         // Se busca en el hashMap de Room con bookingData
 
     }

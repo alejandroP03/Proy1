@@ -6,6 +6,7 @@ import java.util.List;
 public class Group {
     //attributes
     private ArrayList<CompanionGuest> groupGuests;
+    private CompanionGuest companionGuest;
 
     //Constructor
     public Group(ArrayList<CompanionGuest> groupGuests){
@@ -13,8 +14,8 @@ public class Group {
     }
 
     //methods
-    public void addCompanionGuest(CompanionGuest companionGuest){
-
+    public void addCompanionGuest(String name, String dni){
+        companionGuest = new CompanionGuest( name,  dni);
         this.groupGuests.add(companionGuest);
 
     }
