@@ -4,12 +4,13 @@ import java.util.List;
 
 public class HotelWorkersAuth {
 
-    //attributes
+    // attributes
     private List<User> userList;
-    //methods
-    public void login(String userName, String password){
+
+    // methods
+    public void login(String userName, String password) {
 
     }
 
-    //public void modifyUser(){} ??????
+    // public void modifyUser(){} ??????
 }

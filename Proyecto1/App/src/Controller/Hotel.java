@@ -1,17 +1,19 @@
 package Controller;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import Model.HotelDataHolder.BookingsDataHandler;
 import Model.HotelDataHolder.FaresDataHandler;
+import Model.HotelDataHolder.RegistrationDataHandler;
 import Model.HotelDataHolder.RoomsDataHandler;
 import Model.HotelDataHolder.ServicesDataHandler;
 import Model.HotelObjects.HotelObject;
-import Model.HotelObjects.RoomRelated.Room;
 import Model.HotelObjects.Service;
+import Model.HotelObjects.RoomRelated.Room;
 
 public class Hotel {
-    //atributos
+    // atributos
 
     private HashMap<String, Room> roomList;
     private HashMap<String, HotelObject> roomFares;
@@ -25,8 +27,7 @@ public class Hotel {
     private BookingsDataHandler bookingsHandler = new BookingsDataHandler();
     private RegistrationDataHandler registrationHandler = new RegistrationDataHandler();
 
-
-    //meotodos
+    // meotodos
     public Map<String, HotelObject> getRoomFares() {
         return roomFares;
     }

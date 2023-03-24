@@ -1,14 +1,12 @@
 package Model.HotelObjects;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
 
 public class Service implements HotelObject {
 
@@ -19,9 +17,6 @@ public class Service implements HotelObject {
     private LocalTime initialTime;
     private LocalTime finalTime;
 
-
-
-
     public Service(String name, double price, boolean isForGroup, ArrayList<DayOfWeek> daysAvailable) {
         this.name = name;
         this.price = price;
@@ -31,27 +26,22 @@ public class Service implements HotelObject {
 
     public JSONObject getJsonObject() {
         Map<Object, Object> mapa = new HashMap<Object, Object>();
-        mapa.put("name",this.name);
-        mapa.put("price",this.price);
-        mapa.put("isForGroup",this.isForGroup);
-        mapa.put("initialTime",this.initialTime.toString());
-        mapa.put("finalTime",this.finalTime.toString());
+        mapa.put("name", this.name);
+        mapa.put("price", this.price);
+        mapa.put("isForGroup", this.isForGroup);
+        mapa.put("initialTime", this.initialTime.toString());
+        mapa.put("finalTime", this.finalTime.toString());
 
         ArrayList<String> days = new ArrayList<String>();
 
-        for (DayOfWeek day: this.daysAvailable){
+        for (DayOfWeek day : this.daysAvailable) {
             days.add(day.toString());
         }
 
-
-        mapa.put("daysAvailable",days);
-
+        mapa.put("daysAvailable", days);
 
         return new JSONObject(mapa);
     }
-
-
-
 
     public String getName() {
         return this.name;
@@ -61,7 +51,7 @@ public class Service implements HotelObject {
         return this.price;
     }
 
-    public boolean getIsForGroup(){
+    public boolean getIsForGroup() {
         return this.isForGroup;
     }
 
@@ -77,15 +67,15 @@ public class Service implements HotelObject {
         return this.finalTime;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setPrice(double price){
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public void setIsForGroup(boolean isForGroup){
+    public void setIsForGroup(boolean isForGroup) {
         this.isForGroup = isForGroup;
     }
 

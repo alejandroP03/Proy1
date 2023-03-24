@@ -1,28 +1,26 @@
 package Controller.RegisterHandler;
 
-import Model.BillService.ConsumeRecorder;
-import Model.HotelObjects.HotelObject;
+import java.util.ArrayList;
+
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import Model.BillService.ConsumeRecorder;
+import Model.HotelObjects.HotelObject;
 
 public class Register implements HotelObject {
-    //attributes
+    // attributes
     private int id;
 
     private RegisterHandler assignedRooms;
     private ArrayList<ConsumeRecorder> consumedServicesList;
     private ArrayList<ConsumeRecorder> consumedFoodsList;
 
-    //Constructor
+    // Constructor
 
-    //methods
+    // methods
     @Override
     public JSONObject getJsonObject() {
         return null;
     }
-
-
 
 }

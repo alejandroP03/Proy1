@@ -1,8 +1,8 @@
 package Controller.WorkersAuth;
 
 public class Screen {
-    //attributes
+    // attributes
     private User user;
-    //methods
+    // methods
 
 }

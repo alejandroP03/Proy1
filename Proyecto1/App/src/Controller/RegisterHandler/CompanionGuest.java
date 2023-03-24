@@ -1,20 +1,18 @@
 package Controller.RegisterHandler;
 
-import java.util.List;
-
 public class CompanionGuest implements Guest {
-    //attributes
+    // attributes
     private String name;
     private String dni;
 
-    //Constructor
-    public CompanionGuest(String name, String dni ){
+    // Constructor
+    public CompanionGuest(String name, String dni) {
         this.name = name;
         this.dni = dni;
 
     }
 
-    //methods
+    // methods
 
     @Override
     public String getName() {
@@ -26,8 +24,4 @@ public class CompanionGuest implements Guest {
         return this.dni;
     }
 
-
 }
-
-
-

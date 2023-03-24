@@ -42,8 +42,6 @@ public class Room implements HotelObject {
         this.bookedDates = bookedDates;
     }
 
-
-
     public void setRoomFares(ArrayList<Fare> roomFares) {
         this.roomFares = roomFares;
     }
@@ -88,11 +86,10 @@ public class Room implements HotelObject {
         return isOccupied;
     }
 
-    public Set<Object> createTypeRoomId(){
+    public Set<Object> createTypeRoomId() {
         Set<Object> roomId = new HashSet<Object>();
 
-
-        roomId.add(this.type); 
+        roomId.add(this.type);
         for (Bed bed : beds) {
             roomId.add(bed);
         }

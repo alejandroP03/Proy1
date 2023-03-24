@@ -127,11 +127,11 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
                     ArrayList<Fare> listOfFares = newRoomFares.getFaresForRoomType();
                     newRoom.setRoomFares(listOfFares);
 
-
                     roomList.put(roomId, newRoom);
                 }
-                
-                // Esto es lo que confirma que el archivo ya fue cargado y ya se van a poder crear objetos
+
+                // Esto es lo que confirma que el archivo ya fue cargado y ya se van a poder
+                // crear objetos
                 super.setFileLoaded(!super.getIsFileLoaded());
             } else {
                 throw new Exception("La lista de habitaciones contiene elementos");

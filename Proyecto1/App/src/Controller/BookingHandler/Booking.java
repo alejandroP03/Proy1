@@ -1,15 +1,16 @@
 package Controller.BookingHandler;
 
-import Controller.Hotel;
-import Model.HotelObjects.HotelObject;
-import Model.HotelObjects.RoomRelated.Room;
-import org.json.simple.JSONObject;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+
+import Controller.Hotel;
+import Model.HotelObjects.HotelObject;
+import Model.HotelObjects.RoomRelated.Room;
+
 public class Booking implements HotelObject {
-    //Atributos
+    // Atributos
     private String reserviourName;
     private String reservoirDNI;
 
@@ -22,10 +23,9 @@ public class Booking implements HotelObject {
     private Hotel roomsToReserve;
     private ArrayList<Room> roomsReserved;
 
-
-
-    //constructor
-    public Booking (String reserviourName, String reservoirDNI, String reserviourPhone,String reserviourEmail , String reserviourSupportCardNumber, int numberOfGuests, LocalDate initialDate, LocalDate finalDate){
+    // constructor
+    public Booking(String reserviourName, String reservoirDNI, String reserviourPhone, String reserviourEmail,
+            String reserviourSupportCardNumber, int numberOfGuests, LocalDate initialDate, LocalDate finalDate) {
         this.reserviourName = reserviourName;
         this.reservoirDNI = reservoirDNI;
         this.reserviourPhone = reserviourPhone;
@@ -36,32 +36,29 @@ public class Booking implements HotelObject {
         this.initialDate = initialDate;
         this.roomsReserved = new ArrayList<>();
 
-
     }
-    //metodos
+    // metodos
 
-    public void setRoomsReserved(Room rooms){
+    public void setRoomsReserved(Room rooms) {
         this.roomsReserved.add(rooms);
 
     }
 
-
-    public String getReserviourName(){
+    public String getReserviourName() {
         return this.reserviourName;
     }
 
-    public LocalDate getInitialDate(){
+    public LocalDate getInitialDate() {
         return this.initialDate;
     }
 
-    public LocalDate getFinalDate(){
+    public LocalDate getFinalDate() {
         return this.finalDate;
     }
 
-    public ArrayList<Room> getRoomsReserved(){
+    public ArrayList<Room> getRoomsReserved() {
         return this.roomsReserved;
     }
-
 
     @Override
     public JSONObject getJsonObject() {

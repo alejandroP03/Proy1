@@ -13,9 +13,8 @@ public class BookingsDataHandler extends HotelDataHolder<Booking> {
         super(roomsJSONFile);
     }
 
-
     @Override
-    public void loadPersistentData() throws FileNotFoundException, IOException, ParseException{
+    public void loadPersistentData() throws FileNotFoundException, IOException, ParseException {
         // TODO Auto-generated method stub
     }
 }

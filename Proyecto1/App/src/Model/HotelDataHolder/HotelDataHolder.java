@@ -20,7 +20,6 @@ public abstract class HotelDataHolder<HotelObj extends HotelObject> {
         this.jSONDataFile = jSONDataFile;
     }
 
-
     public abstract void loadPersistentData() throws Exception;
 
     public void SavePersistentData() throws IOException {
@@ -67,7 +66,6 @@ public abstract class HotelDataHolder<HotelObj extends HotelObject> {
     public void setFileLoaded(boolean isFileLoaded) {
         this.isFileLoaded = isFileLoaded;
     }
-
 
     public boolean getIsFileLoaded() {
         return isFileLoaded;
