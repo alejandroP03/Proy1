@@ -2,6 +2,10 @@ package Model.HotelObjects.RoomRelated;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.json.simple.JSONObject;
 
@@ -12,11 +16,11 @@ public class Room implements HotelObject {
     private String location;
     private int capacity = 0;
     private boolean isOccupied;
-    private ArrayList<LocalDate> bookedDates;
+    private Map<LocalDate, LocalDate> bookedDates;
     private ArrayList<Bed> beds;
     private ArrayList<RoomFeatures> featuresList;
     private TypeRoom type;
-    private ArrayList<RoomFare> roomFares;
+    private ArrayList<Fare> roomFares;
 
     public Room(String roomId,
             String location,
@@ -27,18 +31,20 @@ public class Room implements HotelObject {
         this.roomId = roomId;
         this.location = location;
         this.isOccupied = isOccupied;
-        this.bookedDates = new ArrayList<LocalDate>();
+        this.bookedDates = new HashMap<LocalDate, LocalDate>();
         this.beds = beds;
         this.featuresList = featuresList;
         this.type = type;
-        this.roomFares = new ArrayList<RoomFare>();
+        this.roomFares = new ArrayList<Fare>();
     }
 
-    public void setBookedDates(ArrayList<LocalDate> bookedDates) {
+    public void setBookedDates(HashMap<LocalDate, LocalDate> bookedDates) {
         this.bookedDates = bookedDates;
     }
 
-    public void setRoomFares(ArrayList<RoomFare> roomFares) {
+
+
+    public void setRoomFares(ArrayList<Fare> roomFares) {
         this.roomFares = roomFares;
     }
 
@@ -46,7 +52,7 @@ public class Room implements HotelObject {
         return beds;
     }
 
-    public ArrayList<LocalDate> getBookedDates() {
+    public Map<LocalDate, LocalDate> getBookedDates() {
         return bookedDates;
     }
 
@@ -66,7 +72,7 @@ public class Room implements HotelObject {
         return location;
     }
 
-    public ArrayList<RoomFare> getRoomFares() {
+    public ArrayList<Fare> getRoomFares() {
         return roomFares;
     }
 
@@ -82,17 +88,20 @@ public class Room implements HotelObject {
         return isOccupied;
     }
 
-    public String createTypeRoomId(){
-        String typeRoomId = type.toString();
+    public Set<Object> createTypeRoomId(){
+        Set<Object> roomId = new HashSet<Object>();
+
+
+        roomId.add(this.type); 
         for (Bed bed : beds) {
-            typeRoomId += '_' + bed.toString();
+            roomId.add(bed);
         }
 
         for (RoomFeatures features : featuresList) {
-            typeRoomId += '_' + features.toString();
+            roomId.add(features);
         }
 
-        return typeRoomId;
+        return roomId;
     }
 
     public JSONObject getJsonObject() {
