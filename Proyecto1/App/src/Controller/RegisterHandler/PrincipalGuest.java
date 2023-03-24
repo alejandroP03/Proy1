@@ -9,12 +9,24 @@ public class PrincipalGuest implements Guest{
     private String email;
     private String phoneNumber;
 
-    private Group associatedGroup;
+    //constructor
 
+    public PrincipalGuest(String name, String dni, String email, String phoneNumber){
+        this.name = name;
+        this.dni = dni;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
 
     //methods
+
     @Override
     public String getName() {
-        return null;
+        return this.name;
+    }
+
+    @Override
+    public String getDni() {
+        return this.dni;
     }
 }
