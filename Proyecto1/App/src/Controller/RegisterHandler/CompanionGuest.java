@@ -6,13 +6,24 @@ public class CompanionGuest implements Guest {
     //attributes
     private String name;
     private String dni;
-    private List<Group> groupGuests;
 
+    //Constructor
+    public CompanionGuest(String name, String dni ){
+        this.name = name;
+        this.dni = dni;
+
+    }
 
     //methods
+
     @Override
     public String getName() {
-        return null;
+        return this.name;
+    }
+
+    @Override
+    public String getDni() {
+        return this.dni;
     }
 
 

@@ -2,6 +2,9 @@ package Model.HotelObjects;
 
 import org.json.simple.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Food implements HotelObject {
     private String name;
     private double price;
@@ -18,14 +21,14 @@ public class Food implements HotelObject {
 
 
     public JSONObject getJsonObject() {
-        JSONObject object = new JSONObject();
-        object.put("name",this.name);
-        object.put("price",this.price);
-        object.put("isRoomService",this.isRoomService);
-        object.put("availability",this.availability);
+        Map<Object, Object> mapa = new HashMap<Object, Object>();
+        mapa.put("name",this.name);
+        mapa.put("price",this.price);
+        mapa.put("isForGroup",this.isRoomService);
+        mapa.put("availability",this.availability);
 
 
-        return object;
+        return new JSONObject(mapa);
     }
 
     public String getName(){
