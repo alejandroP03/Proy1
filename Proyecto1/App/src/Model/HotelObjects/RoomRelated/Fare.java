@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 
 import Model.HotelObjects.HotelObject;
 
-public class RoomFare implements HotelObject {
+public class Fare implements HotelObject{
     public JSONObject getJsonObject() {
         return null;
     }
