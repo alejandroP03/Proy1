@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,10 @@ public class Service implements HotelObject {
     private double price;
     private boolean isForGroup;
     private ArrayList<DayOfWeek> daysAvailable;
+    private LocalTime initialTime;
+    private LocalTime finalTime;
+
+
 
 
     public Service(String name, double price, boolean isForGroup, ArrayList<DayOfWeek> daysAvailable) {
@@ -29,12 +34,16 @@ public class Service implements HotelObject {
         mapa.put("name",this.name);
         mapa.put("price",this.price);
         mapa.put("isForGroup",this.isForGroup);
+        mapa.put("initialTime",this.initialTime.toString());
+        mapa.put("finalTime",this.finalTime.toString());
 
         ArrayList<String> days = new ArrayList<String>();
 
         for (DayOfWeek day: this.daysAvailable){
             days.add(day.toString());
         }
+
+
         mapa.put("daysAvailable",days);
 
 
@@ -60,6 +69,14 @@ public class Service implements HotelObject {
         return this.daysAvailable;
     }
 
+    public LocalTime getInitialTime() {
+        return this.initialTime;
+    }
+
+    public LocalTime getFinalTime() {
+        return this.finalTime;
+    }
+
     public void setName(String name){
         this.name = name;
     }
@@ -68,7 +85,7 @@ public class Service implements HotelObject {
         this.price = price;
     }
 
-    public void setIsForGroup(boolean group){
+    public void setIsForGroup(boolean isForGroup){
         this.isForGroup = isForGroup;
     }
 
@@ -76,7 +93,11 @@ public class Service implements HotelObject {
         this.daysAvailable = daysAvailable;
     }
 
+    public void setInitialTime(LocalTime initialTime) {
+        this.initialTime = initialTime;
+    }
 
-
-
+    public void setFinalTime(LocalTime finalTime) {
+        this.finalTime = finalTime;
+    }
 }
