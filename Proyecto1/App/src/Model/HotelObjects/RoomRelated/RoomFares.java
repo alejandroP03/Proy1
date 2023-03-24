@@ -4,16 +4,27 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Set;
 
 import org.json.simple.JSONObject;
 
 import Model.HotelObjects.HotelObject;
 
 public class RoomFares implements HotelObject {
-    private ArrayList<Fare> FaresForRoomType;
+    private ArrayList<Fare> faresForRoomType;
+    private Set<Object> typeRoomFare;
+
+    public RoomFares(Set<Object> typeRoomFare){
+        this.faresForRoomType = new ArrayList<Fare>();
+        this.typeRoomFare = typeRoomFare;
+    }
+
+    public Set<Object> getTypeRoomFare() {
+        return typeRoomFare;
+    }
 
     public ArrayList<Fare> getFaresForRoomType() {
-        return FaresForRoomType;
+        return faresForRoomType;
     }
 
     public Integer getFare(LocalDate initialDate, LocalDate finalDate) throws Exception {
@@ -36,7 +47,7 @@ public class RoomFares implements HotelObject {
          *
          */
         int fare = 0;
-        ArrayList<Fare> sortedFares = this.FaresForRoomType;
+        ArrayList<Fare> sortedFares = this.faresForRoomType;
         Collections.sort(sortedFares, new FareComparator());
         int initialIndex = searchIndexFloorInitialDate(sortedFares, initialDate);
         LocalDate actualDate = initialDate;
@@ -98,22 +109,4 @@ public class RoomFares implements HotelObject {
         return null;
     }
 
-    public static void main(String[] args) {
-
-        int fareList[] = { 1, 3, 5, 6, 7, 9, 11, 15 };
-        int initialDate = 11;
-        int mid;
-        int min = 0;
-        int max = fareList.length;
-
-        while (min < max) {
-            mid = (max + min) / 2;
-            if (fareList[mid] < initialDate)
-                min = mid + 1;
-            else
-                max = mid - 1;
-        }
-
-        System.out.println((max + min) / 2);
-    }
 }
