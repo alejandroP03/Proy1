@@ -1,9 +1,15 @@
 package Model.HotelObjects.RoomRelated;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.simple.JSONObject;
@@ -14,9 +20,13 @@ public class RoomFares implements HotelObject {
     private ArrayList<Fare> faresForRoomType;
     private Set<Object> typeRoomFare;
 
-    public RoomFares(Set<Object> typeRoomFare){
+    public RoomFares(Set<Object> typeRoomFare) {
         this.faresForRoomType = new ArrayList<Fare>();
         this.typeRoomFare = typeRoomFare;
+    }
+
+    public void addFare(Fare fare) {
+        this.faresForRoomType.add(fare);
     }
 
     public Set<Object> getTypeRoomFare() {
@@ -106,7 +116,41 @@ public class RoomFares implements HotelObject {
     }
 
     public JSONObject getJsonObject() {
-        return null;
+        ArrayList<String> typeFareArray = new ArrayList<String>();
+        for (Object object : this.getTypeRoomFare()) {
+            if(object instanceof HashMap)
+                typeFareArray.add(new JSONObject((Map<Bed, Integer>) object).toJSONString());
+            else
+                typeFareArray.add(object.toString());
+        }
+
+        System.out.println(typeFareArray);
+
+        Map<Object, Object> roomFareData = new HashMap<Object, Object>();
+
+        ArrayList<JSONObject> fareJsonObjects = new ArrayList<JSONObject>();
+
+        for (Fare fare : this.getFaresForRoomType()) {
+            fareJsonObjects.add(fare.getJsonObject());
+        }
+        roomFareData.put(this.getTypeRoomFare(), fareJsonObjects);
+
+        JSONObject roomFareObject = new JSONObject(roomFareData);
+
+        return roomFareObject;
+
+    }
+
+    public static void main(String[] args) {
+        Room room = new Room("null", "null", false, new HashMap<Bed, Integer>(Map.of(Bed.CABIN, 1, Bed.KING, 2)),
+                new HashSet<RoomFeatures>(Arrays.asList(RoomFeatures.BALCONY, RoomFeatures.LANDSCAPE_VIEW)),
+                TypeRoom.STANDARD);
+
+        RoomFares rf = new RoomFares(room.createTypeRoomId());
+        rf.addFare(new Fare(120000, LocalDate.of(2023, Month.AUGUST, 30), LocalDate.of(2023, Month.OCTOBER, 30),
+                new ArrayList<DayOfWeek>(Arrays.asList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY))));
+
+        System.out.println(rf.getJsonObject().toJSONString());
     }
 
 }

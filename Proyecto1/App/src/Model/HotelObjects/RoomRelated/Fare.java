@@ -3,18 +3,20 @@ package Model.HotelObjects.RoomRelated;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 
 import Model.HotelObjects.HotelObject;
 
 public class Fare implements HotelObject {
-    private double price;
+    private float price;
     private LocalDate initialDate;
     private LocalDate finalDate;
     private ArrayList<DayOfWeek> days;
 
-    Fare(double price,
+    public Fare(float price,
             LocalDate initialDate,
             LocalDate finalDate,
             ArrayList<DayOfWeek> days) {
@@ -24,7 +26,7 @@ public class Fare implements HotelObject {
         this.days = days;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
@@ -41,6 +43,13 @@ public class Fare implements HotelObject {
     }
 
     public JSONObject getJsonObject() {
-        return null;
+        Map<Object, Object> fareData = new HashMap<Object, Object>();
+        fareData.put("price", this.getPrice());
+        fareData.put("initialDate", this.getInitialDate());
+        fareData.put("finalDate", this.getFinalDate());
+        fareData.put("days", this.getDays());
+
+        JSONObject fareObject = new JSONObject(fareData);
+        return fareObject;
     }
 }

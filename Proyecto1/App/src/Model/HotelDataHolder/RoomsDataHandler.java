@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,15 +21,18 @@ import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.TypeRoom;
 
 public class RoomsDataHandler extends HotelDataHolder<Room> {
-    HashMap<HashSet<Object>, RoomFares> roomFaresMap;
+    Map<Set<Object>, RoomFares> roomFaresMap;
 
-    public RoomsDataHandler(File roomsJSONFile, HashMap<HashSet<Object>, RoomFares> roomFaresMap) {
+    public RoomsDataHandler(File roomsJSONFile, Map<Set<Object>, RoomFares> roomFaresMap) {
         super(roomsJSONFile);
         this.roomFaresMap = roomFaresMap;
     }
 
-    public void createNewRoom(String location, int capacity, boolean isOccupied, ArrayList<Bed> beds,
-            ArrayList<RoomFeatures> featuresList, TypeRoom type)
+    public void createNewRoom(String location,
+            boolean isOccupied,
+            Map<Bed, Integer> beds,
+            Set<RoomFeatures> featuresList,
+            TypeRoom type)
             throws Exception {
         /*
          * Crea una nueva habitación y la ingresa en la estructura que guarda las
@@ -44,7 +48,6 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
         if (super.getIsFileLoaded()) {
             Map<Object, Room> roomsList = super.getData();
             String roomId = getRoomId(type, roomsList);
-
             Room newRoom = new Room(roomId, location, isOccupied, beds, featuresList, type);
 
             roomsList.put(roomId, newRoom);
@@ -95,17 +98,19 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
                     TypeRoom type = (TypeRoom) roomEntry.getValue().get("type");
 
                     @SuppressWarnings("unchecked")
-                    ArrayList<Object> bedsArray = (JSONArray) roomEntry.getValue().get("beds");
-                    ArrayList<Bed> beds = new ArrayList<Bed>();
-                    for (Object object : bedsArray) {
-                        beds.add((Bed) object);
+                    Map<String, Integer> bedsMap = (JSONObject) roomEntry.getValue().get("beds");
+
+                    Map<Bed, Integer> beds = new HashMap<Bed, Integer>();
+                    for (Map.Entry<String, Integer> bed : bedsMap.entrySet()) {
+                        beds.put(Bed.valueOf(bed.getKey()), Integer.parseInt(String.valueOf(bed.getValue())));
                     }
 
                     @SuppressWarnings("unchecked")
-                    ArrayList<Object> featuresArray = (JSONArray) roomEntry.getValue().get("beds");
-                    ArrayList<RoomFeatures> features = new ArrayList<RoomFeatures>();
-                    for (Object object : featuresArray) {
-                        features.add((RoomFeatures) object);
+                    ArrayList<String> featuresArray = (JSONArray) roomEntry.getValue().get("featuresList");
+
+                    Set<RoomFeatures> features = new HashSet<RoomFeatures>();
+                    for (String featureName : featuresArray) {
+                        features.add(RoomFeatures.valueOf(featureName));
                     }
 
                     Map<Object, Room> roomList = super.getData();
@@ -120,13 +125,14 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
                         bookedDays.put(initialDate, finalDate);
                     }
                     newRoom.setBookedDates(bookedDays);
-
                     // Despues de creada la habitación se buscan las tarifas relacionadas
-
-                    RoomFares newRoomFares = roomFaresMap.get(newRoom.createTypeRoomId());
-                    ArrayList<Fare> listOfFares = newRoomFares.getFaresForRoomType();
-                    newRoom.setRoomFares(listOfFares);
-
+                    
+                    RoomFares newRoomFares = this.roomFaresMap.get(newRoom.createTypeRoomId());
+                    if(newRoomFares != null){
+                        ArrayList<Fare> listOfFares = newRoomFares.getFaresForRoomType();
+                        newRoom.setRoomFares(listOfFares);
+                    }
+                    
                     roomList.put(roomId, newRoom);
                 }
 
@@ -138,7 +144,7 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
             }
 
         } catch (Exception e) {
-            throw new Exception("El archivo no tiene la estructura JSON");
+            throw new Exception("El archivo no tiene la estructura JSON " + e);
         }
     }
 
