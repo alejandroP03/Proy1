@@ -9,7 +9,7 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 
 public class Service implements HotelObject {
-
+    private int id;
     private String name;
     private double price;
     private boolean isForGroup;
@@ -17,21 +17,24 @@ public class Service implements HotelObject {
     private LocalTime initialTime;
     private LocalTime finalTime;
 
-    public Service(String name, double price, boolean isForGroup, ArrayList<DayOfWeek> daysAvailable) {
+    public Service(int id, String name, double price, boolean isForGroup, ArrayList<DayOfWeek> daysAvailable, LocalTime initialTime, LocalTime finalTime) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.isForGroup = isForGroup;
         this.daysAvailable = daysAvailable;
+        this.initialTime = initialTime;
+        this.finalTime = finalTime;
     }
 
     public JSONObject getJsonObject() {
         Map<Object, Object> mapa = new HashMap<Object, Object>();
+        mapa.put("id", this.id);
         mapa.put("name", this.name);
         mapa.put("price", this.price);
         mapa.put("isForGroup", this.isForGroup);
         mapa.put("initialTime", this.initialTime.toString());
         mapa.put("finalTime", this.finalTime.toString());
-
         ArrayList<String> days = new ArrayList<String>();
 
         for (DayOfWeek day : this.daysAvailable) {
@@ -41,6 +44,10 @@ public class Service implements HotelObject {
         mapa.put("daysAvailable", days);
 
         return new JSONObject(mapa);
+    }
+
+    public int getId(){
+        return this.id;
     }
 
     public String getName() {

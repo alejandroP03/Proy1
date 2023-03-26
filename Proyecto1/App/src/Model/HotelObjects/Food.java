@@ -6,12 +6,14 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 
 public class Food implements HotelObject {
+    private int id;
     private String name;
     private double price;
     private boolean isRoomService;
     private String availability;
 
-    public Food(String name, double price, boolean isRoomService, String availability) {
+    public Food(int id, String name, double price, boolean isRoomService, String availability) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.isRoomService = isRoomService;
@@ -20,12 +22,17 @@ public class Food implements HotelObject {
 
     public JSONObject getJsonObject() {
         Map<Object, Object> mapa = new HashMap<Object, Object>();
+        mapa.put("id", this.id);
         mapa.put("name", this.name);
         mapa.put("price", this.price);
-        mapa.put("isForGroup", this.isRoomService);
+        mapa.put("isRoomService", this.isRoomService);
         mapa.put("availability", this.availability);
 
         return new JSONObject(mapa);
+    }
+
+    public int getId(){
+        return this.id;
     }
 
     public String getName() {
