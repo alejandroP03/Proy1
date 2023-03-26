@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import Model.HotelObjects.HotelObject;
@@ -45,9 +46,15 @@ public class Fare implements HotelObject {
     public JSONObject getJsonObject() {
         Map<Object, Object> fareData = new HashMap<Object, Object>();
         fareData.put("price", this.getPrice());
-        fareData.put("initialDate", this.getInitialDate());
-        fareData.put("finalDate", this.getFinalDate());
-        fareData.put("days", this.getDays());
+        fareData.put("initialDate", this.getInitialDate().toString());
+        fareData.put("finalDate", this.getFinalDate().toString());
+
+        JSONArray daysJsonArray = new JSONArray();
+        for (DayOfWeek dayOfWeek : this.getDays()) {
+            daysJsonArray.add(dayOfWeek.toString());
+        }
+
+        fareData.put("days", daysJsonArray);
 
         JSONObject fareObject = new JSONObject(fareData);
         return fareObject;

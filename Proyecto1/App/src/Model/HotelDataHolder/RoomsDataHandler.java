@@ -138,13 +138,13 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
 
                 // Esto es lo que confirma que el archivo ya fue cargado y ya se van a poder
                 // crear objetos
-                super.setFileLoaded(!super.getIsFileLoaded());
+                super.setFileLoaded(true);
             } else {
                 throw new Exception("La lista de habitaciones contiene elementos");
             }
 
         } catch (Exception e) {
-            throw new Exception("El archivo no tiene la estructura JSON " + e);
+            throw new Exception("El archivo no tiene la estructura JSON ");
         }
     }
 

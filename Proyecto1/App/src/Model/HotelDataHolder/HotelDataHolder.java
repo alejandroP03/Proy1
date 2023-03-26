@@ -18,6 +18,7 @@ public abstract class HotelDataHolder<HotelObj extends HotelObject> {
     public HotelDataHolder(File jSONDataFile) {
         this.dataHolder = new HashMap<Object, HotelObj>();
         this.jSONDataFile = jSONDataFile;
+        this.isFileLoaded = false;
     }
 
     public abstract void loadPersistentData() throws Exception;

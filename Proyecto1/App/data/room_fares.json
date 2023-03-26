@@ -1,3 +1,18 @@
 {
-    
+	"[{KING=2}, STANDARD, {CABIN=1}, BALCONY, LANDSCAPE_VIEW]": {
+		"fares": [
+			{
+				"finalDate": "2023-10-30",
+				"days": ["SATURDAY", "SUNDAY"],
+				"price": 120000.0,
+				"initialDate": "2023-08-30"
+			},
+			{
+				"finalDate": "2025-10-30",
+				"days": ["SUNDAY"],
+				"price": 150000.0,
+				"initialDate": "2024-08-30"
+			}
+		]
+	}
 }

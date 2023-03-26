@@ -1,5 +1,6 @@
 package Model.HotelObjects.RoomRelated;
 
+import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 import org.json.simple.JSONObject;
 
+import Model.HotelDataHolder.FaresDataHandler;
 import Model.HotelObjects.HotelObject;
 
 public class RoomFares implements HotelObject {
@@ -115,17 +117,7 @@ public class RoomFares implements HotelObject {
         }
     }
 
-    public JSONObject getJsonObject() {
-        ArrayList<String> typeFareArray = new ArrayList<String>();
-        for (Object object : this.getTypeRoomFare()) {
-            if(object instanceof HashMap)
-                typeFareArray.add(new JSONObject((Map<Bed, Integer>) object).toJSONString());
-            else
-                typeFareArray.add(object.toString());
-        }
-
-        System.out.println(typeFareArray);
-
+    public JSONObject getJsonObject(){
         Map<Object, Object> roomFareData = new HashMap<Object, Object>();
 
         ArrayList<JSONObject> fareJsonObjects = new ArrayList<JSONObject>();
@@ -133,24 +125,29 @@ public class RoomFares implements HotelObject {
         for (Fare fare : this.getFaresForRoomType()) {
             fareJsonObjects.add(fare.getJsonObject());
         }
-        roomFareData.put(this.getTypeRoomFare(), fareJsonObjects);
+        roomFareData.put("fares", fareJsonObjects);
 
         JSONObject roomFareObject = new JSONObject(roomFareData);
-
+        System.out.println(roomFareObject);
         return roomFareObject;
+}
 
-    }
+    public static void main(String[] args) throws Exception {
 
-    public static void main(String[] args) {
         Room room = new Room("null", "null", false, new HashMap<Bed, Integer>(Map.of(Bed.CABIN, 1, Bed.KING, 2)),
                 new HashSet<RoomFeatures>(Arrays.asList(RoomFeatures.BALCONY, RoomFeatures.LANDSCAPE_VIEW)),
                 TypeRoom.STANDARD);
 
-        RoomFares rf = new RoomFares(room.createTypeRoomId());
-        rf.addFare(new Fare(120000, LocalDate.of(2023, Month.AUGUST, 30), LocalDate.of(2023, Month.OCTOBER, 30),
-                new ArrayList<DayOfWeek>(Arrays.asList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY))));
+        FaresDataHandler faredh = new FaresDataHandler(new File("App/data/room_fares.json"));
 
-        System.out.println(rf.getJsonObject().toJSONString());
+        faredh.loadPersistentData();
+
+        faredh.FareCreator(room.createTypeRoomId(), 120000, LocalDate.of(2023, Month.AUGUST, 30), LocalDate.of(2023, Month.OCTOBER, 30),
+        new ArrayList<DayOfWeek>(Arrays.asList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)));
+
+        faredh.FareCreator(room.createTypeRoomId(), 150000, LocalDate.of(2024, Month.AUGUST, 30), LocalDate.of(2025, Month.OCTOBER, 30),
+        new ArrayList<DayOfWeek>(Arrays.asList(DayOfWeek.SUNDAY)));
+        faredh.SavePersistentData();
     }
 
 }
