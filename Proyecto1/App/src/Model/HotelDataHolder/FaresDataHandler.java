@@ -5,10 +5,12 @@ import java.io.FileReader;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -84,39 +86,15 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
             JSONObject obj = (JSONObject) jsonObjToFile;
 
             @SuppressWarnings("unchecked")
-            Map<Object, JSONObject> objMap = (Map<Object, JSONObject>) obj;
+            Map<String, JSONObject> objMap = (Map<String, JSONObject>) obj;
 
             if (super.getData().isEmpty()) {
 
-                for (Map.Entry<Object, JSONObject> fareListEntry : objMap.entrySet()) {
-                    System.out.println(fareListEntry.getKey());
-                    JSONArray roomFareId = (JSONArray) pJsonParser.parse((String) fareListEntry.getKey());
-                    System.out.println(roomFareId);
-                    Set<Object> typeRoomId = new HashSet<Object>();
-
-                    @SuppressWarnings("unchecked")
-                    Iterator<String> iterator = roomFareId.iterator();
-
-                    while (iterator.hasNext()) {
-                        String elem = iterator.next();
-                        
-                        for (TypeRoom roomType : TypeRoom.values()) {
-                            if (elem.equals(roomType.toString()))
-                                typeRoomId.add(roomType);
-                        }
-
-                        for (Bed bedType : Bed.values()) {
-                            if (elem.equals(bedType.toString()))
-                                typeRoomId.add(bedType);
-                        }
-
-                        for (RoomFeatures roomFeature : RoomFeatures.values()) {
-                            if (elem.equals(roomFeature.toString()))
-                                typeRoomId.add(roomFeature);
-                        }
-
-                    }
-
+                for (Map.Entry<String, JSONObject> fareListEntry : objMap.entrySet()) {
+                    Set<Object> typeRoomId = this.createTypeRoomId(fareListEntry.getKey());
+                    
+                    RoomFares newRoomFares = getRoomFare(fareListEntry.getValue(), typeRoomId);
+                    super.getData().put(typeRoomId, newRoomFares);
                 }
                 super.setFileLoaded(true);
             } else
@@ -127,5 +105,81 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
         }
     }
 
+    private RoomFares getRoomFare(JSONObject faresObj, Set<Object> roomFareId){
+        RoomFares roomFare = new RoomFares(roomFareId);
+        JSONArray faresObjects = (JSONArray) faresObj.get("fares");
+
+        for (Object object : faresObjects) {
+            JSONObject fareInfo = (JSONObject) object;
+            Fare newFare = getFare(fareInfo);
+            roomFare.addFare(newFare);
+        }
+        
+        return roomFare;
+    }
+
+    private Fare getFare(JSONObject fareObj){
+        float price = (float) fareObj.get("price");
+        LocalDate initialDate = LocalDate.parse((String) fareObj.get("initialDate"));
+        LocalDate finalDate = LocalDate.parse((String) fareObj.get("finalDate"));
+
+        JSONArray daysArray = (JSONArray) fareObj.get("days");
+        ArrayList<DayOfWeek> days = new ArrayList<DayOfWeek>();
+
+        for (Object object : daysArray) {
+            DayOfWeek day = DayOfWeek.valueOf((String) object);
+            days.add(day);
+        }
+
+
+
+        Fare newFare = new Fare(price, initialDate, finalDate, days);
+        
+        return newFare;
+    }
+
+    private Set<Object> createTypeRoomId(String roomFareId){
+        Set<Object> typeRoomId = new HashSet<Object>();
+
+        final String regex = "\\[*\\{*\\}*\\]*";
+        final String subst = "";
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(roomFareId);
+        final String key = matcher.replaceAll(subst);
+
+        String[] roomElems = key.split(", ");
+        
+        //Mapa con la composición de las camas
+        Map<Bed, Integer> bedComposition = new HashMap<Bed, Integer>();
+
+        for (String roomElem : roomElems) {
+            String[] elem = roomElem.split("=");
+            
+            //Si el array tiene mas de un elemtno significa que es del mapa
+            if(elem.length > 1){
+                for (Bed bedType : Bed.values()) {
+                    if (elem[0].equals(bedType.toString()))
+                        bedComposition.put(bedType, Integer.parseInt(elem[1]));
+                }
+            }
+            
+            else{
+                for (TypeRoom roomType : TypeRoom.values()) {
+                    if (elem[0].equals(roomType.toString()))
+                        typeRoomId.add(roomType);
+                }
+
+                for (RoomFeatures roomFeature : RoomFeatures.values()) {
+                    if (elem[0].equals(roomFeature.toString()))
+                        typeRoomId.add(roomFeature);
+                }
+            }
+        }
+        typeRoomId.add(bedComposition);
+
+        return typeRoomId;
+    }
+
+    //private createFare()
 
 }

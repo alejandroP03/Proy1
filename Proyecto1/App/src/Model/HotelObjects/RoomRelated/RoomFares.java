@@ -128,7 +128,6 @@ public class RoomFares implements HotelObject {
         roomFareData.put("fares", fareJsonObjects);
 
         JSONObject roomFareObject = new JSONObject(roomFareData);
-        System.out.println(roomFareObject);
         return roomFareObject;
 }
 
