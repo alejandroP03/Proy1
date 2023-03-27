@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.simple.JSONObject;
+
 import Model.HotelObjects.HotelObject;
 
 public class Room implements HotelObject {
@@ -102,6 +104,26 @@ public class Room implements HotelObject {
         }
 
         return roomId;
+    }
+
+    public JSONObject getJsonObject() {
+        Map<Object, Object> roomData = new HashMap<Object, Object>();
+        roomData.put("roomId", this.getRoomId());
+        roomData.put("location", this.getLocation());
+        roomData.put("capacity", this.getCapacity());
+        roomData.put("isOccupied", this.getIsOcupied());
+        roomData.put("bookedDates", this.getBookedDates());
+        roomData.put("beds", this.getBeds());
+
+        ArrayList<String> featuresListArray = new ArrayList<String>();
+        for (RoomFeatures featrue : this.getFeaturesList()) {
+            featuresListArray.add(featrue.toString());
+        }
+
+        roomData.put("featuresList", featuresListArray);
+
+        JSONObject roomObject = new JSONObject(roomData);
+        return roomObject;
     }
 
 }
