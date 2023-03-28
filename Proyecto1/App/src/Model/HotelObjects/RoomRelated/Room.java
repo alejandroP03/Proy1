@@ -3,7 +3,6 @@ package Model.HotelObjects.RoomRelated;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,15 +10,12 @@ import org.json.simple.JSONObject;
 
 import Model.HotelObjects.HotelObject;
 
-public class Room implements HotelObject {
+public class Room extends RoomModel implements HotelObject {
     private String roomId;
     private String location;
     private int capacity = 0;
     private boolean isOccupied;
     private Map<LocalDate, LocalDate> bookedDates;
-    private Map<Bed, Integer> beds;
-    private Set<RoomFeatures> featuresList;
-    private TypeRoom type;
     private ArrayList<Fare> roomFares;
 
     public Room(String roomId,
@@ -28,13 +24,11 @@ public class Room implements HotelObject {
             Map<Bed, Integer> beds,
             Set<RoomFeatures> featuresList,
             TypeRoom type) {
+        super(type, beds, featuresList);
         this.roomId = roomId;
         this.location = location;
         this.isOccupied = isOccupied;
         this.bookedDates = new HashMap<LocalDate, LocalDate>();
-        this.beds = beds;
-        this.featuresList = featuresList;
-        this.type = type;
         this.roomFares = new ArrayList<Fare>();
     }
 
@@ -47,7 +41,7 @@ public class Room implements HotelObject {
     }
 
     public Map<Bed, Integer> getBeds() {
-        return beds;
+        return super.beds;
     }
 
     public Map<LocalDate, LocalDate> getBookedDates() {
@@ -63,7 +57,7 @@ public class Room implements HotelObject {
     }
 
     public Set<RoomFeatures> getFeaturesList() {
-        return featuresList;
+        return super.featuresList;
     }
 
     public String getLocation() {
@@ -79,31 +73,11 @@ public class Room implements HotelObject {
     }
 
     public TypeRoom getType() {
-        return type;
+        return super.type;
     }
 
     public boolean getIsOcupied() {
         return isOccupied;
-    }
-
-    public Set<Object> createTypeRoomId() {
-        Set<Object> roomId = new HashSet<Object>();
-        roomId.add(this.type);
-
-
-
-        Map<Bed, Integer> bedComposition = new HashMap<Bed, Integer>();
-        for (Map.Entry<Bed, Integer> bedEntry : beds.entrySet()) {
-            bedComposition.put(bedEntry.getKey(), bedEntry.getValue());
-        }
-
-        roomId.add(bedComposition);
-
-        for (RoomFeatures features : featuresList) {
-            roomId.add(features);
-        }
-
-        return roomId;
     }
 
     public JSONObject getJsonObject() {
@@ -116,8 +90,8 @@ public class Room implements HotelObject {
         roomData.put("beds", this.getBeds());
 
         ArrayList<String> featuresListArray = new ArrayList<String>();
-        for (RoomFeatures featrue : this.getFeaturesList()) {
-            featuresListArray.add(featrue.toString());
+        for (RoomFeatures feature : this.getFeaturesList()) {
+            featuresListArray.add(feature.toString());
         }
 
         roomData.put("featuresList", featuresListArray);

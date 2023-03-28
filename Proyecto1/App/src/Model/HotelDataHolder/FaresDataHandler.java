@@ -42,6 +42,8 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
          * @throws Exception <br>
          * El archivo debe cargarse antes de crear una nueva habitación
          */
+
+        /*TODO: Verificar que no existan dos tarifas que apliquen para la misma fecha */
         
         if (super.getIsFileLoaded()) {
             RoomFares roomFareList;
@@ -79,6 +81,7 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
          * La estructura contiene elementos
          * 
          */
+
         JSONParser pJsonParser = new JSONParser();
         try {
             Object jsonObjToFile = pJsonParser.parse(new FileReader(super.getjSONDataFile()));
@@ -119,7 +122,7 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
     }
 
     private Fare getFare(JSONObject fareObj){
-        float price = (float) fareObj.get("price");
+        float price = Float.parseFloat(fareObj.get("price").toString());
         LocalDate initialDate = LocalDate.parse((String) fareObj.get("initialDate"));
         LocalDate finalDate = LocalDate.parse((String) fareObj.get("finalDate"));
 

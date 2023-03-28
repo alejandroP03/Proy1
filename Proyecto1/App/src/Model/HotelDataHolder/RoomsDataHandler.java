@@ -21,9 +21,9 @@ import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.TypeRoom;
 
 public class RoomsDataHandler extends HotelDataHolder<Room> {
-    Map<Set<Object>, RoomFares> roomFaresMap;
+    Map<Object, RoomFares> roomFaresMap;
 
-    public RoomsDataHandler(File roomsJSONFile, Map<Set<Object>, RoomFares> roomFaresMap) {
+    public RoomsDataHandler(File roomsJSONFile, Map<Object, RoomFares> roomFaresMap) {
         super(roomsJSONFile);
         this.roomFaresMap = roomFaresMap;
     }
@@ -50,10 +50,17 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
             String roomId = getRoomId(type, roomsList);
             Room newRoom = new Room(roomId, location, isOccupied, beds, featuresList, type);
 
+            RoomFares newRoomFares = this.roomFaresMap.get(newRoom.createTypeRoomId());
+            if (newRoomFares != null) {
+                ArrayList<Fare> listOfFares = newRoomFares.getFaresForRoomType();
+                newRoom.setRoomFares(listOfFares);
+            }
+
             roomsList.put(roomId, newRoom);
         } else {
             throw new Exception("El archivo debe cargarse antes de crear un nuevo objeto");
         }
+
     }
 
     private String getRoomId(TypeRoom type, Map<Object, Room> roomsList) {
@@ -126,13 +133,13 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
                     }
                     newRoom.setBookedDates(bookedDays);
                     // Despues de creada la habitación se buscan las tarifas relacionadas
-                    
+
                     RoomFares newRoomFares = this.roomFaresMap.get(newRoom.createTypeRoomId());
-                    if(newRoomFares != null){
+                    if (newRoomFares != null) {
                         ArrayList<Fare> listOfFares = newRoomFares.getFaresForRoomType();
                         newRoom.setRoomFares(listOfFares);
                     }
-                    
+
                     roomList.put(roomId, newRoom);
                 }
 

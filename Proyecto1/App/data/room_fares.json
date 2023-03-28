@@ -1,1 +1,30 @@
-{"[STANDARD, {KING=2, CABIN=1}, BALCONY, LANDSCAPE_VIEW]":{"fares":[{"finalDate":"2023-10-30","days":["SATURDAY","SUNDAY"],"price":120000.0,"initialDate":"2023-08-30"},{"finalDate":"2025-10-30","days":["SUNDAY"],"price":150000.0,"initialDate":"2024-08-30"}]}}
+{
+	"[{KING_PLUS=2}, BALCONY, STANDARD, KITCHEN]": {
+		"fares": [
+			{
+				"finalDate": "2023-10-20",
+				"days": ["FRIDAY", "SUNDAY"],
+				"price": 180000.0,
+				"initialDate": "2022-10-20"
+			},
+			{
+				"finalDate": "2023-10-20",
+				"days": ["FRIDAY", "SUNDAY"],
+				"price": 180000.0,
+				"initialDate": "2022-10-20"
+			},
+			{
+				"finalDate": "2023-10-21",
+				"days": ["FRIDAY", "SUNDAY"],
+				"price": 180000.0,
+				"initialDate": "2022-10-20"
+			},
+			{
+				"finalDate": "2024-10-20",
+				"days": ["FRIDAY", "SUNDAY"],
+				"price": 190000.0,
+				"initialDate": "2022-11-25"
+			}
+		]
+	}
+}

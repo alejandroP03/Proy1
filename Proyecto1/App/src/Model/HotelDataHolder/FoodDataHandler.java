@@ -2,15 +2,12 @@ package Model.HotelDataHolder;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import Model.HotelObjects.Food;
-import Model.HotelObjects.RoomRelated.Room;
-import Model.HotelObjects.RoomRelated.TypeRoom;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import Model.HotelObjects.Food;
 
 public class FoodDataHandler extends HotelDataHolder<Food> {
     int price;

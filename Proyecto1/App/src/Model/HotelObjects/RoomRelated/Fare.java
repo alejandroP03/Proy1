@@ -59,4 +59,6 @@ public class Fare implements HotelObject {
         JSONObject fareObject = new JSONObject(fareData);
         return fareObject;
     }
+
+
 }
