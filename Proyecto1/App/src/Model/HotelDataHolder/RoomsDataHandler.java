@@ -47,6 +47,7 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
             Room newRoom = new Room(roomId, location, isOccupied, beds, featuresList, type);
 
             roomsList.put(roomId, newRoom);
+           // System.out.println(roomsList); print para testear la creacion de la nueva habitacion
         } else {
             throw new Exception("El archivo debe cargarse antes de crear un nuevo objeto");
         }
