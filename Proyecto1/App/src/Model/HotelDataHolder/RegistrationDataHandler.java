@@ -6,7 +6,7 @@ import Model.HotelObjects.Registration;
 
 public class RegistrationDataHandler extends HotelDataHolder<Registration> {
 
-    RegistrationDataHandler(File roomsJSONFile) {
+    public RegistrationDataHandler(File roomsJSONFile) {
         super(roomsJSONFile);
     }
 

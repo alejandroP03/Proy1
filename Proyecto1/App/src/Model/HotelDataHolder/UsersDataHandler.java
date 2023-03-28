@@ -29,14 +29,14 @@ public class UsersDataHandler extends HotelDataHolder<User> {
 
     public void createNewUser(String userName, String password, UserType userType) throws Exception{
         /*
-         * Crea un nuevoi usuerio y lo ingresa en la estructura que guarda las
-         * habitaciones
+         * Crea un nuevoi usuerio y lo ingresa en la estructura que guarda los
+         * usuarios
          *
          * <b> pre: </b> isFileLoaded == True
          * <b> post: </b> La estructura va a tener un nuevo objeto User<br>
          *
          * @throws Exception <br>
-         * El archivo debe cargarse antes de crear una nueva habitación
+         * El archivo debe cargarse antes de crear un nuevo usuario
          */
 
         if(super.getIsFileLoaded()){

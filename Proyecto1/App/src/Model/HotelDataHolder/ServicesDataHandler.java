@@ -19,11 +19,11 @@ import org.json.simple.parser.JSONParser;
 
 public class ServicesDataHandler extends HotelDataHolder<Service> {
 
-    ServicesDataHandler(File roomsJSONFile) {
+    public ServicesDataHandler(File roomsJSONFile) {
         super(roomsJSONFile);
     }
 
-    public void createNewFood(int id,
+    public void createNewService(int id,
                                 String name,
                               double price,
                               boolean isForGroup,
