@@ -68,7 +68,8 @@ public abstract class HotelDataHolder<HotelObj extends HotelObject> {
         this.isFileLoaded = isFileLoaded;
     }
 
-    public boolean getIsFileLoaded() {
+    public boolean
+    getIsFileLoaded() {
         return isFileLoaded;
     }
 }

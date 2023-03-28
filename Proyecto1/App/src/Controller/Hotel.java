@@ -24,7 +24,7 @@ public class Hotel {
     private FaresDataHandler faresHandler = new FaresDataHandler(new File("App/data/room_fares.json"));
     private ServicesDataHandler servicesHandler = new ServicesDataHandler(new File("App/data/services.json"));
     private FoodDataHandler restaurantHandler = new FoodDataHandler(new File("App/data/foodInfo.json"));
-    private BookingsDataHandler bookingsHandler = new BookingsDataHandler(new File("App/data/bookings.json"));
+    //private BookingsDataHandler bookingsHandler = new BookingsDataHandler(new File("App/data/bookings.json"));
     private RegistrationDataHandler registrationHandler = new RegistrationDataHandler(new File("App/data/registrations.json"));
 
     private Map<Object,Room> roomsList;
@@ -46,6 +46,11 @@ public class Hotel {
     }
 
 
+    public FoodDataHandler getRestaurantHandler() {
+        return this.restaurantHandler;
+    }
+
+
 
 
 //
@@ -56,10 +61,7 @@ public class Hotel {
 //    public ServicesDataHandler getServicesHandler() {
 //        return this.servicesHandler;
 //    }
-//
-//    public RestaurantDataHandler getRestaurantHandler() {
-//        return this.restaurantHandler;
-//    }
+
 //
 //    public BookingsDataHandler getBookingsHandler() {
 //        return this.bookingsHandler;
