@@ -2,8 +2,10 @@ package Model.HotelDataHolder;
 
 import java.io.File;
 import java.io.FileReader;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,18 +16,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import Model.HotelObjects.RoomRelated.Bed;
-import Model.HotelObjects.RoomRelated.Fare;
 import Model.HotelObjects.RoomRelated.Room;
-import Model.HotelObjects.RoomRelated.RoomFares;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
+import Model.HotelObjects.RoomRelated.RoomModel;
 import Model.HotelObjects.RoomRelated.TypeRoom;
 
 public class RoomsDataHandler extends HotelDataHolder<Room> {
-    Map<Object, RoomFares> roomFaresMap;
 
-    public RoomsDataHandler(File roomsJSONFile, Map<Object, RoomFares> roomFaresMap) {
+    public RoomsDataHandler(File roomsJSONFile) {
         super(roomsJSONFile);
-        this.roomFaresMap = roomFaresMap;
     }
 
     public void createNewRoom(String location,
@@ -50,12 +49,6 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
             String roomId = getRoomId(type, roomsList);
             Room newRoom = new Room(roomId, location, isOccupied, beds, featuresList, type);
 
-            RoomFares newRoomFares = this.roomFaresMap.get(newRoom.createTypeRoomId());
-            if (newRoomFares != null) {
-                ArrayList<Fare> listOfFares = newRoomFares.getFaresForRoomType();
-                newRoom.setRoomFares(listOfFares);
-            }
-
             roomsList.put(roomId, newRoom);
         } else {
             throw new Exception("El archivo debe cargarse antes de crear un nuevo objeto");
@@ -75,7 +68,6 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
          * <b> pre: </b> <br>
          * El archivo debe estar en formato JSON <br>
          * La estructura debe estar vacia<br>
-         * La lista de tarifas ya debe estar inicializada
          * 
          * <b> post: </b>
          * En el atributo dataHandler va a estar la información del archivo
@@ -102,7 +94,7 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
                     String roomId = (String) roomEntry.getValue().get("roomId");
                     String location = (String) roomEntry.getValue().get("location");
                     boolean isOccupied = (boolean) roomEntry.getValue().get("isOccupied");
-                    TypeRoom type = (TypeRoom) roomEntry.getValue().get("type");
+                    TypeRoom type = TypeRoom.valueOf((String) roomEntry.getValue().get("type"));
 
                     @SuppressWarnings("unchecked")
                     Map<String, Integer> bedsMap = (JSONObject) roomEntry.getValue().get("beds");
@@ -132,13 +124,6 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
                         bookedDays.put(initialDate, finalDate);
                     }
                     newRoom.setBookedDates(bookedDays);
-                    // Despues de creada la habitación se buscan las tarifas relacionadas
-
-                    RoomFares newRoomFares = this.roomFaresMap.get(newRoom.createTypeRoomId());
-                    if (newRoomFares != null) {
-                        ArrayList<Fare> listOfFares = newRoomFares.getFaresForRoomType();
-                        newRoom.setRoomFares(listOfFares);
-                    }
 
                     roomList.put(roomId, newRoom);
                 }
@@ -151,8 +136,30 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
             }
 
         } catch (Exception e) {
-            throw new Exception("El archivo no tiene la estructura JSON ");
+            throw new Exception("El archivo no tiene la estructura JSON ", e);
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FaresDataHandler faresDH = new FaresDataHandler(new File("App/data/room_fares.json"));
+        RoomsDataHandler roomDH = new RoomsDataHandler(new File("App/data/rooms.json"));
+
+        faresDH.loadPersistentData();
+        roomDH.loadPersistentData();
+
+        RoomModel roomModel = new RoomModel(TypeRoom.STANDARD, new HashMap<Bed, Integer>(Map.of(Bed.KING_PLUS, 2)),
+                new HashSet<RoomFeatures>(Arrays.asList(RoomFeatures.BALCONY, RoomFeatures.KITCHEN)));
+
+        faresDH.FareCreator(roomModel.createTypeRoomId(), 180000, LocalDate.of(2022, 10, 20),
+                LocalDate.of(2023, 10, 20),
+                new ArrayList<DayOfWeek>(Arrays.asList(DayOfWeek.FRIDAY, DayOfWeek.SUNDAY)));
+
+        roomDH.createNewRoom("2_floor", false, new HashMap<Bed, Integer>(Map.of(Bed.KING_PLUS, 2)),
+                new HashSet<RoomFeatures>(Arrays.asList(RoomFeatures.BALCONY, RoomFeatures.KITCHEN)),
+                TypeRoom.STANDARD);
+
+        roomDH.SavePersistentData();
+        faresDH.SavePersistentData();
     }
 
 }

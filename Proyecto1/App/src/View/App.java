@@ -19,7 +19,7 @@ import Model.HotelObjects.RoomRelated.TypeRoom;
 public class App {
     public static void main(String[] args) throws Exception {
         FaresDataHandler faresDH = new FaresDataHandler(new File("App/data/room_fares.json"));
-        RoomsDataHandler roomDH = new RoomsDataHandler(new File("App/data/rooms.json"), faresDH.getData());
+        RoomsDataHandler roomDH = new RoomsDataHandler(new File("App/data/rooms.json"));
         faresDH.loadPersistentData();
         roomDH.loadPersistentData();
         

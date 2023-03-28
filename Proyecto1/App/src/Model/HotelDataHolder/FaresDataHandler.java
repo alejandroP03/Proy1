@@ -44,7 +44,9 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
          */
 
         /*TODO: Verificar que no existan dos tarifas que apliquen para la misma fecha */
+        /*TODO: */
         
+
         if (super.getIsFileLoaded()) {
             RoomFares roomFareList;
             if (!super.getData().containsKey(typeRoomId)) {
@@ -182,7 +184,5 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
 
         return typeRoomId;
     }
-
-    //private createFare()
 
 }
