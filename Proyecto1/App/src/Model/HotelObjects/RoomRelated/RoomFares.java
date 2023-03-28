@@ -1,21 +1,15 @@
 package Model.HotelObjects.RoomRelated;
 
-import java.io.File;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.json.simple.JSONObject;
 
-import Model.HotelDataHolder.FaresDataHandler;
 import Model.HotelObjects.HotelObject;
 
 public class RoomFares implements HotelObject {
@@ -130,23 +124,5 @@ public class RoomFares implements HotelObject {
         JSONObject roomFareObject = new JSONObject(roomFareData);
         return roomFareObject;
 }
-
-    public static void main(String[] args) throws Exception {
-
-        Room room = new Room("null", "null", false, new HashMap<Bed, Integer>(Map.of(Bed.CABIN, 1, Bed.KING, 2)),
-                new HashSet<RoomFeatures>(Arrays.asList(RoomFeatures.BALCONY, RoomFeatures.LANDSCAPE_VIEW)),
-                TypeRoom.STANDARD);
-
-        FaresDataHandler faredh = new FaresDataHandler(new File("App/data/room_fares.json"));
-
-        faredh.loadPersistentData();
-
-        faredh.FareCreator(room.createTypeRoomId(), 120000, LocalDate.of(2023, Month.AUGUST, 30), LocalDate.of(2023, Month.OCTOBER, 30),
-        new ArrayList<DayOfWeek>(Arrays.asList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)));
-
-        faredh.FareCreator(room.createTypeRoomId(), 150000, LocalDate.of(2024, Month.AUGUST, 30), LocalDate.of(2025, Month.OCTOBER, 30),
-        new ArrayList<DayOfWeek>(Arrays.asList(DayOfWeek.SUNDAY)));
-        faredh.SavePersistentData();
-    }
 
 }

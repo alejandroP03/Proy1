@@ -2,10 +2,8 @@ package Model.HotelDataHolder;
 
 import java.io.File;
 import java.io.FileReader;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,7 +16,6 @@ import org.json.simple.parser.JSONParser;
 import Model.HotelObjects.RoomRelated.Bed;
 import Model.HotelObjects.RoomRelated.Room;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
-import Model.HotelObjects.RoomRelated.RoomModel;
 import Model.HotelObjects.RoomRelated.TypeRoom;
 
 public class RoomsDataHandler extends HotelDataHolder<Room> {
@@ -138,28 +135,6 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
         } catch (Exception e) {
             throw new Exception("El archivo no tiene la estructura JSON ", e);
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        FaresDataHandler faresDH = new FaresDataHandler(new File("App/data/room_fares.json"));
-        RoomsDataHandler roomDH = new RoomsDataHandler(new File("App/data/rooms.json"));
-
-        faresDH.loadPersistentData();
-        roomDH.loadPersistentData();
-
-        RoomModel roomModel = new RoomModel(TypeRoom.STANDARD, new HashMap<Bed, Integer>(Map.of(Bed.KING_PLUS, 2)),
-                new HashSet<RoomFeatures>(Arrays.asList(RoomFeatures.BALCONY, RoomFeatures.KITCHEN)));
-
-        faresDH.FareCreator(roomModel.createTypeRoomId(), 180000, LocalDate.of(2022, 10, 20),
-                LocalDate.of(2023, 10, 20),
-                new ArrayList<DayOfWeek>(Arrays.asList(DayOfWeek.FRIDAY, DayOfWeek.SUNDAY)));
-
-        roomDH.createNewRoom("2_floor", false, new HashMap<Bed, Integer>(Map.of(Bed.KING_PLUS, 2)),
-                new HashSet<RoomFeatures>(Arrays.asList(RoomFeatures.BALCONY, RoomFeatures.KITCHEN)),
-                TypeRoom.STANDARD);
-
-        roomDH.SavePersistentData();
-        faresDH.SavePersistentData();
     }
 
 }
