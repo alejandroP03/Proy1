@@ -19,7 +19,6 @@ public class App {
         instanceApp.showTypeUser();
 
 
-
     }
     private  void authApp() throws IOException {
 

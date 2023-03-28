@@ -16,7 +16,6 @@ public class Room extends RoomModel implements HotelObject {
     private int capacity = 0;
     private boolean isOccupied;
     private Map<LocalDate, LocalDate> bookedDates;
-    private ArrayList<Fare> roomFares;
 
     public Room(String roomId,
             String location,
@@ -29,15 +28,10 @@ public class Room extends RoomModel implements HotelObject {
         this.location = location;
         this.isOccupied = isOccupied;
         this.bookedDates = new HashMap<LocalDate, LocalDate>();
-        this.roomFares = new ArrayList<Fare>();
     }
 
     public void setBookedDates(HashMap<LocalDate, LocalDate> bookedDates) {
         this.bookedDates = bookedDates;
-    }
-
-    public void setRoomFares(ArrayList<Fare> roomFares) {
-        this.roomFares = roomFares;
     }
 
     public Map<Bed, Integer> getBeds() {
@@ -64,10 +58,6 @@ public class Room extends RoomModel implements HotelObject {
         return location;
     }
 
-    public ArrayList<Fare> getRoomFares() {
-        return roomFares;
-    }
-
     public String getRoomId() {
         return roomId;
     }
@@ -88,6 +78,7 @@ public class Room extends RoomModel implements HotelObject {
         roomData.put("isOccupied", this.getIsOcupied());
         roomData.put("bookedDates", this.getBookedDates());
         roomData.put("beds", this.getBeds());
+        roomData.put("type", this.getType().toString());
 
         ArrayList<String> featuresListArray = new ArrayList<String>();
         for (RoomFeatures feature : this.getFeaturesList()) {
