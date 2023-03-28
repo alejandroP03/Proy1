@@ -1,5 +1,6 @@
 package Controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class Hotel {
 
     private HashMap<String, Service> services;
 
-//    private RoomsDataHandler roomsHandler = new RoomsDataHandler();
+    private RoomsDataHandler roomsHandler = new RoomsDataHandler(new File("App/data/rooms.json"));
 //    private FaresDataHandler faresHandler = new FaresDataHandler();
 //    private ServicesDataHandler servicesHandler = new ServicesDataHandler();
 //    private RestaurantDataHandler restaurantHandler = new RestaurantDataHandler();
@@ -28,6 +29,12 @@ public class Hotel {
 //    private RegistrationDataHandler registrationHandler = new RegistrationDataHandler();
 
     // meotodos
+
+    public RoomsDataHandler getRoomsHandler() {
+       return this.roomsHandler;
+   }
+
+
 //    public Map<String, HotelObject> getRoomFares() {
 //        return roomFares;
 //    }
@@ -40,9 +47,7 @@ public class Hotel {
 //        return this.services;
 //    }
 //
-//    public RoomsDataHandler getRoomsHandler() {
-//        return this.roomsHandler;
-//    }
+
 //
 //    public FaresDataHandler getFaresHandler() {
 //        return this.faresHandler;

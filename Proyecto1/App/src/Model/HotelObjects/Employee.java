@@ -3,6 +3,9 @@ package Model.HotelObjects;
 import Model.HotelObjects.User;
 import org.json.simple.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Employee implements User {
     private String userName;
     private String password;
@@ -16,26 +19,39 @@ public class Employee implements User {
 
     @Override
     public JSONObject getJsonObject() {
-        return null;
+        Map<Object,Object> employeeData = new HashMap<Object,Object>();
+        employeeData.put("userName",this.userName);
+        employeeData.put("password",this.password);
+        employeeData.put("userType",this.userType.toString());
+
+
+
+        return new JSONObject(employeeData);
     }
 
     @Override
     public String getUserName() {
-        return null;
+        return this.userName;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
+    }
+
+    public UserType getUserType(){
+        return this.userType;
     }
 
     @Override
-    public void setUserName() {
+    public void setUserName(String userName) {
+        this.userName = userName;
 
     }
 
     @Override
-    public void setPassword() {
+    public void setPassword(String password) {
+        this.password = password;
 
     }
 }

@@ -5,8 +5,8 @@ public interface User extends HotelObject {
 
     public String getPassword();
 
-    public void setUserName();
+    public void setUserName(String userName);
 
-    public void setPassword();
+    public void setPassword(String password);
 
 }

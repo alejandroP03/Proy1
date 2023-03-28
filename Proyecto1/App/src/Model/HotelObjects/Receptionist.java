@@ -1,32 +1,33 @@
 package Model.HotelObjects;
 
-import Model.HotelObjects.User;
 import org.json.simple.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.HashMap;
 
-public class Admin implements User {
+public class Receptionist implements User {
     private String userName;
     private String password;
     private UserType userType;
 
-    public Admin(String userName, String password){
+    public Receptionist(String userName, String password){
         this.userName = userName;
         this.password = password;
-        this.userType = UserType.ADMIN;
+        this.userType = UserType.RECEPTIONIST;
+
     }
+
 
     @Override
     public JSONObject getJsonObject() {
-        Map<Object,Object> adminData = new HashMap<Object,Object>();
-        adminData.put("userName",this.userName);
-        adminData.put("password",this.password);
-        adminData.put("userType",this.userType.toString());
+        Map<Object,Object> receptionistData = new HashMap<Object,Object>();
+        receptionistData.put("userName",this.userName);
+        receptionistData.put("password",this.password);
+        receptionistData.put("userType",this.userType.toString());
 
 
 
-        return new JSONObject(adminData);
+        return new JSONObject(receptionistData);
     }
 
     @Override
