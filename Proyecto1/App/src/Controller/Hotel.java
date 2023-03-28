@@ -4,17 +4,16 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import Model.HotelDataHolder.BookingsDataHandler;
-import Model.HotelDataHolder.FaresDataHandler;
-import Model.HotelDataHolder.RegistrationDataHandler;
-import Model.HotelDataHolder.RoomsDataHandler;
-import Model.HotelDataHolder.ServicesDataHandler;
-import Model.HotelObjects.HotelObject;
-import Model.HotelObjects.Service;
+import Model.HotelDataHolder.*;
+import Model.HotelObjects.*;
 import Model.HotelObjects.RoomRelated.Room;
+import Model.HotelObjects.RoomRelated.RoomFares;
 
 public class Hotel {
     // atributos
+
+
+
 
     private HashMap<String, Room> roomList;
     private HashMap<String, HotelObject> roomFares;
@@ -22,31 +21,32 @@ public class Hotel {
     private HashMap<String, Service> services;
 
     private RoomsDataHandler roomsHandler = new RoomsDataHandler(new File("App/data/rooms.json"));
-//    private FaresDataHandler faresHandler = new FaresDataHandler();
-//    private ServicesDataHandler servicesHandler = new ServicesDataHandler();
-//    private RestaurantDataHandler restaurantHandler = new RestaurantDataHandler();
-//    private BookingsDataHandler bookingsHandler = new BookingsDataHandler();
-//    private RegistrationDataHandler registrationHandler = new RegistrationDataHandler();
+    private FaresDataHandler faresHandler = new FaresDataHandler(new File("App/data/room_fares.json"));
+    private ServicesDataHandler servicesHandler = new ServicesDataHandler(new File("App/data/services.json"));
+    private FoodDataHandler restaurantHandler = new FoodDataHandler(new File("App/data/foodInfo.json"));
+    private BookingsDataHandler bookingsHandler = new BookingsDataHandler(new File("App/data/bookings.json"));
+    private RegistrationDataHandler registrationHandler = new RegistrationDataHandler(new File("App/data/registrations.json"));
 
-    // meotodos
+    private Map<Object,Room> roomsList;
+    private Map<Object,RoomFares> roomFaresList;
+    private Map<Object,Service> servicesList;
+    private Map<Object,Food> foodList;
+    private Map<Object, Booking> bookingList;
+    private Map<Object, Registration> registrationList;
+
+
+    // metodos
 
     public RoomsDataHandler getRoomsHandler() {
        return this.roomsHandler;
    }
 
+    public ServicesDataHandler getServices() {
+        return this.servicesHandler;
+    }
 
-//    public Map<String, HotelObject> getRoomFares() {
-//        return roomFares;
-//    }
-//
-//    public HashMap<String, Room> getRoomList() {
-//        return this.roomList;
-//    }
-//
-//    public HashMap<String, Service> getServices() {
-//        return this.services;
-//    }
-//
+
+
 
 //
 //    public FaresDataHandler getFaresHandler() {

@@ -10,16 +10,15 @@ import org.json.simple.parser.JSONParser;
 import Model.HotelObjects.Food;
 
 public class FoodDataHandler extends HotelDataHolder<Food> {
-    int price;
 
 
-    public FoodDataHandler(File roomsJSONFile, int price) {
+
+    public FoodDataHandler(File roomsJSONFile) {
         super(roomsJSONFile);
-        this.price = price;
     }
 
 
-    public void createNewFood(int id, String name, double price, boolean isRoomSerivce, String availability) throws Exception{
+    public void createNewFood(int id, String name, double price, boolean isRoomService, String availability) throws Exception{
         /*
          * Crea una nueva comida y la almacena en la estructura que
          * guarda las comidas
@@ -33,7 +32,7 @@ public class FoodDataHandler extends HotelDataHolder<Food> {
          */
         if (super.getIsFileLoaded()){
             Map<Object, Food> menu = super.getData();
-            Food newFood =new Food(id, name, price,isRoomSerivce, availability);
+            Food newFood =new Food(id, name, price,isRoomService, availability);
             int getId = getFoodId(menu);
             menu.put(getId,newFood);
         } else {

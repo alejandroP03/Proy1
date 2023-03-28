@@ -39,6 +39,7 @@ public class Employee implements User {
         return this.password;
     }
 
+    @Override
     public UserType getUserType(){
         return this.userType;
     }
