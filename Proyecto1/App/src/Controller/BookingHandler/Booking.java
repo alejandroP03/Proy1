@@ -2,46 +2,44 @@ package Controller.BookingHandler;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import Controller.Hotel;
 import Model.HotelObjects.HotelObject;
 import Model.HotelObjects.RoomRelated.Room;
 
 public class Booking implements HotelObject {
     // Atributos
     private String reserviourName;
-    private String reservoirDNI;
-
+    private String reserviourDNI;
     private String reserviourPhone;
     private String reserviourEmail;
     private String reserviourSupportCardNumber;
     private int numberOfGuests;
     private LocalDate initialDate;
     private LocalDate finalDate;
-    private Hotel roomsToReserve;
-    private ArrayList<Room> roomsReserved;
+    private ArrayList<Room> reservedRooms;
 
     // constructor
-    public Booking(String reserviourName, String reservoirDNI, String reserviourPhone, String reserviourEmail,
+    public Booking(String reserviourName, String reserviourDNI, String reserviourPhone, String reserviourEmail,
             String reserviourSupportCardNumber, int numberOfGuests, LocalDate initialDate, LocalDate finalDate) {
         this.reserviourName = reserviourName;
-        this.reservoirDNI = reservoirDNI;
+        this.reserviourDNI = reserviourDNI;
         this.reserviourPhone = reserviourPhone;
         this.reserviourEmail = reserviourEmail;
         this.reserviourSupportCardNumber = reserviourSupportCardNumber;
         this.numberOfGuests = numberOfGuests;
         this.finalDate = finalDate;
         this.initialDate = initialDate;
-        this.roomsReserved = new ArrayList<>();
-
+        this.reservedRooms = new ArrayList<Room>();
     }
-    // metodos
 
-    public void setRoomsReserved(Room rooms) {
-        this.roomsReserved.add(rooms);
-
+    public void setReservedRooms(ArrayList<Room> reservedRooms) {
+        this.reservedRooms = reservedRooms;
     }
 
     public String getReserviourName() {
@@ -56,12 +54,25 @@ public class Booking implements HotelObject {
         return this.finalDate;
     }
 
-    public ArrayList<Room> getRoomsReserved() {
-        return this.roomsReserved;
-    }
-
     @Override
     public JSONObject getJsonObject() {
-        return null;
+        Map<String, Object> bookingData = new HashMap<String, Object>();
+
+        bookingData.put("reserviourDNI", reserviourDNI);
+        bookingData.put("reserviourPhone", reserviourPhone);
+        bookingData.put("reserviourEmail", reserviourEmail);
+        bookingData.put("reserviourSupportCardNumber", reserviourSupportCardNumber);
+        bookingData.put("numberOfGuests", numberOfGuests);
+        bookingData.put("initialDate", initialDate);
+        bookingData.put("finalDate", finalDate);
+        bookingData.put("reserviourName", reserviourName);
+
+        List<String> reservedRoomsIds = new ArrayList<String>();
+        for (Room room : reservedRooms) {
+            reservedRoomsIds.add(room.getRoomId());
+        }
+        bookingData.put("reservedRoomsIds", (JSONArray) reservedRoomsIds);
+
+        return new JSONObject(bookingData);
     }
 }

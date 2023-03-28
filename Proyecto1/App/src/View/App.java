@@ -5,16 +5,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import Controller.Hotel;
 import Model.HotelObjects.Admin;
 import Model.HotelObjects.Employee;
 import Model.HotelObjects.Receptionist;
+import Model.HotelObjects.User;
 import Model.HotelObjects.RoomRelated.Bed;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.TypeRoom;
-import Model.HotelObjects.User;
 
 public class App {
     User activeUser;

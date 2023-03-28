@@ -42,8 +42,6 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
          * @throws Exception <br>
          * El archivo debe cargarse antes de crear una nueva habitación
          */
-
-        /*TODO: Verificar que no existan dos tarifas que apliquen para la misma fecha */
         
 
         if (super.getIsFileLoaded()) {
