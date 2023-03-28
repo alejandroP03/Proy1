@@ -12,9 +12,6 @@ import Model.HotelObjects.RoomRelated.RoomFares;
 public class Hotel {
     // atributos
 
-
-
-
     private HashMap<String, Room> roomList;
     private HashMap<String, HotelObject> roomFares;
 

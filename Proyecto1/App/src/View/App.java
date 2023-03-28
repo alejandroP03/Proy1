@@ -28,9 +28,20 @@ public class App {
         instanceApp.authApp();
         instanceApp.showTypeUser();
 
-
     }
     // ----------------------  Autenticacion en la App de Hoteles----------------------
+    /*
+     * Autentica a los usuarios del Hotel (Recepcionista, Administrador, Empleado) <br>
+     * <b>pre:</b> El archivo de usuarips ya esta inicializado
+     * <b>post:</b> Un usuario inicia sesion o se registra en el hotel
+     *
+     * @throw Exception <br>
+     *          1. Si se registra un usuario con las mismas credenciales
+     *          2. Si se loggea con datos que no existen
+     *
+
+     *
+     */
     private  void authApp() throws Exception {
         System.out.println("1. Registrarse");
         System.out.println("2. Iniciar sesion");
@@ -77,6 +88,17 @@ public class App {
     }
 
     // ----------------------  Comprobacion tipo de usuario ----------------------
+
+    /*
+     * Se comprueba que tipo de usuario se registro o inicio sesion dentro del hotel <br>
+     * <b>pre:</b> El usuario se registro o inicio sesion dentro de la aplicacion
+     * <b>post:</b> Se verifica que tipo de pantalla se le va a mostrar al usuario segun sea.
+     *
+     * @throw Exception <br>
+     *          1. No se cargo el archivo en donde se encuentran los usuarios
+     *
+     *
+     */
     private  void showTypeUser() throws Exception {
         if (activeUser instanceof Admin){
             showAdminScreen();
@@ -92,6 +114,16 @@ public class App {
 
 
     // ----------------------   Pantalla para el Administrador ----------------------
+    /*
+     * Se le muestra al administrador las funciones que puede realizar <br>
+     * <b>pre:</b> El usuario se registro o inicio sesion dentro de la aplicacion y es administrador el hotel
+     * <b>post:</b> El administrasdor elegir cuales funciones puede hacer, como cargar habitaciones, servicios...etc
+     *
+     * @throw Exception <br>
+     *          1. El usuario no es un administrador
+     *
+     *
+     */
     private  void showAdminScreen() throws Exception {
         System.out.println("------  Inicio como administrador ------- ");
         System.out.println("1. Crear habitaciones (manual) ");
@@ -100,7 +132,9 @@ public class App {
         System.out.println("4. Consultar inventario de habitaciones");
         System.out.println("5. Crear servicios (manual) ");
         System.out.println("6. Cargar archivo de servcios");
-        System.out.println("7. cargar comidas para el restaurante");
+        System.out.println("7. Ingresar comidas para el restaurante (manual)");
+        System.out.println("8. Cargar menu completo del restaurante");
+
         System.out.print("Ingrese una opcion: ");
         String opcionStr = br.readLine();
         int opcion = Integer.parseInt(opcionStr);
@@ -125,11 +159,26 @@ public class App {
             loadServices();
 
         }else if(opcion == 7){
-            System.out.println("Cargar informacion de comidas para el restaurante");
+            System.out.println("Ingresar informacion de comidas para el restaurante");
+            createMenuRestaurant();
+        }else if(opcion == 8){
+            System.out.println("Cargar informacion menu completa del restaurante");
+            loadMenuRestaurant();
+
         }
     }
     // ----------------------  Funciones para el adminsitrador ----------------------
-    // Crear una nueva habitacion a mano
+
+    /*
+     * El administrador crea una o varias habitaciones <br>
+     * <b>pre:</b> El archivo de habitaciones debe estar inicializado
+     * <b>post:</b> El administrador carga las caracteristicas de las nuevas habitaciones
+     *
+     * @throw Exception <br>
+     *          1. No se inicializa el archivo donde se guardan los datos de las habitaciones
+     *
+     *
+     */
     private void createRoom() throws Exception {
         loadDataRooms(); // Se carga primero el archivo asi este vacio
         System.out.println("------ Crear habitaciones------- ");
@@ -226,9 +275,18 @@ public class App {
             System.out.println(e);
         }
 
-
     }
-    // Metodo que carga un archivo con datos predeterminaodos por el adminsitrador (Reader de un JSON)
+
+    /*
+     * El administrador tiene la oportunidad de cargar un archivo con datos de varias habitaciones<br>
+     * <b>pre:</b> El archivo con los datos de las habitaciones
+     * <b>post:</b> Se guarda en el hotel las nuevas habitaciones caragadas
+     *
+     * @throw Exception <br>
+     *          1. no se inicializa el archivo que contiene los datos de las nuevas habitaciones
+     *
+     *
+     */
     private void loadDataRooms() throws Exception {
         hotel.getRoomsHandler().loadPersistentData();
         try{
@@ -243,7 +301,16 @@ public class App {
 
     }
 
-    //Metodo que el administrador usa para cargar los servicios del hotel
+    /*
+     * El administrador tiene la oportunidad de cargar un nuevos servicios <br>
+     * <b>pre:</b> Se debe inicializar el archivo donde se van a guardar los nuevos servicios
+     * <b>post:</b> Se guarda en el hotel los nuevos servicios agregagados
+     *
+     * @throw Exception <br>
+     *          1. no se inicializa el archivo que guarda los neuvos datos de los servicios
+     *
+     *
+     */
     private void createService() throws Exception {
         loadServices();
         System.out.println("------ Crear servicio ------- ");
@@ -305,7 +372,18 @@ public class App {
 
 
     }
-    // El administrador carga por un JSON file las caracteristicas de los servicios del hotel
+
+    /*
+     * El administrador tiene la oportunidad de cargar un archivo con datos de varios servicios<br>
+     * <b>pre:</b> El archivo con los datos de los servicios
+     * <b>post:</b> Se guarda en el hotel las nuevos servicios caragadoss
+     *
+     * @throw Exception <br>
+     *          1. no se inicializa el archivo que contiene los datos de las nuevos servicios
+     *          2. El archivo cargado no es un JSON
+     *
+     *
+     */
     private void loadServices() throws Exception {
         hotel.getServices().loadPersistentData();
         try{
@@ -314,8 +392,19 @@ public class App {
             System.out.println(e);
         }
     }
-    //metodo que carga las comidas para el restaurante del Hotel
-    private void createFood() throws IOException {
+
+    /*
+     * El administrador tiene la oportunidad de ingresar nuevas comidas para el restaurante<br>
+     * <b>pre:</b> Se inicializa el archivo donde se va a guardar los nuevas comidas del restaurante
+     * <b>post:</b> Se guarda en el restaurante las nuevas comidas disponibles
+     *
+     * @throw Exception <br>
+     *          1. no se inicializa el archivo donde se guardan las nuevas comidas agregadas
+     *
+     *
+     */
+    private void createMenuRestaurant() throws Exception {
+        loadMenuRestaurant();
         System.out.println("------ Crear servicio ------- ");
         System.out.println("Ingrese el identificador de la comida/bebida: ");
         String idFoodStr = br.readLine();
@@ -334,16 +423,84 @@ public class App {
         double roomService = Integer.parseInt(roomServiceStr);
         boolean isRoomService = (roomService == 1) ? true : false;
 
-        hotel.getRestaurantHandler().createNewFood(idFood,nameFood,priceFood,isRoomService,);
+        System.out.println("Ingrese que tipo de comida es");
+        System.out.println("1.Desayuno");
+        System.out.println("2. Almuerzo");
+        System.out.println("3. Cena");
+        String typeFoodStr = br.readLine();
+        double optionFood = Integer.parseInt(typeFoodStr);
+        String typeFood = null;
+        if(optionFood == 1){
+             typeFood = "Desayuno";
+        }else if(optionFood == 2){
+             typeFood = "Almuerzo";
+        }else if(optionFood == 3){
+             typeFood = "Cena";
+        }
+        hotel.getRestaurantHandler().createNewFood(idFood,nameFood,priceFood,isRoomService,typeFood);
 
+    }
+    /*
+     * El administrador carga el menu del restaurante por medio de un archivo<br>
+     * <b>pre:</b> El archivo con los datos del menu
+     * <b>post:</b> Se guarda en el hotel el menu guardado
+     *
+     * @throw Exception <br>
+     *          1. no se inicializa el archivo que contiene los datos de las nuevas habitaciones
+     *
+     *
+     *
+     */
+    private void loadMenuRestaurant() throws Exception {
+        hotel.getRestaurantHandler().loadPersistentData();
+        try{
+            loadMenuRestaurant();
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 
 
 
-    private static void showRecepcionistScreen(){
-        System.out.println("Pantalla funciones de Recepcionista");
+    /*
+     * Se le muestra al recepcionista el menu de funciones que puede realizar<br>
+     * <b>pre:</b>  El inventario del hotel ya debe estar cargado para ser consultado
+     * <b>post:</b> El recepcionista puede ver que opciones puede ejecurtar dentro del hotel
+     *
+     * @throw Exception <br>
+     *          1.  ????
+     *
+     */
+    private  void showRecepcionistScreen() throws IOException {
+        System.out.println("------  Inicio como administrador ------- ");
+        System.out.println("1. Hacer una nueva reserva. ");
+        System.out.println("2. Hacer un nuevo registro. ");
+        System.out.println("3. Hacer Check-out del huesped.");
+        System.out.println("3. Cancelar una reserva.");
+
+        System.out.print("Ingrese una opcion: ");
+        String opcionStr = br.readLine();
+        int opcion = Integer.parseInt(opcionStr);
+        if (opcion ==1){
+
+        }else if(opcion == 2){
+
+        }else if(opcion == 3){
+
+        }else if (opcion == 4){
+
+        }
+
     }
 
+    /*
+     * Se le muestra al empleado el menu de funciones que puede realizar<br>
+     * <b>pre:</b>  El inventario de los servicios ya debe estar cargado para ser consultado
+     * <b>post:</b> El recepcionista puede ver que opciones puede ejecurtar dentro del hotel
+     *
+     * @throw Exception <br>
+     *          1.  ????
+     */
     private static void showEmployeeScreen(){
         System.out.println("Pantalla funciones de employee");
 
