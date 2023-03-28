@@ -44,7 +44,6 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
          */
 
         /*TODO: Verificar que no existan dos tarifas que apliquen para la misma fecha */
-        /*TODO: */
         
 
         if (super.getIsFileLoaded()) {
@@ -68,10 +67,7 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
         /*
          * Carga la información del archivo en la estructura
          * 
-         * <b> pre: </b> <br>
-         * El archivo debe estar en formato JSON <br>
-         * La estructura debe estar vacia<br>
-         * La lista de tarifas ya debe estar inicializada
+         
          * 
          * <b> post: </b>
          * En el atributo dataHandler va a estar la información del archivo
@@ -111,6 +107,15 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
     }
 
     private RoomFares getRoomFare(JSONObject faresObj, Set<Object> roomFareId){
+    /*
+     * A partir de la persistencia, carga un objeto RoomFare
+     * 
+     * <b> post: </b> <br>
+     *  Devuelve un objeto de tipo RoomFare
+     * 
+     * @param faresObj El objeto JSON con las tarifas de una habitación
+     * @param roomFareId El identificador del tipo de habitación
+     */
         RoomFares roomFare = new RoomFares(roomFareId);
         JSONArray faresObjects = (JSONArray) faresObj.get("fares");
 
@@ -124,6 +129,14 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
     }
 
     private Fare getFare(JSONObject fareObj){
+        /*
+         * Crea un objeto de tipo Fare a partir de la persistencia
+         *  
+         * <b> post: </b> <br>
+         * Devuelve un objeto de tipo Fare
+         * 
+         * @params fareObj Objeto JSON con la información de la tarifa
+         */
         float price = Float.parseFloat(fareObj.get("price").toString());
         LocalDate initialDate = LocalDate.parse((String) fareObj.get("initialDate"));
         LocalDate finalDate = LocalDate.parse((String) fareObj.get("finalDate"));
@@ -144,6 +157,24 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
     }
 
     private Set<Object> createTypeRoomId(String roomFareId){
+        /*
+         * Se castea el string con la información del tipo de la habitación (camas, características, tipo)
+         * para crear el Set con dicha información (Que actua como nuestro ID de tipo de habitación)
+         * 
+         * <b> pre: </b> <br>
+         * El String debe tener la siguiente estructura "
+         * [
+         *  <<Tipo de habitación>>, 
+         *  <<Característica>>, 
+         *  <<Característica>>, 
+         *  {
+         *     <<Cama>> = <<número de camas>>,
+         *     <<Cama>> = <<número de camas>>,
+         *  }
+         * ]"
+         * 
+        */
+
         Set<Object> typeRoomId = new HashSet<Object>();
 
         final String regex = "\\[*\\{*\\}*\\]*";

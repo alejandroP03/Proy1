@@ -17,6 +17,13 @@ public class RoomModel {
     }
 
     public Set<Object> createTypeRoomId() {
+        /*
+         * Crea un Set que funcionará como ID de un tipo de habitación,
+         * esto pues dos habitaciones con exactamente las mismas características
+         * deben tener el mismo valor en un mismo instante de tiempo
+         * 
+         * 
+         */
         Set<Object> roomId = new HashSet<Object>();
         roomId.add(this.type);
 

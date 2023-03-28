@@ -21,8 +21,87 @@ public class RoomFares implements HotelObject {
         this.typeRoomFare = typeRoomFare;
     }
 
-    public void addFare(Fare fare) {
-        this.faresForRoomType.add(fare);
+    public void addFare(Fare fareBase) {
+        /*
+         * Agrega una tarifa a la lista, si ya existe un valor para una fecha, se tomará
+         * el valor menor y
+         * se lanzará una excepción que indicará que se tomó el menor valor entre dos
+         * tarifas
+         * 
+         * <b> pre: </b> <br>
+         * faresForRoomType ya debe estar inicializado
+         * <b> post: </b> <br>
+         * fare se agrega a daresForRoomType
+         * 
+         * @param fare tarifa a ingresar
+         * 
+         */
+
+        ArrayList<Fare> faresToAdd = new ArrayList<Fare>();
+
+        /* Encontrar la tarifa menor o igual */
+        ArrayList<Fare> sortedFares = this.faresForRoomType;
+        Collections.sort(sortedFares, new FareComparator());
+        int fareInd = this.searchIndexFloorInitialDate(sortedFares, fareBase.getInitialDate());
+
+        /* La tarifa que mas se le acerca (por debajo) */
+        Fare fareFloor = faresForRoomType.get(fareInd);
+
+        // Si no hay una tarifa menor se debe agregar la tarifa desde la fecha inicial
+        // hasta antes de la intersección con fareFloor
+
+        if (fareBase.getInitialDate().isBefore(fareFloor.getInitialDate())) {
+
+            /* Si la tarifa se aplica en una fecha anterior a cualquier otra */
+            if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
+                faresToAdd.add(fareBase);
+            } else {
+                Fare fareBefore = new Fare(fareBase.getPrice(), fareBase.getInitialDate(), fareFloor.getFinalDate(),
+                        fareBase.getDays());
+                faresToAdd.add(fareBefore);
+
+                /* Fecha intersección */
+                fareBase = new Fare(fareBase.getPrice(), fareFloor.getInitialDate(), fareBase.getFinalDate(),
+                        fareBase.getDays());
+
+                /* La nueva fecha empieza despues de la ultima de fareFloor */
+                if (fareBase.getInitialDate().isAfter(fareFloor.getFinalDate())) {
+                    faresToAdd.add(fareBase);
+                }
+                /* La nueva fecha inicia al mismo tiempo que otra */
+                else if (fareBase.getInitialDate().isEqual(fareFloor.getInitialDate())) {
+                    /* La nueva fecha termina al mismo tiempo de fareFloor */
+                    if (fareBase.getFinalDate().isEqual(fareFloor.getFinalDate())) {
+                        
+
+                    } /* La nueva fecha termina antes de fareFloor */
+                    else if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
+
+                    } /* La nueva fecha termina después de fareFloor */
+                    else {
+
+                    }
+                    /* La nueva fecha inicia después de fareFloor */
+                } else if (fareBase.getInitialDate().isAfter(fareFloor.getInitialDate())) {
+                    /* La nueva fecha termina al mismo tiempo de fareFloor */
+                    if (fareBase.getFinalDate().isEqual(fareFloor.getFinalDate())) {
+
+                    } /* La nueva fecha termina antes de fareFloor */
+                    else if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
+
+                    } /* La nueva fecha termina después de fareFloor */
+                    else {
+
+                    }
+                } /* */
+            }
+
+        }
+
+    }
+
+    private Fare getMinPriceFare(Fare fare1, Fare fare2){
+        return fare1.getPrice() <= fare2.getPrice() ? fare1 : fare2;
     }
 
     public Set<Object> getTypeRoomFare() {
@@ -52,6 +131,9 @@ public class RoomFares implements HotelObject {
          * configuradas
          *
          */
+
+        // TODO: Probar si funciona cuando la primera tarifa es mayor que el initial
+        // date aun asi sea la menor
         int fare = 0;
         ArrayList<Fare> sortedFares = this.faresForRoomType;
         Collections.sort(sortedFares, new FareComparator());
@@ -92,16 +174,17 @@ public class RoomFares implements HotelObject {
         while (min < max) {
             mid = (max + min) / 2;
             if (fareList.get(mid).getInitialDate().compareTo(initialDate) < 0)
-                min = mid;
+                min = mid + 1;
             else
-                max = mid;
+                max = mid - 1;
         }
 
         int ind = (max + min) / 2;
 
         // Como retorna el valor estrictamente menor, si el siguiente elemento es la
         // fecha exacta se retorna esa fecha, si no, la anterior
-        return fareList.get(ind + 1).getInitialDate().equals(initialDate) ? ind + 1 : ind;
+        return ind + 1 > fareList.size() ? ind - 1
+                : fareList.get(ind + 1).getInitialDate().equals(initialDate) ? ind + 1 : ind;
     }
 
     private class FareComparator implements Comparator<Fare> {
@@ -111,7 +194,7 @@ public class RoomFares implements HotelObject {
         }
     }
 
-    public JSONObject getJsonObject(){
+    public JSONObject getJsonObject() {
         Map<Object, Object> roomFareData = new HashMap<Object, Object>();
 
         ArrayList<JSONObject> fareJsonObjects = new ArrayList<JSONObject>();
@@ -123,6 +206,6 @@ public class RoomFares implements HotelObject {
 
         JSONObject roomFareObject = new JSONObject(roomFareData);
         return roomFareObject;
-}
+    }
 
 }

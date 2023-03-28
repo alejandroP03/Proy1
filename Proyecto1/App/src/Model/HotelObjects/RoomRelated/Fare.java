@@ -60,5 +60,4 @@ public class Fare implements HotelObject {
         return fareObject;
     }
 
-
 }
