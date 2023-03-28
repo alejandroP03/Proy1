@@ -11,14 +11,19 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
     }
 
     @Override
-    public void objectCreator() {
-        // TODO Auto-generated method stub
+    public void loadPersistentData() throws Exception {
 
     }
 
-    @Override
-    public void loadPersistentData(File dataFile) {
-        // TODO Auto-generated method stub
-
-    }
+//    @Override
+//    public void objectCreator() {
+//        // TODO Auto-generated method stub
+//
+//    }
+//
+//    @Override
+//    public void loadPersistentData(File dataFile) {
+//        // TODO Auto-generated method stub
+//
+//    }
 }
