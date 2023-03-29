@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.json.simple.JSONObject;
 
-public class Admin implements User {
+public class Admin implements User{
     private String userName;
     private String password;
     private UserType userType;

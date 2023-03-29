@@ -1,5 +1,7 @@
 package Controller.RegisterHandler;
 
+import org.json.simple.JSONObject;
+
 public class PrincipalGuest implements Guest {
 
     // attributes
@@ -29,4 +31,12 @@ public class PrincipalGuest implements Guest {
     public String getDni() {
         return this.dni;
     }
+
+    @Override
+    public JSONObject getJsonObject() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    
 }

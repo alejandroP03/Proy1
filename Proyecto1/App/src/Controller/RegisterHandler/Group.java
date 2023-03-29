@@ -2,7 +2,11 @@ package Controller.RegisterHandler;
 
 import java.util.ArrayList;
 
-public class Group {
+import org.json.simple.JSONObject;
+
+import Model.HotelObjects.HotelObject;
+
+public class Group implements HotelObject{
     // attributes
     private ArrayList<CompanionGuest> groupGuests;
     private CompanionGuest companionGuest;
@@ -17,6 +21,12 @@ public class Group {
         companionGuest = new CompanionGuest(name, dni);
         this.groupGuests.add(companionGuest);
 
+    }
+
+    @Override
+    public JSONObject getJsonObject() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getJsonObject'");
     }
 
 }

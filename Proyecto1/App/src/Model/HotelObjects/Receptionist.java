@@ -1,9 +1,9 @@
 package Model.HotelObjects;
 
-import org.json.simple.JSONObject;
-
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
 
 public class Receptionist implements User {
     private String userName;
@@ -24,8 +24,6 @@ public class Receptionist implements User {
         receptionistData.put("userName",this.userName);
         receptionistData.put("password",this.password);
         receptionistData.put("userType",this.userType.toString());
-
-
 
         return new JSONObject(receptionistData);
     }

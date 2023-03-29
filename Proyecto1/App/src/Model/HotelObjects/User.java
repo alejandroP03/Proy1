@@ -11,6 +11,4 @@ public interface User extends HotelObject {
 
     public void setPassword(String password);
 
-
-
 }

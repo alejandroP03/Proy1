@@ -6,13 +6,13 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 
 public class Food implements HotelObject {
-    private int id;
+    private String id;
     private String name;
     private double price;
     private boolean isRoomService;
     private String availability;
 
-    public Food(int id, String name, double price, boolean isRoomService, String availability) {
+    public Food(String id, String name, double price, boolean isRoomService, String availability) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -31,7 +31,7 @@ public class Food implements HotelObject {
         return new JSONObject(mapa);
     }
 
-    public int getId(){
+    public String getId(){
         return this.id;
     }
 
