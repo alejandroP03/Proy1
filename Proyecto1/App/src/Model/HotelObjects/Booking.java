@@ -21,7 +21,7 @@ public class Booking implements HotelObject {
     private int numberOfGuests;
     private LocalDate initialDate;
     private LocalDate finalDate;
-    private ArrayList<Room> reservedRooms;
+    private Map<String, Room> reservedRooms;
 
     // constructor
     public Booking(String reserviourName, String reserviourDNI, String reserviourPhone, String reserviourEmail,
@@ -34,15 +34,39 @@ public class Booking implements HotelObject {
         this.numberOfGuests = numberOfGuests;
         this.finalDate = finalDate;
         this.initialDate = initialDate;
-        this.reservedRooms = new ArrayList<Room>();
+        this.reservedRooms = new HashMap<String, Room>();
     }
 
-    public void setReservedRooms(ArrayList<Room> reservedRooms) {
+    public void setReservedRooms(Map<String, Room> reservedRooms) {
         this.reservedRooms = reservedRooms;
+    }
+
+    public Map<String, Room> getReservedRooms() {
+        return reservedRooms;
+    }
+
+    public void addReservedRoom(Room newRoom) {
+        this.reservedRooms.put(newRoom.getRoomId(), newRoom);
     }
 
     public String getReserviourName() {
         return this.reserviourName;
+    }
+
+    public String getReserviourDNI() {
+        return reserviourDNI;
+    }
+
+    public String getReserviourEmail() {
+        return reserviourEmail;
+    }
+
+    public String getReserviourPhone() {
+        return reserviourPhone;
+    }
+
+    public int getNumberOfGuests() {
+        return numberOfGuests;
     }
 
     public LocalDate getInitialDate() {
@@ -67,7 +91,7 @@ public class Booking implements HotelObject {
         bookingData.put("reserviourName", reserviourName);
 
         List<String> reservedRoomsIds = new ArrayList<String>();
-        for (Room room : reservedRooms) {
+        for (Room room : reservedRooms.values()) {
             reservedRoomsIds.add(room.getRoomId());
         }
         bookingData.put("reservedRoomsIds", (JSONArray) reservedRoomsIds);
