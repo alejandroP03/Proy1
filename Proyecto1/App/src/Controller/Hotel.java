@@ -45,7 +45,6 @@ public class Hotel {
     private BookingsDataHandler bookingsHandler = new BookingsDataHandler(new File("App/data/bookings.json"));
     //private RegistrationDataHandler registrationHandler = new RegistrationDataHandler(new File("App/data/registrations.json"));
 
-
     // metodos
 
     public RoomsDataHandler getRoomsHandler() {

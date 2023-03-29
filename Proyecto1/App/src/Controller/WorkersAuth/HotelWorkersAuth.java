@@ -11,10 +11,11 @@ import Model.HotelObjects.UserType;
 public class HotelWorkersAuth {
 
     public HotelWorkersAuth() {
+
     }
 
     // methods
-    public User login(String userName, String password, UserType userType, Map<Object, User> usersList)
+    public User login(String userName, String password, Map<Object, User> usersList)
             throws Exception {
         /*
          * Comprueba que el usuario que va a iniciar sesión existe en la lista de
@@ -32,23 +33,9 @@ public class HotelWorkersAuth {
          * El usuario no se encuentra registrado
          */
 
-        User newUser;
-        if (userExists(userName, password, userType, usersList)) {
+        if (userExists(userName, password, usersList)) {
             if (!(userName.isBlank() || password.isBlank())) {
-                if (userType.equals(UserType.ADMIN)) {
-                    newUser = new Admin(userName, password);
-                    return newUser;
-
-                } else if (userType.equals(UserType.RECEPTIONIST)) {
-                    newUser = new Receptionist(userName, password);
-                    return newUser;
-
-                } else if (userType.equals(UserType.EMPLOYEE)) {
-                    newUser = new Employee(userName, password);
-                    return newUser;
-
-                }
-
+                return usersList.get(userName);
             } else {
                 throw new Exception("Nombre de usuario invalido o contraseña inválido");
             }
@@ -58,8 +45,6 @@ public class HotelWorkersAuth {
                     "Nombre de usuario invalido o contraseña incorrecto (Verifique si se encuentra registrado)");
 
         }
-        return null;
-
     }
 
     public User register(String userName, String password, UserType userType, Map<Object, User> usersList)
@@ -80,7 +65,7 @@ public class HotelWorkersAuth {
          * 
          */
         User newUser;
-        if (!userExists(userName, password, userType, usersList)) {
+        if (!userExists(userName, password, usersList)) {
 
             if (!(userName.isBlank() || password.isBlank())) {
 
@@ -111,7 +96,7 @@ public class HotelWorkersAuth {
 
     }
 
-    public boolean userExists(String userName, String password, UserType userType, Map<Object, User> usersList) {
+    public boolean userExists(String userName, String password, Map<Object, User> usersList) {
         /*
          * Función auxiliar de login y register. Comprueba que el usuario existe en la
          * lista de usuarios, de ser así,
@@ -121,22 +106,14 @@ public class HotelWorkersAuth {
          * <b> post: </b> Se retorna un booleano que indica si el usuario existe o no
          *
          */
-        boolean exists = false;
 
-        for (Map.Entry<Object, User> userEntry : usersList.entrySet()) {
+        User userQuery = usersList.get(userName);
 
-            String localUserName = (String) userEntry.getKey();
-            User localUser = userEntry.getValue();
-            String localPassword = localUser.getPassword();
-            UserType localUserType = localUser.getUserType();
-
-            if (userName.equals(localUserName) && password.equals(localPassword) && userType.equals(localUserType)) {
-                exists = true;
-            }
-
+        if (password.equals(userQuery.getPassword())) {
+            return true;
         }
 
-        return exists;
+        return false;
     }
 
 }

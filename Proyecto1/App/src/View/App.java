@@ -75,7 +75,8 @@ public class App {
             String password = br.readLine();
             if (registro == 1) {
                 try {
-                    authHandler.register(userName, password, UserType.ADMIN, hotel.getUserHandler().getData());    
+                    authHandler.register(userName, password, UserType.ADMIN, hotel.getUserHandler().getData());
+                    hotel.getUserHandler().SavePersistentData();
                 } catch (Exception e) {
                     System.out.println(e);
                     authApp();
@@ -83,38 +84,51 @@ public class App {
                 showAdminScreen();
             } else if (registro == 2) {
                 try {
-                    authHandler.register(userName, password, UserType.EMPLOYEE, hotel.getUserHandler().getData());    
+                    authHandler.register(userName, password, UserType.EMPLOYEE, hotel.getUserHandler().getData());
+                    hotel.getUserHandler().SavePersistentData();
                 } catch (Exception e) {
                     System.out.println(e);
                     authApp();
                 }
-                
+
                 showEmployeeScreen();
 
             } else if (registro == 3) {
                 try {
-                    authHandler.register(userName, password, UserType.RECEPTIONIST, hotel.getUserHandler().getData());    
+                    authHandler.register(userName, password, UserType.RECEPTIONIST, hotel.getUserHandler().getData());
+                    hotel.getUserHandler().SavePersistentData();
                 } catch (Exception e) {
                     System.out.println(e);
                     authApp();
                 }
-                
+
                 showRecepcionistScreen();
             }
 
         } else if (opcion == 2) {
             System.out.println(" ");
             System.out.println("----- Inicio de sesion  -----");
+            hotel.getUserHandler().loadPersistentData();
             System.out.print("Ingrese su usuario: ");
             String usuarioStr = br.readLine();
-            // TODO llamar la funcion que verifica el login de un usuario
-            
 
             System.out.print("Ingrese su contrasena: ");
             String contrasenaStr = br.readLine();
-            
+
             try {
-                authHandler.login(opcionStr, usuarioStr, null, hotel.getUserHandler().getData())
+                User actualUser = authHandler.login(usuarioStr, contrasenaStr, hotel.getUserHandler().getData());
+                switch(actualUser.getUserType()){
+                    case ADMIN:
+                        showAdminScreen();
+                    case RECEPTIONIST:
+                        showRecepcionistScreen();
+                    case EMPLOYEE:
+                        showEmployeeScreen();
+                    default:
+                        break;
+                    
+                }
+
             } catch (Exception e) {
                 System.out.println(e);
                 authApp();
@@ -332,9 +346,8 @@ public class App {
      *
      */
     private void loadDataRooms() throws Exception {
-        hotel.getRoomsHandler().loadPersistentData();
         try {
-            loadDataRooms();
+            hotel.getRoomsHandler().loadPersistentData();
         } catch (Exception e) {
             System.out.println(e);
         }
