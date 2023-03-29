@@ -15,6 +15,7 @@ import java.util.Set;
 
 import Controller.Hotel;
 import Controller.BookingHandler.BookingHandler;
+import Controller.RegisterHandler.CompanionGuest;
 import Controller.WorkersAuth.HotelWorkersAuth;
 import Model.HotelObjects.Admin;
 import Model.HotelObjects.Employee;
@@ -252,8 +253,8 @@ public class App {
         Map<Bed, Integer> mapBeds = new HashMap<Bed, Integer>();
         Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
 
-        for (int i = 0; i <= numRooms; i++) {
-            System.out.println("----------- Datos para la " + (i + 1) + " habitacion -----------");
+        for (int i = 1; i <= numRooms; i++) {
+            System.out.println("----------- Datos para la " + (i) + " habitacion -----------");
             System.out.print("Ingrese la ubicacion de la habitacion: ");
             String location = br.readLine();
             boolean isMoreBeds = true;
@@ -271,7 +272,7 @@ public class App {
                 System.out.println("Elija el tipo de cama que desea agregar a la habitacion: ");
                 String chooseBedStr = br.readLine();
                 int chooseBed = Integer.parseInt(chooseBedStr);
-                Bed bedChoose = typeBeds[chooseBed];
+                Bed bedChoose = typeBeds[chooseBed-1];
                 System.out.print("Cuantas camas de este tipo desea agregar? : ");
                 String numBedsStr = br.readLine();
                 int numBeds = Integer.parseInt(numBedsStr);
@@ -280,7 +281,7 @@ public class App {
                 System.out.println(numBeds + " camas de tipo " + bedChoose + " han sido agregadas");
 
                 System.out.println("Desea agregar mas tipos de cama?");
-                System.out.println("1.Si \n 2.No ");
+                System.out.println("1.Si \n2.No ");
                 String isMoreBedsStr = br.readLine();
                 int moreBeds = Integer.parseInt(isMoreBedsStr);
                 if (moreBeds == 2) {
@@ -299,7 +300,7 @@ public class App {
                 System.out.print("Elija el tipo de caracteristica que tendra la habitacion: ");
                 String chooseFeatureStr = br.readLine();
                 int chooseFeature = Integer.parseInt(chooseFeatureStr);
-                RoomFeatures featuresChoose = typeFeeatures[chooseFeature];
+                RoomFeatures featuresChoose = typeFeeatures[chooseFeature-1];
                 featuresList.add(featuresChoose);
 
                 System.out.println("La caracteristica " + featuresChoose + " ha sido agregada");
@@ -323,17 +324,18 @@ public class App {
             System.out.print("Elija el tipo de la habitacion: ");
             String chooseTypeStr = br.readLine();
             int chooseType = Integer.parseInt(chooseTypeStr);
-            TypeRoom typeChoose = typeRooms[chooseType];
+            TypeRoom typeChoose = typeRooms[chooseType-1];
             System.out.println("La habitacion nueva sera: " + typeChoose);
 
             hotel.getRoomsHandler().createNewRoom(location, false, mapBeds, featuresList, typeChoose);
+            hotel.getRoomsHandler().SavePersistentData();
 
         }
-        try {
-            createRoom();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+//        try {
+//            createRoom();
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
 
     }
 
@@ -352,6 +354,7 @@ public class App {
     private void loadDataRooms() throws Exception {
         try {
             hotel.getRoomsHandler().loadPersistentData();
+            hotel.getRoomsHandler().SavePersistentData();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -374,7 +377,7 @@ public class App {
      *
      */
     private void createService() throws Exception {
-        loadServices();
+        //loadServices();
         System.out.println("------ Crear servicio ------- ");
         System.out.println("Ingrese el id del servicio: ");
         String id = br.readLine();
@@ -410,7 +413,7 @@ public class App {
             daySet.add(dayChoose);
 
             System.out.println("Desea ingresar otro dia?");
-            System.out.println("1.Si \n 2. No ");
+            System.out.println("1.Si \n2. No ");
             String otherDayStr = br.readLine();
             int otherDay = Integer.parseInt(otherDayStr);
             if (otherDay == 2) {
@@ -431,6 +434,7 @@ public class App {
 
         ArrayList<DayOfWeek> dayList = new ArrayList<DayOfWeek>(daySet);
         hotel.getServices().createNewService(id, name, precio, isForGroup, dayList, initialDate, finalDate);
+        hotel.getServices().SavePersistentData();
 
     }
 
@@ -448,6 +452,7 @@ public class App {
      */
     private void loadServices() throws Exception {
         hotel.getServices().loadPersistentData();
+        //hotel.getServices().SavePersistentData();
         try {
             loadServices();
         } catch (Exception e) {
@@ -501,6 +506,7 @@ public class App {
             typeFood = "Cena";
         }
         hotel.getRestaurantHandler().createNewFood(idFood, nameFood, priceFood, isRoomService, typeFood);
+        hotel.getRestaurantHandler().SavePersistentData();
 
     }
 
@@ -536,7 +542,7 @@ public class App {
      *
      */
     private void showRecepcionistScreen() throws IOException {
-        System.out.println("------  Inicio como administrador ------- ");
+        System.out.println("------  Inicio como recepcionista ------- ");
         System.out.println("1. Hacer una nueva reserva. ");
         System.out.println("2. Hacer un nuevo registro. ");
         System.out.println("3. Hacer Check-out del huesped.");
@@ -548,7 +554,7 @@ public class App {
         if (opcion == 1) {
             newBooking();
         } else if (opcion == 2) {
-
+            newRegister();
         } else if (opcion == 3) {
 
         } else if (opcion == 4) {
@@ -556,6 +562,53 @@ public class App {
         }
 
     }
+
+    private void newRegister() throws IOException {
+        System.out.println(" ------ Hacer una nuevo registro -------");
+
+        System.out.println(" ****** Ingreso de datos para el huesped principal: ****** ");
+        System.out.print("Ingrese el nombre del nuevo huesped: ");
+        String name = br.readLine();
+        System.out.print("Ingrese el nombre el numero de identificacion del nuevo huesped:  ");
+        String dni = br.readLine();
+        System.out.print("Ingrese el nombre el email del nuevo huesped:  ");
+        String email = br.readLine();
+        System.out.print("Ingrese el nombre el numero de celular del nuevo huesped:  ");
+        String phoneNumber = br.readLine();
+        System.out.print("Cuantos acompanantes vienen con el huesped principal? : ");
+        String numCompanionStr = br.readLine();
+        int numCompanion = Integer.parseInt(numCompanionStr);
+
+
+        ArrayList<CompanionGuest> groupGuests = new ArrayList<>();
+        for (int i = 1; i <= numCompanion; i++) {
+            System.out.println(" ****** Ingreso de datos para el acompanante "+ i +" ****** ");
+            System.out.print("Ingrese el nombre del acompanante: ");
+            String nameCompanion = br.readLine();
+            System.out.print("Ingrese el nunero identificacion del acompanante: ");
+            String dniCompanion = br.readLine();
+            hotel.getRegisterHandler().getGroupData().addCompanionGuest(nameCompanion,dniCompanion , groupGuests);
+        }
+        System.out.println("Que fechas van a ocupar los huespedes? ");
+        System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
+        LocalDate initialDate = LocalDate.parse(br.readLine());
+
+        System.out.print("Número de dias de la estadía: ");
+        LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
+
+        //
+        System.out.println(" ");
+        System.out.println("Todos los datos de los huespedes han sido registrados!");
+        System.out.println("Estas son las habitaciones disponibles para asignarle a los huespedes:");
+        System.out.println(" ");
+
+       hotel.getRegisterHandler().createRegister(name,dni,email,phoneNumber,groupGuests , selectRooms(true,initialDate, finalDate));
+
+       //TODO falta guardar en el hotel el nuevo registro hecho
+
+        hotel.getRegistrationHandler().SavePersistentData();
+    }
+
 
     private void newBooking() throws IOException {
         BookingHandler bookingHdlr = new BookingHandler();
@@ -597,6 +650,8 @@ public class App {
 
         ArrayList<Room> freeRooms;
         String moreRooms;
+
+
         do {
             if (isForNow)
                 freeRooms = new ArrayList<Room>(hotel.getFreeRooms().values());
@@ -614,7 +669,7 @@ public class App {
                 pos++;
             }
             System.out.println("Habitación deseada: ");
-            selectedRoomsIds.add(freeRooms.get(pos).getRoomId());
+            selectedRoomsIds.add(freeRooms.get(2).getRoomId());
 
             System.out.println("Desea agregar mas habitaciones \n 1. Si \n 2. No");
             moreRooms = br.readLine();
@@ -623,10 +678,6 @@ public class App {
         return selectedRoomsIds;
     }
 
-    private void newRegister() {
-        System.out.println(" ------ Hacer una nuevo registro -------");
-
-    }
 
     /*
      * Se le muestra al empleado el menu de funciones que puede realizar<br>

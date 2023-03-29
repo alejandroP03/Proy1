@@ -1,4 +1,1 @@
-{
-	"a": { "password": "a", "userType": "ADMIN", "userName": "a" },
-	"b": { "password": "b", "userType": "ADMIN", "userName": "b" }
-}
+{"Danny":{"password":"1234","userType":"ADMIN","userName":"Danny"},"a":{"password":"a","userType":"ADMIN","userName":"a"},"b":{"password":"b","userType":"ADMIN","userName":"b"},"Juan":{"password":"23443","userType":"ADMIN","userName":"Juan"},"Pepe":{"password":"345","userType":"RECEPTIONIST","userName":"Pepe"}}

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import Controller.RegisterHandler.Group;
+import Controller.RegisterHandler.RegisterHandler;
 import Model.HotelDataHolder.BookingsDataHandler;
 import Model.HotelDataHolder.FaresDataHandler;
 import Model.HotelDataHolder.FoodDataHandler;
@@ -26,6 +28,10 @@ public class Hotel {
     private BookingsDataHandler bookingsHandler = new BookingsDataHandler(new File("App/data/bookings.json"));
     private RegistrationDataHandler registrationHandler = new RegistrationDataHandler(
             new File("App/data/registrations.json"));
+
+    private RegisterHandler registerHandler = new RegisterHandler();
+
+
 
     // private RegistrationDataHandler registrationHandler = new
     // RegistrationDataHandler(new File("App/data/registrations.json"));
@@ -59,6 +65,12 @@ public class Hotel {
     public BookingsDataHandler getBookingsHandler() {
         return bookingsHandler;
     }
+
+    public RegisterHandler getRegisterHandler(){
+        return this.registerHandler;
+    }
+
+
 
     public Map<String, Room> getFreeRooms() {
         Map<String, Room> freeRooms = new HashMap<String, Room>();

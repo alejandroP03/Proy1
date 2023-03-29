@@ -1,5 +1,7 @@
 package Controller.RegisterHandler;
 
+import org.json.simple.JSONObject;
+
 public class CompanionGuest implements Guest {
     // attributes
     private String name;
@@ -22,6 +24,11 @@ public class CompanionGuest implements Guest {
     @Override
     public String getDni() {
         return this.dni;
+    }
+
+    @Override
+    public JSONObject getJsonObject() {
+        return null;
     }
 
 }

@@ -17,11 +17,15 @@ public class Group implements HotelObject{
     }
 
     // methods
-    public void addCompanionGuest(String name, String dni) {
+    public  void addCompanionGuest(String name, String dni,ArrayList<CompanionGuest> groupGuests) {
         companionGuest = new CompanionGuest(name, dni);
-        this.groupGuests.add(companionGuest);
+        groupGuests.add(companionGuest);
+
 
     }
+
+
+
 
     @Override
     public JSONObject getJsonObject() {

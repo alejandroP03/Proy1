@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Controller.Hotel;
 import Model.HotelObjects.Booking;
 import Model.HotelObjects.Registration;
 import Model.HotelObjects.RoomRelated.Room;
@@ -15,13 +16,14 @@ public class RegisterHandler {
     private Group group;
     private PrincipalGuest responsibleGuest;
     private Registration openRegister;
+    private Hotel avaiableRooms;
 
     // methods
     public void createRegister(String name,
             String dni,
             String email,
             String phoneNumber,
-            ArrayList<CompanionGuest> group, List<String> regiteredRoomsIds) {
+            ArrayList<CompanionGuest> group, List<String> registeredRoomsIds) {
         // crea instncia del prinicpalGuest
         this.responsibleGuest = new PrincipalGuest(name, dni, email, phoneNumber);
         // crea la instancia de group
@@ -59,7 +61,9 @@ public class RegisterHandler {
         return this.group;
     }
 
-    public void roomAsigner(HashMap<String, Room> availableRooms) {
+    public void roomAsigner(List<String> selectedRooms, HashMap<String, Room> availableRooms) {
+
+
 
     }
 
