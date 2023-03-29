@@ -493,6 +493,25 @@ public class App {
 
     }
 
+    private void newBooking(){
+
+    }
+    private void newRegister(){
+        System.out.println(" ------ Hacer una nuevo registro -------");
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     /*
      * Se le muestra al empleado el menu de funciones que puede realizar<br>
      * <b>pre:</b>  El inventario de los servicios ya debe estar cargado para ser consultado

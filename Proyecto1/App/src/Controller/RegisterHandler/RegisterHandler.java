@@ -16,8 +16,11 @@ public class RegisterHandler {
     private boolean hasBooking;
 
     // methods
-    public void createRegister(String name, String dni, String email, String phoneNumber,
-            ArrayList<CompanionGuest> group) {
+    public void createRegister(String name,
+                               String dni,
+                               String email,
+                               String phoneNumber,
+                               ArrayList<CompanionGuest> group) {
         // crea instncia del prinicpalGuest
         this.responsibleGuest = new PrincipalGuest(name, dni, email, phoneNumber);
         // crea la instancia de group
@@ -39,6 +42,7 @@ public class RegisterHandler {
     }
 
     public void roomAsigner(HashMap<String, Room> availableRooms) {
+
 
     }
 

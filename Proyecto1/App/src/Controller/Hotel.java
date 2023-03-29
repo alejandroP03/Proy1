@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import Controller.RegisterHandler.RegisterHandler;
 import Model.HotelDataHolder.*;
 import Model.HotelObjects.*;
 import Model.HotelObjects.RoomRelated.Room;
@@ -23,6 +24,8 @@ public class Hotel {
     private FoodDataHandler restaurantHandler = new FoodDataHandler(new File("App/data/foodInfo.json"));
     //private BookingsDataHandler bookingsHandler = new BookingsDataHandler(new File("App/data/bookings.json"));
     private RegistrationDataHandler registrationHandler = new RegistrationDataHandler(new File("App/data/registrations.json"));
+
+    private RegisterHandler registerHandler = new RegisterHandler();
 
     private Map<Object,Room> roomsList;
     private Map<Object,RoomFares> roomFaresList;
