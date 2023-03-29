@@ -56,6 +56,7 @@ public class App {
          */
 
         HotelWorkersAuth authHandler = new HotelWorkersAuth();
+        hotel.getUserHandler().loadPersistentData();
 
         System.out.println("1. Registrarse");
         System.out.println("2. Iniciar sesion");
@@ -112,7 +113,6 @@ public class App {
         } else if (opcion == 2) {
             System.out.println(" ");
             System.out.println("----- Inicio de sesion  -----");
-            hotel.getUserHandler().loadPersistentData();
             System.out.print("Ingrese su usuario: ");
             String usuarioStr = br.readLine();
 
@@ -546,7 +546,7 @@ public class App {
         String opcionStr = br.readLine();
         int opcion = Integer.parseInt(opcionStr);
         if (opcion == 1) {
-
+            newBooking();
         } else if (opcion == 2) {
 
         } else if (opcion == 3) {
@@ -599,10 +599,10 @@ public class App {
         String moreRooms;
         do {
             if (isForNow)
-                freeRooms = (ArrayList<Room>) hotel.getFreeRooms().values();
+                freeRooms = new ArrayList<Room>(hotel.getFreeRooms().values());
 
             else
-                freeRooms = (ArrayList<Room>) hotel.getNotBookedRooms(initialDate, finalDate).values();
+                freeRooms = new ArrayList<Room>(hotel.getNotBookedRooms(initialDate, finalDate).values());
 
             int pos = 1;
             for (Room availableRoom : freeRooms) {

@@ -1,7 +1,4 @@
 {
-	"Alejandro": {
-		"password": "password",
-		"userType": "ADMIN",
-		"userName": "Alejandro"
-	}
+	"a": { "password": "a", "userType": "ADMIN", "userName": "a" },
+	"b": { "password": "b", "userType": "ADMIN", "userName": "b" }
 }

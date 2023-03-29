@@ -10,9 +10,6 @@ import Model.HotelObjects.UserType;
 
 public class HotelWorkersAuth {
 
-    public HotelWorkersAuth() {
-
-    }
 
     // methods
     public User login(String userName, String password, Map<Object, User> usersList)
@@ -64,7 +61,7 @@ public class HotelWorkersAuth {
          * Nombre de usuario invalido o contraseña invalido
          * 
          */
-        User newUser;
+        User newUser = null;
         if (!userExists(userName, password, usersList)) {
 
             if (!(userName.isBlank() || password.isBlank())) {
@@ -72,17 +69,14 @@ public class HotelWorkersAuth {
                 if (userType.equals(UserType.ADMIN)) {
                     newUser = new Admin(userName, password);
                     usersList.put(newUser.getUserName(), newUser);
-                    return newUser;
 
                 } else if (userType.equals(UserType.RECEPTIONIST)) {
                     newUser = new Receptionist(userName, password);
                     usersList.put(newUser.getUserName(), newUser);
-                    return newUser;
 
                 } else if (userType.equals(UserType.EMPLOYEE)) {
                     newUser = new Employee(userName, password);
                     usersList.put(newUser.getUserName(), newUser);
-                    return newUser;
 
                 }
             } else {
@@ -92,8 +86,7 @@ public class HotelWorkersAuth {
             throw new Exception("El usuario ya se encuentra registrado");
 
         }
-        return null;
-
+        return newUser;
     }
 
     public boolean userExists(String userName, String password, Map<Object, User> usersList) {
@@ -106,10 +99,8 @@ public class HotelWorkersAuth {
          * <b> post: </b> Se retorna un booleano que indica si el usuario existe o no
          *
          */
-
         User userQuery = usersList.get(userName);
-
-        if (password.equals(userQuery.getPassword())) {
+        if (userQuery != null && password.equals(userQuery.getPassword())) {
             return true;
         }
 

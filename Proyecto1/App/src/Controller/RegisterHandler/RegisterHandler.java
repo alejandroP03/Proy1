@@ -2,6 +2,7 @@ package Controller.RegisterHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Model.HotelObjects.Booking;
@@ -20,7 +21,7 @@ public class RegisterHandler {
             String dni,
             String email,
             String phoneNumber,
-            ArrayList<CompanionGuest> group, Map<String, Room> regiteredRooms) {
+            ArrayList<CompanionGuest> group, List<String> regiteredRoomsIds) {
         // crea instncia del prinicpalGuest
         this.responsibleGuest = new PrincipalGuest(name, dni, email, phoneNumber);
         // crea la instancia de group
@@ -40,7 +41,7 @@ public class RegisterHandler {
 
         if (groupGuests.size() == previousBooking.getNumberOfGuests()){
             createRegister(previousBooking.getReserviourName(), previousBooking.getReserviourDNI(),
-            previousBooking.getReserviourEmail(), previousBooking.getReserviourPhone(), groupGuests, previousBooking.getReservedRooms());
+            previousBooking.getReserviourEmail(), previousBooking.getReserviourPhone(), groupGuests, previousBooking.getReservedRoomsIds());
         }
         else
             throw new Exception(
