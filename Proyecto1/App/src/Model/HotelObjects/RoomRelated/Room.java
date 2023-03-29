@@ -30,8 +30,12 @@ public class Room extends RoomModel implements HotelObject {
         this.bookedDates = new HashMap<LocalDate, LocalDate>();
     }
 
-    public void setBookedDates(HashMap<LocalDate, LocalDate> bookedDates) {
+    public void setBookedDates(Map<LocalDate, LocalDate> bookedDates) {
         this.bookedDates = bookedDates;
+    }
+
+    public void addBookedDate(LocalDate initialDate, LocalDate finalDate) {
+        this.bookedDates.put(initialDate, finalDate);
     }
 
     public Map<Bed, Integer> getBeds() {

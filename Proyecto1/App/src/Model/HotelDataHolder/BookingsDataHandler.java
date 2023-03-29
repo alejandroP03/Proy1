@@ -9,7 +9,7 @@ import Model.HotelObjects.Booking;
 
 public class BookingsDataHandler extends HotelDataHolder<Booking> {
 
-    BookingsDataHandler(File roomsJSONFile) {
+    public BookingsDataHandler(File roomsJSONFile) {
         super(roomsJSONFile);
     }
 

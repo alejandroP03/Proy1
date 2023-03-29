@@ -37,14 +37,18 @@ public class RoomFares implements HotelObject {
          * 
          */
 
+        //TODO: Manejar los conflictos entre tarifas
+        this.addFare(fareBase);
+
+         /* 
         ArrayList<Fare> faresToAdd = new ArrayList<Fare>();
 
-        /* Encontrar la tarifa menor o igual */
+        // Encontrar la tarifa menor o igual
         ArrayList<Fare> sortedFares = this.faresForRoomType;
         Collections.sort(sortedFares, new FareComparator());
         int fareInd = this.searchIndexFloorInitialDate(sortedFares, fareBase.getInitialDate());
 
-        /* La tarifa que mas se le acerca (por debajo) */
+        // La tarifa que mas se le acerca (por debajo)
         Fare fareFloor = faresForRoomType.get(fareInd);
 
         // Si no hay una tarifa menor se debe agregar la tarifa desde la fecha inicial
@@ -52,7 +56,7 @@ public class RoomFares implements HotelObject {
 
         if (fareBase.getInitialDate().isBefore(fareFloor.getInitialDate())) {
 
-            /* Si la tarifa se aplica en una fecha anterior a cualquier otra */
+            // Si la tarifa se aplica en una fecha anterior a cualquier otra
             if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
                 faresToAdd.add(fareBase);
             } else {
@@ -60,43 +64,43 @@ public class RoomFares implements HotelObject {
                         fareBase.getDays());
                 faresToAdd.add(fareBefore);
 
-                /* Fecha intersección */
+                // Fecha intersección
                 fareBase = new Fare(fareBase.getPrice(), fareFloor.getInitialDate(), fareBase.getFinalDate(),
                         fareBase.getDays());
 
-                /* La nueva fecha empieza despues de la ultima de fareFloor */
+                // La nueva fecha empieza despues de la ultima de fareFloor 
                 if (fareBase.getInitialDate().isAfter(fareFloor.getFinalDate())) {
                     faresToAdd.add(fareBase);
                 }
-                /* La nueva fecha inicia al mismo tiempo que otra */
+                // La nueva fecha inicia al mismo tiempo que otra 
                 else if (fareBase.getInitialDate().isEqual(fareFloor.getInitialDate())) {
-                    /* La nueva fecha termina al mismo tiempo de fareFloor */
+                    // La nueva fecha termina al mismo tiempo de fareFloor 
                     if (fareBase.getFinalDate().isEqual(fareFloor.getFinalDate())) {
                         
 
-                    } /* La nueva fecha termina antes de fareFloor */
+                    } // La nueva fecha termina antes de fareFloor 
                     else if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
 
-                    } /* La nueva fecha termina después de fareFloor */
+                    } // La nueva fecha termina después de fareFloor 
                     else {
 
                     }
-                    /* La nueva fecha inicia después de fareFloor */
+                    // La nueva fecha inicia después de fareFloor 
                 } else if (fareBase.getInitialDate().isAfter(fareFloor.getInitialDate())) {
-                    /* La nueva fecha termina al mismo tiempo de fareFloor */
+                    // La nueva fecha termina al mismo tiempo de fareFloor 
                     if (fareBase.getFinalDate().isEqual(fareFloor.getFinalDate())) {
 
-                    } /* La nueva fecha termina antes de fareFloor */
+                    } // La nueva fecha termina antes de fareFloor 
                     else if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
 
-                    } /* La nueva fecha termina después de fareFloor */
+                    } // La nueva fecha termina después de fareFloor 
                     else {
 
                     }
-                } /* */
+                }
             }
 
-        }
+        }*/
 
     }
 
