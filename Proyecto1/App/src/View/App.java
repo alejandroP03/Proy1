@@ -4,14 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import Controller.Hotel;
+import Controller.BookingHandler.BookingHandler;
 import Controller.WorkersAuth.HotelWorkersAuth;
 import Model.HotelObjects.Admin;
 import Model.HotelObjects.Employee;
@@ -19,6 +22,7 @@ import Model.HotelObjects.Receptionist;
 import Model.HotelObjects.User;
 import Model.HotelObjects.UserType;
 import Model.HotelObjects.RoomRelated.Bed;
+import Model.HotelObjects.RoomRelated.Room;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.TypeRoom;
 
@@ -117,7 +121,7 @@ public class App {
 
             try {
                 User actualUser = authHandler.login(usuarioStr, contrasenaStr, hotel.getUserHandler().getData());
-                switch(actualUser.getUserType()){
+                switch (actualUser.getUserType()) {
                     case ADMIN:
                         showAdminScreen();
                     case RECEPTIONIST:
@@ -126,7 +130,7 @@ public class App {
                         showEmployeeScreen();
                     default:
                         break;
-                    
+
                 }
 
             } catch (Exception e) {
@@ -373,8 +377,7 @@ public class App {
         loadServices();
         System.out.println("------ Crear servicio ------- ");
         System.out.println("Ingrese el id del servicio: ");
-        String idStr = br.readLine();
-        int id = Integer.parseInt(idStr);
+        String id = br.readLine();
         System.out.print("Ingrese el nombre del serivicio: ");
         String name = br.readLine();
         System.out.print("Ingrese el precio del servicio: ");
@@ -468,8 +471,7 @@ public class App {
         loadMenuRestaurant();
         System.out.println("------ Crear servicio ------- ");
         System.out.println("Ingrese el identificador de la comida/bebida: ");
-        String idFoodStr = br.readLine();
-        int idFood = Integer.parseInt(idFoodStr);
+        String idFood = br.readLine();
 
         System.out.print("Ingrese el nombre de la comida/bebida: ");
         String nameFood = br.readLine();
@@ -555,8 +557,70 @@ public class App {
 
     }
 
-    private void newBooking() {
+    private void newBooking() throws IOException {
+        BookingHandler bookingHdlr = new BookingHandler();
+        System.out.print("Nombre del resonsable: ");
+        String reserviourName = br.readLine();
 
+        System.out.print("Número de documento del resonsable: ");
+        String reserviourDNI = br.readLine();
+
+        System.out.print("Teléfono del resonsable: ");
+        String reserviourPhone = br.readLine();
+
+        System.out.print("Correo del resonsable: ");
+        String reserviourMail = br.readLine();
+
+        System.out.print("Número de tarjeta de credito del resonsable: ");
+        String reserviourSupportCardNumber = br.readLine();
+
+        System.out.print("Número de acompañantes: ");
+        int numberOfGuests = Integer.parseInt(br.readLine());
+
+        System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
+        LocalDate initialDate = LocalDate.parse(br.readLine());
+
+        System.out.print("Número de dias de la estadía: ");
+        LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
+
+        bookingHdlr.createBooking(reserviourName, reserviourDNI, reserviourPhone, reserviourMail,
+                reserviourSupportCardNumber, numberOfGuests, initialDate, finalDate,
+                hotel.getBookingsHandler().getData());
+
+        bookingHdlr.reserveRooms(selectRooms(false, initialDate, finalDate), hotel.getRoomsHandler().getData());
+
+        hotel.getBookingsHandler().SavePersistentData();
+    }
+
+    private List<String> selectRooms(boolean isForNow, LocalDate initialDate, LocalDate finalDate) throws IOException {
+        List<String> selectedRoomsIds = new ArrayList<String>();
+
+        ArrayList<Room> freeRooms;
+        String moreRooms;
+        do {
+            if (isForNow)
+                freeRooms = (ArrayList<Room>) hotel.getFreeRooms().values();
+
+            else
+                freeRooms = (ArrayList<Room>) hotel.getNotBookedRooms(initialDate, finalDate).values();
+
+            int pos = 1;
+            for (Room availableRoom : freeRooms) {
+                System.out.print(pos + "." + availableRoom.getRoomId());
+                System.out.println("\t Tipo: " + availableRoom.getType().toString());
+                System.out.println("Capacidad: " + availableRoom.getCapacity());
+                System.out.println("Camas: " + availableRoom.getBeds());
+                System.out.println("Características: " + availableRoom.getFeaturesList());
+                pos++;
+            }
+            System.out.println("Habitación deseada: ");
+            selectedRoomsIds.add(freeRooms.get(pos).getRoomId());
+
+            System.out.println("Desea agregar mas habitaciones \n 1. Si \n 2. No");
+            moreRooms = br.readLine();
+        } while (moreRooms == "1");
+
+        return selectedRoomsIds;
     }
 
     private void newRegister() {

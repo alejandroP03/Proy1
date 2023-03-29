@@ -2,11 +2,9 @@ package Controller;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import Controller.RegisterHandler.RegisterHandler;
 import Model.HotelDataHolder.BookingsDataHandler;
 import Model.HotelDataHolder.FaresDataHandler;
 import Model.HotelDataHolder.FoodDataHandler;
@@ -14,12 +12,7 @@ import Model.HotelDataHolder.RegistrationDataHandler;
 import Model.HotelDataHolder.RoomsDataHandler;
 import Model.HotelDataHolder.ServicesDataHandler;
 import Model.HotelDataHolder.UsersDataHandler;
-import Model.HotelObjects.Booking;
-import Model.HotelObjects.Food;
-import Model.HotelObjects.Registration;
-import Model.HotelObjects.Service;
 import Model.HotelObjects.RoomRelated.Room;
-import Model.HotelObjects.RoomRelated.RoomFares;
 
 public class Hotel {
     // atributos
@@ -30,20 +23,12 @@ public class Hotel {
     private FoodDataHandler restaurantHandler = new FoodDataHandler(new File("App/data/foodInfo.json"));
     private UsersDataHandler userHandler = new UsersDataHandler(new File("App/data/users.json"));
 
-    //private BookingsDataHandler bookingsHandler = new BookingsDataHandler(new File("App/data/bookings.json"));
-    private RegistrationDataHandler registrationHandler = new RegistrationDataHandler(new File("App/data/registrations.json"));
-
-    private RegisterHandler registerHandler = new RegisterHandler();
-
-    private Map<Object,Room> roomsList;
-    private Map<Object, RoomFares> roomFaresList;
-    private Map<Object,Service> servicesList;
-    private Map<Object,Food> foodList;
-    private Map<Object, Booking> bookingList;
-    private Map<Object, Registration> registrationList;
-
     private BookingsDataHandler bookingsHandler = new BookingsDataHandler(new File("App/data/bookings.json"));
-    //private RegistrationDataHandler registrationHandler = new RegistrationDataHandler(new File("App/data/registrations.json"));
+    private RegistrationDataHandler registrationHandler = new RegistrationDataHandler(
+            new File("App/data/registrations.json"));
+
+    // private RegistrationDataHandler registrationHandler = new
+    // RegistrationDataHandler(new File("App/data/registrations.json"));
 
     // metodos
 
@@ -71,21 +56,14 @@ public class Hotel {
         return userHandler;
     }
 
-    private ArrayList<Room> getRoomsWithCapacity(int capacity) {
-
-        ArrayList<Room> roomWithCapacity = new ArrayList<Room>();
-        for (Room room : this.roomsHandler.getData().values()) {
-            if (room.getCapacity() >= capacity)
-                roomWithCapacity.add(room);
-        }
-
-        return roomWithCapacity;
+    public BookingsDataHandler getBookingsHandler() {
+        return bookingsHandler;
     }
 
-    public Map<String, Room> getFreeRooms(int capacity) {
+    public Map<String, Room> getFreeRooms() {
         Map<String, Room> freeRooms = new HashMap<String, Room>();
 
-        for (Room room : getRoomsWithCapacity(capacity)) {
+        for (Room room : this.roomsHandler.getData().values()) {
             if (!room.getIsOcupied())
                 freeRooms.put(room.getRoomId(), room);
         }
@@ -93,9 +71,9 @@ public class Hotel {
         return freeRooms;
     }
 
-    public Map<String, Room> getNotBookedRooms(LocalDate initialDate, LocalDate finalDate, int capacity) {
+    public Map<String, Room> getNotBookedRooms(LocalDate initialDate, LocalDate finalDate) {
         Map<String, Room> freeRooms = new HashMap<String, Room>();
-        for (Room room : getRoomsWithCapacity(capacity)) {
+        for (Room room : this.roomsHandler.getData().values()) {
             for (Map.Entry<LocalDate, LocalDate> roomBookedDates : room.getBookedDates().entrySet()) {
                 LocalDate bookedInitialDate = roomBookedDates.getKey();
                 LocalDate bookedFinalDate = roomBookedDates.getValue();

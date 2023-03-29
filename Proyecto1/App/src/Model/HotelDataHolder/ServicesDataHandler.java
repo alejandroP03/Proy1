@@ -3,19 +3,14 @@ package Model.HotelDataHolder;
 import java.io.File;
 import java.io.FileReader;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 
-import Model.HotelObjects.Food;
-import Model.HotelObjects.RoomRelated.RoomFares;
-import Model.HotelObjects.RoomRelated.RoomFeatures;
-import Model.HotelObjects.Service;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import Model.HotelObjects.Service;
 
 public class ServicesDataHandler extends HotelDataHolder<Service> {
 
@@ -23,14 +18,13 @@ public class ServicesDataHandler extends HotelDataHolder<Service> {
         super(roomsJSONFile);
     }
 
-    public void createNewService(int id,
-                                String name,
-                              double price,
-                              boolean isForGroup,
-                              ArrayList<DayOfWeek> daysAvailable,
-                              LocalTime initialTime,
-                              LocalTime finalTime
-    ) throws Exception{
+    public void createNewService(String id,
+            String name,
+            double price,
+            boolean isForGroup,
+            ArrayList<DayOfWeek> daysAvailable,
+            LocalTime initialTime,
+            LocalTime finalTime) throws Exception {
         /*
          * Crea una nuevo servicio y la almacena en la estructura que
          * guarda los servicios
@@ -42,18 +36,19 @@ public class ServicesDataHandler extends HotelDataHolder<Service> {
          * El archivo debe cargarse antes de crear una nuevo servicio
          *
          */
-        if (super.getIsFileLoaded()){
+        if (super.getIsFileLoaded()) {
             Map<Object, Service> services = super.getData();
-            Service newService =new Service(id, name,price,isForGroup,daysAvailable,initialTime, finalTime);
+            Service newService = new Service(id, name, price, isForGroup, daysAvailable, initialTime, finalTime);
             int getId = getServiceId(services);
-            services.put(getId,newService);
+            services.put(getId, newService);
 
         } else {
             throw new Exception("El archivo debe cargarse antes de crear un nuevo objeto");
         }
     }
+
     private int getServiceId(Map<Object, Service> serviceList) {
-        return  (serviceList.size() + 1);
+        return (serviceList.size() + 1);
     }
 
     @Override
@@ -76,7 +71,7 @@ public class ServicesDataHandler extends HotelDataHolder<Service> {
 
         if (super.getData().isEmpty()) {
             for (Map.Entry<String, JSONObject> serviceEntry : objMap.entrySet()) {
-                int id = (int) serviceEntry.getValue().get("id");
+                String id = (String) serviceEntry.getValue().get("id");
                 String name = (String) serviceEntry.getValue().get("name");
                 double price = (double) serviceEntry.getValue().get("price");
                 boolean isForGroup = (boolean) serviceEntry.getValue().get("isForGroup");
@@ -86,23 +81,21 @@ public class ServicesDataHandler extends HotelDataHolder<Service> {
                 ArrayList<String> daysString = (ArrayList<String>) serviceEntry.getValue().get("daysAvailable");
 
                 ArrayList<DayOfWeek> daysArray = new ArrayList<DayOfWeek>();
-                for(String day: daysString){
+                for (String day : daysString) {
                     daysArray.add(DayOfWeek.valueOf(day.toUpperCase()));
 
                 }
 
                 Map<Object, Service> services = super.getData();
-                Service newService =new Service(id, name,price,isForGroup,daysArray,initialTime, finalTime);
-
+                Service newService = new Service(id, name, price, isForGroup, daysArray, initialTime, finalTime);
 
                 services.put(id, newService);
             }
 
             super.setFileLoaded(!super.getIsFileLoaded());
-        } else{
+        } else {
             throw new Exception("La lista de comidas tiene elementos");
         }
-
 
     }
 

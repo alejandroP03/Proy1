@@ -11,7 +11,7 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
     }
 
     @Override
-    public void loadPersistentData(File dataFile) {
+    public void loadPersistentData() {
         // TODO Auto-generated method stub
     }
 }

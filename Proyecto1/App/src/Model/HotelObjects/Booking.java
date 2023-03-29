@@ -9,8 +9,6 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import Model.HotelObjects.RoomRelated.Room;
-
 public class Booking implements HotelObject {
     // Atributos
     private String reserviourName;
@@ -21,7 +19,7 @@ public class Booking implements HotelObject {
     private int numberOfGuests;
     private LocalDate initialDate;
     private LocalDate finalDate;
-    private Map<String, Room> reservedRooms;
+    private List<String> reservedRoomsIds;
 
     // constructor
     public Booking(String reserviourName, String reserviourDNI, String reserviourPhone, String reserviourEmail,
@@ -34,19 +32,19 @@ public class Booking implements HotelObject {
         this.numberOfGuests = numberOfGuests;
         this.finalDate = finalDate;
         this.initialDate = initialDate;
-        this.reservedRooms = new HashMap<String, Room>();
+        this.reservedRoomsIds = new ArrayList<String>();
     }
 
-    public void setReservedRooms(Map<String, Room> reservedRooms) {
-        this.reservedRooms = reservedRooms;
+    public void setReservedRooms(List<String> reservedRoomsIds) {
+        this.reservedRoomsIds = reservedRoomsIds;
     }
 
-    public Map<String, Room> getReservedRooms() {
-        return reservedRooms;
+    public List<String> getReservedRoomsIds() {
+        return reservedRoomsIds;
     }
 
-    public void addReservedRoom(Room newRoom) {
-        this.reservedRooms.put(newRoom.getRoomId(), newRoom);
+    public void addReservedRoom(String roomId) {
+        this.reservedRoomsIds.add(roomId);
     }
 
     public String getReserviourName() {
@@ -91,8 +89,8 @@ public class Booking implements HotelObject {
         bookingData.put("reserviourName", reserviourName);
 
         List<String> reservedRoomsIds = new ArrayList<String>();
-        for (Room room : reservedRooms.values()) {
-            reservedRoomsIds.add(room.getRoomId());
+        for (String roomId : reservedRoomsIds) {
+            reservedRoomsIds.add(roomId);
         }
         bookingData.put("reservedRoomsIds", (JSONArray) reservedRoomsIds);
 

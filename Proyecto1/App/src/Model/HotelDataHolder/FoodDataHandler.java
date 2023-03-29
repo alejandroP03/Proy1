@@ -18,7 +18,7 @@ public class FoodDataHandler extends HotelDataHolder<Food> {
     }
 
 
-    public void createNewFood(int id, String name, double price, boolean isRoomService, String availability) throws Exception{
+    public void createNewFood(String id, String name, double price, boolean isRoomService, String availability) throws Exception{
         /*
          * Crea una nueva comida y la almacena en la estructura que
          * guarda las comidas
@@ -32,7 +32,7 @@ public class FoodDataHandler extends HotelDataHolder<Food> {
          */
         if (super.getIsFileLoaded()){
             Map<Object, Food> menu = super.getData();
-            Food newFood =new Food(id, name, price,isRoomService, availability);
+            Food newFood = new Food(id, name, price,isRoomService, availability);
             int getId = getFoodId(menu);
             menu.put(getId,newFood);
         } else {
@@ -73,7 +73,7 @@ public class FoodDataHandler extends HotelDataHolder<Food> {
 
             if (super.getData().isEmpty()) {
                 for (Map.Entry<String, JSONObject> foodEntry : objMap.entrySet()) {
-                    int foodId = (int) foodEntry.getValue().get("id");
+                    String foodId = (String) foodEntry.getValue().get("id");
                     String name = (String) foodEntry.getValue().get("name");
                     double price = (double) foodEntry.getValue().get("price");
                     boolean isRoomService = (boolean) foodEntry.getValue().get("isRoomService");
@@ -84,9 +84,6 @@ public class FoodDataHandler extends HotelDataHolder<Food> {
                     Food newFood = new Food(foodId,name,price,isRoomService,availability);
 
                     menu.put(foodId,newFood);
-
-
-
                 }
 
                 super.setFileLoaded(!super.getIsFileLoaded());
