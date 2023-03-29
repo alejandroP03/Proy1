@@ -7,16 +7,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Controller.RegisterHandler.RegisterHandler;
-import Model.HotelDataHolder.*;
-import Model.HotelObjects.*;
-
 import Model.HotelDataHolder.BookingsDataHandler;
 import Model.HotelDataHolder.FaresDataHandler;
 import Model.HotelDataHolder.FoodDataHandler;
 import Model.HotelDataHolder.RegistrationDataHandler;
 import Model.HotelDataHolder.RoomsDataHandler;
 import Model.HotelDataHolder.ServicesDataHandler;
-
+import Model.HotelDataHolder.UsersDataHandler;
+import Model.HotelObjects.Booking;
+import Model.HotelObjects.Food;
+import Model.HotelObjects.Registration;
+import Model.HotelObjects.Service;
 import Model.HotelObjects.RoomRelated.Room;
 import Model.HotelObjects.RoomRelated.RoomFares;
 
@@ -27,6 +28,7 @@ public class Hotel {
     private FaresDataHandler faresHandler = new FaresDataHandler(new File("App/data/room_fares.json"));
     private ServicesDataHandler servicesHandler = new ServicesDataHandler(new File("App/data/services.json"));
     private FoodDataHandler restaurantHandler = new FoodDataHandler(new File("App/data/foodInfo.json"));
+    private UsersDataHandler userHandler = new UsersDataHandler(new File("App/data/users.json"));
 
     //private BookingsDataHandler bookingsHandler = new BookingsDataHandler(new File("App/data/bookings.json"));
     private RegistrationDataHandler registrationHandler = new RegistrationDataHandler(new File("App/data/registrations.json"));
@@ -60,6 +62,14 @@ public class Hotel {
 
     public FaresDataHandler getFaresHandler() {
         return faresHandler;
+    }
+
+    public RegistrationDataHandler getRegistrationHandler() {
+        return registrationHandler;
+    }
+
+    public UsersDataHandler getUserHandler() {
+        return userHandler;
     }
 
     private ArrayList<Room> getRoomsWithCapacity(int capacity) {

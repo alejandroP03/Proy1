@@ -1,63 +1,72 @@
 package Controller.WorkersAuth;
 
-import Model.HotelDataHolder.UsersDataHandler;
-import Model.HotelObjects.*;
-import org.json.simple.JSONObject;
-
-
-
 import java.util.Map;
-import java.io.File;
 
+import Model.HotelObjects.Admin;
+import Model.HotelObjects.Employee;
+import Model.HotelObjects.Receptionist;
+import Model.HotelObjects.User;
+import Model.HotelObjects.UserType;
 
 public class HotelWorkersAuth {
 
-    public HotelWorkersAuth(){}
-
-
+    public HotelWorkersAuth() {
+    }
 
     // methods
-    public User login(String userName, String password, UserType userType, Map<Object, User> usersList) throws Exception {
+    public User login(String userName, String password, UserType userType, Map<Object, User> usersList)
+            throws Exception {
         /*
-        * Comprueba que el usuario que va a iniciar sesión existe en la lista de usuarios, de ser así,
-        * lo retorna <br>
-        *
-        * <b> pre: </b> La estructura ya debe estar cargada
-        * <b> post: </b> Se retorna el usuario
-        *
-        * @throws Exception <br>
-        * El usuario no se encuentra registrado
+         * Comprueba que el usuario que va a iniciar sesión existe en la lista de
+         * usuarios, de ser así,
+         * lo retorna <br>
+         *
+         * <b> pre: </b> La estructura ya debe estar cargada
+         * <b> post: </b> Se retorna el usuario
+         *
+         * @throws Exception <br>
+         * Nombre de usuario o contraseña inválido
+         *
+         *
+         * @throws Exception <br>
+         * El usuario no se encuentra registrado
          */
 
         User newUser;
-        if(userExists(userName,password,userType, usersList)){
+        if (userExists(userName, password, userType, usersList)) {
+            if (!(userName.isBlank() || password.isBlank())) {
+                if (userType.equals(UserType.ADMIN)) {
+                    newUser = new Admin(userName, password);
+                    return newUser;
 
-            if(userType.equals(UserType.ADMIN)){
-                newUser = new Admin(userName, password);
-                return newUser;
+                } else if (userType.equals(UserType.RECEPTIONIST)) {
+                    newUser = new Receptionist(userName, password);
+                    return newUser;
 
-            } else if(userType.equals(UserType.RECEPTIONIST)){
-                newUser = new Receptionist(userName, password);
-                return newUser;
+                } else if (userType.equals(UserType.EMPLOYEE)) {
+                    newUser = new Employee(userName, password);
+                    return newUser;
 
-            } else if(userType.equals(UserType.EMPLOYEE)){
-                newUser = new Employee(userName,password);
-                return newUser;
+                }
 
-
+            } else {
+                throw new Exception("Nombre de usuario invalido o contraseña inválido");
             }
+
         } else {
-            throw new Exception("El usuario no se encuentra registrado");
+            throw new Exception(
+                    "Nombre de usuario invalido o contraseña incorrecto (Verifique si se encuentra registrado)");
 
         }
         return null;
 
-
     }
 
-    public User register(String userName, String password, UserType userType, Map<Object, User> usersList) throws Exception {
+    public User register(String userName, String password, UserType userType, Map<Object, User> usersList)
+            throws Exception {
         /*
-         * Comprueba que el usuario que se va a registrar no existe en la lista de usuarios, de ser así,
+         * Comprueba que el usuario que se va a registrar no existe en la lista de
+         * usuarios, de ser así,
          * lo retorna <br>
          *
          * <b> pre: </b> La estructura ya debe estar cargada
@@ -65,26 +74,34 @@ public class HotelWorkersAuth {
          *
          * @throws Exception <br>
          * El usuario ya se encuentra registrado
+         * 
+         * * @throws Exception <br>
+         * Nombre de usuario invalido o contraseña invalido
+         * 
          */
         User newUser;
-        if(!userExists(userName,password,userType,usersList)){
+        if (!userExists(userName, password, userType, usersList)) {
 
-            if(userType.equals(UserType.ADMIN)){
-                newUser = new Admin(userName, password);
-                usersList.put(newUser.getUserName(),newUser);
-                return newUser;
+            if (!(userName.isBlank() || password.isBlank())) {
 
-            } else if(userType.equals(UserType.RECEPTIONIST)){
-                newUser = new Receptionist(userName, password);
-                usersList.put(newUser.getUserName(),newUser);
-                return newUser;
+                if (userType.equals(UserType.ADMIN)) {
+                    newUser = new Admin(userName, password);
+                    usersList.put(newUser.getUserName(), newUser);
+                    return newUser;
 
-            } else if(userType.equals(UserType.EMPLOYEE)){
-                newUser = new Employee(userName,password);
-                usersList.put(newUser.getUserName(),newUser);
-                return newUser;
+                } else if (userType.equals(UserType.RECEPTIONIST)) {
+                    newUser = new Receptionist(userName, password);
+                    usersList.put(newUser.getUserName(), newUser);
+                    return newUser;
 
+                } else if (userType.equals(UserType.EMPLOYEE)) {
+                    newUser = new Employee(userName, password);
+                    usersList.put(newUser.getUserName(), newUser);
+                    return newUser;
 
+                }
+            } else {
+                throw new Exception("Nombre de usuario invalido o contraseña invalido");
             }
         } else {
             throw new Exception("El usuario ya se encuentra registrado");
@@ -94,10 +111,11 @@ public class HotelWorkersAuth {
 
     }
 
-    public boolean userExists(String userName, String password, UserType userType, Map<Object, User> usersList){
+    public boolean userExists(String userName, String password, UserType userType, Map<Object, User> usersList) {
         /*
-         * Función auxiliar de login y register. Comprueba que el usuario existe en la lista de usuarios, de ser así,
-         * retorna true.  <br>
+         * Función auxiliar de login y register. Comprueba que el usuario existe en la
+         * lista de usuarios, de ser así,
+         * retorna true. <br>
          *
          * <b> pre: </b> La estructura ya debe estar cargada
          * <b> post: </b> Se retorna un booleano que indica si el usuario existe o no
@@ -105,23 +123,20 @@ public class HotelWorkersAuth {
          */
         boolean exists = false;
 
-
-        for (Map.Entry<Object, User> userEntry : usersList.entrySet()){
+        for (Map.Entry<Object, User> userEntry : usersList.entrySet()) {
 
             String localUserName = (String) userEntry.getKey();
             User localUser = userEntry.getValue();
             String localPassword = localUser.getPassword();
             UserType localUserType = localUser.getUserType();
 
-            if(userName.equals(localUserName) && password.equals(localPassword) && userType.equals(localUserType)) {
+            if (userName.equals(localUserName) && password.equals(localPassword) && userType.equals(localUserType)) {
                 exists = true;
             }
-
 
         }
 
         return exists;
     }
-
 
 }

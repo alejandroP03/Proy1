@@ -12,10 +12,12 @@ import java.util.Map;
 import java.util.Set;
 
 import Controller.Hotel;
+import Controller.WorkersAuth.HotelWorkersAuth;
 import Model.HotelObjects.Admin;
 import Model.HotelObjects.Employee;
 import Model.HotelObjects.Receptionist;
 import Model.HotelObjects.User;
+import Model.HotelObjects.UserType;
 import Model.HotelObjects.RoomRelated.Bed;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.TypeRoom;
@@ -33,26 +35,30 @@ public class App {
         instanceApp.showTypeUser();
 
     }
-    // ----------------------  Autenticacion en la App de Hoteles----------------------
-    /*
-     * Autentica a los usuarios del Hotel (Recepcionista, Administrador, Empleado) <br>
-     * <b>pre:</b> El archivo de usuarips ya esta inicializado
-     * <b>post:</b> Un usuario inicia sesion o se registra en el hotel
-     *
-     * @throw Exception <br>
-     *          1. Si se registra un usuario con las mismas credenciales
-     *          2. Si se loggea con datos que no existen
-     *
 
-     *
-     */
-    private  void authApp() throws Exception {
+    private void authApp() throws Exception {
+        /*
+         * Autentica a los usuarios del Hotel (Recepcionista, Administrador, Empleado)
+         * <br>
+         * <b>pre:</b> El archivo de usuarips ya esta inicializado
+         * <b>post:</b> Un usuario inicia sesion o se registra en el hotel
+         *
+         * @throw Exception <br>
+         * 1. Si se registra un usuario con las mismas credenciales
+         * 2. Si se loggea con datos que no existen
+         *
+         *
+         * 
+         */
+
+        HotelWorkersAuth authHandler = new HotelWorkersAuth();
+
         System.out.println("1. Registrarse");
         System.out.println("2. Iniciar sesion");
         System.out.print("Ingrese la opcion deseada: ");
         String opcionStr = br.readLine();
         int opcion = Integer.parseInt(opcionStr);
-        if (opcion == 1){
+        if (opcion == 1) {
             System.out.println(" ");
             System.out.println("----- Registro  -----");
             System.out.println("Como desea registrarse?");
@@ -62,73 +68,103 @@ public class App {
             System.out.print("Ingrese la opcion deseada: ");
             String registroStr = br.readLine();
             int registro = Integer.parseInt(registroStr);
-            if (registro == 1){
-                System.out.println("Ingrese sus datos de Administrador:");
-                //TODO falta crear el Auth usuarios
+
+            System.out.println("Nombre de usuario: ");
+            String userName = br.readLine();
+            System.out.println("Contraseña: ");
+            String password = br.readLine();
+            if (registro == 1) {
+                try {
+                    authHandler.register(userName, password, UserType.ADMIN, hotel.getUserHandler().getData());    
+                } catch (Exception e) {
+                    System.out.println(e);
+                    authApp();
+                }
                 showAdminScreen();
+            } else if (registro == 2) {
+                try {
+                    authHandler.register(userName, password, UserType.EMPLOYEE, hotel.getUserHandler().getData());    
+                } catch (Exception e) {
+                    System.out.println(e);
+                    authApp();
+                }
+                
+                showEmployeeScreen();
 
-            }else if(registro == 2){
-                System.out.println("Ingrese sus datos de Empleado:");
-                //TODO falta crear el Auth usuarios
-
-            }else if(registro == 3){
-                System.out.println("Ingrese sus datos de recepcionista:");
-                //TODO falta crear el Auth usuarios
-
+            } else if (registro == 3) {
+                try {
+                    authHandler.register(userName, password, UserType.RECEPTIONIST, hotel.getUserHandler().getData());    
+                } catch (Exception e) {
+                    System.out.println(e);
+                    authApp();
+                }
+                
+                showRecepcionistScreen();
             }
-        }else if(opcion == 2){
+
+        } else if (opcion == 2) {
             System.out.println(" ");
             System.out.println("----- Inicio de sesion  -----");
             System.out.print("Ingrese su usuario: ");
             String usuarioStr = br.readLine();
-            //TODO llamar la funcion que verifica el login de un usuario
+            // TODO llamar la funcion que verifica el login de un usuario
+            
 
             System.out.print("Ingrese su contrasena: ");
             String contrasenaStr = br.readLine();
-            // TODO implementar if que de acceso o denegue la entrada al usuario
+            
+            try {
+                authHandler.login(opcionStr, usuarioStr, null, hotel.getUserHandler().getData())
+            } catch (Exception e) {
+                System.out.println(e);
+                authApp();
+            }
 
         }
 
     }
 
-    // ----------------------  Comprobacion tipo de usuario ----------------------
+    // ---------------------- Comprobacion tipo de usuario ----------------------
 
     /*
-     * Se comprueba que tipo de usuario se registro o inicio sesion dentro del hotel <br>
+     * Se comprueba que tipo de usuario se registro o inicio sesion dentro del hotel
+     * <br>
      * <b>pre:</b> El usuario se registro o inicio sesion dentro de la aplicacion
-     * <b>post:</b> Se verifica que tipo de pantalla se le va a mostrar al usuario segun sea.
+     * <b>post:</b> Se verifica que tipo de pantalla se le va a mostrar al usuario
+     * segun sea.
      *
      * @throw Exception <br>
-     *          1. No se cargo el archivo en donde se encuentran los usuarios
+     * 1. No se cargo el archivo en donde se encuentran los usuarios
      *
      *
      */
-    private  void showTypeUser() throws Exception {
-        if (activeUser instanceof Admin){
+    private void showTypeUser() throws Exception {
+        if (activeUser instanceof Admin) {
             showAdminScreen();
 
-        }else if(activeUser instanceof Receptionist){
+        } else if (activeUser instanceof Receptionist) {
             showRecepcionistScreen();
 
-        }else if(activeUser instanceof Employee){
+        } else if (activeUser instanceof Employee) {
             showEmployeeScreen();
 
         }
     }
 
-
-    // ----------------------   Pantalla para el Administrador ----------------------
+    // ---------------------- Pantalla para el Administrador ----------------------
     /*
      * Se le muestra al administrador las funciones que puede realizar <br>
-     * <b>pre:</b> El usuario se registro o inicio sesion dentro de la aplicacion y es administrador el hotel
-     * <b>post:</b> El administrasdor elegir cuales funciones puede hacer, como cargar habitaciones, servicios...etc
+     * <b>pre:</b> El usuario se registro o inicio sesion dentro de la aplicacion y
+     * es administrador el hotel
+     * <b>post:</b> El administrasdor elegir cuales funciones puede hacer, como
+     * cargar habitaciones, servicios...etc
      *
      * @throw Exception <br>
-     *          1. El usuario no es un administrador
+     * 1. El usuario no es un administrador
      *
      *
      */
-    private  void showAdminScreen() throws Exception {
+    private void showAdminScreen() throws Exception {
         System.out.println("------  Inicio como administrador ------- ");
         System.out.println("1. Crear habitaciones (manual) ");
         System.out.println("2. Cargar archivo habitaciones");
@@ -142,44 +178,46 @@ public class App {
         System.out.print("Ingrese una opcion: ");
         String opcionStr = br.readLine();
         int opcion = Integer.parseInt(opcionStr);
-        if(opcion == 1){
+        if (opcion == 1) {
             System.out.println("Crear nueva habitacion");
             createRoom();
-        }else if(opcion == 2){
+        } else if (opcion == 2) {
             System.out.println("Cargar archivo habitaciones");
             loadDataRooms();
-        }else if(opcion == 3){
+        } else if (opcion == 3) {
             System.out.println("Cargar tarifas");
-            //TODO hacer funcion para cargar las tarifas
-        }else if(opcion == 4){
+            // TODO hacer funcion para cargar las tarifas
+        } else if (opcion == 4) {
             System.out.println("Consultar inventario de habitaciones");
-            //TODO hacer la consulta de las habitaciones en RoomsDataHolder con RoomDataHolder
-        }else if(opcion == 5){
+            // TODO hacer la consulta de las habitaciones en RoomsDataHolder con
+            // RoomDataHolder
+        } else if (opcion == 5) {
             System.out.println("Crear servicios (manual)");
             createService();
 
-        }else if(opcion == 6){
+        } else if (opcion == 6) {
             System.out.println("Cargar archivo de servcios");
             loadServices();
 
-        }else if(opcion == 7){
+        } else if (opcion == 7) {
             System.out.println("Ingresar informacion de comidas para el restaurante");
             createMenuRestaurant();
-        }else if(opcion == 8){
+        } else if (opcion == 8) {
             System.out.println("Cargar informacion menu completa del restaurante");
             loadMenuRestaurant();
 
         }
     }
-    // ----------------------  Funciones para el adminsitrador ----------------------
+    // ---------------------- Funciones para el adminsitrador ----------------------
 
     /*
      * El administrador crea una o varias habitaciones <br>
      * <b>pre:</b> El archivo de habitaciones debe estar inicializado
-     * <b>post:</b> El administrador carga las caracteristicas de las nuevas habitaciones
+     * <b>post:</b> El administrador carga las caracteristicas de las nuevas
+     * habitaciones
      *
      * @throw Exception <br>
-     *          1. No se inicializa el archivo donde se guardan los datos de las habitaciones
+     * 1. No se inicializa el archivo donde se guardan los datos de las habitaciones
      *
      *
      */
@@ -193,22 +231,22 @@ public class App {
         RoomFeatures[] typeFeeatures = RoomFeatures.values();
         TypeRoom[] typeRooms = TypeRoom.values();
 
-        Map<Bed,Integer> mapBeds = new HashMap<Bed,Integer>();
+        Map<Bed, Integer> mapBeds = new HashMap<Bed, Integer>();
         Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
 
-        for(int i = 0; i <= numRooms; i++){
-            System.out.println("----------- Datos para la "+(i+1) +" habitacion -----------");
+        for (int i = 0; i <= numRooms; i++) {
+            System.out.println("----------- Datos para la " + (i + 1) + " habitacion -----------");
             System.out.print("Ingrese la ubicacion de la habitacion: ");
             String location = br.readLine();
             boolean isMoreBeds = true;
 
-            // Creacion del mapa  para las camas
+            // Creacion del mapa para las camas
 
-            while(isMoreBeds){
+            while (isMoreBeds) {
                 System.out.println("Tipos de cama disponibles para agregar");
                 int x = 1;
-                for (Bed typeRoom : typeBeds ) {
-                    System.out.println(x+"."+ typeRoom);
+                for (Bed typeRoom : typeBeds) {
+                    System.out.println(x + "." + typeRoom);
                     x++;
                 }
 
@@ -219,25 +257,25 @@ public class App {
                 System.out.print("Cuantas camas de este tipo desea agregar? : ");
                 String numBedsStr = br.readLine();
                 int numBeds = Integer.parseInt(numBedsStr);
-                mapBeds.put(bedChoose,numBeds);
+                mapBeds.put(bedChoose, numBeds);
 
-                System.out.println(numBeds +" camas de tipo "+ bedChoose + " han sido agregadas");
+                System.out.println(numBeds + " camas de tipo " + bedChoose + " han sido agregadas");
 
                 System.out.println("Desea agregar mas tipos de cama?");
                 System.out.println("1.Si \n 2.No ");
                 String isMoreBedsStr = br.readLine();
                 int moreBeds = Integer.parseInt(isMoreBedsStr);
-                if(moreBeds == 2){
+                if (moreBeds == 2) {
                     break;
                 }
             }
             // Creacion del set para las caracteristicas
 
-            while(isMoreBeds){
+            while (isMoreBeds) {
                 System.out.println("Caracteristicas posibles para la habitacion:");
                 int x = 1;
-                for (RoomFeatures typeFeature : typeFeeatures ) {
-                    System.out.println(x+"."+ typeFeature);
+                for (RoomFeatures typeFeature : typeFeeatures) {
+                    System.out.println(x + "." + typeFeature);
                     x++;
                 }
                 System.out.print("Elija el tipo de caracteristica que tendra la habitacion: ");
@@ -246,13 +284,13 @@ public class App {
                 RoomFeatures featuresChoose = typeFeeatures[chooseFeature];
                 featuresList.add(featuresChoose);
 
-                System.out.println("La caracteristica "+featuresChoose+" ha sido agregada");
+                System.out.println("La caracteristica " + featuresChoose + " ha sido agregada");
 
                 System.out.println("Desea agregar mas caracterisitcas a la habitacion?");
                 System.out.println("1.Si \n 2. No ");
                 String isMoreFeaturesStr = br.readLine();
                 int moreFeatures = Integer.parseInt(isMoreFeaturesStr);
-                if(moreFeatures == 2){
+                if (moreFeatures == 2) {
                     break;
                 }
             }
@@ -260,58 +298,61 @@ public class App {
 
             System.out.println("Tipos posibles para la habitacion: ");
             int x = 1;
-            for (TypeRoom typeRoom: typeRooms ){
-                System.out.println(x+"."+ typeRoom);
+            for (TypeRoom typeRoom : typeRooms) {
+                System.out.println(x + "." + typeRoom);
                 x++;
             }
             System.out.print("Elija el tipo de la habitacion: ");
             String chooseTypeStr = br.readLine();
-            int chooseType= Integer.parseInt(chooseTypeStr);
+            int chooseType = Integer.parseInt(chooseTypeStr);
             TypeRoom typeChoose = typeRooms[chooseType];
             System.out.println("La habitacion nueva sera: " + typeChoose);
 
-            hotel.getRoomsHandler().createNewRoom(location,false,mapBeds,featuresList,typeChoose);
+            hotel.getRoomsHandler().createNewRoom(location, false, mapBeds, featuresList, typeChoose);
 
         }
-        try{
+        try {
             createRoom();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
 
     }
 
     /*
-     * El administrador tiene la oportunidad de cargar un archivo con datos de varias habitaciones<br>
+     * El administrador tiene la oportunidad de cargar un archivo con datos de
+     * varias habitaciones<br>
      * <b>pre:</b> El archivo con los datos de las habitaciones
      * <b>post:</b> Se guarda en el hotel las nuevas habitaciones caragadas
      *
      * @throw Exception <br>
-     *          1. no se inicializa el archivo que contiene los datos de las nuevas habitaciones
+     * 1. no se inicializa el archivo que contiene los datos de las nuevas
+     * habitaciones
      *
      *
      */
     private void loadDataRooms() throws Exception {
         hotel.getRoomsHandler().loadPersistentData();
-        try{
+        try {
             loadDataRooms();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
-    // Metodo que carga las tarifas ???
-    private void loadFares(){
 
+    // Metodo que carga las tarifas ???
+    private void loadFares() {
 
     }
 
     /*
      * El administrador tiene la oportunidad de cargar un nuevos servicios <br>
-     * <b>pre:</b> Se debe inicializar el archivo donde se van a guardar los nuevos servicios
+     * <b>pre:</b> Se debe inicializar el archivo donde se van a guardar los nuevos
+     * servicios
      * <b>post:</b> Se guarda en el hotel los nuevos servicios agregagados
      *
      * @throw Exception <br>
-     *          1. no se inicializa el archivo que guarda los neuvos datos de los servicios
+     * 1. no se inicializa el archivo que guarda los neuvos datos de los servicios
      *
      *
      */
@@ -320,42 +361,43 @@ public class App {
         System.out.println("------ Crear servicio ------- ");
         System.out.println("Ingrese el id del servicio: ");
         String idStr = br.readLine();
-        int id= Integer.parseInt(idStr);
+        int id = Integer.parseInt(idStr);
         System.out.print("Ingrese el nombre del serivicio: ");
         String name = br.readLine();
         System.out.print("Ingrese el precio del servicio: ");
         String precioStr = br.readLine();
-        double precio= Double.parseDouble(precioStr);
+        double precio = Double.parseDouble(precioStr);
 
         System.out.println("El servicio es para varias personas? ");
         System.out.println("1.Si \n2. No ");
         String isGroupStr = br.readLine();
-        int isGroup= Integer.parseInt(isGroupStr);
-        boolean isForGroup ;
-        if(isGroup == 1){
+        int isGroup = Integer.parseInt(isGroupStr);
+        boolean isForGroup;
+        if (isGroup == 1) {
             isForGroup = true;
-        }else  isForGroup = false;
+        } else
+            isForGroup = false;
 
         System.out.println("Que dias a la semana va a estar disponible el servicio?");
         DayOfWeek[] daysWeek = DayOfWeek.values();
         Set<DayOfWeek> daySet = new HashSet<DayOfWeek>();
-        while(true){
+        while (true) {
             int x = 1;
-            for (DayOfWeek dayWeek : daysWeek ) {
-                System.out.println(x+"."+ dayWeek);
+            for (DayOfWeek dayWeek : daysWeek) {
+                System.out.println(x + "." + dayWeek);
                 x++;
             }
             System.out.print("Ingrese el dia a la semana que desea agregar: ");
             String dayWeekStr = br.readLine();
-            int dayWeek= Integer.parseInt(dayWeekStr);
+            int dayWeek = Integer.parseInt(dayWeekStr);
             DayOfWeek dayChoose = daysWeek[dayWeek];
             daySet.add(dayChoose);
 
             System.out.println("Desea ingresar otro dia?");
             System.out.println("1.Si \n 2. No ");
             String otherDayStr = br.readLine();
-            int otherDay= Integer.parseInt(otherDayStr);
-            if(otherDay == 2){
+            int otherDay = Integer.parseInt(otherDayStr);
+            if (otherDay == 2) {
                 break;
             }
 
@@ -372,38 +414,40 @@ public class App {
         LocalTime finalDate = LocalTime.of(finalDateOption, 0);
 
         ArrayList<DayOfWeek> dayList = new ArrayList<DayOfWeek>(daySet);
-        hotel.getServices().createNewService(id, name,precio,isForGroup,dayList,initialDate,finalDate);
-
+        hotel.getServices().createNewService(id, name, precio, isForGroup, dayList, initialDate, finalDate);
 
     }
 
     /*
-     * El administrador tiene la oportunidad de cargar un archivo con datos de varios servicios<br>
+     * El administrador tiene la oportunidad de cargar un archivo con datos de
+     * varios servicios<br>
      * <b>pre:</b> El archivo con los datos de los servicios
      * <b>post:</b> Se guarda en el hotel las nuevos servicios caragadoss
      *
      * @throw Exception <br>
-     *          1. no se inicializa el archivo que contiene los datos de las nuevos servicios
-     *          2. El archivo cargado no es un JSON
+     * 1. no se inicializa el archivo que contiene los datos de las nuevos servicios
+     * 2. El archivo cargado no es un JSON
      *
      *
      */
     private void loadServices() throws Exception {
         hotel.getServices().loadPersistentData();
-        try{
+        try {
             loadServices();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
 
     /*
-     * El administrador tiene la oportunidad de ingresar nuevas comidas para el restaurante<br>
-     * <b>pre:</b> Se inicializa el archivo donde se va a guardar los nuevas comidas del restaurante
+     * El administrador tiene la oportunidad de ingresar nuevas comidas para el
+     * restaurante<br>
+     * <b>pre:</b> Se inicializa el archivo donde se va a guardar los nuevas comidas
+     * del restaurante
      * <b>post:</b> Se guarda en el restaurante las nuevas comidas disponibles
      *
      * @throw Exception <br>
-     *          1. no se inicializa el archivo donde se guardan las nuevas comidas agregadas
+     * 1. no se inicializa el archivo donde se guardan las nuevas comidas agregadas
      *
      *
      */
@@ -414,7 +458,7 @@ public class App {
         String idFoodStr = br.readLine();
         int idFood = Integer.parseInt(idFoodStr);
 
-        System.out.print ("Ingrese el nombre de la comida/bebida: ");
+        System.out.print("Ingrese el nombre de la comida/bebida: ");
         String nameFood = br.readLine();
 
         System.out.print("Ingrese el precio de la comida/bebida ");
@@ -434,48 +478,49 @@ public class App {
         String typeFoodStr = br.readLine();
         double optionFood = Integer.parseInt(typeFoodStr);
         String typeFood = null;
-        if(optionFood == 1){
-             typeFood = "Desayuno";
-        }else if(optionFood == 2){
-             typeFood = "Almuerzo";
-        }else if(optionFood == 3){
-             typeFood = "Cena";
+        if (optionFood == 1) {
+            typeFood = "Desayuno";
+        } else if (optionFood == 2) {
+            typeFood = "Almuerzo";
+        } else if (optionFood == 3) {
+            typeFood = "Cena";
         }
-        hotel.getRestaurantHandler().createNewFood(idFood,nameFood,priceFood,isRoomService,typeFood);
+        hotel.getRestaurantHandler().createNewFood(idFood, nameFood, priceFood, isRoomService, typeFood);
 
     }
+
     /*
      * El administrador carga el menu del restaurante por medio de un archivo<br>
      * <b>pre:</b> El archivo con los datos del menu
      * <b>post:</b> Se guarda en el hotel el menu guardado
      *
      * @throw Exception <br>
-     *          1. no se inicializa el archivo que contiene los datos de las nuevas habitaciones
+     * 1. no se inicializa el archivo que contiene los datos de las nuevas
+     * habitaciones
      *
      *
      *
      */
     private void loadMenuRestaurant() throws Exception {
         hotel.getRestaurantHandler().loadPersistentData();
-        try{
+        try {
             loadMenuRestaurant();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-
-
     /*
      * Se le muestra al recepcionista el menu de funciones que puede realizar<br>
-     * <b>pre:</b>  El inventario del hotel ya debe estar cargado para ser consultado
-     * <b>post:</b> El recepcionista puede ver que opciones puede ejecurtar dentro del hotel
+     * <b>pre:</b> El inventario del hotel ya debe estar cargado para ser consultado
+     * <b>post:</b> El recepcionista puede ver que opciones puede ejecurtar dentro
+     * del hotel
      *
      * @throw Exception <br>
-     *          1.  ????
+     * 1. ????
      *
      */
-    private  void showRecepcionistScreen() throws IOException {
+    private void showRecepcionistScreen() throws IOException {
         System.out.println("------  Inicio como administrador ------- ");
         System.out.println("1. Hacer una nueva reserva. ");
         System.out.println("2. Hacer un nuevo registro. ");
@@ -485,46 +530,38 @@ public class App {
         System.out.print("Ingrese una opcion: ");
         String opcionStr = br.readLine();
         int opcion = Integer.parseInt(opcionStr);
-        if (opcion ==1){
+        if (opcion == 1) {
 
-        }else if(opcion == 2){
+        } else if (opcion == 2) {
 
-        }else if(opcion == 3){
+        } else if (opcion == 3) {
 
-        }else if (opcion == 4){
+        } else if (opcion == 4) {
 
         }
 
     }
 
-    private void newBooking(){
+    private void newBooking() {
 
     }
-    private void newRegister(){
+
+    private void newRegister() {
         System.out.println(" ------ Hacer una nuevo registro -------");
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
     /*
      * Se le muestra al empleado el menu de funciones que puede realizar<br>
-     * <b>pre:</b>  El inventario de los servicios ya debe estar cargado para ser consultado
-     * <b>post:</b> El recepcionista puede ver que opciones puede ejecurtar dentro del hotel
+     * <b>pre:</b> El inventario de los servicios ya debe estar cargado para ser
+     * consultado
+     * <b>post:</b> El recepcionista puede ver que opciones puede ejecurtar dentro
+     * del hotel
      *
      * @throw Exception <br>
-     *          1.  ????
+     * 1. ????
      */
-    private static void showEmployeeScreen(){
+    private static void showEmployeeScreen() {
         System.out.println("Pantalla funciones de employee");
 
     }

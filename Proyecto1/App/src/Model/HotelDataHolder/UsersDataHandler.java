@@ -2,23 +2,16 @@ package Model.HotelDataHolder;
 
 import java.io.File;
 import java.io.FileReader;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-import Model.HotelObjects.HotelObject;
-import Model.HotelObjects.UserType;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import Model.HotelObjects.User;
 import Model.HotelObjects.Admin;
 import Model.HotelObjects.Employee;
 import Model.HotelObjects.Receptionist;
+import Model.HotelObjects.User;
+import Model.HotelObjects.UserType;
 
 public class UsersDataHandler extends HotelDataHolder<User> {
 
