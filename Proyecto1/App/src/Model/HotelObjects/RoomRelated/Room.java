@@ -47,6 +47,7 @@ public class Room extends RoomModel implements HotelObject {
     }
 
     public int getCapacity() {
+        capacity = 0;
         for (Map.Entry<Bed, Integer> bedEntry : beds.entrySet()) {
             capacity += bedEntry.getValue() * bedEntry.getKey().getBedSize();
         }
@@ -83,7 +84,14 @@ public class Room extends RoomModel implements HotelObject {
         roomData.put("location", this.getLocation());
         roomData.put("capacity", this.getCapacity());
         roomData.put("isOccupied", this.getIsOcupied());
-        roomData.put("bookedDates", this.getBookedDates());
+
+        Map<String, String> bookedJson = new HashMap<String, String>();
+        for (Map.Entry<LocalDate, LocalDate> ldEntry: this.getBookedDates().entrySet()) {
+            bookedJson.put(ldEntry.getKey().toString(), ldEntry.getValue().toString());
+        }
+
+        roomData.put("bookedDates", bookedJson);
+
         roomData.put("beds", this.getBeds());
         roomData.put("type", this.getType().toString());
 

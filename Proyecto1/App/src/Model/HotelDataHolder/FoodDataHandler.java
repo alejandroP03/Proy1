@@ -17,19 +17,19 @@ public class FoodDataHandler extends HotelDataHolder<Food> {
         super(roomsJSONFile);
     }
 
-
+    /*
+     * Crea una nueva comida y la almacena en la estructura que
+     * guarda las comidas
+     *
+     * <b> pre: </b> isFileLoaded == true
+     * <b> post: </b> La estructura va a tener un nuevo objeto Food<br>
+     *
+     * @throws Exception <br>
+     * El archivo debe cargarse antes de crear una nueva comida
+     *
+     */
     public void createNewFood(String id, String name, double price, boolean isRoomService, String availability) throws Exception{
-        /*
-         * Crea una nueva comida y la almacena en la estructura que
-         * guarda las comidas
-         *
-         * <b> pre: </b> isFileLoaded == true
-         * <b> post: </b> La estructura va a tener un nuevo objeto Food<br>
-         *
-         * @throws Exception <br>
-         * El archivo debe cargarse antes de crear una nueva comida
-         *
-         */
+
         if (super.getIsFileLoaded()){
             Map<Object, Food> menu = super.getData();
             Food newFood = new Food(id, name, price,isRoomService, availability);
@@ -44,24 +44,25 @@ public class FoodDataHandler extends HotelDataHolder<Food> {
         return  (foodsList.size() + 1);
     }
 
+    /*
+     * Carga la información del archivo en la estructura
+     * <b> pre: </b> <br>
+     * El archivo debe estar en formato JSON <br>
+     * La estructura debe estar vacia<br>
+     *
+     * <b> post: </b>
+     * En el atributo dataHandler va a estar la información del archivo
+     *
+     * @throws Exception <br>
+     * El archivo está vacío (No tiene ni siquiera la estructura {} creada)
+     *
+     * @throws Exception <br>
+     * La estructura contiene elementos
+     *
+     */
     @Override
     public void loadPersistentData() throws Exception {
-        /*
-         * Carga la información del archivo en la estructura
-         * <b> pre: </b> <br>
-         * El archivo debe estar en formato JSON <br>
-         * La estructura debe estar vacia<br>
-         *
-         * <b> post: </b>
-         * En el atributo dataHandler va a estar la información del archivo
-         *
-         * @throws Exception <br>
-         * El archivo está vacío (No tiene ni siquiera la estructura {} creada)
-         *
-         * @throws Exception <br>
-         * La estructura contiene elementos
-         *
-         */
+
 
 
         JSONParser pJsonParser = new JSONParser();

@@ -28,6 +28,9 @@ public class ServicesBillGenerator {
 
         String billName = this.guest.getName().replaceAll("\\s","") + "Service.txt";
         File file = new File("App/data/bills/"+billName);
+        if(!file.exists()){
+            file.createNewFile();
+        }
         FileWriter fr = new FileWriter(file);
         fr.append(this.textBill);
 

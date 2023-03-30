@@ -48,7 +48,7 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
                             principalGuestJson.get("dni").toString(), principalGuestJson.get("email").toString(),
                             principalGuestJson.get("phoneNumber").toString());
 
-                    JSONArray groupOfGuestsJson = (JSONArray) bookingEntry.get("groupOfGuests");
+                    JSONArray groupOfGuestsJson = (JSONArray) bookingEntry.get("group");
                     ArrayList<CompanionGuest> groupOfGuests = new ArrayList<CompanionGuest>();
                     for (Object companionGuestJson : groupOfGuestsJson) {
                         CompanionGuest companionGuest = new CompanionGuest(
@@ -57,7 +57,7 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
                         groupOfGuests.add(companionGuest);
                     }
 
-                    JSONArray registerRoomsIdsJson = (JSONArray) bookingEntry.get("registerRooms");
+                    JSONArray registerRoomsIdsJson = (JSONArray) bookingEntry.get("registerRoomsIds");
                     ArrayList<String> registerRoomsIds = new ArrayList<String>();
                     for (Object roomId : registerRoomsIdsJson) {
                         registerRoomsIds.add(roomId.toString());
@@ -68,33 +68,14 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
                     Registration newRegistration = new Registration(principalGuest, groupOfGuests, registerRoomsIds, initialDate, finalDate);
 
 
-                    JSONArray consumedFoodsJson = (JSONArray) bookingEntry.get("consumedFoods");
-                    for (Object food : consumedFoodsJson) {
-                        Food newFood = new Food(((JSONObject) food).get("id").toString(),
-                                ((JSONObject) food).get("name").toString(),
-                                Double.parseDouble(((JSONObject) food).get("price").toString()),
-                                Boolean.parseBoolean(((JSONObject) food).get("isRoomService").toString()),
-                                ((JSONObject) food).get("availability").toString());
-                        newRegistration.addConsumedFood(newFood);
+                    JSONArray consumedFoodsJson = (JSONArray) bookingEntry.get("consumedFoodsIds");
+                    for (Object foodId : consumedFoodsJson) {
+                        newRegistration.addConsumedFood(foodId.toString());
                     }
 
-                    JSONArray consumedServices = (JSONArray) bookingEntry.get("consumedServices");
-                    for (Object service : consumedServices) {
-
-                        ArrayList<DayOfWeek> daysAvailable = new ArrayList<DayOfWeek>();
-                        for (Object day : (JSONArray) ((JSONObject) service).get("daysAvailable")) {
-                            daysAvailable.add(DayOfWeek.valueOf(day.toString()));
-                        }
-
-                        Service newService = new Service(((JSONObject) service).get("id").toString(),
-                                ((JSONObject) service).get("name").toString(),
-                                Double.parseDouble(((JSONObject) service).get("price").toString()),
-                                Boolean.parseBoolean(((JSONObject) service).get("isForGroup").toString()),
-                                daysAvailable,
-                                LocalTime.parse(((JSONObject) service).get("initialTime").toString()),
-                                LocalTime.parse(((JSONObject) service).get("finalTime").toString()));
-
-                        newRegistration.addConsumedService(newService);
+                    JSONArray consumedServicesIds = (JSONArray) bookingEntry.get("consumedServicesIds");
+                    for (Object serviceId : consumedServicesIds) {
+                        newRegistration.addConsumedFood(serviceId.toString());
                     }
 
                     super.getData().put(newRegistration.getPrincipalGuest().getDni(), newRegistration);
@@ -105,7 +86,7 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
 
             }
         } catch (Exception e) {
-            throw new Exception("El archivo no tiene la estructura JSON ");
+            throw new Exception("El archivo no tiene la estructura JSON " + e);
         }
     }
 }

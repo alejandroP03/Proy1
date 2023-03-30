@@ -30,7 +30,7 @@ public class Food implements HotelService {
 
         return new JSONObject(mapa);
     }
-
+    @Override
     public String getId(){
         return this.id;
     }

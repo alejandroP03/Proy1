@@ -18,25 +18,26 @@ public class BookingsDataHandler extends HotelDataHolder<Booking> {
         super(roomsJSONFile);
     }
 
+    /*
+     * Carga la información del archivo en la estructura
+     *
+     * <b> pre: </b> <br>
+     * El archivo debe estar en formato JSON <br>
+     * La estructura debe estar vacia<br>
+     *
+     * <b> post: </b>
+     * En el atributo dataHandler va a estar la información del archivo
+     *
+     * @throws Exception <br>
+     * El archivo está vacío (No tiene ni siquiera la estructura {} creada)
+     *
+     * @throws Exception <br>
+     * La estructura contiene elementos
+     *
+     */
     @Override
     public void loadPersistentData() throws Exception {
-        /*
-         * Carga la información del archivo en la estructura
-         * 
-         * <b> pre: </b> <br>
-         * El archivo debe estar en formato JSON <br>
-         * La estructura debe estar vacia<br>
-         * 
-         * <b> post: </b>
-         * En el atributo dataHandler va a estar la información del archivo
-         * 
-         * @throws Exception <br>
-         * El archivo está vacío (No tiene ni siquiera la estructura {} creada)
-         * 
-         * @throws Exception <br>
-         * La estructura contiene elementos
-         * 
-         */
+
 
         JSONParser pJsonParser = new JSONParser();
         try {
@@ -56,9 +57,9 @@ public class BookingsDataHandler extends HotelDataHolder<Booking> {
                     String reserviourEmail = (String) bookingEntry.getValue().get("reserviourEmail");
                     String reserviourSupportCardNumber = (String) bookingEntry.getValue()
                             .get("reserviourSupportCardNumber");
-                    int numberOfGuests = (int) bookingEntry.getValue().get("numberOfGuests");
-                    LocalDate initialDate = (LocalDate) bookingEntry.getValue().get("initialDate");
-                    LocalDate finalDate = (LocalDate) bookingEntry.getValue().get("finalDate");
+                    int numberOfGuests = Integer.parseInt(bookingEntry.getValue().get("numberOfGuests").toString());
+                    LocalDate initialDate = (LocalDate.parse(bookingEntry.getValue().get("initialDate").toString()));
+                    LocalDate finalDate = LocalDate.parse(bookingEntry.getValue().get("finalDate").toString());
 
                     JSONArray reservedRoomsIdsJson = (JSONArray) bookingEntry.getValue().get("reservedRoomsIds");
                     ArrayList<String> reservedRoomsIds = new ArrayList<String>();

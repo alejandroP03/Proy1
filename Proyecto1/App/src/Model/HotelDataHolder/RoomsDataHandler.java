@@ -24,22 +24,23 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
         super(roomsJSONFile);
     }
 
+    /*
+     * Crea una nueva habitación y la ingresa en la estructura que guarda las
+     * habitaciones
+     *
+     * <b> pre: </b> isFileLoaded == True
+     * <b> post: </b> La estructura va a tener un nuevo objeto Room<br>
+     *
+     * @throws Exception <br>
+     * El archivo debe cargarse antes de crear una nueva habitación
+     */
     public void createNewRoom(String location,
             boolean isOccupied,
             Map<Bed, Integer> beds,
             Set<RoomFeatures> featuresList,
             TypeRoom type)
             throws Exception {
-        /*
-         * Crea una nueva habitación y la ingresa en la estructura que guarda las
-         * habitaciones
-         * 
-         * <b> pre: </b> isFileLoaded == True
-         * <b> post: </b> La estructura va a tener un nuevo objeto Room<br>
-         * 
-         * @throws Exception <br>
-         * El archivo debe cargarse antes de crear una nueva habitación
-         */
+
 
         if (super.getIsFileLoaded()) {
             Map<Object, Room> roomsList = super.getData();
@@ -58,25 +59,26 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
         return type.name() + '_' + (roomsList.size() + 1);
     }
 
+    /*
+     * Carga la información del archivo en la estructura
+     *
+     * <b> pre: </b> <br>
+     * El archivo debe estar en formato JSON <br>
+     * La estructura debe estar vacia<br>
+     *
+     * <b> post: </b>
+     * En el atributo dataHandler va a estar la información del archivo
+     *
+     * @throws Exception <br>
+     * El archivo está vacío (No tiene ni siquiera la estructura {} creada)
+     *
+     * @throws Exception <br>
+     * La estructura contiene elementos
+     *
+     */
     @Override
     public void loadPersistentData() throws Exception {
-        /*
-         * Carga la información del archivo en la estructura
-         * 
-         * <b> pre: </b> <br>
-         * El archivo debe estar en formato JSON <br>
-         * La estructura debe estar vacia<br>
-         * 
-         * <b> post: </b>
-         * En el atributo dataHandler va a estar la información del archivo
-         * 
-         * @throws Exception <br>
-         * El archivo está vacío (No tiene ni siquiera la estructura {} creada)
-         * 
-         * @throws Exception <br>
-         * La estructura contiene elementos
-         * 
-         */
+
 
         JSONParser pJsonParser = new JSONParser();
         try {
@@ -134,7 +136,7 @@ public class RoomsDataHandler extends HotelDataHolder<Room> {
             }
 
         } catch (Exception e) {
-            throw new Exception("El archivo no tiene la estructura JSON ", e);
+            throw new Exception("El archivo no tiene la estructura JSON " + e);
         }
     }
 

@@ -12,23 +12,25 @@ public class HotelWorkersAuth {
 
 
     // methods
+
+    /*
+     * Comprueba que el usuario que va a iniciar sesión existe en la lista de
+     * usuarios, de ser así,
+     * lo retorna <br>
+     *
+     * <b> pre: </b> La estructura ya debe estar cargada
+     * <b> post: </b> Se retorna el usuario
+     *
+     * @throws Exception <br>
+     * Nombre de usuario o contraseña inválido
+     *
+     *
+     * @throws Exception <br>
+     * El usuario no se encuentra registrado
+     */
     public User login(String userName, String password, Map<Object, User> usersList)
             throws Exception {
-        /*
-         * Comprueba que el usuario que va a iniciar sesión existe en la lista de
-         * usuarios, de ser así,
-         * lo retorna <br>
-         *
-         * <b> pre: </b> La estructura ya debe estar cargada
-         * <b> post: </b> Se retorna el usuario
-         *
-         * @throws Exception <br>
-         * Nombre de usuario o contraseña inválido
-         *
-         *
-         * @throws Exception <br>
-         * El usuario no se encuentra registrado
-         */
+
 
         if (userExists(userName, password, usersList)) {
             if (!(userName.isBlank() || password.isBlank())) {
@@ -44,23 +46,24 @@ public class HotelWorkersAuth {
         }
     }
 
+    /*
+     * Comprueba que el usuario que se va a registrar no existe en la lista de
+     * usuarios, de ser así,
+     * lo retorna <br>
+     *
+     * <b> pre: </b> La estructura ya debe estar cargada
+     * <b> post: </b> Se retorna el usuario
+     *
+     * @throws Exception <br>
+     * El usuario ya se encuentra registrado
+     *
+     * * @throws Exception <br>
+     * Nombre de usuario invalido o contraseña invalido
+     *
+     */
     public User register(String userName, String password, UserType userType, Map<Object, User> usersList)
             throws Exception {
-        /*
-         * Comprueba que el usuario que se va a registrar no existe en la lista de
-         * usuarios, de ser así,
-         * lo retorna <br>
-         *
-         * <b> pre: </b> La estructura ya debe estar cargada
-         * <b> post: </b> Se retorna el usuario
-         *
-         * @throws Exception <br>
-         * El usuario ya se encuentra registrado
-         * 
-         * * @throws Exception <br>
-         * Nombre de usuario invalido o contraseña invalido
-         * 
-         */
+
         User newUser = null;
         if (!userExists(userName, password, usersList)) {
 
@@ -88,17 +91,17 @@ public class HotelWorkersAuth {
         }
         return newUser;
     }
-
+    /*
+     * Función auxiliar de login y register. Comprueba que el usuario existe en la
+     * lista de usuarios, de ser así,
+     * retorna true. <br>
+     *
+     * <b> pre: </b> La estructura ya debe estar cargada
+     * <b> post: </b> Se retorna un booleano que indica si el usuario existe o no
+     *
+     */
     public boolean userExists(String userName, String password, Map<Object, User> usersList) {
-        /*
-         * Función auxiliar de login y register. Comprueba que el usuario existe en la
-         * lista de usuarios, de ser así,
-         * retorna true. <br>
-         *
-         * <b> pre: </b> La estructura ya debe estar cargada
-         * <b> post: </b> Se retorna un booleano que indica si el usuario existe o no
-         *
-         */
+
         User userQuery = usersList.get(userName);
         if (userQuery != null && password.equals(userQuery.getPassword())) {
             return true;

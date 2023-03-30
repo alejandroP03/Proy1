@@ -6,27 +6,25 @@ import Model.HotelObjects.Registration;
 import Model.HotelObjects.Service;
 import Model.HotelObjects.RoomRelated.RoomFares;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Map;
 
 public class StayBillGenerator {
     private Registration registration;
-    private ArrayList<Service> consumedServices;
-    private ArrayList<Food> consumedFoods;
+    private ArrayList<String> consumedServicesIds;
+    private ArrayList<String> consumedFoodsIds;
 
     public StayBillGenerator(Registration registration){
         this.registration = registration;
-        this.consumedFoods = registration.getConsumedFoods();
-        this.consumedServices = registration.getConsumedServices();
+        this.consumedFoodsIds = registration.getConsumedFoodsIds();
+        this.consumedServicesIds = registration.getConsumedServicesIds();
 
     }
 
     // Todo lo que de consumio en el viaje y se cargo a las habitaciones
 
-    public String calculateTotalCost(Map<Object,RoomFares> roomFaresList) throws Exception {
+    public String calculateTotalCost(Map<Object,RoomFares> roomFaresList, Map<Object, Service> serviceList, Map<Object, Food> foodList) throws Exception {
 
         double roomValues = 0;
         double total = 0;
@@ -46,13 +44,15 @@ public class StayBillGenerator {
 
         textBill += "Valor habitaciones: " + roomValues;
 
-        for(HotelService service : this.consumedServices){
+        for(String serviceId : this.consumedServicesIds){
+            Service service = serviceList.get(serviceId);
             textBill += service.getName() + ": \n" + "Precio: " + service.getPrice() + "\n" ;
             total += service.getPrice();
 
         }
 
-        for(HotelService food : this.consumedFoods){
+        for(String foodId : this.consumedFoodsIds){
+            Food food = foodList.get(foodId);
             textBill += food.getName() + ": \n" + "Precio: " +food.getPrice() + "\n" ;
             total += food.getPrice();
 
@@ -66,12 +66,24 @@ public class StayBillGenerator {
         return textBill;
     }
 
-    public void showBill(Map<Object,RoomFares> roomFaresList) throws IOException, Exception {
+    public void showBill(Map<Object,RoomFares> roomFaresList, Map<Object, Service> serviceList, Map<Object, Food> foodList) throws IOException, Exception {
         String billName = this.registration.getPrincipalGuest().getName().replaceAll("\\s","") + "StayBill.txt";
         File file = new File("App/data/bills/"+billName);
-        FileWriter fr = new FileWriter(file);
-        fr.write(calculateTotalCost(roomFaresList));
-        fr.close();
+
+        String previousBills = "";
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        String line = br.readLine();
+        while(line != null){
+            previousBills += line;
+            line = br.readLine();
+        }
+
+        FileWriter fw = new FileWriter(file);
+        fw.write(previousBills + calculateTotalCost(roomFaresList, serviceList, foodList));
+        fw.close();
+        br.close();
 
     }
 

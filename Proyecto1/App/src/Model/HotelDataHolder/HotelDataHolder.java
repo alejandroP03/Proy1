@@ -23,23 +23,24 @@ public abstract class HotelDataHolder<HotelObj extends HotelObject> {
 
     public abstract void loadPersistentData() throws Exception;
 
+    /*
+     * Guarda en un archivo un objeto json con los pares llave valor, donde la llave
+     * es el identificador del objeto (habitacion, tarifa, reserva, etc)
+     * y el objeto, el retorno de el metodo getJsonObject
+     * <br>
+     *
+     * <b>pre:<b>
+     * 1. El mapa ya debe estar inicializado
+     * 2. El archivo existe en App/Data
+     * <b>post:<b> El archivo <<objetoDeHotel>>.json va a tener todos los objetos de
+     * dataHolder (el archivo se va a sobreescribir)
+     *
+     * @param jSONDataFile Archivo donde se va a guardar la información de los
+     * objetos
+     *
+     */
     public void SavePersistentData() throws IOException {
-        /*
-         * Guarda en un archivo un objeto json con los pares llave valor, donde la llave
-         * es el identificador del objeto (habitacion, tarifa, reserva, etc)
-         * y el objeto, el retorno de el metodo getJsonObject
-         * <br>
-         * 
-         * <b>pre:<b>
-         * 1. El mapa ya debe estar inicializado
-         * 2. El archivo existe en App/Data
-         * <b>post:<b> El archivo <<objetoDeHotel>>.json va a tener todos los objetos de
-         * dataHolder (el archivo se va a sobreescribir)
-         * 
-         * @param jSONDataFile Archivo donde se va a guardar la información de los
-         * objetos
-         * 
-         */
+
 
         HashMap<Object, Object> objData = new HashMap<Object, Object>();
 

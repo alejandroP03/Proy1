@@ -21,23 +21,23 @@ public class RoomFares implements HotelObject {
         this.faresForRoomType = new ArrayList<Fare>();
         this.typeRoomFare = typeRoomFare;
     }
-
+    /*
+     * Este código puede mejorarse mucho, pero por ahora funciona y son las 3:00 am :(
+     * Agrega una tarifa a la lista, si ya existe un valor para una fecha, se tomará
+     * el valor menor y
+     * se lanzará una excepción que indicará que se tomó el menor valor entre dos
+     * tarifas
+     *
+     * <b> pre: </b> <br>
+     * faresForRoomType ya debe estar inicializado
+     * <b> post: </b> <br>
+     * fare se agrega a daresForRoomType
+     *
+     * @param fare tarifa a ingresar
+     *
+     */
     public void addFare(Fare fareBase) {
-        /*
-        * Este código puede mejorarse mucho, pero por ahora funciona y son las 3:00 am :(    
-         * Agrega una tarifa a la lista, si ya existe un valor para una fecha, se tomará
-         * el valor menor y
-         * se lanzará una excepción que indicará que se tomó el menor valor entre dos
-         * tarifas
-         * 
-         * <b> pre: </b> <br>
-         * faresForRoomType ya debe estar inicializado
-         * <b> post: </b> <br>
-         * fare se agrega a daresForRoomType
-         * 
-         * @param fare tarifa a ingresar
-         * 
-         */
+
         faresForRoomType.add(fareBase);
     }
 

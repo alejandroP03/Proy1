@@ -15,6 +15,21 @@ public class RegisterHandler {
     private Registration openRegister;
 
     // methods
+    /*
+     * Crea una nueva instancia de Registration con los parámetros
+     *
+     * <b>pre: </b> RegisterHandler está instanciado. <br>
+     * <b>pos: </b> Se crea un nuevo registro. <br>
+     *
+     * @param name: Nombre del huésped principal. name != null && name != "".
+     * @param dni: DNI del huésped principal.
+     * @param email: Email del huésped principal.
+     * @param phoneNumber: Número de teléfono del huésped principal.
+     * @param group: Lista que contiene los acompañantes del huésped principal.
+     * @param registeredRoomsIds: Lista que contiene de los ids de las habitaciones que se van a usar.
+     * @param initialDate: Fecha inicial de la estadía
+     * @param finalDate: Fecha final de la estadía
+     */
     public void createRegister(String name,
             String dni,
             String email,
@@ -28,16 +43,18 @@ public class RegisterHandler {
         this.openRegister = new Registration(responsibleGuest, group, registeredRoomsIds,initialDate,finalDate);
     }
 
-
+    /*
+    * Obtiene la reserva asociada a un dni y un grupo de huéspedes.
+    * @param dni: DNI de la persona que realizó la reserva. dni != null && dni != "".
+    * @param bookingMap: Mapa completo de las reservas realizadas.
+    * @param groupGuest: Lista de los acompañantes del huésped principal
+    * @throws Exception <br>
+    *   1. Si el tamaño del grupo que se desea registrar es mayor al tamaño del grupo que tiene la reserva
+    */
     public void getAsociatedBooking(String dni, Map<Object, Booking> bookingMap, ArrayList<CompanionGuest> groupGuests)
             throws Exception {
-        /*
-         * 
-         * 
-         * @param groupOfGuests debe coincidir con el numero de acompañantes con quien
-         * va
-         */
 
+        System.out.println(bookingMap);
         Booking previousBooking = bookingMap.get(dni);
 
         if (groupGuests.size() == previousBooking.getNumberOfGuests()) {

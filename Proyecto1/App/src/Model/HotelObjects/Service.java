@@ -46,7 +46,7 @@ public class Service implements HotelService {
 
         return new JSONObject(mapa);
     }
-
+    @Override
     public String getId() {
         return this.id;
     }

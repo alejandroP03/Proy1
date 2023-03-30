@@ -20,17 +20,18 @@ public class UsersDataHandler extends HotelDataHolder<User> {
         super(usersJSONFile);
     }
 
+    /*
+     * Crea un nuevo usuario y lo ingresa en la estructura que guarda los
+     * usuarios
+     *
+     * <b> pre: </b> isFileLoaded == True
+     * <b> post: </b> La estructura va a tener un nuevo objeto User<br>
+     *
+     * @throws Exception <br>
+     * El archivo debe cargarse antes de crear un nuevo usuario
+     */
     public void createNewUser(String userName, String password, UserType userType) throws Exception{
-        /*
-         * Crea un nuevoi usuerio y lo ingresa en la estructura que guarda los
-         * usuarios
-         *
-         * <b> pre: </b> isFileLoaded == True
-         * <b> post: </b> La estructura va a tener un nuevo objeto User<br>
-         *
-         * @throws Exception <br>
-         * El archivo debe cargarse antes de crear un nuevo usuario
-         */
+
 
         if(super.getIsFileLoaded()){
             Map<Object, User> usersList = super.getData();
@@ -55,26 +56,26 @@ public class UsersDataHandler extends HotelDataHolder<User> {
     }
 
 
-
+    /*
+     * Carga la información del archivo en la estructura
+     *
+     * <b> pre: </b> <br>
+     * El archivo debe estar en formato JSON <br>
+     * La estructura debe estar vacía<br>
+     *
+     * <b> post: </b>
+     * En el atributo dataHandler va a estar la información del archivo
+     *
+     * @throws Exception <br>
+     * El archivo está vacío (No tiene ni siquiera la estructura {} creada)
+     *
+     * @throws Exception <br>
+     * La estructura contiene elementos
+     *
+     */
     @Override
     public void loadPersistentData() throws Exception{
-        /*
-         * Carga la información del archivo en la estructura
-         *
-         * <b> pre: </b> <br>
-         * El archivo debe estar en formato JSON <br>
-         * La estructura debe estar vacia<br>
-         *
-         * <b> post: </b>
-         * En el atributo dataHandler va a estar la información del archivo
-         *
-         * @throws Exception <br>
-         * El archivo está vacío (No tiene ni siquiera la estructura {} creada)
-         *
-         * @throws Exception <br>
-         * La estructura contiene elementos
-         *
-         */
+
         JSONParser pJsonParser = new JSONParser();
         try{
             Object jsonObjToFile = pJsonParser.parse(new FileReader(super.getjSONDataFile()));

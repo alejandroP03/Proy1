@@ -28,20 +28,21 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
         super(roomsJSONFile);
     }
 
+    /*
+     * Crea una nueva tarifa y la ingresa en la estructura que guarda las
+     * tarifas, si la estructura RoomFares ya tiene el id del tipo de habitación, solo la agrega,
+     * si no, crea una nueva habitación
+     *
+     * <b> pre: </b> isFileLoaded == True
+     *
+     * <b> post: </b> La estructura va a tener un nuevo objeto Fare<br>
+     *
+     * @throws Exception <br>
+     * El archivo debe cargarse antes de crear una nueva habitación
+     */
     public void FareCreator(Set<Object> typeRoomId, float price, LocalDate initialDate, LocalDate finalDate,
             ArrayList<DayOfWeek> daysList) throws Exception {
-        /*
-         * Crea una nueva tarifa y la ingresa en la estructura que guarda las
-         * tarifas, si la estructura RoomFares ya tiene el id del tipo de habitación, solo la agrega,
-         * si no, crea una nueva habitación
-         * 
-         * <b> pre: </b> isFileLoaded == True
-         * 
-         * <b> post: </b> La estructura va a tener un nuevo objeto Fare<br>
-         * 
-         * @throws Exception <br>
-         * El archivo debe cargarse antes de crear una nueva habitación
-         */
+
 
 
         if (super.getIsFileLoaded()) {
@@ -62,24 +63,24 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
             throw new Exception("El archivo debe cargarse antes de crear un nuevo objeto");
         }
     }
+    /*
+     * Carga la información del archivo en la estructura
+     *
 
+     *
+     * <b> post: </b>
+     * En el atributo dataHandler va a estar la información del archivo
+     *
+     * @throws Exception <br>
+     * El archivo está vacío (No tiene ni siquiera la estructura {} creada)
+     *
+     * @throws Exception <br>
+     * La estructura contiene elementos
+     *
+     */
     @Override
     public void loadPersistentData() {
-        /*
-         * Carga la información del archivo en la estructura
-         * 
-         
-         * 
-         * <b> post: </b>
-         * En el atributo dataHandler va a estar la información del archivo
-         * 
-         * @throws Exception <br>
-         * El archivo está vacío (No tiene ni siquiera la estructura {} creada)
-         * 
-         * @throws Exception <br>
-         * La estructura contiene elementos
-         * 
-         */
+
 
         JSONParser pJsonParser = new JSONParser();
         try {

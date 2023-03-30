@@ -18,6 +18,17 @@ public class ServicesDataHandler extends HotelDataHolder<Service> {
         super(roomsJSONFile);
     }
 
+    /*
+     * Crea una nuevo servicio y la almacena en la estructura que
+     * guarda los servicios
+     *
+     * <b> pre: </b> isFileLoaded == true
+     * <b> post: </b> La estructura va a tener un nuevo objeto Service<br>
+     *
+     * @throws Exception <br>
+     * El archivo debe cargarse antes de crear una nuevo servicio
+     *
+     */
     public void createNewService(String id,
             String name,
             double price,
@@ -25,44 +36,35 @@ public class ServicesDataHandler extends HotelDataHolder<Service> {
             ArrayList<DayOfWeek> daysAvailable,
             LocalTime initialTime,
             LocalTime finalTime) throws Exception {
-        /*
-         * Crea una nuevo servicio y la almacena en la estructura que
-         * guarda los servicios
-         *
-         * <b> pre: </b> isFileLoaded == true
-         * <b> post: </b> La estructura va a tener un nuevo objeto Service<br>
-         *
-         * @throws Exception <br>
-         * El archivo debe cargarse antes de crear una nuevo servicio
-         *
-         */
+
         if (super.getIsFileLoaded()) {
             Map<Object, Service> services = super.getData();
             Service newService = new Service(id, name, price, isForGroup, daysAvailable, initialTime, finalTime);
-            int getId = getServiceId(services);
-            services.put(getId, newService);
+            //String getId = getServiceId(services);
+            services.put(id, newService);
 
         } else {
             throw new Exception("El archivo debe cargarse antes de crear un nuevo objeto");
         }
     }
 
-    private int getServiceId(Map<Object, Service> serviceList) {
-        return (serviceList.size() + 1);
+    private String getServiceId(Map<Object, Service> serviceList, String id) {
+        return (id);
     }
 
+    /*
+     * Carga la información del archivo en la estructura
+     * <b> pre: </b> <br>
+     * El archivo debe estar en formato JSON <br>
+     * La estructura debe estar vacia<br>
+     *
+     * <b> post: </b>
+     * En el atributo dataHandler va a estar la información del archivo
+     *
+     */
     @Override
     public void loadPersistentData() throws Exception {
-        /*
-         * Carga la información del archivo en la estructura
-         * <b> pre: </b> <br>
-         * El archivo debe estar en formato JSON <br>
-         * La estructura debe estar vacia<br>
-         *
-         * <b> post: </b>
-         * En el atributo dataHandler va a estar la información del archivo
-         *
-         */
+
 
         JSONParser pJsonParser = new JSONParser();
         Object jsonObjToFile = pJsonParser.parse(new FileReader(super.getjSONDataFile()));

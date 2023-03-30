@@ -88,12 +88,12 @@ public class Booking implements HotelObject {
         bookingData.put("finalDate", finalDate.toString());
         bookingData.put("reserviourName", reserviourName);
 
-        JSONArray reservedRoomsIds = new JSONArray();
+        JSONArray reservedRoomsIdsObj = new JSONArray();
         for (Object roomId : reservedRoomsIds) {
-            reservedRoomsIds.add(roomId.toString());
+            reservedRoomsIdsObj.add(roomId.toString());
         }
 
-        bookingData.put("reservedRoomsIds", reservedRoomsIds);
+        bookingData.put("reservedRoomsIds", reservedRoomsIdsObj);
 
         return new JSONObject(bookingData);
     }

@@ -70,8 +70,19 @@ public class Hotel {
         return this.registerHandler;
     }
 
+    public void startUp()throws Exception{
+        getUserHandler().loadPersistentData();
+        getFaresHandler().loadPersistentData();
+        getRoomsHandler().loadPersistentData();
+        getBookingsHandler().loadPersistentData();
+        getRegistrationHandler().loadPersistentData();
+    }
 
-
+    /*
+     * Obtiene todas las habitaciones que estén libres
+     * <b>pre: </b> RoomsDataHandler debe estar inicializado y con las estructura de datos cargada. <br>
+     * <b>pos: </b> Se retorna un mapa que contiene todas las habitaciones libres.
+     */
     public Map<String, Room> getFreeRooms() {
         Map<String, Room> freeRooms = new HashMap<String, Room>();
 
@@ -82,8 +93,17 @@ public class Hotel {
 
         return freeRooms;
     }
-
-    public Map<String, Room> getNotBookedRooms(LocalDate initialDate, LocalDate finalDate) throws Exception {
+    /*
+     * Obtiene las habitaciones que no están reservadas dentro de un rango de fecha
+     *
+     * 
+     * <b>pre: </b> RoomsDataHandler debe estar inicializado y con la estructura de datos cargada. <br>
+     * <b>pos: </b> Se retorna un mapa que contiene las habitaciones que no fueron reservadas durante un rango de fechas
+     *
+     * @param initialDate: Fecha inicial desde la cuál se desea obtener las habitaciones que no están reservadas.
+     * @param: finalDate: Fecha final desde la cuál se desea obtener las habitaciones que no están reservadas.
+     */
+    public Map<String, Room> getNotBookedRooms(LocalDate initialDate, LocalDate finalDate) {
 
         Map<String, Room> freeRooms = new HashMap<String, Room>();
         for (Room room : this.roomsHandler.getData().values()) {
@@ -109,10 +129,19 @@ public class Hotel {
         return freeRooms;
     }
 
-    public void setOccupied( List<String> idSelectedRooms){
+    /*
+     * A las habitaciones recibidas las coloca como ocupadas o libres
+     *
+     * <b>pre: </b> idSelectedRooms debe existir <br>
+     * <b>pos: </b> A las habitaciones pertenecientes a idSelectedRooms se les sitúa como ocupadas o libres <br>
+     *
+     * @param idSelectedRooms: Lista que contiene los ids de las habitaciones seleccionadas.
+     * @param occupied: Booleano que indica si las habitaciones van a colocarse como ocupadas o si van a estar libres.
+     */
+    public void setOccupied( List<String> idSelectedRooms, boolean occupied){
         Map<Object, Room> roomsList = this.roomsHandler.getData();
         for(String idRoom: idSelectedRooms ){
-            roomsList.get(idRoom).setOccupied(true);
+            roomsList.get(idRoom).setOccupied(occupied);
 
         }
 

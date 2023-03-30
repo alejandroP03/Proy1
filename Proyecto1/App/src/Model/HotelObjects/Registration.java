@@ -16,8 +16,8 @@ public class Registration implements HotelObject {
     private PrincipalGuest principalGuest;
     private ArrayList<CompanionGuest> groupOfGuests;
     private List<String> registerRoomsIds;
-    private ArrayList<Service> consumedServices;
-    private ArrayList<Food> consumedFoods;
+    private ArrayList<String> consumedServicesIds;
+    private ArrayList<String> consumedFoodsIds;
     private LocalDate initialDate;
     private LocalDate finalDate;
 
@@ -29,34 +29,39 @@ public class Registration implements HotelObject {
         this.groupOfGuests = groupOfGuests;
         this.principalGuest = principalGuest;
         this.registerRoomsIds = registerRoomsIds;
-        this.consumedServices = new ArrayList<>();
-        this.consumedFoods = new ArrayList<>();
+        this.consumedServicesIds = new ArrayList<String>();
+        this.consumedFoodsIds = new ArrayList<String>();
         this.initialDate = initialDate;
         this.finalDate = finalDate;
     }
 
-    public void addConsumedService(Service newService) {
-        consumedServices.add(newService);
+    public void addConsumedServiceId(String newServiceId) {
+        consumedServicesIds.add(newServiceId);
     }
+    public void setConsumedServices(ArrayList<String> listServicesIds){this.consumedServicesIds = listServicesIds;}
+    public void setConsumedFoods(ArrayList<String> listFoodsIds){this.consumedFoodsIds = listFoodsIds;}
 
-    public void addConsumedFood(Food newFood) {
-        consumedFoods.add(newFood);
+    public void addConsumedFood(String newFoodId) {
+        consumedFoodsIds.add(newFoodId);
     }
 
     public PrincipalGuest getPrincipalGuest() {
         return this.principalGuest;
     }
-
-    public ArrayList<Service> getConsumedServices(){
-        return this.consumedServices;
+    public ArrayList<CompanionGuest> getGroupGuest(){
+        return this.groupOfGuests;
     }
 
-    public ArrayList<Food> getConsumedFoods(){
-        return this.consumedFoods;
+    public ArrayList<String> getConsumedServicesIds(){
+        return this.consumedServicesIds;
+    }
+
+    public ArrayList<String> getConsumedFoodsIds(){
+        return this.consumedFoodsIds;
     }
 
     public List<String> getRegisterRoomsIds(){
-        return this.getRegisterRoomsIds();
+        return this.registerRoomsIds;
     }
 
     public  LocalDate getInitialDate(){return  this.initialDate;}
@@ -82,23 +87,23 @@ public class Registration implements HotelObject {
             roomsIds.add(roomId);
         }
 
-        objMap.put("registerRooms", roomsIds);
+        objMap.put("registerRoomsIds", roomsIds);
 
         @SuppressWarnings("unchecked")
         ArrayList<String> foodIds = new JSONArray();
-        for (Food food : this.consumedFoods) {
-            foodIds.add(food.getId());
+        for (String foodId : this.consumedFoodsIds) {
+            foodIds.add(foodId);
         }
 
-        objMap.put("consumedFoods", foodIds);
+        objMap.put("consumedFoodsIds", foodIds);
 
         @SuppressWarnings("unchecked")
         ArrayList<String> serviceIds = new JSONArray();
-        for (Service service : this.consumedServices) {
-            serviceIds.add(service.getId());
+        for (String serviceId : this.consumedServicesIds) {
+            serviceIds.add(serviceId);
         }
 
-        objMap.put("consumedServices", serviceIds);
+        objMap.put("consumedServicesIds", serviceIds);
 
         return new JSONObject(objMap);
     }

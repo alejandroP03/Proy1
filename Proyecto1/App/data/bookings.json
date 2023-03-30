@@ -1,13 +1,1 @@
-{
-	"a": {
-		"finalDate": "2023-10-14",
-		"reserviourDNI": "a",
-		"reserviourPhone": "a",
-		"reserviourSupportCardNumber": "a",
-		"numberOfGuests": 3,
-		"reserviourName": "a",
-		"reserviourEmail": "a",
-		"initialDate": "2023-10-10",
-		"reservedRoomsIds": []
-	}
-}
+{"1234":{"finalDate":"2020-10-12","reserviourDNI":"1234","reserviourPhone":"3","reserviourSupportCardNumber":"99999","numberOfGuests":2,"reserviourName":"Pedro","reserviourEmail":"@@@@@","initialDate":"2020-10-10","reservedRoomsIds":["SUITE_5","STANDARD_11","STANDARD_1"]}}
