@@ -1,15 +1,17 @@
 package Controller.BillService;
 
 import Model.HotelObjects.Food;
+import Model.HotelObjects.HotelService;
 import Model.HotelObjects.Registration;
 import Model.HotelObjects.Service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class StayBillGenerator implements BillGenerator {
     private Registration registration;
-    private Map<String, Service> consumedServices;
-    private Map<String, Food> consumedFoods;
+    private ArrayList<Service> consumedServices;
+    private ArrayList<Food> consumedFoods;
 
     public StayBillGenerator(Registration registration){
         this.registration = registration;
@@ -21,6 +23,13 @@ public class StayBillGenerator implements BillGenerator {
     // Todo lo que de consumio en el viaje y se cargo a las habitaciones
 
     public float calculateTotalCost() {
+
+        for(HotelService service : this.consumedServices){
+            //textBill += service.getName() + ": " + service.getPrice() + "\n" ;
+            //total += service.getPrice();
+
+        }
+
         return 0;
     }
 

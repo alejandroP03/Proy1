@@ -15,39 +15,38 @@ public class Registration implements HotelObject {
     private PrincipalGuest principalGuest;
     private ArrayList<CompanionGuest> groupOfGuests;
     private List<String> registerRoomsIds;
-    private Map<String, Service> consumedServices;
-    private Map<String, Food> consumedFoods;
-    //private int id = 0;
-    //private static int increase = 1;
+    private ArrayList<Service> consumedServices;
+    private ArrayList<Food> consumedFoods;
+
 
     public Registration(PrincipalGuest principalGuest, ArrayList<CompanionGuest> groupOfGuests,
             List<String> registerRoomsIds) {
-        //this.id += increase;
+
         this.groupOfGuests = groupOfGuests;
         this.principalGuest = principalGuest;
         this.registerRoomsIds = registerRoomsIds;
-        this.consumedServices = new HashMap<String, Service>();
-        this.consumedFoods = new HashMap<String, Food>();
-        //increase++;
+        this.consumedServices = new ArrayList<>();
+        this.consumedFoods = new ArrayList<>();
+
     }
 
     public void addConsumedService(Service newService) {
-        consumedServices.put(newService.getId(), newService);
+        consumedServices.add(newService);
     }
 
     public void addConsumedFood(Food newFood) {
-        consumedFoods.put(newFood.getId(), newFood);
+        consumedFoods.add(newFood);
     }
 
     public PrincipalGuest getPrincipalGuest() {
         return this.principalGuest;
     }
 
-    public Map<String, Service> getConsumedServices(){
+    public ArrayList<Service> getConsumedServices(){
         return this.consumedServices;
     }
 
-    public Map<String, Food> getConsumedFoods(){
+    public ArrayList<Food> getConsumedFoods(){
         return this.consumedFoods;
     }
 
@@ -72,7 +71,7 @@ public class Registration implements HotelObject {
 
         @SuppressWarnings("unchecked")
         ArrayList<String> foodIds = new JSONArray();
-        for (Food food : this.consumedFoods.values()) {
+        for (Food food : this.consumedFoods) {
             foodIds.add(food.getId());
         }
 
@@ -80,7 +79,7 @@ public class Registration implements HotelObject {
 
         @SuppressWarnings("unchecked")
         ArrayList<String> serviceIds = new JSONArray();
-        for (Service service : this.consumedServices.values()) {
+        for (Service service : this.consumedServices) {
             serviceIds.add(service.getId());
         }
 

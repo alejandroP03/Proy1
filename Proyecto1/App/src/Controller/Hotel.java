@@ -84,21 +84,26 @@ public class Hotel {
     }
 
     public Map<String, Room> getNotBookedRooms(LocalDate initialDate, LocalDate finalDate) throws Exception {
-        this.roomsHandler.loadPersistentData();
+
         Map<String, Room> freeRooms = new HashMap<String, Room>();
         for (Room room : this.roomsHandler.getData().values()) {
-            for (Map.Entry<LocalDate, LocalDate> roomBookedDates : room.getBookedDates().entrySet()) {
-                LocalDate bookedInitialDate = roomBookedDates.getKey();
-                LocalDate bookedFinalDate = roomBookedDates.getValue();
-                // initialDate empieza antes de que bookedFinalDate termine o finaldate termina
-                // despues de que bookedInitialDate empiece
-                if (initialDate.compareTo(bookedFinalDate) <= 0)
-                    break;
-                if (finalDate.compareTo(bookedInitialDate) >= 0)
-                    break;
-                else
-                    freeRooms.put(room.getRoomId(), room);
+            if(! room.getBookedDates().isEmpty()){
+                for (Map.Entry<LocalDate, LocalDate> roomBookedDates : room.getBookedDates().entrySet()) {
+                    LocalDate bookedInitialDate = roomBookedDates.getKey();
+                    LocalDate bookedFinalDate = roomBookedDates.getValue();
+                    // initialDate empieza antes de que bookedFinalDate termine o finaldate termina
+                    // despues de que bookedInitialDate empiece
+                    if (initialDate.compareTo(bookedFinalDate) <= 0)
+                        break;
+                    if (finalDate.compareTo(bookedInitialDate) >= 0)
+                        break;
+                    else
+                        freeRooms.put(room.getRoomId(), room);
+                }
+            }else{
+                freeRooms.put(room.getRoomId(), room);
             }
+
         }
 
         return freeRooms;

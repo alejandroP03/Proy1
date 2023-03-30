@@ -23,8 +23,6 @@ public class ServicesBillGenerator implements BillGenerator {
     }
 
 
-
-
     @Override
     public void showBill() throws IOException {
 

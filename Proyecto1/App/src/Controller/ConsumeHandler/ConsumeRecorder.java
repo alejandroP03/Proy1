@@ -14,7 +14,7 @@ public class ConsumeRecorder {
         double total = 0;
 
         String textBill = "Hotel\n" +
-                "Cliente: " + guest.getName() +"\n"
+                "Huésped: " + guest.getName() +"\n"
                 + "DNI: " + guest.getDni() + "\n";
         for(HotelService service : consumedServices){
             textBill += service.getName() + ": " + service.getPrice() + "\n" ;

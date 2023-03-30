@@ -749,7 +749,7 @@ public class App {
 
             int pos = 1;
             for (Room availableRoom : freeRooms) {
-                System.out.print(pos + "." + availableRoom.getRoomId());
+                System.out.println (pos + ". Hab" + availableRoom.getRoomId());
                 System.out.println("\t Tipo: " + availableRoom.getType().toString());
                 System.out.println("Capacidad: " + availableRoom.getCapacity());
                 System.out.println("Camas: " + availableRoom.getBeds());
