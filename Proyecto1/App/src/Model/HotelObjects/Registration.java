@@ -43,6 +43,14 @@ public class Registration implements HotelObject {
         return this.principalGuest;
     }
 
+    public Map<String, Service> getConsumedServices(){
+        return this.consumedServices;
+    }
+
+    public Map<String, Food> getConsumedFoods(){
+        return this.consumedFoods;
+    }
+
     public JSONObject getJsonObject() {
         Map<String, Object> objMap = new HashMap<String, Object>();
         objMap.put("principalGuest", this.principalGuest.getJsonObject());
