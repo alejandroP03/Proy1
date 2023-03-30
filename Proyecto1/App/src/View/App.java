@@ -207,6 +207,7 @@ public class App {
         } else if (opcion == 3) {
             System.out.println("Cargar tarifas");
             // TODO hacer funcion para cargar las tarifas
+
         } else if (opcion == 4) {
             System.out.println("Consultar inventario de habitaciones");
             // TODO hacer la consulta de las habitaciones en RoomsDataHolder con
@@ -599,7 +600,14 @@ public class App {
 
         registerHandler.createRegister(name, dni, email, phoneNumber, groupGuests, selectRooms(true, null, null));
 
+        //TODO Se debe verificar si ya habia antes una reserva con los datos del guest prinicpal
+
+
         hotel.getRegistrationHandler().SavePersistentData();
+
+       //TODO falta poner ocupadas las habitaciones registradas por el nuevo registro
+
+
     }
 
     private void newBooking() throws IOException {
