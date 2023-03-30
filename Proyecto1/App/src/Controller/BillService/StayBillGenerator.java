@@ -4,6 +4,7 @@ import Model.HotelObjects.Food;
 import Model.HotelObjects.HotelService;
 import Model.HotelObjects.Registration;
 import Model.HotelObjects.Service;
+import Model.HotelObjects.RoomRelated.RoomFares;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -22,7 +23,8 @@ public class StayBillGenerator implements BillGenerator {
 
     // Todo lo que de consumio en el viaje y se cargo a las habitaciones
 
-    public float calculateTotalCost() {
+    public float calculateTotalCost(Map<Object,RoomFares> roomFaresList) {
+
 
         for(HotelService service : this.consumedServices){
             //textBill += service.getName() + ": " + service.getPrice() + "\n" ;

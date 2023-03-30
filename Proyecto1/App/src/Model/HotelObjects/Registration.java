@@ -50,6 +50,8 @@ public class Registration implements HotelObject {
         return this.consumedFoods;
     }
 
+    public List<String> getregisterRoomsIds
+
     public JSONObject getJsonObject() {
         Map<String, Object> objMap = new HashMap<String, Object>();
         objMap.put("principalGuest", this.principalGuest.getJsonObject());
