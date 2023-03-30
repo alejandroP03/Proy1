@@ -7,6 +7,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Map;
 
+import Model.HotelObjects.RoomRelated.Room;
+import Model.HotelObjects.RoomRelated.TypeRoom;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,6 +25,8 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
         super(roomsJSONFile);
     }
 
+
+
     @Override
     public void loadPersistentData() throws Exception {
         JSONParser pJsonParser = new JSONParser();
@@ -36,7 +40,6 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
 
             if (super.getData().isEmpty()) {
                 for (JSONObject bookingEntry : objMap.values()) {
-
                     JSONObject principalGuestJson = (JSONObject) bookingEntry.get("principalGuest");
 
                     PrincipalGuest principalGuest = new PrincipalGuest(principalGuestJson.get("name").toString(),
@@ -57,7 +60,9 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
                     for (Object roomId : registerRoomsIdsJson) {
                         registerRoomsIds.add(roomId.toString());
                     }
+
                     Registration newRegistration = new Registration(principalGuest, groupOfGuests, registerRoomsIds);
+
 
                     JSONArray consumedFoodsJson = (JSONArray) bookingEntry.get("consumedFoods");
                     for (Object food : consumedFoodsJson) {

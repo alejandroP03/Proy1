@@ -21,8 +21,6 @@ public class RegisterHandler {
             ArrayList<CompanionGuest> group, List<String> registeredRoomsIds) {
         // crea instncia del prinicpalGuest
         this.responsibleGuest = new PrincipalGuest(name, dni, email, phoneNumber);
-        
-        
         // crea la instancia de la reserva
         this.openRegister = new Registration(responsibleGuest, group, registeredRoomsIds);
     }

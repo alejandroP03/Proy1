@@ -1,3 +1,1 @@
-{
-	
-}
+{"[SUITE, BALCONY, LANDSCAPE_VIEW, {KING_PLUS=2, SINGLE=3, KING=1}]":{"fares":[{"finalDate":"2021-10-10","days":["WEDNESDAY"],"price":23000.0,"initialDate":"2020-10-10"}]},"[STANDARD, BALCONY, LANDSCAPE_VIEW, {KING_PLUS=2, SINGLE=3, KING=1}]":{"fares":[{"finalDate":"2023-11-15","days":["FRIDAY","TUESDAY"],"price":34556.0,"initialDate":"2023-10-10"}]}}

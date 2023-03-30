@@ -17,14 +17,18 @@ public class Registration implements HotelObject {
     private List<String> registerRoomsIds;
     private Map<String, Service> consumedServices;
     private Map<String, Food> consumedFoods;
+    //private int id = 0;
+    //private static int increase = 1;
 
     public Registration(PrincipalGuest principalGuest, ArrayList<CompanionGuest> groupOfGuests,
             List<String> registerRoomsIds) {
+        //this.id += increase;
         this.groupOfGuests = groupOfGuests;
         this.principalGuest = principalGuest;
         this.registerRoomsIds = registerRoomsIds;
         this.consumedServices = new HashMap<String, Service>();
         this.consumedFoods = new HashMap<String, Food>();
+        //increase++;
     }
 
     public void addConsumedService(Service newService) {

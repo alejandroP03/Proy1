@@ -73,6 +73,9 @@ public class Room extends RoomModel implements HotelObject {
     public boolean getIsOcupied() {
         return isOccupied;
     }
+    public void setOccupied(boolean isOccupied){
+        this.isOccupied = isOccupied;
+    }
 
     public JSONObject getJsonObject() {
         Map<Object, Object> roomData = new HashMap<Object, Object>();

@@ -4,6 +4,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import Controller.RegisterHandler.RegisterHandler;
 import Model.HotelDataHolder.BookingsDataHandler;
@@ -100,5 +101,16 @@ public class Hotel {
         }
 
         return freeRooms;
+    }
+
+    public void setOccupied( List<String> idSelectedRooms){
+        Map<Object, Room> roomsList = this.roomsHandler.getData();
+        for(String idRoom: idSelectedRooms ){
+            roomsList.get(idRoom).setOccupied(true);
+
+        }
+
+
+
     }
 }

@@ -53,8 +53,10 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
 
             Fare newFare = new Fare(price, initialDate, finalDate, daysList);
             roomFareList.addFare(newFare);
-            super.getData().put(typeRoomId, roomFareList);
 
+            super.getData().put(typeRoomId, roomFareList);
+            System.out.println(typeRoomId);
+            System.out.println(roomFareList);
         } else {
             throw new Exception("El archivo debe cargarse antes de crear un nuevo objeto");
         }

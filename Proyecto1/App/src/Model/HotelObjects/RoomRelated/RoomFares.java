@@ -36,9 +36,13 @@ public class RoomFares implements HotelObject {
          * @param fare tarifa a ingresar
          * 
          */
+        try {
+            //TODO: Manejar los conflictos entre tarifas
+            this.faresForRoomType.add(fareBase);
 
-        //TODO: Manejar los conflictos entre tarifas
-        this.addFare(fareBase);
+        } catch (Exception e){
+            System.out.println(e);
+        }
 
          /* 
         ArrayList<Fare> faresToAdd = new ArrayList<Fare>();
@@ -182,7 +186,6 @@ public class RoomFares implements HotelObject {
             else
                 max = mid - 1;
         }
-
         int ind = (max + min) / 2;
 
         // Como retorna el valor estrictamente menor, si el siguiente elemento es la

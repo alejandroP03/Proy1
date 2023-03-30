@@ -21,12 +21,9 @@ import Controller.WorkersAuth.HotelWorkersAuth;
 import Model.HotelObjects.Admin;
 import Model.HotelObjects.Employee;
 import Model.HotelObjects.Receptionist;
+import Model.HotelObjects.RoomRelated.*;
 import Model.HotelObjects.User;
 import Model.HotelObjects.UserType;
-import Model.HotelObjects.RoomRelated.Bed;
-import Model.HotelObjects.RoomRelated.Room;
-import Model.HotelObjects.RoomRelated.RoomFeatures;
-import Model.HotelObjects.RoomRelated.TypeRoom;
 
 public class App {
     User activeUser;
@@ -206,6 +203,7 @@ public class App {
             loadDataRooms();
         } else if (opcion == 3) {
             System.out.println("Cargar tarifas");
+            loadFares();
             // TODO hacer funcion para cargar las tarifas
 
         } else if (opcion == 4) {
@@ -363,7 +361,78 @@ public class App {
     }
 
     // Metodo que carga las tarifas ???
-    private void loadFares() {
+    private void loadFares() throws Exception {
+       // Set<Object> typeRoomId, float price, LocalDate initialDate, LocalDate finalDate,
+        //            ArrayList<DayOfWeek> daysList
+        System.out.println("------ Crear tarifas para habitaciones ------- ");
+        hotel.getRoomsHandler().loadPersistentData();
+        hotel.getFaresHandler().loadPersistentData();
+        Map<Object, Room> mapRooms = new HashMap<>(hotel.getRoomsHandler().getData() );
+        Map<Set<Object>, Room> roomsList = new HashMap<Set<Object>, Room>();
+
+        System.out.println("Las siguientes habitaciones no tienen una tarifa asignada dentro de los siguientes 365 dias: ");
+
+        for (Room availableRoom : mapRooms.values()) {
+            roomsList.put(availableRoom.createTypeRoomId(), availableRoom);
+        }
+        ArrayList<Room> typesRooms = new ArrayList<Room>(roomsList.values());
+
+        int moreFairs = 0;
+        do {
+            int pos = 1;
+            for (Room availableRoom : typesRooms) {
+                System.out.print("******* Tipo de habitacion " + pos + "*******");
+                System.out.println("Tipo: " + availableRoom.getType().toString());
+                System.out.println("Capacidad: " + availableRoom.getCapacity());
+                System.out.println("Camas: " + availableRoom.getBeds());
+                System.out.println("Características: " + availableRoom.getFeaturesList());
+                pos++;
+            }
+            System.out.println("Elija a que habitacion desea agreagarle una nueva tarifa: ");
+            int addFair = Integer.parseInt(br.readLine());
+            Room roomSelected = typesRooms.get(addFair);
+            TypeRoom type = roomSelected.getType();
+            Map<Bed, Integer> beds = roomSelected.getBeds();
+            Set<RoomFeatures> featuresList = roomSelected.getFeaturesList();
+            RoomModel roomModel = new RoomModel(type, beds, featuresList);
+
+            System.out.print("Ingrese le precio para la habitacion: ");
+            int price = Integer.parseInt(br.readLine());
+
+            System.out.print("ingrese la fecha inicial para la tarifa (YYYY-MM-DD: ");
+            LocalDate initialDate = LocalDate.parse(br.readLine());
+
+            System.out.print("ingrese la fecha final para la tarifa (YYYY-MM-DD: ");
+            LocalDate finalDate = LocalDate.parse(br.readLine());
+            ArrayList<DayOfWeek> daysList = new ArrayList<>();
+            DayOfWeek[] daysWeek = DayOfWeek.values();
+            int moreDays = 0;
+
+
+            do {
+                System.out.println("Dias a la semana que va a ocupar la tarifa ");
+                int x = 1;
+                for (DayOfWeek dayWeek : daysWeek) {
+                    System.out.println(x + "." + dayWeek);
+                    x++;
+                }
+                System.out.println("Ingrese el dia a la semana que desea agregar: ");
+                int chooseDay = Integer.parseInt(br.readLine());
+                DayOfWeek dayChoose = daysWeek[chooseDay];
+                daysList.add(dayChoose);
+                System.out.println("Desea agreagar mas dias? \n1.Si\n2.No");
+                moreDays = Integer.parseInt(br.readLine());
+
+            } while (moreDays == 1);
+            hotel.getFaresHandler().FareCreator(roomModel.createTypeRoomId(), price, initialDate, finalDate, daysList);
+            typesRooms.remove(addFair);
+
+            System.out.println("Desea cargar otra tarifa? \n1.Si \n2.No");
+            moreFairs = Integer.parseInt(br.readLine());
+
+        }while(moreFairs == 1);
+
+        hotel.getFaresHandler().SavePersistentData();
 
     }
 
@@ -601,13 +670,11 @@ public class App {
 
         registerHandler.createRegister(name, dni, email, phoneNumber, groupGuests, selectRooms(true, null, null));
 
+        hotel.getRegistrationHandler().getData().put(dni, registerHandler.getOpenRegister());
         //TODO Se debe verificar si ya habia antes una reserva con los datos del guest prinicpal
 
 
         hotel.getRegistrationHandler().SavePersistentData();
-
-       //TODO falta poner ocupadas las habitaciones registradas por el nuevo registro
-
 
     }
 
@@ -650,7 +717,6 @@ public class App {
 
     private List<String> selectRooms(boolean isForNow, LocalDate initialDate, LocalDate finalDate) throws IOException {
         List<String> selectedRoomsIds = new ArrayList<String>();
-
         ArrayList<Room> freeRooms;
         String moreRooms;
 
@@ -670,13 +736,15 @@ public class App {
                 System.out.println("Características: " + availableRoom.getFeaturesList());
                 pos++;
             }
-            System.out.println("Habitación deseada: ");
-            selectedRoomsIds.add(freeRooms.get(2).getRoomId());
+            System.out.print("Ingrese el número la habitacion que va a ocupar (1-"+ pos +"): ");
+            int chooseRoom = Integer.parseInt(br.readLine());
+            selectedRoomsIds.add(freeRooms.get(chooseRoom).getRoomId());
 
             System.out.println("Desea agregar mas habitaciones \n 1. Si \n 2. No");
             moreRooms = br.readLine();
         } while (moreRooms == "1");
 
+        hotel.setOccupied(selectedRoomsIds);
         return selectedRoomsIds;
     }
 

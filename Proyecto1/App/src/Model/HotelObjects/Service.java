@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.json.simple.JSONObject;
 
-public class Service implements HotelObject {
+public class Service implements HotelService {
     private String id;
     private String name;
     private double price;
@@ -50,11 +50,11 @@ public class Service implements HotelObject {
     public String getId() {
         return this.id;
     }
-
+    @Override
     public String getName() {
         return this.name;
     }
-
+    @Override
     public double getPrice() {
         return this.price;
     }
