@@ -234,7 +234,7 @@ public class RoomFares implements HotelObject {
         return faresForRoomType;
     }
 
-    public Integer getFare(LocalDate initialDate, LocalDate finalDate) throws Exception {
+    public double getFare(LocalDate initialDate, LocalDate finalDate) throws Exception {
         /*
          * Retorna la tarifa completa de los dias de estadía
          *
@@ -256,7 +256,7 @@ public class RoomFares implements HotelObject {
 
         // TODO: Probar si funciona cuando la primera tarifa es mayor que el initial
         // date aun asi sea la menor
-        int fare = 0;
+        double fare = 0;
         ArrayList<Fare> sortedFares = this.faresForRoomType;
         Collections.sort(sortedFares, new FareComparator());
         int initialIndex = searchIndexFloorInitialDate(sortedFares, initialDate);

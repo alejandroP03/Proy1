@@ -356,10 +356,7 @@ public class App {
         try {
             hotel.getRoomsHandler().loadPersistentData();
             hotel.getRoomsHandler().SavePersistentData();
-            System.out.println("Archivo cargado exitosamente");
-            System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
-            int masOpciones = Integer.parseInt(br.readLine());
-            if (masOpciones == 1) showAdminScreen();
+
 
         } catch (Exception e) {
             System.out.println(e);

@@ -42,9 +42,10 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
          * @throws Exception <br>
          * El archivo debe cargarse antes de crear una nueva habitación
          */
-        
+
 
         if (super.getIsFileLoaded()) {
+
             RoomFares roomFareList;
             if (!super.getData().containsKey(typeRoomId)) {
                 roomFareList = new RoomFares(typeRoomId);
