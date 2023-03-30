@@ -1,7 +1,7 @@
 package Model.HotelObjects;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,11 +14,11 @@ public class Service implements HotelObject {
     private double price;
     private boolean isForGroup;
     private ArrayList<DayOfWeek> daysAvailable;
-    private LocalDate initialTime;
-    private LocalDate finalTime;
+    private LocalTime initialTime;
+    private LocalTime finalTime;
 
     public Service(String id, String name, double price, boolean isForGroup, ArrayList<DayOfWeek> daysAvailable,
-            LocalDate initialTime, LocalDate finalTime) {
+            LocalTime initialTime, LocalTime finalTime) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -67,11 +67,11 @@ public class Service implements HotelObject {
         return this.daysAvailable;
     }
 
-    public LocalDate getInitialTime() {
+    public LocalTime getInitialTime() {
         return this.initialTime;
     }
 
-    public LocalDate getFinalTime() {
+    public LocalTime getFinalTime() {
         return this.finalTime;
     }
 
@@ -91,11 +91,11 @@ public class Service implements HotelObject {
         this.daysAvailable = daysAvailable;
     }
 
-    public void setInitialTime(LocalDate initialTime) {
+    public void setInitialTime(LocalTime initialTime) {
         this.initialTime = initialTime;
     }
 
-    public void setFinalTime(LocalDate finalTime) {
+    public void setFinalTime(LocalTime finalTime) {
         this.finalTime = finalTime;
     }
 }
