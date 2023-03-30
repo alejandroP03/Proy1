@@ -1,1 +1,38 @@
-{"[SUITE, BALCONY, LANDSCAPE_VIEW, {KING_PLUS=2, SINGLE=3, KING=1}]":{"fares":[{"finalDate":"2021-10-10","days":["WEDNESDAY"],"price":23000.0,"initialDate":"2020-10-10"}]},"[STANDARD, BALCONY, LANDSCAPE_VIEW, {KING_PLUS=2, SINGLE=3, KING=1}]":{"fares":[{"finalDate":"2023-11-15","days":["FRIDAY","TUESDAY"],"price":34556.0,"initialDate":"2023-10-10"}]}}
+{
+	"[LANDSCAPE_VIEW, STANDARD, {KING=1, KING_PLUS=2, SINGLE=3}, BALCONY]": {
+		"fares": [
+			{
+				"finalDate": "2023-11-15",
+				"days": ["FRIDAY", "TUESDAY"],
+				"price": 34556.0,
+				"initialDate": "2023-10-10"
+			}
+		]
+	},
+	"[SUITE, LANDSCAPE_VIEW, {KING=1, KING_PLUS=2, SINGLE=3}, BALCONY]": {
+		"fares": [
+			{
+				"finalDate": "2021-10-10",
+				"days": ["WEDNESDAY"],
+				"price": 23000.0,
+				"initialDate": "2020-10-10"
+			},
+			{
+				"finalDate": "2023-10-16",
+				"days": ["WEDNESDAY", "SATURDAY", "WEDNESDAY"],
+				"price": 14455.0,
+				"initialDate": "2023-10-10"
+			}
+		]
+	},
+	"[{KING=3, QUEEN=5, SINGLE=3, DOUBLE=2}, SUITE, LANDSCAPE_VIEW, BALCONY]": {
+		"fares": [
+			{
+				"finalDate": "2023-09-15",
+				"days": ["WEDNESDAY"],
+				"price": 3.4455456e7,
+				"initialDate": "2023-08-15"
+			}
+		]
+	}
+}

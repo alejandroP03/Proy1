@@ -1,5 +1,6 @@
 package Model.HotelObjects.RoomRelated;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +24,7 @@ public class RoomFares implements HotelObject {
 
     public void addFare(Fare fareBase) {
         /*
+        * Este código puede mejorarse mucho, pero por ahora funciona y son las 3:00 am :(    
          * Agrega una tarifa a la lista, si ya existe un valor para una fecha, se tomará
          * el valor menor y
          * se lanzará una excepción que indicará que se tomó el menor valor entre dos
@@ -36,80 +38,192 @@ public class RoomFares implements HotelObject {
          * @param fare tarifa a ingresar
          * 
          */
-        try {
-            //TODO: Manejar los conflictos entre tarifas
-            this.faresForRoomType.add(fareBase);
+        // Verificar que la tarifa no es para un rango vacio
+        if (fareBase.getInitialDate().compareTo(fareBase.getFinalDate()) <= 0) {
 
-        } catch (Exception e){
-            System.out.println(e);
-        }
+            ArrayList<Fare> faresToAdd = new ArrayList<Fare>();
 
-         /* 
-        ArrayList<Fare> faresToAdd = new ArrayList<Fare>();
+            // Encontrar la tarifa menor o igual
+            ArrayList<Fare> sortedFares = this.faresForRoomType;
+            Collections.sort(sortedFares, new FareComparator());
+            int fareInd = this.searchIndexFloorInitialDate(sortedFares, fareBase.getInitialDate());
 
-        // Encontrar la tarifa menor o igual
-        ArrayList<Fare> sortedFares = this.faresForRoomType;
-        Collections.sort(sortedFares, new FareComparator());
-        int fareInd = this.searchIndexFloorInitialDate(sortedFares, fareBase.getInitialDate());
+            // La tarifa que mas se le acerca (por debajo)
+            Fare fareFloor = faresForRoomType.get(fareInd);
+            faresForRoomType.remove(fareInd);
 
-        // La tarifa que mas se le acerca (por debajo)
-        Fare fareFloor = faresForRoomType.get(fareInd);
+            // Si no hay una tarifa menor se debe agregar la tarifa desde la fecha inicial
+            // hasta antes de la intersección con fareFloor
 
-        // Si no hay una tarifa menor se debe agregar la tarifa desde la fecha inicial
-        // hasta antes de la intersección con fareFloor
+            // Casos posibles
+            // fareFloor inicia despues de que fareBase termina (No hay intersección)
+            // farebase empieza despues de que fareFloor termine (No hay intersección ya que
+            // fareBase es la ultima tarifa)
 
-        if (fareBase.getInitialDate().isBefore(fareFloor.getInitialDate())) {
+            // farebase inicia antes de que fareFloor inicie (En este caso, se divide la
+            // tarifa en dos, se agrega la que no se intersecta y se revisa con la otra, que
+            // ya va a ser uno de los casos siguientes)
 
-            // Si la tarifa se aplica en una fecha anterior a cualquier otra
-            if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
+            // fareBase inicia al mismo tiempo que fareFloor inicia
+            // Subcaso 1: fareBase termina al tiempo que fareFLoor
+            // Subcaso 2: fareBase termina antes de que fareFloor termine
+            // Subcaso 3: fareBase termina despues de que fareFloor termine
+
+            // fareBase inicia despues de que fareFloor inicie
+            // Subcaso 1: fareBase termina al tiempo que fareFLoor
+            // Subcaso 2: fareBase termina antes de que fareFloor termine
+            // Subcaso 3: fareBase termina despues de que fareFloor termine
+
+            // Se debe tener en cuenta que solo hay interseccion si se cruzan las tarifas
+            // para los mismos dias de la semana
+
+            if (fareFloor.getInitialDate().compareTo(fareBase.getFinalDate()) > 0) {
+                // No hay intersección
                 faresToAdd.add(fareBase);
-            } else {
-                Fare fareBefore = new Fare(fareBase.getPrice(), fareBase.getInitialDate(), fareFloor.getFinalDate(),
-                        fareBase.getDays());
-                faresToAdd.add(fareBefore);
-
-                // Fecha intersección
-                fareBase = new Fare(fareBase.getPrice(), fareFloor.getInitialDate(), fareBase.getFinalDate(),
-                        fareBase.getDays());
-
-                // La nueva fecha empieza despues de la ultima de fareFloor 
-                if (fareBase.getInitialDate().isAfter(fareFloor.getFinalDate())) {
-                    faresToAdd.add(fareBase);
-                }
-                // La nueva fecha inicia al mismo tiempo que otra 
-                else if (fareBase.getInitialDate().isEqual(fareFloor.getInitialDate())) {
-                    // La nueva fecha termina al mismo tiempo de fareFloor 
-                    if (fareBase.getFinalDate().isEqual(fareFloor.getFinalDate())) {
-                        
-
-                    } // La nueva fecha termina antes de fareFloor 
-                    else if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
-
-                    } // La nueva fecha termina después de fareFloor 
-                    else {
-
-                    }
-                    // La nueva fecha inicia después de fareFloor 
-                } else if (fareBase.getInitialDate().isAfter(fareFloor.getInitialDate())) {
-                    // La nueva fecha termina al mismo tiempo de fareFloor 
-                    if (fareBase.getFinalDate().isEqual(fareFloor.getFinalDate())) {
-
-                    } // La nueva fecha termina antes de fareFloor 
-                    else if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
-
-                    } // La nueva fecha termina después de fareFloor 
-                    else {
-
-                    }
-                }
             }
 
-        }*/
+            if (fareBase.getInitialDate().compareTo(fareFloor.getFinalDate()) > 0) {
+                // No hay intersección
+                faresToAdd.add(fareBase);
+            }
 
+            if (fareBase.getInitialDate().isBefore(fareFloor.getInitialDate())) {
+                Fare fareToAdd = new Fare(fareBase.getPrice(), fareBase.getInitialDate(),
+                        getMinDate(fareBase.getFinalDate(), fareFloor.getInitialDate().minusDays(1)),
+                        fareBase.getDays());
+                faresToAdd.add(fareToAdd);
+                fareBase = new Fare(fareBase.getPrice(), fareFloor.getInitialDate(), fareBase.getFinalDate(),
+                        fareBase.getDays());
+            }
+
+            if (fareBase.getInitialDate().isEqual(fareFloor.getInitialDate())) {
+                // Subcaso 1
+                if (fareBase.getFinalDate().isEqual(fareFloor.getFinalDate())) {
+                    Fare fareToAdd = new Fare(getMinPriceFare(fareBase, fareFloor).getPrice(),
+                            fareBase.getInitialDate(),
+                            fareBase.getFinalDate(), getIntersectionDays(fareBase, fareFloor));
+                    faresToAdd.add(fareToAdd);
+                    if (getIntersectionDays(fareFloor, fareToAdd) != fareFloor.getDays()) {
+                        Fare fareToAdd2 = getFaresForNonCoverDays(fareFloor, getIntersectionDays(fareFloor, fareToAdd));
+                        faresToAdd.add(fareToAdd2);
+                    }
+
+                }
+                // Subcaso 2
+                if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
+                    Fare fareToAdd = new Fare(getMinPriceFare(fareBase, fareFloor).getPrice(),
+                            fareBase.getInitialDate(),
+                            fareBase.getFinalDate(), getIntersectionDays(fareBase, fareFloor));
+                    faresToAdd.add(fareToAdd);
+
+                    if (getIntersectionDays(fareFloor, fareToAdd) != fareFloor.getDays()) {
+                        Fare fareToAdd2 = getFaresForNonCoverDays(fareFloor, getIntersectionDays(fareFloor, fareToAdd));
+                        faresToAdd.add(fareToAdd2);
+                    }
+
+                    Fare fareToAdd3 = new Fare(fareFloor.getPrice(), fareBase.getFinalDate().plusDays(1),
+                            fareFloor.getFinalDate(),
+                            fareFloor.getDays());
+                    faresToAdd.add(fareToAdd3);
+                }
+                // Subcaso 3
+                if (fareBase.getFinalDate().isAfter(fareFloor.getFinalDate())) {
+                    Fare fareToAdd = new Fare(getMinPriceFare(fareBase, fareFloor).getPrice(),
+                            fareBase.getInitialDate(),
+                            fareFloor.getFinalDate(), getIntersectionDays(fareBase, fareFloor));
+                    faresToAdd.add(fareToAdd);
+
+                    if (getIntersectionDays(fareFloor, fareToAdd) != fareFloor.getDays()) {
+                        Fare fareToAdd2 = getFaresForNonCoverDays(fareFloor, getIntersectionDays(fareFloor, fareToAdd));
+                        faresToAdd.add(fareToAdd2);
+                    }
+
+                    Fare fareToAdd3 = new Fare(fareBase.getPrice(), fareFloor.getFinalDate().plusDays(1),
+                            fareBase.getFinalDate(),
+                            fareBase.getDays());
+                    addFare(fareToAdd3);
+                }
+
+            }
+            if (fareBase.getInitialDate().isAfter(fareFloor.getInitialDate())) {
+                // Subcaso 1
+                if (fareBase.getFinalDate().isEqual(fareFloor.getFinalDate())) {
+                    Fare fareToAdd = new Fare(getMinPriceFare(fareBase, fareFloor).getPrice(),
+                            fareFloor.getInitialDate(),
+                            fareFloor.getFinalDate(), getIntersectionDays(fareBase, fareFloor));
+                    faresToAdd.add(fareToAdd);
+                    if (getIntersectionDays(fareFloor, fareToAdd) != fareFloor.getDays()) {
+                        Fare fareToAdd2 = getFaresForNonCoverDays(fareFloor, getIntersectionDays(fareFloor, fareToAdd));
+                        faresToAdd.add(fareToAdd2);
+                    }
+
+                }
+                // Subcaso 2
+                if (fareBase.getFinalDate().isBefore(fareFloor.getFinalDate())) {
+                    Fare fareToAdd = new Fare(getMinPriceFare(fareBase, fareFloor).getPrice(),
+                            fareFloor.getInitialDate(),
+                            fareBase.getFinalDate(), getIntersectionDays(fareBase, fareFloor));
+                    faresToAdd.add(fareToAdd);
+
+                    if (getIntersectionDays(fareFloor, fareToAdd) != fareFloor.getDays()) {
+                        Fare fareToAdd2 = getFaresForNonCoverDays(fareFloor, getIntersectionDays(fareFloor, fareToAdd));
+                        faresToAdd.add(fareToAdd2);
+                    }
+
+                    Fare fareToAdd3 = new Fare(fareFloor.getPrice(), fareBase.getFinalDate().plusDays(1),
+                            fareFloor.getFinalDate(),
+                            fareFloor.getDays());
+                    faresToAdd.add(fareToAdd3);
+                }
+                // Subcaso 3
+                if (fareBase.getFinalDate().isAfter(fareFloor.getFinalDate())) {
+                    Fare fareToAdd = new Fare(getMinPriceFare(fareBase, fareFloor).getPrice(),
+                            fareFloor.getInitialDate(),
+                            fareFloor.getFinalDate(), getIntersectionDays(fareBase, fareFloor));
+                    faresToAdd.add(fareToAdd);
+
+                    if (getIntersectionDays(fareFloor, fareToAdd) != fareFloor.getDays()) {
+                        Fare fareToAdd2 = getFaresForNonCoverDays(fareFloor, getIntersectionDays(fareFloor, fareToAdd));
+                        faresToAdd.add(fareToAdd2);
+                    }
+
+                    Fare fareToAdd3 = new Fare(fareBase.getPrice(), fareFloor.getFinalDate().plusDays(1),
+                            fareBase.getFinalDate(),
+                            fareBase.getDays());
+                    addFare(fareToAdd3);
+                }
+            }
+        }
     }
 
-    private Fare getMinPriceFare(Fare fare1, Fare fare2){
+    private Fare getFaresForNonCoverDays(Fare fareFloor, ArrayList<DayOfWeek> daysCovered) {
+        ArrayList<DayOfWeek> daysToAdd = new ArrayList<DayOfWeek>();
+        for (DayOfWeek day : fareFloor.getDays()) {
+            if (!daysCovered.contains(day)) {
+                daysToAdd.add(day);
+            }
+        }
+        Fare fareToAdd = new Fare(fareFloor.getPrice(), fareFloor.getInitialDate(), fareFloor.getFinalDate(),
+                daysToAdd);
+        return fareToAdd;
+    }
+
+    private Fare getMinPriceFare(Fare fare1, Fare fare2) {
         return fare1.getPrice() <= fare2.getPrice() ? fare1 : fare2;
+    }
+
+    private LocalDate getMinDate(LocalDate date1, LocalDate date2) {
+        return date1.compareTo(date2) <= 0 ? date1 : date2;
+    }
+
+    private ArrayList<DayOfWeek> getIntersectionDays(Fare fare1, Fare fare2) {
+        ArrayList<DayOfWeek> intersectionDays = new ArrayList<DayOfWeek>();
+        for (DayOfWeek day : fare1.getDays()) {
+            if (fare2.getDays().contains(day)) {
+                intersectionDays.add(day);
+            }
+        }
+        return intersectionDays;
     }
 
     public Set<Object> getTypeRoomFare() {
