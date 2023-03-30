@@ -1,3 +1,13 @@
 {
-    
+	"a": {
+		"finalDate": "2023-10-14",
+		"reserviourDNI": "a",
+		"reserviourPhone": "a",
+		"reserviourSupportCardNumber": "a",
+		"numberOfGuests": 3,
+		"reserviourName": "a",
+		"reserviourEmail": "a",
+		"initialDate": "2023-10-10",
+		"reservedRoomsIds": []
+	}
 }

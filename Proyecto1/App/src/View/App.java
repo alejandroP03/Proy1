@@ -1,7 +1,6 @@
 package View;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -21,9 +20,13 @@ import Controller.WorkersAuth.HotelWorkersAuth;
 import Model.HotelObjects.Admin;
 import Model.HotelObjects.Employee;
 import Model.HotelObjects.Receptionist;
-import Model.HotelObjects.RoomRelated.*;
 import Model.HotelObjects.User;
 import Model.HotelObjects.UserType;
+import Model.HotelObjects.RoomRelated.Bed;
+import Model.HotelObjects.RoomRelated.Room;
+import Model.HotelObjects.RoomRelated.RoomFeatures;
+import Model.HotelObjects.RoomRelated.RoomModel;
+import Model.HotelObjects.RoomRelated.TypeRoom;
 
 public class App {
     User activeUser;
@@ -765,6 +768,7 @@ public class App {
         } while (moreRooms == "1");
 
         hotel.setOccupied(selectedRoomsIds);
+        System.out.println(selectedRoomsIds);
         return selectedRoomsIds;
     }
 
