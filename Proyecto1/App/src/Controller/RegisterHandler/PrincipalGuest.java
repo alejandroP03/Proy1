@@ -1,5 +1,8 @@
 package Controller.RegisterHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.simple.JSONObject;
 
 public class PrincipalGuest implements Guest {
@@ -34,8 +37,13 @@ public class PrincipalGuest implements Guest {
 
     @Override
     public JSONObject getJsonObject() {
-        // TODO Auto-generated method stub
-        return null;
+        Map<String, Object> principalGuest = new HashMap<String, Object>();
+        principalGuest.put("name", this.name);
+        principalGuest.put("dni", this.dni);
+        principalGuest.put("email", this.email);
+        principalGuest.put("phoneNumber", this.phoneNumber);
+        JSONObject principalGuestJson = new JSONObject(principalGuest);
+        return principalGuestJson;
     }
 
     

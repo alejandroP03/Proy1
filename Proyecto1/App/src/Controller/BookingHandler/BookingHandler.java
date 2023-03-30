@@ -14,11 +14,11 @@ public class BookingHandler {
     // Metodos
     public void createBooking(String reserviourName, String reserviourDNI, String reserviourPhone,
             String reserviourEmail, String reserviourSupportCardNumber, int numberOfGuests, LocalDate initialDate,
-            LocalDate finalDate, Map<Object, Booking> bookingsMap) {
+            LocalDate finalDate) {
+
         this.openBooking = new Booking(reserviourName, reserviourDNI, reserviourPhone, reserviourEmail,
                 reserviourSupportCardNumber, numberOfGuests, initialDate, finalDate);
 
-        bookingsMap.put(reserviourDNI, openBooking);
     }
 
     public void reserveRooms(List<String> selectedRooms, Map<Object, Room> allRooms) {
@@ -35,6 +35,10 @@ public class BookingHandler {
                     this.openBooking.getFinalDate());
         }
 
+    }
+
+    public Booking getOpenBooking() {
+        return openBooking;
     }
 
 }

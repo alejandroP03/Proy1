@@ -1,10 +1,9 @@
 package Model.HotelObjects;
 
-import Model.HotelObjects.User;
-import org.json.simple.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.json.simple.JSONObject;
 
 public class Employee implements User {
     private String userName;

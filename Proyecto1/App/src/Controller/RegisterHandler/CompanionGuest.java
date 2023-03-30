@@ -1,5 +1,8 @@
 package Controller.RegisterHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.simple.JSONObject;
 
 public class CompanionGuest implements Guest {
@@ -28,7 +31,11 @@ public class CompanionGuest implements Guest {
 
     @Override
     public JSONObject getJsonObject() {
-        return null;
+        Map<String, Object> companionGuest = new HashMap<String, Object>();
+        companionGuest.put("name", this.name);
+        companionGuest.put("dni", this.dni);
+        JSONObject companionGuestJson = new JSONObject(companionGuest);
+        return companionGuestJson;
     }
 
 }

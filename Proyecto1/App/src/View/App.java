@@ -272,7 +272,7 @@ public class App {
                 System.out.println("Elija el tipo de cama que desea agregar a la habitacion: ");
                 String chooseBedStr = br.readLine();
                 int chooseBed = Integer.parseInt(chooseBedStr);
-                Bed bedChoose = typeBeds[chooseBed-1];
+                Bed bedChoose = typeBeds[chooseBed - 1];
                 System.out.print("Cuantas camas de este tipo desea agregar? : ");
                 String numBedsStr = br.readLine();
                 int numBeds = Integer.parseInt(numBedsStr);
@@ -300,7 +300,7 @@ public class App {
                 System.out.print("Elija el tipo de caracteristica que tendra la habitacion: ");
                 String chooseFeatureStr = br.readLine();
                 int chooseFeature = Integer.parseInt(chooseFeatureStr);
-                RoomFeatures featuresChoose = typeFeeatures[chooseFeature-1];
+                RoomFeatures featuresChoose = typeFeeatures[chooseFeature - 1];
                 featuresList.add(featuresChoose);
 
                 System.out.println("La caracteristica " + featuresChoose + " ha sido agregada");
@@ -324,18 +324,18 @@ public class App {
             System.out.print("Elija el tipo de la habitacion: ");
             String chooseTypeStr = br.readLine();
             int chooseType = Integer.parseInt(chooseTypeStr);
-            TypeRoom typeChoose = typeRooms[chooseType-1];
+            TypeRoom typeChoose = typeRooms[chooseType - 1];
             System.out.println("La habitacion nueva sera: " + typeChoose);
 
             hotel.getRoomsHandler().createNewRoom(location, false, mapBeds, featuresList, typeChoose);
             hotel.getRoomsHandler().SavePersistentData();
 
         }
-//        try {
-//            createRoom();
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
+        // try {
+        // createRoom();
+        // } catch (Exception e) {
+        // System.out.println(e);
+        // }
 
     }
 
@@ -377,7 +377,7 @@ public class App {
      *
      */
     private void createService() throws Exception {
-        //loadServices();
+        // loadServices();
         System.out.println("------ Crear servicio ------- ");
         System.out.println("Ingrese el id del servicio: ");
         String id = br.readLine();
@@ -452,7 +452,7 @@ public class App {
      */
     private void loadServices() throws Exception {
         hotel.getServices().loadPersistentData();
-        //hotel.getServices().SavePersistentData();
+        // hotel.getServices().SavePersistentData();
         try {
             loadServices();
         } catch (Exception e) {
@@ -579,15 +579,14 @@ public class App {
         String numCompanionStr = br.readLine();
         int numCompanion = Integer.parseInt(numCompanionStr);
 
-
         ArrayList<CompanionGuest> groupGuests = new ArrayList<>();
         for (int i = 1; i <= numCompanion; i++) {
-            System.out.println(" ****** Ingreso de datos para el acompanante "+ i +" ****** ");
+            System.out.println(" ****** Ingreso de datos para el acompanante " + i + " ****** ");
             System.out.print("Ingrese el nombre del acompanante: ");
             String nameCompanion = br.readLine();
             System.out.print("Ingrese el nunero identificacion del acompanante: ");
             String dniCompanion = br.readLine();
-            hotel.getRegisterHandler().getGroupData().addCompanionGuest(nameCompanion,dniCompanion , groupGuests);
+            hotel.getRegisterHandler().getGroupData().addCompanionGuest(nameCompanion, dniCompanion, groupGuests);
         }
         System.out.println("Que fechas van a ocupar los huespedes? ");
         System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
@@ -602,13 +601,13 @@ public class App {
         System.out.println("Estas son las habitaciones disponibles para asignarle a los huespedes:");
         System.out.println(" ");
 
-       hotel.getRegisterHandler().createRegister(name,dni,email,phoneNumber,groupGuests , selectRooms(true,initialDate, finalDate));
+        hotel.getRegisterHandler().createRegister(name, dni, email, phoneNumber, groupGuests,
+                selectRooms(true, initialDate, finalDate));
 
-       //TODO falta guardar en el hotel el nuevo registro hecho
+        // TODO falta guardar en el hotel el nuevo registro hecho
 
         hotel.getRegistrationHandler().SavePersistentData();
     }
-
 
     private void newBooking() throws IOException {
         BookingHandler bookingHdlr = new BookingHandler();
@@ -637,10 +636,12 @@ public class App {
         LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
 
         bookingHdlr.createBooking(reserviourName, reserviourDNI, reserviourPhone, reserviourMail,
-                reserviourSupportCardNumber, numberOfGuests, initialDate, finalDate,
-                hotel.getBookingsHandler().getData());
+                reserviourSupportCardNumber, numberOfGuests, initialDate, finalDate);
 
         bookingHdlr.reserveRooms(selectRooms(false, initialDate, finalDate), hotel.getRoomsHandler().getData());
+
+        hotel.getBookingsHandler().getData().put(bookingHdlr.getOpenBooking().getReserviourDNI(),
+                bookingHdlr.getOpenBooking());
 
         hotel.getBookingsHandler().SavePersistentData();
     }
@@ -650,7 +651,6 @@ public class App {
 
         ArrayList<Room> freeRooms;
         String moreRooms;
-
 
         do {
             if (isForNow)
@@ -677,7 +677,6 @@ public class App {
 
         return selectedRoomsIds;
     }
-
 
     /*
      * Se le muestra al empleado el menu de funciones que puede realizar<br>
