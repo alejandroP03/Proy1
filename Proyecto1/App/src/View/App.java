@@ -206,6 +206,7 @@ public class App {
         } else if (opcion == 3) {
             System.out.println("Cargar tarifas");
             // TODO hacer funcion para cargar las tarifas
+
         } else if (opcion == 4) {
             System.out.println("Consultar inventario de habitaciones");
             // TODO hacer la consulta de las habitaciones en RoomsDataHolder con
@@ -601,12 +602,14 @@ public class App {
         System.out.println("Todos los datos de los huespedes han sido registrados!");
         System.out.println("Estas son las habitaciones disponibles para asignarle a los huespedes:");
         System.out.println(" ");
-
+        //TODO Se debe verificar si ya habia antes una reserva con los datos del guest prinicpal
        hotel.getRegisterHandler().createRegister(name,dni,email,phoneNumber,groupGuests , selectRooms(true,initialDate, finalDate));
 
-       //TODO falta guardar en el hotel el nuevo registro hecho
-
         hotel.getRegistrationHandler().SavePersistentData();
+
+       //TODO falta poner ocupadas las habitaciones registradas por el nuevo registro
+
+
     }
 
 
