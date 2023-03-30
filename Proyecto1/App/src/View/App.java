@@ -823,48 +823,12 @@ public class App {
      */
     private  void showEmployeeScreen() throws Exception {
         System.out.println("------ Pantalla funciones de employee ------ ");
-        System.out.println("1. Cargar servicio a la habitacion");
-        System.out.println("2. Pago inmediato del servicio");
-
         System.out.println("Servicios disponibles para el huesped: ");
 
-        hotel.getServices().loadPersistentData();
-        hotel.getRestaurantHandler().loadPersistentData();
 
-        Map<Object, Service> mapServices = hotel.getServices().getData();
-        Map<Object, Food> mapFoods = hotel.getRestaurantHandler().getData();
-        ArrayList<Food> foodsList = new ArrayList<>();
-        ArrayList<Service> servicesList = new ArrayList<>();
 
-        for(Service eachService: mapServices.values()){
-            servicesList.add(eachService);
-        }
 
-        for(Food eachFood: mapFoods.values()){
-            foodsList.add(eachFood);
-        }
-
-//        System.out.println("****** 1. Restaurante ****** ");
-//        System.out.println("Menu del restaurante: ");
-//        int posf = 1;
-//        for(Food availableFood : foodsList ){
-//            System.out.println("Producto: "+availableFood.getName());
-//            System.out.println("Se puede subir a la habitacion:" +  availableFood.getIsRoomService());
-//            System.out.println("Tipo de comida" + availableFood.getAvailability());
-//            System.out.println("Precio de la comida: " + availableFood.getPrice());
-//            posf++;
-//        }
 //
-//        int pos = 2;
-//        for (Service availableService : mapServices.values()) {
-//            System.out.println(" ");
-//            System.out.println("****** "+pos+" "+availableService.getName() +" ****** ");
-//            System.out.println("Dias disponibles: " + availableService.getDaysAvailable());
-//            System.out.println("Hora que abre el servicio: " + availableService.getInitialTime());
-//            System.out.println("Hora que cierra el servicio: " + availableService.getFinalTime());
-//            System.out.println("Precio del servicio: " + availableService.getPrice() );
-//            pos++;
-//        }
 //
 //        int moreServices = 0;
 //        do{
@@ -875,8 +839,7 @@ public class App {
 //                int moreFoods = 0;
 //                do{
 //                    System.out.println("Que elemento del menu desea consumir? ");
-//                    int chooseElementMenu = Integer.parseInt(br.readLine());
-//                    Food foodChoosen = foodsList.get(chooseElementMenu);
+//
 //
 //                    if (foodChoosen.getIsRoomService()){
 //                        System.out.println("Desea subirlo a la habitacion? \n1.Si\n2.No ");
@@ -885,8 +848,7 @@ public class App {
 //                        System.out.println(message);
 //
 //                    }
-//                    System.out.println("Desea agregar mas elementos del menu? \n1.Si\n2.No");
-//                    moreFoods = Integer.parseInt(br.readLine());
+//
 //
 //                }while(moreFoods == 1);
 //
@@ -897,6 +859,71 @@ public class App {
 //                Service serviceToConsume = servicesList.get(chooseService);
 //            }
 //        }while(moreServices == 1);
+
+
+    }
+
+    public void showRestaurantOptions() throws Exception {
+        hotel.getRestaurantHandler().loadPersistentData();
+        Map<Object, Food> mapFoods = hotel.getRestaurantHandler().getData();
+        ArrayList<Food> foodsList = new ArrayList<>();
+        for(Food eachFood: mapFoods.values()){
+            foodsList.add(eachFood);
+        }
+        int moreFoods = 0;
+
+
+        do{
+            System.out.println("----- 1. Restaurante -----  ");
+            System.out.println("Menu del restaurante: ");
+            int posf = 1;
+            for(Food availableFood : foodsList ){
+                System.out.println(" ****** Item #"+ posf +" *******");
+                System.out.println("Producto: "+availableFood.getName());
+                System.out.println("Se puede subir a la habitacion:" +  availableFood.getIsRoomService());
+                System.out.println("Tipo de comida" + availableFood.getAvailability());
+                System.out.println("Precio de la comida: " + availableFood.getPrice());
+                posf++;
+            }
+            System.out.println("Que producto del menu desea consumir?");
+            int chooseElementMenu = Integer.parseInt(br.readLine());
+            Food foodChoosen = foodsList.get(chooseElementMenu);
+
+
+            System.out.println(foodChoosen.getName()+" Ha sido agregado!");
+            System.out.println(" ");
+
+            System.out.println("Desea agregar mas elementos del menu? \n1.Si\n2.No");
+            moreFoods = Integer.parseInt(br.readLine());
+        }while(moreFoods == 1);
+
+
+    }
+
+    public void showOtherServices() throws Exception {
+        hotel.getServices().loadPersistentData();
+        Map<Object, Service> mapServices = hotel.getServices().getData();
+        ArrayList<Service> servicesList = new ArrayList<>();
+        for(Service eachService: mapServices.values()){
+            servicesList.add(eachService);
+        }
+
+        int pos = 2;
+        for (Service availableService : servicesList) {
+            System.out.println(" ");
+            System.out.println("------"+pos+" "+availableService.getName() +" ------");
+            System.out.println("Dias disponibles: " + availableService.getDaysAvailable());
+            System.out.println("Hora que abre el servicio: " + availableService.getInitialTime());
+            System.out.println("Hora que cierra el servicio: " + availableService.getFinalTime());
+            System.out.println("Precio del servicio: " + availableService.getPrice() );
+            pos++;
+        }
+        System.out.print("Cual servicio desea consumir: ");
+        int chooseService= Integer.parseInt(br.readLine());
+        Service serviceChoosen = servicesList.get(chooseService);
+
+        System.out.println("1. Pagar ya\n2. Que se cargue a la habitacion para pagar al hacer check-in: ");
+        int methodPaid= Integer.parseInt(br.readLine());
 
 
     }
