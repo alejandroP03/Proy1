@@ -1,6 +1,8 @@
 package Controller.BillService;
 
+import java.io.IOException;
+
 public interface BillGenerator {
-    public float calculeTotalCost();
-    public String showBill();
+
+    public void showBill() throws IOException;
 }

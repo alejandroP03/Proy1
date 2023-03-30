@@ -83,7 +83,8 @@ public class Hotel {
         return freeRooms;
     }
 
-    public Map<String, Room> getNotBookedRooms(LocalDate initialDate, LocalDate finalDate) {
+    public Map<String, Room> getNotBookedRooms(LocalDate initialDate, LocalDate finalDate) throws Exception {
+        this.roomsHandler.loadPersistentData();
         Map<String, Room> freeRooms = new HashMap<String, Room>();
         for (Room room : this.roomsHandler.getData().values()) {
             for (Map.Entry<LocalDate, LocalDate> roomBookedDates : room.getBookedDates().entrySet()) {
