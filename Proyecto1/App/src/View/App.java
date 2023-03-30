@@ -16,6 +16,7 @@ import java.util.Set;
 import Controller.Hotel;
 import Controller.BookingHandler.BookingHandler;
 import Controller.RegisterHandler.CompanionGuest;
+import Controller.RegisterHandler.RegisterHandler;
 import Controller.WorkersAuth.HotelWorkersAuth;
 import Model.HotelObjects.Admin;
 import Model.HotelObjects.Employee;
@@ -567,6 +568,7 @@ public class App {
     private void newRegister() throws IOException {
         System.out.println(" ------ Hacer una nuevo registro -------");
 
+        RegisterHandler registerHandler = new RegisterHandler();
         System.out.println(" ****** Ingreso de datos para el huesped principal: ****** ");
         System.out.print("Ingrese el nombre del nuevo huesped: ");
         String name = br.readLine();
@@ -588,14 +590,8 @@ public class App {
             String nameCompanion = br.readLine();
             System.out.print("Ingrese el nunero identificacion del acompanante: ");
             String dniCompanion = br.readLine();
-            hotel.getRegisterHandler().getGroupData().addCompanionGuest(nameCompanion, dniCompanion, groupGuests);
+            groupGuests.add(new CompanionGuest(nameCompanion, dniCompanion));
         }
-        System.out.println("Que fechas van a ocupar los huespedes? ");
-        System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
-        LocalDate initialDate = LocalDate.parse(br.readLine());
-
-        System.out.print("Número de dias de la estadía: ");
-        LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
 
         //
         System.out.println(" ");
@@ -603,13 +599,9 @@ public class App {
         System.out.println("Estas son las habitaciones disponibles para asignarle a los huespedes:");
         System.out.println(" ");
 
+        registerHandler.createRegister(name, dni, email, phoneNumber, groupGuests, selectRooms(true, null, null));
+
         //TODO Se debe verificar si ya habia antes una reserva con los datos del guest prinicpal
-       hotel.getRegisterHandler().createRegister(name,dni,email,phoneNumber,groupGuests , selectRooms(true,initialDate, finalDate));
-
-        hotel.getRegisterHandler().createRegister(name, dni, email, phoneNumber, groupGuests,
-                selectRooms(true, initialDate, finalDate));
-
-        // TODO falta guardar en el hotel el nuevo registro hecho
 
 
         hotel.getRegistrationHandler().SavePersistentData();

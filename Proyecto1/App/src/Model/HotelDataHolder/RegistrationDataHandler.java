@@ -3,7 +3,7 @@ package Model.HotelDataHolder;
 import java.io.File;
 import java.io.FileReader;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -71,15 +71,6 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
 
                     JSONArray consumedServices = (JSONArray) bookingEntry.get("consumedServices");
                     for (Object service : consumedServices) {
-                        /*
-                         * private String id;
-                         * private String name;
-                         * private double price;
-                         * private boolean isForGroup;
-                         * private ArrayList<DayOfWeek> daysAvailable;
-                         * private LocalTime initialTime;
-                         * private LocalTime finalTime;
-                         */
 
                         ArrayList<DayOfWeek> daysAvailable = new ArrayList<DayOfWeek>();
                         for (Object day : (JSONArray) ((JSONObject) service).get("daysAvailable")) {
@@ -91,8 +82,8 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
                                 Double.parseDouble(((JSONObject) service).get("price").toString()),
                                 Boolean.parseBoolean(((JSONObject) service).get("isForGroup").toString()),
                                 daysAvailable,
-                                LocalDate.parse(((JSONObject) service).get("initialTime").toString()),
-                                LocalDate.parse(((JSONObject) service).get("finalTime").toString()));
+                                LocalTime.parse(((JSONObject) service).get("initialTime").toString()),
+                                LocalTime.parse(((JSONObject) service).get("finalTime").toString()));
 
                         newRegistration.addConsumedService(newService);
                     }
