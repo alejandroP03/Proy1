@@ -53,7 +53,7 @@ public class App {
          * 2. Si se loggea con datos que no existen
          *
          *
-         * 
+         *
          */
 
         HotelWorkersAuth authHandler = new HotelWorkersAuth();
@@ -582,6 +582,7 @@ public class App {
 
         ArrayList<CompanionGuest> groupGuests = new ArrayList<>();
         for (int i = 1; i <= numCompanion; i++) {
+
             System.out.println(" ****** Ingreso de datos para el acompanante " + i + " ****** ");
             System.out.print("Ingrese el nombre del acompanante: ");
             String nameCompanion = br.readLine();
