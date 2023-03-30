@@ -1,21 +1,21 @@
 package Model.HotelDataHolder;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
-import Controller.RegisterHandler.Group;
-import Controller.RegisterHandler.PrincipalGuest;
-import Model.HotelObjects.Registration;
-import Model.HotelObjects.RoomRelated.Room;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
+import Controller.RegisterHandler.CompanionGuest;
+import Controller.RegisterHandler.PrincipalGuest;
+import Model.HotelObjects.Food;
+import Model.HotelObjects.Registration;
+import Model.HotelObjects.Service;
 
 public class RegistrationDataHandler extends HotelDataHolder<Registration> {
 
@@ -35,33 +35,76 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
             Map<String, JSONObject> objMap = (Map<String, JSONObject>) obj;
 
             if (super.getData().isEmpty()) {
-                Map<String, Room> registerRoomsMap = null;
-                Group groupOfGuests = null;
-                PrincipalGuest principalGuest = null;
-                for (Map.Entry<String, JSONObject> bookingEntry : objMap.entrySet()) {
-                    principalGuest = (PrincipalGuest) bookingEntry.getValue().get("principalGuest");
-                    groupOfGuests = (Group) bookingEntry.getValue().get("groupOfGuests");
-                    JSONArray registerRooms = (JSONArray) bookingEntry.getValue().get("registerRooms");
-                    JSONArray consumedFoods = (JSONArray) bookingEntry.getValue().get("consumedFoods");
-                    JSONArray consumedServices = (JSONArray) bookingEntry.getValue().get("consumedServices");
+                for (JSONObject bookingEntry : objMap.values()) {
 
-                    registerRoomsMap = new HashMap<>();
-                    RoomsDataHandler roomsHandler = new RoomsDataHandler(new File("App/data/rooms.json"));
+                    JSONObject principalGuestJson = (JSONObject) bookingEntry.get("principalGuest");
 
-                    for (Object roomId : registerRooms) {
-                        registerRoomsMap.put((String) roomId, roomsHandler.getData().get((String) roomId));
+                    PrincipalGuest principalGuest = new PrincipalGuest(principalGuestJson.get("name").toString(),
+                            principalGuestJson.get("dni").toString(), principalGuestJson.get("email").toString(),
+                            principalGuestJson.get("phoneNumber").toString());
+
+                    JSONArray groupOfGuestsJson = (JSONArray) bookingEntry.get("groupOfGuests");
+                    ArrayList<CompanionGuest> groupOfGuests = new ArrayList<CompanionGuest>();
+                    for (Object companionGuestJson : groupOfGuestsJson) {
+                        CompanionGuest companionGuest = new CompanionGuest(
+                                ((JSONObject) companionGuestJson).get("name").toString(),
+                                ((JSONObject) companionGuestJson).get("dni").toString());
+                        groupOfGuests.add(companionGuest);
                     }
+
+                    JSONArray registerRoomsIdsJson = (JSONArray) bookingEntry.get("registerRooms");
+                    ArrayList<String> registerRoomsIds = new ArrayList<String>();
+                    for (Object roomId : registerRoomsIdsJson) {
+                        registerRoomsIds.add(roomId.toString());
+                    }
+                    Registration newRegistration = new Registration(principalGuest, groupOfGuests, registerRoomsIds);
+
+                    JSONArray consumedFoodsJson = (JSONArray) bookingEntry.get("consumedFoods");
+                    for (Object food : consumedFoodsJson) {
+                        Food newFood = new Food(((JSONObject) food).get("id").toString(),
+                                ((JSONObject) food).get("name").toString(),
+                                Double.parseDouble(((JSONObject) food).get("price").toString()),
+                                Boolean.parseBoolean(((JSONObject) food).get("isRoomService").toString()),
+                                ((JSONObject) food).get("availability").toString());
+                        newRegistration.addConsumedFood(newFood);
+                    }
+
+                    JSONArray consumedServices = (JSONArray) bookingEntry.get("consumedServices");
+                    for (Object service : consumedServices) {
+                        /*
+                         * private String id;
+                         * private String name;
+                         * private double price;
+                         * private boolean isForGroup;
+                         * private ArrayList<DayOfWeek> daysAvailable;
+                         * private LocalTime initialTime;
+                         * private LocalTime finalTime;
+                         */
+
+                        ArrayList<DayOfWeek> daysAvailable = new ArrayList<DayOfWeek>();
+                        for (Object day : (JSONArray) ((JSONObject) service).get("daysAvailable")) {
+                            daysAvailable.add(DayOfWeek.valueOf(day.toString()));
+                        }
+
+                        Service newService = new Service(((JSONObject) service).get("id").toString(),
+                                ((JSONObject) service).get("name").toString(),
+                                Double.parseDouble(((JSONObject) service).get("price").toString()),
+                                Boolean.parseBoolean(((JSONObject) service).get("isForGroup").toString()),
+                                daysAvailable,
+                                LocalDate.parse(((JSONObject) service).get("initialTime").toString()),
+                                LocalDate.parse(((JSONObject) service).get("finalTime").toString()));
+
+                        newRegistration.addConsumedService(newService);
+                    }
+
+                    super.getData().put(newRegistration.getPrincipalGuest().getDni(), newRegistration);
                 }
-                Registration newRegistration = new Registration(principalGuest, groupOfGuests, registerRoomsMap);
-                super.getData().put(principalGuest, newRegistration);
 
-
-
-            }else{
+            } else {
                 throw new Exception("La lista de habitaciones contiene elementos");
 
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new Exception("El archivo no tiene la estructura JSON ");
         }
     }

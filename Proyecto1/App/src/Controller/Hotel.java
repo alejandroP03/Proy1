@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-import Controller.RegisterHandler.Group;
 import Controller.RegisterHandler.RegisterHandler;
 import Model.HotelDataHolder.BookingsDataHandler;
 import Model.HotelDataHolder.FaresDataHandler;
