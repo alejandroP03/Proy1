@@ -1,5 +1,6 @@
 package Model.HotelObjects;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,17 +18,21 @@ public class Registration implements HotelObject {
     private List<String> registerRoomsIds;
     private ArrayList<Service> consumedServices;
     private ArrayList<Food> consumedFoods;
+    private LocalDate initialDate;
+    private LocalDate finalDate;
+
 
 
     public Registration(PrincipalGuest principalGuest, ArrayList<CompanionGuest> groupOfGuests,
-            List<String> registerRoomsIds) {
+            List<String> registerRoomsIds, LocalDate initialDate, LocalDate finalDate) {
 
         this.groupOfGuests = groupOfGuests;
         this.principalGuest = principalGuest;
         this.registerRoomsIds = registerRoomsIds;
         this.consumedServices = new ArrayList<>();
         this.consumedFoods = new ArrayList<>();
-
+        this.initialDate = initialDate;
+        this.finalDate = finalDate;
     }
 
     public void addConsumedService(Service newService) {
@@ -54,9 +59,15 @@ public class Registration implements HotelObject {
         return this.getRegisterRoomsIds();
     }
 
+    public  LocalDate getInitialDate(){return  this.initialDate;}
+    public  LocalDate getFinalDate(){return  this.finalDate;}
+
     public JSONObject getJsonObject() {
         Map<String, Object> objMap = new HashMap<String, Object>();
         objMap.put("principalGuest", this.principalGuest.getJsonObject());
+
+        objMap.put("initialDate", this.initialDate.toString());
+        objMap.put("finalDate", this.finalDate.toString());
 
         @SuppressWarnings("unchecked")
         ArrayList<JSONObject> groupOfGuests = new JSONArray();

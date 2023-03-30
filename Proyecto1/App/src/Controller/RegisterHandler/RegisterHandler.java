@@ -1,5 +1,6 @@
 package Controller.RegisterHandler;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,14 +19,17 @@ public class RegisterHandler {
             String dni,
             String email,
             String phoneNumber,
-            ArrayList<CompanionGuest> group, List<String> registeredRoomsIds) {
+            ArrayList<CompanionGuest> group, List<String> registeredRoomsIds,
+                               LocalDate initialDate,
+                               LocalDate finalDate) {
         // crea instncia del prinicpalGuest
         this.responsibleGuest = new PrincipalGuest(name, dni, email, phoneNumber);
         // crea la instancia de la reserva
-        this.openRegister = new Registration(responsibleGuest, group, registeredRoomsIds);
+        this.openRegister = new Registration(responsibleGuest, group, registeredRoomsIds,initialDate,finalDate);
     }
 
-    public void getAsociatedBooking(String dni, Map<String, Booking> bookingMap, ArrayList<CompanionGuest> groupGuests)
+
+    public void getAsociatedBooking(String dni, Map<Object, Booking> bookingMap, ArrayList<CompanionGuest> groupGuests)
             throws Exception {
         /*
          * 
@@ -39,7 +43,7 @@ public class RegisterHandler {
         if (groupGuests.size() == previousBooking.getNumberOfGuests()) {
             createRegister(previousBooking.getReserviourName(), previousBooking.getReserviourDNI(),
                     previousBooking.getReserviourEmail(), previousBooking.getReserviourPhone(), groupGuests,
-                    previousBooking.getReservedRoomsIds());
+                    previousBooking.getReservedRoomsIds(), previousBooking.getInitialDate(), previousBooking.getFinalDate());
         } else
             throw new Exception(
                     String.format("La reserva que existe, es para %d personas, el grupo contiene %d personas",

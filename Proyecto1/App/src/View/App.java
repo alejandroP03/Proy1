@@ -12,16 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import Controller.BillService.ServicesBillGenerator;
+import Controller.BillService.StayBillGenerator;
 import Controller.Hotel;
 import Controller.BookingHandler.BookingHandler;
 import Controller.RegisterHandler.CompanionGuest;
 import Controller.RegisterHandler.RegisterHandler;
 import Controller.WorkersAuth.HotelWorkersAuth;
-import Model.HotelObjects.Admin;
-import Model.HotelObjects.Employee;
-import Model.HotelObjects.Receptionist;
-import Model.HotelObjects.User;
-import Model.HotelObjects.UserType;
+import Model.HotelObjects.*;
 import Model.HotelObjects.RoomRelated.Bed;
 import Model.HotelObjects.RoomRelated.Room;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
@@ -429,7 +427,7 @@ public class App {
             hotel.getFaresHandler().FareCreator(roomModel.createTypeRoomId(), price, initialDate, finalDate, daysList);
             typesRooms.remove(addFair);
 
-            System.out.println("Desea cargar otra tarifa? \n1.Si \n2.No");
+            System.out.println("Desea cargar otra tarifa? (1 o 2) \n1.Si \n2.No");
             moreFairs = Integer.parseInt(br.readLine());
 
         }while(moreFairs == 1);
@@ -437,7 +435,7 @@ public class App {
         hotel.getFaresHandler().SavePersistentData();
         System.out.println("Tarifa agregada exitosamente!");
         System.out.println(" ");
-        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
+        System.out.println("Desea hacer algo mas? (1 o 2) \n1.Si \n2.No");
         int masOpciones = Integer.parseInt(br.readLine());
         if (masOpciones == 1) showAdminScreen();
 
@@ -577,7 +575,7 @@ public class App {
         System.out.println("1.Desayuno");
         System.out.println("2. Almuerzo");
         System.out.println("3. Cena");
-        System.out.print("ingrese una opcion: ");
+        System.out.print("ingrese una opcion (1,2,3): ");
         String typeFoodStr = br.readLine();
         double optionFood = Integer.parseInt(typeFoodStr);
         String typeFood = null;
@@ -594,7 +592,7 @@ public class App {
         System.out.println("Comida agregada exitosamente! ");
         System.out.println(" ");
         System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
-        System.out.print("ingrese una opcion: ");
+        System.out.print("ingrese una opcion (1 o 2): ");
         int masOpciones = Integer.parseInt(br.readLine());
         if (masOpciones == 1) showAdminScreen();
 
@@ -637,7 +635,7 @@ public class App {
         System.out.println("1. Hacer una nueva reserva. ");
         System.out.println("2. Hacer un nuevo registro. ");
         System.out.println("3. Hacer Check-out del huesped.");
-        System.out.println("3. Cancelar una reserva.");
+        System.out.println("4. Cancelar una reserva.");
 
         System.out.print("Ingrese una opcion: ");
         String opcionStr = br.readLine();
@@ -647,7 +645,7 @@ public class App {
         } else if (opcion == 2) {
             newRegister();
         } else if (opcion == 3) {
-
+            checkOut();
         } else if (opcion == 4) {
 
         }
@@ -656,44 +654,87 @@ public class App {
 
     private void newRegister() throws Exception {
         System.out.println(" ------ Hacer una nuevo registro -------");
-
         RegisterHandler registerHandler = new RegisterHandler();
-        System.out.println(" ****** Ingreso de datos para el huesped principal: ****** ");
-        System.out.print("Ingrese el nombre del nuevo huesped: ");
-        String name = br.readLine();
-        System.out.print("Ingrese el nombre el numero de identificacion del nuevo huesped:  ");
-        String dni = br.readLine();
-        System.out.print("Ingrese el nombre el email del nuevo huesped:  ");
-        String email = br.readLine();
-        System.out.print("Ingrese el nombre el numero de celular del nuevo huesped:  ");
-        String phoneNumber = br.readLine();
-        System.out.print("Cuantos acompanantes vienen con el huesped principal? : ");
-        String numCompanionStr = br.readLine();
-        int numCompanion = Integer.parseInt(numCompanionStr);
 
-        ArrayList<CompanionGuest> groupGuests = new ArrayList<>();
-        for (int i = 1; i <= numCompanion; i++) {
+        System.out.println("Tiene reserva \n 1. Si 2. No: ");
+        if(br.readLine() == "1"){
+            System.out.print("Ingrese el nombre el numero de identificacion del nuevo huesped:  ");
+            String dni = br.readLine();
+            ArrayList<CompanionGuest> groupGuests = new ArrayList<>();
+            for (int i = 1; i <= numCompanion; i++) {
 
-            System.out.println(" ****** Ingreso de datos para el acompanante " + i + " ****** ");
-            System.out.print("Ingrese el nombre del acompanante: ");
-            String nameCompanion = br.readLine();
-            System.out.print("Ingrese el nunero identificacion del acompanante: ");
-            String dniCompanion = br.readLine();
-            groupGuests.add(new CompanionGuest(nameCompanion, dniCompanion));
+                System.out.println(" ****** Ingreso de datos para el acompanante " + i + " ****** ");
+                System.out.print("Ingrese el nombre del acompanante: ");
+                String nameCompanion = br.readLine();
+                System.out.print("Ingrese el nunero identificacion del acompanante: ");
+                String dniCompanion = br.readLine();
+                groupGuests.add(new CompanionGuest(nameCompanion, dniCompanion));
+            }
+
+            registerHandler.getAsociatedBooking(dni, hotel.getBookingsHandler().getData(), groupGuests);
+
+        }else{
+
+            System.out.println(" ****** Ingreso de datos para el huesped principal: ****** ");
+            System.out.print("Ingrese el nombre del nuevo huesped: ");
+            String name = br.readLine();
+            System.out.print("Ingrese el nombre el numero de identificacion del nuevo huesped:  ");
+            String dni = br.readLine();
+            System.out.print("Ingrese el nombre el email del nuevo huesped:  ");
+            String email = br.readLine();
+            System.out.print("Ingrese el nombre el numero de celular del nuevo huesped:  ");
+            String phoneNumber = br.readLine();
+            System.out.print("Cuantos acompanantes vienen con el huesped principal? : ");
+            String numCompanionStr = br.readLine();
+            int numCompanion = Integer.parseInt(numCompanionStr);
+
+            ArrayList<CompanionGuest> groupGuests = new ArrayList<>();
+            for (int i = 1; i <= numCompanion; i++) {
+
+                System.out.println(" ****** Ingreso de datos para el acompanante " + i + " ****** ");
+                System.out.print("Ingrese el nombre del acompanante: ");
+                String nameCompanion = br.readLine();
+                System.out.print("Ingrese el nunero identificacion del acompanante: ");
+                String dniCompanion = br.readLine();
+                groupGuests.add(new CompanionGuest(nameCompanion, dniCompanion));
+            }
+            System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
+            LocalDate initialDate = LocalDate.parse(br.readLine());
+
+            System.out.print("Número de dias de la estadía: ");
+            LocalDate finalDate = LocalDate.parse(br.readLine());
+
+            System.out.println(" ");
+            System.out.println("Todos los datos de los huespedes han sido registrados!");
+            System.out.println("Estas son las habitaciones disponibles para asignarle a los huespedes:");
+            System.out.println(" ");
+
+            registerHandler.createRegister(name, dni, email, phoneNumber, groupGuests, selectRooms(true, null, null),initialDate,finalDate);
+
+            hotel.getRegistrationHandler().getData().put(dni, registerHandler.getOpenRegister());
+
         }
 
-        System.out.println(" ");
-        System.out.println("Todos los datos de los huespedes han sido registrados!");
-        System.out.println("Estas son las habitaciones disponibles para asignarle a los huespedes:");
-        System.out.println(" ");
 
-        registerHandler.createRegister(name, dni, email, phoneNumber, groupGuests, selectRooms(true, null, null));
-
-        hotel.getRegistrationHandler().getData().put(dni, registerHandler.getOpenRegister());
-        //TODO Se debe verificar si ya habia antes una reserva con los datos del guest prinicpal
 
 
         hotel.getRegistrationHandler().SavePersistentData();
+
+    }
+
+    private void checkOut() throws Exception {
+        System.out.println("Ingrese el DNI del responsable: ");
+        String dniRes = br.readLine();
+        Registration closeRegistration = hotel.getRegistrationHandler().getData().get(dniRes);
+        Room room = hotel.getRoomsHandler().getData().get(closeRegistration.getRegisterRoomsIds());
+        StayBillGenerator billGenerator = new StayBillGenerator(closeRegistration);
+        System.out.println("Su factura es: ");
+        System.out.println(billGenerator.calculateTotalCost(hotel.getFaresHandler().getData()));
+        billGenerator.showBill(hotel.getFaresHandler().getData());
+        room.setOccupied(false);
+        System.out.println("Se realizó efectivamente el check out");
+
+
 
     }
 
@@ -769,6 +810,7 @@ public class App {
         return selectedRoomsIds;
     }
 
+
     /*
      * Se le muestra al empleado el menu de funciones que puede realizar<br>
      * <b>pre:</b> El inventario de los servicios ya debe estar cargado para ser
@@ -779,10 +821,87 @@ public class App {
      * @throw Exception <br>
      * 1. ????
      */
-    private static void showEmployeeScreen() {
-        System.out.println("Pantalla funciones de employee");
+    private  void showEmployeeScreen() throws Exception {
+        System.out.println("------ Pantalla funciones de employee ------ ");
+        System.out.println("1. Cargar servicio a la habitacion");
+        System.out.println("2. Pago inmediato del servicio");
+
+        System.out.println("Servicios disponibles para el huesped: ");
+
+        hotel.getServices().loadPersistentData();
+        hotel.getRestaurantHandler().loadPersistentData();
+
+        Map<Object, Service> mapServices = hotel.getServices().getData();
+        Map<Object, Food> mapFoods = hotel.getRestaurantHandler().getData();
+        ArrayList<Food> foodsList = new ArrayList<>();
+        ArrayList<Service> servicesList = new ArrayList<>();
+
+        for(Service eachService: mapServices.values()){
+            servicesList.add(eachService);
+        }
+
+        for(Food eachFood: mapFoods.values()){
+            foodsList.add(eachFood);
+        }
+
+//        System.out.println("****** 1. Restaurante ****** ");
+//        System.out.println("Menu del restaurante: ");
+//        int posf = 1;
+//        for(Food availableFood : foodsList ){
+//            System.out.println("Producto: "+availableFood.getName());
+//            System.out.println("Se puede subir a la habitacion:" +  availableFood.getIsRoomService());
+//            System.out.println("Tipo de comida" + availableFood.getAvailability());
+//            System.out.println("Precio de la comida: " + availableFood.getPrice());
+//            posf++;
+//        }
+//
+//        int pos = 2;
+//        for (Service availableService : mapServices.values()) {
+//            System.out.println(" ");
+//            System.out.println("****** "+pos+" "+availableService.getName() +" ****** ");
+//            System.out.println("Dias disponibles: " + availableService.getDaysAvailable());
+//            System.out.println("Hora que abre el servicio: " + availableService.getInitialTime());
+//            System.out.println("Hora que cierra el servicio: " + availableService.getFinalTime());
+//            System.out.println("Precio del servicio: " + availableService.getPrice() );
+//            pos++;
+//        }
+//
+//        int moreServices = 0;
+//        do{
+//
+//            System.out.println("Cual servicio desea consumir? :  ");
+//            int chooseService = Integer.parseInt(br.readLine());
+//            if(chooseService == 1){
+//                int moreFoods = 0;
+//                do{
+//                    System.out.println("Que elemento del menu desea consumir? ");
+//                    int chooseElementMenu = Integer.parseInt(br.readLine());
+//                    Food foodChoosen = foodsList.get(chooseElementMenu);
+//
+//                    if (foodChoosen.getIsRoomService()){
+//                        System.out.println("Desea subirlo a la habitacion? \n1.Si\n2.No ");
+//                        int forRoom = Integer.parseInt(br.readLine());
+//                        String message = (forRoom == 1) ? "La comida sera llevada a su habitacion" : "La comida sera para consumir aca";
+//                        System.out.println(message);
+//
+//                    }
+//                    System.out.println("Desea agregar mas elementos del menu? \n1.Si\n2.No");
+//                    moreFoods = Integer.parseInt(br.readLine());
+//
+//                }while(moreFoods == 1);
+//
+//
+//
+//
+//            }else{
+//                Service serviceToConsume = servicesList.get(chooseService);
+//            }
+//        }while(moreServices == 1);
 
 
     }
 
 }
+
+
+

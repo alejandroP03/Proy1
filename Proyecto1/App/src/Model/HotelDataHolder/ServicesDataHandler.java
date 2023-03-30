@@ -75,8 +75,9 @@ public class ServicesDataHandler extends HotelDataHolder<Service> {
                 String name = (String) serviceEntry.getValue().get("name");
                 double price = (double) serviceEntry.getValue().get("price");
                 boolean isForGroup = (boolean) serviceEntry.getValue().get("isForGroup");
-                LocalTime initialTime = (LocalTime) serviceEntry.getValue().get("initialTime");
-                LocalTime finalTime = (LocalTime) serviceEntry.getValue().get("finalTime");
+                LocalTime initialTime = LocalTime.parse(((String) serviceEntry.getValue().get("initialTime")));
+                LocalTime finalTime = LocalTime.parse(((String) serviceEntry.getValue().get("finalTime")));
+
 
                 ArrayList<String> daysString = (ArrayList<String>) serviceEntry.getValue().get("daysAvailable");
 

@@ -3,6 +3,7 @@ package Model.HotelDataHolder;
 import java.io.File;
 import java.io.FileReader;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
 
             if (super.getData().isEmpty()) {
                 for (JSONObject bookingEntry : objMap.values()) {
+
                     JSONObject principalGuestJson = (JSONObject) bookingEntry.get("principalGuest");
 
                     PrincipalGuest principalGuest = new PrincipalGuest(principalGuestJson.get("name").toString(),
@@ -60,8 +62,10 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
                     for (Object roomId : registerRoomsIdsJson) {
                         registerRoomsIds.add(roomId.toString());
                     }
+                    LocalDate initialDate = LocalDate.parse(((String) bookingEntry.get("initialDate")));
+                    LocalDate finalDate = LocalDate.parse(((String) bookingEntry.get("finalDate")));
 
-                    Registration newRegistration = new Registration(principalGuest, groupOfGuests, registerRoomsIds);
+                    Registration newRegistration = new Registration(principalGuest, groupOfGuests, registerRoomsIds, initialDate, finalDate);
 
 
                     JSONArray consumedFoodsJson = (JSONArray) bookingEntry.get("consumedFoods");

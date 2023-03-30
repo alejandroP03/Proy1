@@ -9,6 +9,7 @@ public class ConsumeRecorder {
     public void registerConsumption(ArrayList<HotelService> servicesConsumed, HotelService service){
         servicesConsumed.add(service);
     }
+
     public String handleInstantPay(ArrayList<HotelService> consumedServices, Guest guest){
 
         double total = 0;
