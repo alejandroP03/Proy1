@@ -257,7 +257,7 @@ public class App {
      * @param roomFareId: Conjunto con las características de la habitación
      */
     private void showRoomFareId(Set<Object> roomFareId) {
-        Set<RoomFeatures> featuresList = null;
+        Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
         Map<Bed, Integer> mapBeds = null;
         TypeRoom typeRoom = null;
         for (Object object : roomFareId) {
