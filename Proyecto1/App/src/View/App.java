@@ -52,21 +52,21 @@ public class App {
         //instanceApp.showTypeUser();
 
     }
-
+    /*
+     * Autentica a los usuarios del Hotel (Recepcionista, Administrador, Empleado)
+     * <br>
+     * <b>pre:</b> El archivo de usuarips ya esta inicializado
+     * <b>post:</b> Un usuario inicia sesion o se registra en el hotel
+     *
+     * @throw Exception <br>
+     * 1. Si se registra un usuario con las mismas credenciales
+     * 2. Si se loggea con datos que no existen
+     *
+     *
+     *
+     */
     private void authApp() throws Exception {
-        /*
-         * Autentica a los usuarios del Hotel (Recepcionista, Administrador, Empleado)
-         * <br>
-         * <b>pre:</b> El archivo de usuarips ya esta inicializado
-         * <b>post:</b> Un usuario inicia sesion o se registra en el hotel
-         *
-         * @throw Exception <br>
-         * 1. Si se registra un usuario con las mismas credenciales
-         * 2. Si se loggea con datos que no existen
-         *
-         *
-         *
-         */
+
 
         HotelWorkersAuth authHandler = new HotelWorkersAuth();
 
@@ -185,9 +185,9 @@ public class App {
     /*
      * Se le muestra al administrador las funciones que puede realizar <br>
      * <b>pre:</b> El usuario se registro o inicio sesion dentro de la aplicacion y
-     * es administrador el hotel
+     * es administrador el hotel <br>
      * <b>post:</b> El administrasdor elegir cuales funciones puede hacer, como
-     * cargar habitaciones, servicios...etc
+     * cargar habitaciones, servicios...etc <br>
      *
      * @throw Exception <br>
      * 1. El usuario no es un administrador
@@ -249,7 +249,13 @@ public class App {
             getRoomsById((Set<Object>) roomFareEntry.getKey(), roomMap);
         }
     }
-
+    /*
+     * Imprime todas las características de una habitación.
+     * <b>pre: </b> El mapa de FaresDataHandler debe estar inicializado y con información.
+     * <b>pos: </b> Se imprimen las características de la habitación correspondiente
+     *
+     * @param roomFareId: Conjunto con las características de la habitación
+     */
     private void showRoomFareId(Set<Object> roomFareId) {
         Set<RoomFeatures> featuresList = null;
         Map<Bed, Integer> mapBeds = null;
@@ -284,6 +290,17 @@ public class App {
         }
     }
 
+
+    /*
+     * Imprime cada habitación que tengan las mismas características que se les pase por parámetro
+     * <b>pre: </b>El mapa de las habitaciones ya debe estar cargado y debe contener información. <br>
+     * <b>pos: </b>Imprime cada cada habitación que tenga el mismo set de características. <br>
+     *
+     * @param roomFareId: Conjunto que contiene las características deseadas. roomFareId != null.
+     * @param roomMap: Mapa que contiene la información de las habitaciones. roomMap != null.
+     */
+
+
     private void getRoomsById(Set<Object> roomFareId, Map<Object, Room> roomMap) {
         // Room has method createTypeRoomId
         for (Map.Entry<Object, Room> roomEntry : roomMap.entrySet()) {
@@ -294,6 +311,13 @@ public class App {
         }
     }
 
+    /*
+     * Crea una nueva habitación dados los datos que se pasen por consola.
+     * <b>pre: </b>RoomsDataHandler debe estar inicializado. <br>
+     * <b>pos: </b>Se crea una nueva habitación y se guarda.
+     *
+     * @throws Exception <br>
+     */
     private void createRoom() throws Exception {
         loadDataRooms(); // Se carga primero el archivo asi este vacio
         System.out.println("------ Crear habitaciones------- ");
@@ -685,7 +709,7 @@ public class App {
      * del hotel
      *
      * @throw Exception <br>
-     * 1. ????
+     *
      *
      */
     private void showRecepcionistScreen() throws Exception {
@@ -709,7 +733,14 @@ public class App {
         }
 
     }
-
+    /*
+     * Pide los datos al usuario para realizar un nuevo registro.
+     *
+     * <b>pre: </b> La información de RegistrationHandler ya debe estar cargada. <br>
+     * <b>pos: </b> Se crea un nuevo registro con los datos obtenidos
+     *
+     * @throws Exception <br>
+     */
     private void newRegister() throws Exception {
         System.out.println(" ------ Hacer una nuevo registro -------");
         RegisterHandler registerHandler = new RegisterHandler();
@@ -880,7 +911,7 @@ public class App {
      * del hotel
      *
      * @throw Exception <br>
-     * 1. ????
+     *
      */
     private  void showEmployeeScreen() throws Exception {
         System.out.println("------ Pantalla funciones de employee ------ ");
@@ -900,7 +931,13 @@ public class App {
         }while(moreServices == 1);
 
     }
-
+    /*
+     * Muestra las opciones disponibles que posee el restaurante.
+     * <b>pre: </b>El mapa de comidas debe estar inicializado y con información <br>
+     * <b>pos: </b>Muestra los servicios disponibles
+     *
+     * @throws Exception
+     */
     public void showRestaurantOptions() throws Exception {
         hotel.getRestaurantHandler().loadPersistentData();
 
@@ -966,7 +1003,13 @@ public class App {
         hotel.getRegistrationHandler().SavePersistentData();
 
     }
-
+    /*
+     * Muestra los servicios disponibles que posee el hotel.
+     * <b>pre: </b>El mapa de servicos debe estar inicializado y con información <br>
+     * <b>pos: </b>Muestra los servicios disponibles
+     *
+     * @throws Exception
+     */
     public void showOtherServices() throws Exception {
         hotel.getServices().loadPersistentData();
         Map<Object, Registration> mapRegisters = hotel.getRegistrationHandler().getData();
@@ -1041,14 +1084,31 @@ public class App {
         hotel.getRegistrationHandler().SavePersistentData();
     }
 
+    /*
+     * Busca un registro dentro del mapa de registros para devolverlo
+     *
+     * <b>pre: </b> El mapa de registros debe estar cargado y con información. <br>
+     * <b>pos: </b> Retorna el registro asociado al DNI dado. <br>
+     * @param dni: DNI del huésped del que se desea encontrar su registro. <br>
+     * @throws IOException
+     */
    public Registration searchGuestRegistration(String dni) throws IOException {
        Map<Object, Registration> mapRegisters = hotel.getRegistrationHandler().getData();
        return mapRegisters.get(dni);
    }
+
+   /*
+    * Busca un huésped con ayuda del mapa de registros para saber si es principal o invitado
+    * con el fin de generar la factura inmediata a su nombre.
+    * <b>pre: </b> El mapa de registros debe estar cargado y con información. <br>
+    * <b>pos: </b> Retorna el huésped. <br>
+    *
+    * @throws IOException
+    */
    public Guest searchConsumer() throws IOException {
        Map<Object, Registration> mapRegisters = hotel.getRegistrationHandler().getData();
        System.out.println("Elija el tipo de huesped que es:");
-       System.out.println("1. Huesped prinicpal (Sobre el que se hizo la reserva)  ");
+       System.out.println("1. Huesped principal (Sobre el que se hizo la reserva)  ");
        System.out.println("2. Huesped invitado");
        int isInvited = Integer.parseInt(br.readLine());
        if(isInvited == 1){
@@ -1058,7 +1118,7 @@ public class App {
            return mapRegisters.get(dni).getPrincipalGuest();
 
        }else{
-           System.out.print("Ingrese el dni de la persona que lo invito (El huesped principal) ");
+           System.out.print("Ingrese el dni de la persona que lo invitó (El huésped principal) ");
            String principalDni = br.readLine();
            System.out.print("Ingrese su dni: ");
            String invitedDni = br.readLine();
