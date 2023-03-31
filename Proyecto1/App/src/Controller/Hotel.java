@@ -76,6 +76,7 @@ public class Hotel {
         getRoomsHandler().loadPersistentData();
         getBookingsHandler().loadPersistentData();
         getRegistrationHandler().loadPersistentData();
+        getRestaurantHandler().loadPersistentData();
     }
 
     /*

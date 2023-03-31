@@ -266,12 +266,12 @@ public class App {
             }
             else{
                 for (TypeRoom roomType : TypeRoom.values()) {
-                    if (object.equals(roomType.toString()))
-                        typeRoom = roomType;
+                    if (object.equals(roomType))
+                        typeRoom = roomType;        
                 }
 
                 for (RoomFeatures roomFeature : RoomFeatures.values()) {
-                    if (object.equals(roomFeature.toString()))
+                    if (object.equals(roomFeature))
                         featuresList.add(roomFeature);
                 }
             }
@@ -409,12 +409,13 @@ public class App {
 
             hotel.getRoomsHandler().createNewRoom(location, false, mapBeds, featuresList, typeChoose);
             hotel.getRoomsHandler().SavePersistentData();
-            System.out.println("Las habitaciones han sido creadas exitosamente!");
-            System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
-            int masOpciones = Integer.parseInt(br.readLine());
-            if (masOpciones == 1) showAdminScreen();
+            System.out.println("La habitacion ha sido creada exitosamente!");
+
 
         }
+        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
+        int masOpciones = Integer.parseInt(br.readLine());
+        if (masOpciones == 1) showAdminScreen();
         // try {
         // createRoom();
         // } catch (Exception e) {
@@ -482,11 +483,13 @@ public class App {
             System.out.print("Ingrese le precio para la habitacion: ");
             int price = Integer.parseInt(br.readLine());
 
-            System.out.print("ingrese la fecha inicial para la tarifa (YYYY-MM-DD) : ");
-            LocalDate initialDate = LocalDate.parse(br.readLine());
+//            System.out.print("ingrese la fecha inicial para la tarifa (YYYY-MM-DD) : ");
+//            LocalDate initialDate = LocalDate.parse(br.readLine());
+//
+//            System.out.print("ingrese la fecha final para la tarifa (YYYY-MM-DD) : ");
+//            LocalDate finalDate = LocalDate.parse(br.readLine());
 
-            System.out.print("ingrese la fecha final para la tarifa (YYYY-MM-DD) : ");
-            LocalDate finalDate = LocalDate.parse(br.readLine());
+            ArrayList<LocalDate> localDatesList = getGoodDates(false);
             ArrayList<DayOfWeek> daysList = new ArrayList<>();
             DayOfWeek[] daysWeek = DayOfWeek.values();
             int moreDays = 0;
@@ -500,13 +503,13 @@ public class App {
                 }
                 System.out.print("Ingrese el dia a la semana que desea agregar: ");
                 int chooseDay = Integer.parseInt(br.readLine());
-                DayOfWeek dayChoose = daysWeek[chooseDay];
+                DayOfWeek dayChoose = daysWeek[chooseDay-1];
                 daysList.add(dayChoose);
                 System.out.println("Desea agreagar mas dias? \n1.Si\n2.No");
                 moreDays = Integer.parseInt(br.readLine());
 
             } while (moreDays == 1);
-            hotel.getFaresHandler().FareCreator(roomModel.createTypeRoomId(), price, initialDate, finalDate, daysList);
+            hotel.getFaresHandler().FareCreator(roomModel.createTypeRoomId(), price, localDatesList.get(0), localDatesList.get(1), daysList);
             typesRooms.remove(addFair);//
 
             System.out.println("Desea cargar otra tarifa? (1 o 2) \n1.Si \n2.No");
@@ -567,7 +570,7 @@ public class App {
             System.out.print("Ingrese el dia a la semana que desea agregar: ");
             String dayWeekStr = br.readLine();
             int dayWeek = Integer.parseInt(dayWeekStr);
-            DayOfWeek dayChoose = daysWeek[dayWeek];
+            DayOfWeek dayChoose = daysWeek[dayWeek-1];
             daySet.add(dayChoose);
 
             System.out.println("Desea ingresar otro dia?");
@@ -695,7 +698,7 @@ public class App {
     private void loadMenuRestaurant() throws Exception {
 
         try {
-            hotel.getRestaurantHandler().loadPersistentData();
+
             hotel.getRestaurantHandler().SavePersistentData();
         } catch (Exception e) {
             System.out.println(e);
@@ -772,7 +775,7 @@ public class App {
             System.out.println(" ****** Ingreso de datos para el huesped principal: ****** ");
             System.out.print("Ingrese el nombre del nuevo huesped: ");
             String name = br.readLine();
-            System.out.print("Ingrese el nombre el numero de identificacion del nuevo huesped:  ");
+            System.out.print("Ingrese el numero de identificacion del nuevo huesped:  ");
             String dni = br.readLine();
             System.out.print("Ingrese el nombre el email del nuevo huesped:  ");
             String email = br.readLine();
@@ -792,18 +795,18 @@ public class App {
                 String dniCompanion = br.readLine();
                 groupGuests.add(new CompanionGuest(nameCompanion, dniCompanion));
             }
-            System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
-            LocalDate initialDate = LocalDate.parse(br.readLine());
-
-            System.out.print("Número de dias de la estadía: ");
-            LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
-
+//            System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
+//            LocalDate initialDate = LocalDate.parse(br.readLine());
+//
+//            System.out.print("Número de dias de la estadía: ");
+//            LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
+            ArrayList<LocalDate> localDates=  getGoodDates(true);
             System.out.println(" ");
             System.out.println("Todos los datos de los huespedes han sido registrados!");
             System.out.println("Estas son las habitaciones disponibles para asignarle a los huespedes:");
             System.out.println(" ");
 
-            registerHandler.createRegister(name, dni, email, phoneNumber, groupGuests, selectRooms(true, null, null),initialDate,finalDate);
+            registerHandler.createRegister(name, dni, email, phoneNumber, groupGuests, selectRooms(true, null, null),localDates.get(0),localDates.get(1));
 
             hotel.getRegistrationHandler().getData().put(dni, registerHandler.getOpenRegister());
         }
@@ -829,34 +832,35 @@ public class App {
 
     private void newBooking() throws Exception {
         BookingHandler bookingHdlr = new BookingHandler();
-        System.out.print("Nombre del resonsable: ");
+        System.out.print("Nombre del responsable: ");
         String reserviourName = br.readLine();
 
-        System.out.print("Número de documento del resonsable: ");
+        System.out.print("Número de documento del responsable: ");
         String reserviourDNI = br.readLine();
 
-        System.out.print("Teléfono del resonsable: ");
+        System.out.print("Teléfono del responsable: ");
         String reserviourPhone = br.readLine();
 
-        System.out.print("Correo del resonsable: ");
+        System.out.print("Correo del responsable: ");
         String reserviourMail = br.readLine();
 
-        System.out.print("Número de tarjeta de credito del resonsable: ");
+        System.out.print("Número de tarjeta de credito del responsable: ");
         String reserviourSupportCardNumber = br.readLine();
 
         System.out.print("Número de acompañantes: ");
         int numberOfGuests = Integer.parseInt(br.readLine());
 
-        System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
-        LocalDate initialDate = LocalDate.parse(br.readLine());
-
-        System.out.print("Número de dias de la estadía: ");
-        LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
+//        System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
+//        LocalDate initialDate = LocalDate.parse(br.readLine());
+//
+//        System.out.print("Número de dias de la estadía: ");
+//        LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
+         ArrayList<LocalDate> localDates = getGoodDates(false);
 
         bookingHdlr.createBooking(reserviourName, reserviourDNI, reserviourPhone, reserviourMail,
-                reserviourSupportCardNumber, numberOfGuests, initialDate, finalDate);
+                reserviourSupportCardNumber, numberOfGuests, localDates.get(0), localDates.get(1));
 
-        bookingHdlr.reserveRooms(selectRooms(false, initialDate, finalDate), hotel.getRoomsHandler().getData());
+        bookingHdlr.reserveRooms(selectRooms(false, localDates.get(0), localDates.get(1)), hotel.getRoomsHandler().getData());
 
         hotel.getBookingsHandler().getData().put(bookingHdlr.getOpenBooking().getReserviourDNI(),
                 bookingHdlr.getOpenBooking());
@@ -880,14 +884,16 @@ public class App {
 
             int pos = 1;
             for (Room availableRoom : freeRooms) {
-                System.out.println (pos + ". Hab" + availableRoom.getRoomId());
-                System.out.println("\t Tipo: " + availableRoom.getType().toString());
+                System.out.println(" ");
+                System.out.println ("--------- "+pos + ". Habitacion: " + " --------- ");
+                System.out.println("Id de la habitacion: "+ availableRoom.getRoomId());
+                System.out.println("Tipo: " + availableRoom.getType().toString());
                 System.out.println("Capacidad: " + availableRoom.getCapacity());
                 System.out.println("Camas: " + availableRoom.getBeds());
                 System.out.println("Características: " + availableRoom.getFeaturesList());
                 pos++;
             }
-            System.out.print("Ingrese el número de la habitacion que va a ocupar (1-"+ pos +"): ");
+            System.out.print("Ingrese el número de la habitacion que va a ocupar (1-"+ (pos-1) +"): ");
             int chooseRoom = Integer.parseInt(br.readLine());
             selectedRoomsIds.add(freeRooms.get(chooseRoom - 1).getRoomId());
 
@@ -1134,6 +1140,74 @@ public class App {
        System.out.println("No se ha encontrado ningun usuario con esta identificacion.");
        return null;
    }
+
+    public ArrayList<LocalDate> getGoodDates(boolean withNumOfDays) throws Exception{
+        /*
+         * Valida que las fechas que se pasan por paramtero sean correctas (sin errores)
+         * de digitacion, que la inicial no este despues de la final y que sean actuales
+         * (de hoy, o dias futuros)
+         *
+         * @param withNumOfDays: true si se quiere preguntar cuantos dias despues de la fecha
+         * inicial y false si se quiere preguntar la fecha exacta
+         *
+         * */
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        LocalDate now = LocalDate.now();
+        ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
+        LocalDate initialDate = null;
+        LocalDate finalDate = null;
+
+        while(initialDate == null){
+            System.out.println("Fecha inicial (YYYY-MM-DD): ");
+            String initialDateStr = br.readLine();
+            try{
+                initialDate = LocalDate.parse(initialDateStr);
+            }catch (Exception e){
+                System.out.println("Error! \n la fecha debe estar en el formato indicado");
+            }
+            if(initialDate != null){
+                if( initialDate.isBefore(now)){
+                    System.out.println("Error! \n la fecha no puede ser del pasado");
+                    initialDate = null;
+                }
+            }
+
+        }
+        while (finalDate == null){
+            if(withNumOfDays){
+                System.out.println("Duracion (numero de dias): ");
+                String plusDays = br.readLine();
+                try{
+                    finalDate = initialDate.plusDays(Integer.parseInt(plusDays));
+                }catch (Exception e){
+                    System.out.println("Error! \n debe ser un numero positivo");
+                }
+            }else{
+                System.out.println("Fecha final (YYYY-MM-DD): ");
+                String finalDateStr = br.readLine();
+                try{
+                    finalDate = LocalDate.parse(finalDateStr);
+                }catch (Exception e){
+                    System.out.println("Error! \n la fecha debe estar en el formato indicado");
+                }
+                if (finalDate != null){
+                    if(finalDate.isBefore(now)){
+                        System.out.println("Error! \n la fecha no puede ser del pasado");
+                        finalDate = null;
+                    }
+                    else if(initialDate.compareTo(finalDate) >= 0){
+                        System.out.println("Error! \n la fecha inicial debe ser menor a la fecha final");
+                        finalDate = null;
+                    }
+                }
+            }
+
+        }
+        dates.add(initialDate);
+        dates.add(finalDate);
+        return dates;
+    }
 }
 
 

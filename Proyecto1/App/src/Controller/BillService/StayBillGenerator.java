@@ -30,12 +30,13 @@ public class StayBillGenerator {
         double total = 0;
         String textBill = "Factura total: \n" +
                 "Huesped principal: " +
-                this.registration.getPrincipalGuest().getName() +
+                this.registration.getPrincipalGuest().getName() + "\n" +
                 "DNI: " + this.registration.getPrincipalGuest().getDni();
 
 
-
         for(Map.Entry<Object,RoomFares> entry : roomFaresList.entrySet()){
+
+            System.out.println(entry.getValue());
             RoomFares roomFare = entry.getValue();
 
             roomValues += roomFare.getFare(this.registration.getInitialDate(),this.registration.getFinalDate());
@@ -43,20 +44,27 @@ public class StayBillGenerator {
         }
 
         textBill += "Valor habitaciones: " + roomValues;
+        if(this.consumedServicesIds.size() > 0){
+            System.out.println("pene");
+            for(String serviceId : this.consumedServicesIds){
+                Service service = serviceList.get(serviceId);
+                textBill += service.getName() + ": \n" + "Precio: " + service.getPrice() + "\n" ;
+                total += service.getPrice();
 
-        for(String serviceId : this.consumedServicesIds){
-            Service service = serviceList.get(serviceId);
-            textBill += service.getName() + ": \n" + "Precio: " + service.getPrice() + "\n" ;
-            total += service.getPrice();
-
-        }
-
-        for(String foodId : this.consumedFoodsIds){
-            Food food = foodList.get(foodId);
-            textBill += food.getName() + ": \n" + "Precio: " +food.getPrice() + "\n" ;
-            total += food.getPrice();
+            }
 
         }
+
+        if(this.consumedFoodsIds.size() > 0){
+            System.out.println("aywey");
+            for(String foodId : this.consumedFoodsIds){
+                Food food = foodList.get(foodId);
+                textBill += food.getName() + ": \n" + "Precio: " +food.getPrice() + "\n" ;
+                total += food.getPrice();
+
+            }
+        }
+
 
         double iva = total*0.19;
         total += iva;
