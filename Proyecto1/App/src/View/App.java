@@ -49,9 +49,10 @@ public class App {
         instanceApp.hotel.startUp();
         instanceApp.hotel.getRoomsHandler().SavePersistentData();
         instanceApp.authApp();
-        //instanceApp.showTypeUser();
+        // instanceApp.showTypeUser();
 
     }
+
     /*
      * Autentica a los usuarios del Hotel (Recepcionista, Administrador, Empleado)
      * <br>
@@ -66,7 +67,6 @@ public class App {
      *
      */
     private void authApp() throws Exception {
-
 
         HotelWorkersAuth authHandler = new HotelWorkersAuth();
 
@@ -124,13 +124,13 @@ public class App {
 
         } else if (opcion == 2) {
             try {
-            System.out.println(" ");
-            System.out.println("----- Inicio de sesion  -----");
-            System.out.print("Ingrese su usuario: ");
-            String usuarioStr = br.readLine();
+                System.out.println(" ");
+                System.out.println("----- Inicio de sesion  -----");
+                System.out.print("Ingrese su usuario: ");
+                String usuarioStr = br.readLine();
 
-            System.out.print("Ingrese su contrasena: ");
-            String contrasenaStr = br.readLine();
+                System.out.print("Ingrese su contrasena: ");
+                String contrasenaStr = br.readLine();
                 User actualUser = authHandler.login(usuarioStr, contrasenaStr, hotel.getUserHandler().getData());
                 switch (actualUser.getUserType()) {
                     case ADMIN:
@@ -242,16 +242,18 @@ public class App {
      */
 
     private void showRoomStock() {
-        Map<Object, Room> roomMap = new HashMap<Object,Room>(hotel.getRoomsHandler().getData());
+        Map<Object, Room> roomMap = new HashMap<Object, Room>(hotel.getRoomsHandler().getData());
         Map<Object, RoomFares> roomFaresMap = hotel.getFaresHandler().getData();
         for (Map.Entry<Object, RoomFares> roomFareEntry : roomFaresMap.entrySet()) {
             showRoomFareId((Set<Object>) roomFareEntry.getKey());
             getRoomsById((Set<Object>) roomFareEntry.getKey(), roomMap);
         }
     }
+
     /*
      * Imprime todas las características de una habitación.
-     * <b>pre: </b> El mapa de FaresDataHandler debe estar inicializado y con información.
+     * <b>pre: </b> El mapa de FaresDataHandler debe estar inicializado y con
+     * información.
      * <b>pos: </b> Se imprimen las características de la habitación correspondiente
      *
      * @param roomFareId: Conjunto con las características de la habitación
@@ -263,11 +265,10 @@ public class App {
         for (Object object : roomFareId) {
             if (object instanceof Map<?, ?>) {
                 mapBeds = (HashMap<Bed, Integer>) object;
-            }
-            else{
+            } else {
                 for (TypeRoom roomType : TypeRoom.values()) {
                     if (object.equals(roomType))
-                        typeRoom = roomType;        
+                        typeRoom = roomType;
                 }
 
                 for (RoomFeatures roomFeature : RoomFeatures.values()) {
@@ -290,16 +291,20 @@ public class App {
         }
     }
 
-
     /*
-     * Imprime cada habitación que tengan las mismas características que se les pase por parámetro
-     * <b>pre: </b>El mapa de las habitaciones ya debe estar cargado y debe contener información. <br>
-     * <b>pos: </b>Imprime cada cada habitación que tenga el mismo set de características. <br>
+     * Imprime cada habitación que tengan las mismas características que se les pase
+     * por parámetro
+     * <b>pre: </b>El mapa de las habitaciones ya debe estar cargado y debe contener
+     * información. <br>
+     * <b>pos: </b>Imprime cada cada habitación que tenga el mismo set de
+     * características. <br>
      *
-     * @param roomFareId: Conjunto que contiene las características deseadas. roomFareId != null.
-     * @param roomMap: Mapa que contiene la información de las habitaciones. roomMap != null.
+     * @param roomFareId: Conjunto que contiene las características deseadas.
+     * roomFareId != null.
+     * 
+     * @param roomMap: Mapa que contiene la información de las habitaciones. roomMap
+     * != null.
      */
-
 
     private void getRoomsById(Set<Object> roomFareId, Map<Object, Room> roomMap) {
         // Room has method createTypeRoomId
@@ -411,11 +416,11 @@ public class App {
             hotel.getRoomsHandler().SavePersistentData();
             System.out.println("La habitacion ha sido creada exitosamente!");
 
-
         }
         System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
         int masOpciones = Integer.parseInt(br.readLine());
-        if (masOpciones == 1) showAdminScreen();
+        if (masOpciones == 1)
+            showAdminScreen();
         // try {
         // createRoom();
         // } catch (Exception e) {
@@ -449,10 +454,11 @@ public class App {
 
         System.out.println("------ Crear tarifas para habitaciones ------- ");
 
-        Map<Object, Room> mapRooms = new HashMap<>(hotel.getRoomsHandler().getData() );
+        Map<Object, Room> mapRooms = new HashMap<>(hotel.getRoomsHandler().getData());
         Map<Set<Object>, Room> roomsList = new HashMap<Set<Object>, Room>();
 
-        System.out.println("Las siguientes habitaciones no tienen una tarifa asignada dentro de los siguientes 365 dias: ");
+        System.out.println(
+                "Las siguientes habitaciones no tienen una tarifa asignada dentro de los siguientes 365 dias: ");
 
         for (Room availableRoom : mapRooms.values()) {
             roomsList.put(availableRoom.createTypeRoomId(), availableRoom);
@@ -465,7 +471,7 @@ public class App {
             for (Room availableRoom : typesRooms) {
                 System.out.println(" ");
                 System.out.println("******* Tipo de habitacion #" + pos + " *******");
-                System.out.println("Id de la habitacion: "+ availableRoom.getRoomId());
+                System.out.println("Id de la habitacion: " + availableRoom.getRoomId());
                 System.out.println("Tipo: " + availableRoom.getType().toString());
                 System.out.println("Capacidad: " + availableRoom.getCapacity());
                 System.out.println("Camas: " + availableRoom.getBeds());
@@ -474,7 +480,7 @@ public class App {
             }
             System.out.print("Elija a que habitacion desea agreagarle una nueva tarifa: ");
             int addFair = Integer.parseInt(br.readLine());
-            Room roomSelected = typesRooms.get(addFair-1); //
+            Room roomSelected = typesRooms.get(addFair - 1); //
             TypeRoom type = roomSelected.getType();
             Map<Bed, Integer> beds = roomSelected.getBeds();
             Set<RoomFeatures> featuresList = roomSelected.getFeaturesList();
@@ -483,11 +489,11 @@ public class App {
             System.out.print("Ingrese le precio para la habitacion: ");
             int price = Integer.parseInt(br.readLine());
 
-//            System.out.print("ingrese la fecha inicial para la tarifa (YYYY-MM-DD) : ");
-//            LocalDate initialDate = LocalDate.parse(br.readLine());
-//
-//            System.out.print("ingrese la fecha final para la tarifa (YYYY-MM-DD) : ");
-//            LocalDate finalDate = LocalDate.parse(br.readLine());
+            // System.out.print("ingrese la fecha inicial para la tarifa (YYYY-MM-DD) : ");
+            // LocalDate initialDate = LocalDate.parse(br.readLine());
+            //
+            // System.out.print("ingrese la fecha final para la tarifa (YYYY-MM-DD) : ");
+            // LocalDate finalDate = LocalDate.parse(br.readLine());
 
             ArrayList<LocalDate> localDatesList = getGoodDates(false);
             ArrayList<DayOfWeek> daysList = new ArrayList<>();
@@ -503,26 +509,28 @@ public class App {
                 }
                 System.out.print("Ingrese el dia a la semana que desea agregar: ");
                 int chooseDay = Integer.parseInt(br.readLine());
-                DayOfWeek dayChoose = daysWeek[chooseDay-1];
+                DayOfWeek dayChoose = daysWeek[chooseDay - 1];
                 daysList.add(dayChoose);
                 System.out.println("Desea agreagar mas dias? \n1.Si\n2.No");
                 moreDays = Integer.parseInt(br.readLine());
 
             } while (moreDays == 1);
-            hotel.getFaresHandler().FareCreator(roomModel.createTypeRoomId(), price, localDatesList.get(0), localDatesList.get(1), daysList);
-            typesRooms.remove(addFair);//
+            hotel.getFaresHandler().FareCreator(roomModel.createTypeRoomId(), price, localDatesList.get(0),
+                    localDatesList.get(1), daysList);
+            typesRooms.remove(addFair - 1);//
 
             System.out.println("Desea cargar otra tarifa? (1 o 2) \n1.Si \n2.No");
             moreFairs = Integer.parseInt(br.readLine());
 
-        }while(moreFairs == 1);
+        } while (moreFairs == 1);
 
         hotel.getFaresHandler().SavePersistentData();
         System.out.println("Tarifa agregada exitosamente!");
         System.out.println(" ");
         System.out.println("Desea hacer algo mas? (1 o 2) \n1.Si \n2.No");
         int masOpciones = Integer.parseInt(br.readLine());
-        if (masOpciones == 1) showAdminScreen();
+        if (masOpciones == 1)
+            showAdminScreen();
 
     }
 
@@ -570,7 +578,7 @@ public class App {
             System.out.print("Ingrese el dia a la semana que desea agregar: ");
             String dayWeekStr = br.readLine();
             int dayWeek = Integer.parseInt(dayWeekStr);
-            DayOfWeek dayChoose = daysWeek[dayWeek-1];
+            DayOfWeek dayChoose = daysWeek[dayWeek - 1];
             daySet.add(dayChoose);
 
             System.out.println("Desea ingresar otro dia?");
@@ -600,7 +608,8 @@ public class App {
         System.out.println(" ");
         System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
         int masOpciones = Integer.parseInt(br.readLine());
-        if (masOpciones == 1) showAdminScreen();
+        if (masOpciones == 1)
+            showAdminScreen();
 
     }
 
@@ -679,7 +688,8 @@ public class App {
         System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
         System.out.print("ingrese una opcion (1 o 2): ");
         int masOpciones = Integer.parseInt(br.readLine());
-        if (masOpciones == 1) showAdminScreen();
+        if (masOpciones == 1)
+            showAdminScreen();
 
     }
 
@@ -736,10 +746,12 @@ public class App {
         }
 
     }
+
     /*
      * Pide los datos al usuario para realizar un nuevo registro.
      *
-     * <b>pre: </b> La información de RegistrationHandler ya debe estar cargada. <br>
+     * <b>pre: </b> La información de RegistrationHandler ya debe estar cargada.
+     * <br>
      * <b>pos: </b> Se crea un nuevo registro con los datos obtenidos
      *
      * @throws Exception <br>
@@ -750,7 +762,7 @@ public class App {
 
         System.out.println("Tiene reserva \n 1. Si 2. No: ");
         int optionReserve = Integer.parseInt(br.readLine());
-        if( optionReserve == 1){
+        if (optionReserve == 1) {
             System.out.print("Ingrese el nombre el numero de identificacion del nuevo huesped:  ");
             String dni = br.readLine();
             System.out.print("Cuantos acompanantes vienen con el huesped principal? : ");
@@ -770,7 +782,7 @@ public class App {
             registerHandler.getAsociatedBooking(dni, hotel.getBookingsHandler().getData(), groupGuests);
             hotel.getRegistrationHandler().getData().put(dni, registerHandler.getOpenRegister());
             hotel.setOccupied(registerHandler.getOpenRegister().getRegisterRoomsIds(), true);
-        }else{
+        } else {
 
             System.out.println(" ****** Ingreso de datos para el huesped principal: ****** ");
             System.out.print("Ingrese el nombre del nuevo huesped: ");
@@ -795,18 +807,19 @@ public class App {
                 String dniCompanion = br.readLine();
                 groupGuests.add(new CompanionGuest(nameCompanion, dniCompanion));
             }
-//            System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
-//            LocalDate initialDate = LocalDate.parse(br.readLine());
-//
-//            System.out.print("Número de dias de la estadía: ");
-//            LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
-            ArrayList<LocalDate> localDates=  getGoodDates(true);
+            // System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
+            // LocalDate initialDate = LocalDate.parse(br.readLine());
+            //
+            // System.out.print("Número de dias de la estadía: ");
+            // LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
+            ArrayList<LocalDate> localDates = getGoodDates(true);
             System.out.println(" ");
             System.out.println("Todos los datos de los huespedes han sido registrados!");
             System.out.println("Estas son las habitaciones disponibles para asignarle a los huespedes:");
             System.out.println(" ");
 
-            registerHandler.createRegister(name, dni, email, phoneNumber, groupGuests, selectRooms(true, null, null),localDates.get(0),localDates.get(1));
+            registerHandler.createRegister(name, dni, email, phoneNumber, groupGuests, selectRooms(true, null, null),
+                    localDates.get(0), localDates.get(1));
 
             hotel.getRegistrationHandler().getData().put(dni, registerHandler.getOpenRegister());
         }
@@ -823,8 +836,10 @@ public class App {
 
         StayBillGenerator billGenerator = new StayBillGenerator(closeRegistration);
         System.out.println("Su factura es: ");
-        System.out.println(billGenerator.calculateTotalCost(hotel.getFaresHandler().getData(), hotel.getServices().getData(), hotel.getRestaurantHandler().getData()));
-        billGenerator.showBill(hotel.getFaresHandler().getData(), hotel.getServices().getData(), hotel.getRestaurantHandler().getData());
+        System.out.println(billGenerator.calculateTotalCost(hotel.getFaresHandler().getData(),
+                hotel.getServices().getData(), hotel.getRestaurantHandler().getData()));
+        billGenerator.showBill(hotel.getFaresHandler().getData(), hotel.getServices().getData(),
+                hotel.getRestaurantHandler().getData());
         hotel.setOccupied(roomsIds, false);
         System.out.println("Se realizó efectivamente el check out");
 
@@ -850,21 +865,23 @@ public class App {
         System.out.print("Número de acompañantes: ");
         int numberOfGuests = Integer.parseInt(br.readLine());
 
-//        System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
-//        LocalDate initialDate = LocalDate.parse(br.readLine());
-//
-//        System.out.print("Número de dias de la estadía: ");
-//        LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
-         ArrayList<LocalDate> localDates = getGoodDates(false);
+        // System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
+        // LocalDate initialDate = LocalDate.parse(br.readLine());
+        //
+        // System.out.print("Número de dias de la estadía: ");
+        // LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
+        ArrayList<LocalDate> localDates = getGoodDates(false);
 
         bookingHdlr.createBooking(reserviourName, reserviourDNI, reserviourPhone, reserviourMail,
                 reserviourSupportCardNumber, numberOfGuests, localDates.get(0), localDates.get(1));
 
-        bookingHdlr.reserveRooms(selectRooms(false, localDates.get(0), localDates.get(1)), hotel.getRoomsHandler().getData());
+        bookingHdlr.reserveRooms(selectRooms(false, localDates.get(0), localDates.get(1)),
+                hotel.getRoomsHandler().getData());
 
         hotel.getBookingsHandler().getData().put(bookingHdlr.getOpenBooking().getReserviourDNI(),
                 bookingHdlr.getOpenBooking());
-        System.out.println(hotel.getBookingsHandler().getData().get(bookingHdlr.getOpenBooking().getReserviourDNI()).getReservedRoomsIds());
+        System.out.println(hotel.getBookingsHandler().getData().get(bookingHdlr.getOpenBooking().getReserviourDNI())
+                .getReservedRoomsIds());
         hotel.getBookingsHandler().SavePersistentData();
         hotel.getRoomsHandler().SavePersistentData();
     }
@@ -875,25 +892,24 @@ public class App {
         String moreRooms;
 
         do {
-            if (isForNow){
+            if (isForNow) {
                 freeRooms = new ArrayList<Room>(hotel.getFreeRooms().values());
 
-            }
-            else
+            } else
                 freeRooms = new ArrayList<Room>(hotel.getNotBookedRooms(initialDate, finalDate).values());
 
             int pos = 1;
             for (Room availableRoom : freeRooms) {
                 System.out.println(" ");
-                System.out.println ("--------- "+pos + ". Habitacion: " + " --------- ");
-                System.out.println("Id de la habitacion: "+ availableRoom.getRoomId());
+                System.out.println("--------- " + pos + ". Habitacion: " + " --------- ");
+                System.out.println("Id de la habitacion: " + availableRoom.getRoomId());
                 System.out.println("Tipo: " + availableRoom.getType().toString());
                 System.out.println("Capacidad: " + availableRoom.getCapacity());
                 System.out.println("Camas: " + availableRoom.getBeds());
                 System.out.println("Características: " + availableRoom.getFeaturesList());
                 pos++;
             }
-            System.out.print("Ingrese el número de la habitacion que va a ocupar (1-"+ (pos-1) +"): ");
+            System.out.print("Ingrese el número de la habitacion que va a ocupar (1-" + (pos - 1) + "): ");
             int chooseRoom = Integer.parseInt(br.readLine());
             selectedRoomsIds.add(freeRooms.get(chooseRoom - 1).getRoomId());
 
@@ -902,12 +918,10 @@ public class App {
             System.out.println(moreRooms.equals("1"));
         } while (moreRooms.equals("1"));
 
-
         System.out.println(selectedRoomsIds);
         hotel.getRoomsHandler().SavePersistentData();
         return selectedRoomsIds;
     }
-
 
     /*
      * Se le muestra al empleado el menu de funciones que puede realizar<br>
@@ -919,7 +933,7 @@ public class App {
      * @throw Exception <br>
      *
      */
-    private  void showEmployeeScreen() throws Exception {
+    private void showEmployeeScreen() throws Exception {
         System.out.println("------ Pantalla funciones de employee ------ ");
         System.out.println("Servicios disponibles para el huesped: ");
         int moreServices = 0;
@@ -934,9 +948,10 @@ public class App {
             System.out.println("Desea consumir mas servicios? \n1.Si\n2.No");
             System.out.println("Ingrese una opcion: ");
             moreServices = Integer.parseInt(br.readLine());
-        }while(moreServices == 1);
+        } while (moreServices == 1);
 
     }
+
     /*
      * Muestra las opciones disponibles que posee el restaurante.
      * <b>pre: </b>El mapa de comidas debe estar inicializado y con información <br>
@@ -950,56 +965,56 @@ public class App {
         ConsumeRecorder newConsumes = new ConsumeRecorder<Food>();
         Map<Object, Food> mapFoods = hotel.getRestaurantHandler().getData();
         ArrayList<Food> foodsList = new ArrayList<>();
-        for(Food eachFood: mapFoods.values()){
+        for (Food eachFood : mapFoods.values()) {
             foodsList.add(eachFood);
         }
         ArrayList<Food> addedFoods = new ArrayList<>();
 
         int moreFoods = 0;
-        do{
+        do {
             System.out.println("----- 1. Restaurante -----  ");
             System.out.println("Menu del restaurante: ");
             int posf = 1;
-            for(Food availableFood : foodsList ){
-                System.out.println(" ****** Item # "+ posf +" *******");
-                System.out.println("Producto: "+availableFood.getName());
-                System.out.println("Se puede subir a la habitacion:" +  availableFood.getIsRoomService());
+            for (Food availableFood : foodsList) {
+                System.out.println(" ****** Item # " + posf + " *******");
+                System.out.println("Producto: " + availableFood.getName());
+                System.out.println("Se puede subir a la habitacion:" + availableFood.getIsRoomService());
                 System.out.println("Tipo de comida" + availableFood.getAvailability());
                 System.out.println("Precio de la comida: " + availableFood.getPrice());
                 posf++;
             }
             System.out.println("Que item del menu desea consumir?");
             int chooseElementMenu = Integer.parseInt(br.readLine());
-            Food foodChoosen = foodsList.get(chooseElementMenu-1);
+            Food foodChoosen = foodsList.get(chooseElementMenu - 1);
             addedFoods.add(foodChoosen);
-            System.out.println(foodChoosen.getName()+" Ha sido agregado!");
+            System.out.println(foodChoosen.getName() + " Ha sido agregado!");
             System.out.println("Desea agregar mas elementos del menu? \n1.Si\n2.No");
             moreFoods = Integer.parseInt(br.readLine());
-        }while(moreFoods == 1);
+        } while (moreFoods == 1);
 
         System.out.println("Como desea pagar por lo elementos consumidos del menu?");
         System.out.println("1. Pagar ya\n2. Que se cargue a la habitacion para pagar al hacer check-out: ");
         System.out.print("Ingrese una opcion: ");
-        int methodPaid= Integer.parseInt(br.readLine());
-        if(methodPaid == 1){
+        int methodPaid = Integer.parseInt(br.readLine());
+        if (methodPaid == 1) {
             ArrayList<String> listFoodsId = new ArrayList<>();
-            for (Food foodAdded: addedFoods) {
+            for (Food foodAdded : addedFoods) {
                 listFoodsId.add(foodAdded.getId());
             }
             System.out.println("Factura generada exitosamente!");
-            Guest guesSearch= searchConsumer();
-            String newBill = newConsumes.handleInstantPay(listFoodsId,guesSearch, mapFoods);
-            ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill , guesSearch);
+            Guest guesSearch = searchConsumer();
+            String newBill = newConsumes.handleInstantPay(listFoodsId, guesSearch, mapFoods);
+            ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill, guesSearch);
             System.out.println("------ Informacion de la factura --------");
             System.out.println(newBill);
             newBillPay.showBill();
 
-        }else{
+        } else {
             System.out.print("Numero identificacion del huesped principal (sobre el que se hizo el registro) :  ");
             String dniConsumer = br.readLine();
             ArrayList<String> listFoods = new ArrayList<>();
-            for(Food eachFood:addedFoods){
-                newConsumes.registerConsumption(listFoods,eachFood );
+            for (Food eachFood : addedFoods) {
+                newConsumes.registerConsumption(listFoods, eachFood);
             }
             System.out.println(listFoods);
             searchGuestRegistration(dniConsumer).setConsumedFoods(listFoods);
@@ -1009,9 +1024,11 @@ public class App {
         hotel.getRegistrationHandler().SavePersistentData();
 
     }
+
     /*
      * Muestra los servicios disponibles que posee el hotel.
-     * <b>pre: </b>El mapa de servicos debe estar inicializado y con información <br>
+     * <b>pre: </b>El mapa de servicos debe estar inicializado y con información
+     * <br>
      * <b>pos: </b>Muestra los servicios disponibles
      *
      * @throws Exception
@@ -1024,67 +1041,66 @@ public class App {
 
         Map<Object, Service> mapServices = hotel.getServices().getData();
         ArrayList<Service> servicesList = new ArrayList<>();
-        for(Service eachService: mapServices.values()){
+        for (Service eachService : mapServices.values()) {
             servicesList.add(eachService);
         }
         ArrayList<Service> addedServices = new ArrayList<Service>();
 
         int moreServices = 0;
-        do{
+        do {
             int pos = 1;
             for (Service availableService : servicesList) {
                 System.out.println(" ");
-                System.out.println("------ Servicio#"+pos+": "+availableService.getName() +" ------");
+                System.out.println("------ Servicio#" + pos + ": " + availableService.getName() + " ------");
                 System.out.println("Dias disponibles: " + availableService.getDaysAvailable());
                 System.out.println("Hora que abre el servicio: " + availableService.getInitialTime());
                 System.out.println("Hora que cierra el servicio: " + availableService.getFinalTime());
-                System.out.println("Precio del servicio: " + availableService.getPrice() );
+                System.out.println("Precio del servicio: " + availableService.getPrice());
                 pos++;
             }
             System.out.print("Servicio que desea consumir: ");
-            int chooseService= Integer.parseInt(br.readLine());
-            Service serviceChoosen = servicesList.get(chooseService-1);
+            int chooseService = Integer.parseInt(br.readLine());
+            Service serviceChoosen = servicesList.get(chooseService - 1);
             System.out.println();
             addedServices.add(serviceChoosen);
 
-            System.out.println("El servicio: "+ serviceChoosen.getName()+" Ha sido agregado!");
+            System.out.println("El servicio: " + serviceChoosen.getName() + " Ha sido agregado!");
             System.out.println(" ");
 
             System.out.println("Desea consumir mas servicios? \n1.Si\n2.No");
             System.out.print("ingrese una opcion: ");
             moreServices = Integer.parseInt(br.readLine());
 
-        }while(moreServices == 1);
+        } while (moreServices == 1);
         System.out.println("Como desea pagar por los servicios consumidos?");
         System.out.println("1. Pagar ya\n2. Que se cargue a la habitacion para pagar al hacer check-in ");
         System.out.print("ingrese una opcion: ");
 
-        int methodPaid= Integer.parseInt(br.readLine());
-        if(methodPaid == 1){
+        int methodPaid = Integer.parseInt(br.readLine());
+        if (methodPaid == 1) {
 
             ArrayList<String> listServicesId = new ArrayList<>();
-            for(Service eachIdService:addedServices){
+            for (Service eachIdService : addedServices) {
                 listServicesId.add(eachIdService.getId());
             }
             System.out.println("Factura generada exitosamente!");
-            Guest guesSearch= searchConsumer();
-            String newBill = newConsumes.handleInstantPay(listServicesId, guesSearch,hotel.getServices().getData() );
-            ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill ,guesSearch );
+            Guest guesSearch = searchConsumer();
+            String newBill = newConsumes.handleInstantPay(listServicesId, guesSearch, hotel.getServices().getData());
+            ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill, guesSearch);
             System.out.println("------ Informacion de la factura --------");
             System.out.println(newBill);
             newBillPay.showBill();
 
-        }else{
+        } else {
             System.out.print("Numero identificacion del huesped principal (sobre el que se hizo el registro) :  ");
             String dniConsumer = br.readLine();
             ArrayList<String> listServices = new ArrayList<>();
 
-            for(Service eachIdService:addedServices){
-                newConsumes.registerConsumption(listServices,eachIdService );
+            for (Service eachIdService : addedServices) {
+                newConsumes.registerConsumption(listServices, eachIdService);
             }
             searchGuestRegistration(dniConsumer).setConsumedServices(listServices);
             System.out.println("Se ha registrado el consumo exitosamente!");
-
 
         }
         hotel.getRegistrationHandler().SavePersistentData();
@@ -1095,62 +1111,67 @@ public class App {
      *
      * <b>pre: </b> El mapa de registros debe estar cargado y con información. <br>
      * <b>pos: </b> Retorna el registro asociado al DNI dado. <br>
+     * 
      * @param dni: DNI del huésped del que se desea encontrar su registro. <br>
+     * 
      * @throws IOException
      */
-   public Registration searchGuestRegistration(String dni) throws IOException {
-       Map<Object, Registration> mapRegisters = hotel.getRegistrationHandler().getData();
-       return mapRegisters.get(dni);
-   }
+    public Registration searchGuestRegistration(String dni) throws IOException {
+        Map<Object, Registration> mapRegisters = hotel.getRegistrationHandler().getData();
+        return mapRegisters.get(dni);
+    }
 
-   /*
-    * Busca un huésped con ayuda del mapa de registros para saber si es principal o invitado
-    * con el fin de generar la factura inmediata a su nombre.
-    * <b>pre: </b> El mapa de registros debe estar cargado y con información. <br>
-    * <b>pos: </b> Retorna el huésped. <br>
-    *
-    * @throws IOException
-    */
-   public Guest searchConsumer() throws IOException {
-       Map<Object, Registration> mapRegisters = hotel.getRegistrationHandler().getData();
-       System.out.println("Elija el tipo de huesped que es:");
-       System.out.println("1. Huesped principal (Sobre el que se hizo la reserva)  ");
-       System.out.println("2. Huesped invitado");
-       int isInvited = Integer.parseInt(br.readLine());
-       if(isInvited == 1){
-           System.out.print("Ingrese su numero de identificacion: ");
-           String dni= br.readLine();
-           System.out.println("----------Informacion de la factura --------");
-           return mapRegisters.get(dni).getPrincipalGuest();
+    /*
+     * Busca un huésped con ayuda del mapa de registros para saber si es principal o
+     * invitado
+     * con el fin de generar la factura inmediata a su nombre.
+     * <b>pre: </b> El mapa de registros debe estar cargado y con información. <br>
+     * <b>pos: </b> Retorna el huésped. <br>
+     *
+     * @throws IOException
+     */
+    public Guest searchConsumer() throws IOException {
+        Map<Object, Registration> mapRegisters = hotel.getRegistrationHandler().getData();
+        System.out.println("Elija el tipo de huesped que es:");
+        System.out.println("1. Huesped principal (Sobre el que se hizo la reserva)  ");
+        System.out.println("2. Huesped invitado");
+        int isInvited = Integer.parseInt(br.readLine());
+        if (isInvited == 1) {
+            System.out.print("Ingrese su numero de identificacion: ");
+            String dni = br.readLine();
+            System.out.println("----------Informacion de la factura --------");
+            return mapRegisters.get(dni).getPrincipalGuest();
 
-       }else{
-           System.out.print("Ingrese el dni de la persona que lo invitó (El huésped principal) ");
-           String principalDni = br.readLine();
-           System.out.print("Ingrese su dni: ");
-           String invitedDni = br.readLine();
-           for(CompanionGuest eachCompanion: mapRegisters.get(principalDni).getGroupGuest()){
-               System.out.println(eachCompanion.getDni());
-               if(eachCompanion.getDni().equals(invitedDni)){
-                   System.out.println("Usuario encontrado!");
-                   return eachCompanion;
-               };
-           }
+        } else {
+            System.out.print("Ingrese el dni de la persona que lo invitó (El huésped principal) ");
+            String principalDni = br.readLine();
+            System.out.print("Ingrese su dni: ");
+            String invitedDni = br.readLine();
+            for (CompanionGuest eachCompanion : mapRegisters.get(principalDni).getGroupGuest()) {
+                System.out.println(eachCompanion.getDni());
+                if (eachCompanion.getDni().equals(invitedDni)) {
+                    System.out.println("Usuario encontrado!");
+                    return eachCompanion;
+                }
+                ;
+            }
 
-       }
-       System.out.println("No se ha encontrado ningun usuario con esta identificacion.");
-       return null;
-   }
+        }
+        System.out.println("No se ha encontrado ningun usuario con esta identificacion.");
+        return null;
+    }
 
-    public ArrayList<LocalDate> getGoodDates(boolean withNumOfDays) throws Exception{
+    public ArrayList<LocalDate> getGoodDates(boolean withNumOfDays) throws Exception {
         /*
          * Valida que las fechas que se pasan por paramtero sean correctas (sin errores)
          * de digitacion, que la inicial no este despues de la final y que sean actuales
          * (de hoy, o dias futuros)
          *
-         * @param withNumOfDays: true si se quiere preguntar cuantos dias despues de la fecha
+         * @param withNumOfDays: true si se quiere preguntar cuantos dias despues de la
+         * fecha
          * inicial y false si se quiere preguntar la fecha exacta
          *
-         * */
+         */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         LocalDate now = LocalDate.now();
@@ -1158,45 +1179,44 @@ public class App {
         LocalDate initialDate = null;
         LocalDate finalDate = null;
 
-        while(initialDate == null){
+        while (initialDate == null) {
             System.out.println("Fecha inicial (YYYY-MM-DD): ");
             String initialDateStr = br.readLine();
-            try{
+            try {
                 initialDate = LocalDate.parse(initialDateStr);
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Error! \n la fecha debe estar en el formato indicado");
             }
-            if(initialDate != null){
-                if( initialDate.isBefore(now)){
+            if (initialDate != null) {
+                if (initialDate.isBefore(now)) {
                     System.out.println("Error! \n la fecha no puede ser del pasado");
                     initialDate = null;
                 }
             }
 
         }
-        while (finalDate == null){
-            if(withNumOfDays){
+        while (finalDate == null) {
+            if (withNumOfDays) {
                 System.out.println("Duracion (numero de dias): ");
                 String plusDays = br.readLine();
-                try{
+                try {
                     finalDate = initialDate.plusDays(Integer.parseInt(plusDays));
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("Error! \n debe ser un numero positivo");
                 }
-            }else{
+            } else {
                 System.out.println("Fecha final (YYYY-MM-DD): ");
                 String finalDateStr = br.readLine();
-                try{
+                try {
                     finalDate = LocalDate.parse(finalDateStr);
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("Error! \n la fecha debe estar en el formato indicado");
                 }
-                if (finalDate != null){
-                    if(finalDate.isBefore(now)){
+                if (finalDate != null) {
+                    if (finalDate.isBefore(now)) {
                         System.out.println("Error! \n la fecha no puede ser del pasado");
                         finalDate = null;
-                    }
-                    else if(initialDate.compareTo(finalDate) >= 0){
+                    } else if (initialDate.compareTo(finalDate) >= 0) {
                         System.out.println("Error! \n la fecha inicial debe ser menor a la fecha final");
                         finalDate = null;
                     }
@@ -1209,8 +1229,3 @@ public class App {
         return dates;
     }
 }
-
-
-
-
-
