@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,44 +22,141 @@ public class RoomFares implements HotelObject {
         this.faresForRoomType = new ArrayList<Fare>();
         this.typeRoomFare = typeRoomFare;
     }
-    /*
-     * Este código puede mejorarse mucho, pero por ahora funciona y son las 3:00 am :(
-     * Agrega una tarifa a la lista, si ya existe un valor para una fecha, se tomará
-     * el valor menor y
-     * se lanzará una excepción que indicará que se tomó el menor valor entre dos
-     * tarifas
-     *
-     * <b> pre: </b> <br>
-     * faresForRoomType ya debe estar inicializado
-     * <b> post: </b> <br>
-     * fare se agrega a daresForRoomType
-     *
-     * @param fare tarifa a ingresar
-     *
-     */
-    public void addFare(Fare fareBase) {
 
-        faresForRoomType.add(fareBase);
+    public void addFare(Fare fare) {
+        /*
+         * Este código puede mejorarse mucho, pero por ahora funciona y son las 3:00 am
+         * :(
+         * Agrega una tarifa a la lista, si ya existe un valor para una fecha, se tomará
+         * el valor menor y
+         * se lanzará una excepción que indicará que se tomó el menor valor entre dos
+         * tarifas
+         * 
+         * <b> pre: </b> <br>
+         * faresForRoomType ya debe estar inicializado
+         * <b> post: </b> <br>
+         * fare se agrega a daresForRoomType
+         * 
+         * @param fare tarifa a ingresar
+         * 
+         */
+
+        ArrayList<Fare> faresToAdd = new ArrayList<Fare>();
+        // Como una tarifa puede bajar varias entonces toca crear una cola de tarifas
+        // que se
+        ArrayList<Fare> faresQuee = new ArrayList<Fare>();
+        faresQuee.add(fare);
+        Fare fareBase = faresQuee.remove(0);
+        while (faresQuee.size() > 0 || fareBase != null) {
+
+            int ind = 0;
+            while (ind < faresForRoomType.size() && fareBase != null) {
+                Fare fareFloor = faresForRoomType.get(ind);
+                if (fareFloor.getInitialDate().compareTo(fareBase.getInitialDate()) <= 0) {
+                    // No se solapan
+                    if (fareFloor.getFinalDate().compareTo(fareBase.getInitialDate()) < 0) {
+                        faresToAdd.add(fareFloor);
+                        faresToAdd.add(fareBase);
+                    } else {
+
+                        if (fareFloor.getFinalDate().compareTo(fareBase.getFinalDate()) < 0) {
+                            // Como la tarifa no acaba antes de que empiece la nueva tarifa se divide en dos
+                            // tarifas
+                            // de lo contrario la segunda es null y se cierra el ciclo
+
+                            if (fareFloor.getFinalDate().plusDays(1).isBefore(fareBase.getFinalDate())) {
+                                faresQuee.add(new Fare(fareBase.getPrice(), fareFloor.getFinalDate().plusDays(1),
+                                        fareBase.getFinalDate(), fareBase.getDays()));
+                            }
+
+                            fareBase = new Fare(fareBase.getPrice(), fareBase.getInitialDate(),
+                                    fareFloor.getFinalDate(), fareBase.getDays());
+                        }
+                        if (isNotIntersectingDays(fareFloor, fareBase)) {
+                            faresToAdd.add(fareFloor);
+                            faresToAdd.add(fareBase);
+                        } else if (isFareFloorMinPrice(fareFloor, fareBase)) {
+                            faresToAdd.add(fareFloor);
+
+                        } else {
+                            if (fareFloor.getInitialDate().compareTo(fareBase.getInitialDate()) != 0) {
+                                // Comoo fareFloor tiene una fecha inicial menor a fareBase se crea una tarifa
+                                // que cubra este rango
+                                Fare fareToAdd = new Fare(fareFloor.getPrice(), fareFloor.getInitialDate(),
+                                        fareBase.getInitialDate().minusDays(1), fareFloor.getDays());
+                                faresToAdd.add(fareToAdd);
+                            }
+                            // Tarifa menor entre las dos
+                            Fare minFare = getMinPriceFare(fareFloor, fareBase);
+                            // Toca volverlo un set porque hay un sideeffect raro y ya estamos sobre el
+                            // tiempo
+                            Set<DayOfWeek> daysOfFareBase = new HashSet<DayOfWeek>(fareBase.getDays());
+                            daysOfFareBase.addAll(getIntersectionDays(fareFloor, fareBase));
+                            Fare fareToAdd2 = new Fare(minFare.getPrice(), fareBase.getInitialDate(),
+                                    fareBase.getFinalDate(), new ArrayList<DayOfWeek>(daysOfFareBase));
+                            faresToAdd.add(fareToAdd2);
+
+                            // Tarifa con los dias de la semana que no estan cubiertos por fareBase
+                            Fare fareToAdd3 = getFaresForNonCoverDays(fareFloor, fareBase.getDays(), fareBase);
+                            if (fareToAdd3 != null)
+                                faresToAdd.add(fareToAdd3);
+                            if (fareFloor.getFinalDate().compareTo(fareBase.getFinalDate()) != 0) {
+                                // Como fareFloor tiene una fecha final mayor a fareBase se crea una tarifa
+                                // que cubra este rango
+                                Fare fareToAdd4 = new Fare(fareFloor.getPrice(), fareBase.getFinalDate().plusDays(1),
+                                        fareFloor.getFinalDate(), fareFloor.getDays());
+                                faresToAdd.add(fareToAdd4);
+                            }
+                        }
+                    }
+                    faresForRoomType.remove(ind);
+                }
+                ind++;
+
+            }
+            // La lista estaba vacía
+            if (ind == 0) {
+                faresToAdd.add(fareBase);
+            }
+            faresForRoomType.addAll(faresToAdd);
+            faresToAdd.clear();
+            if (faresQuee.size() > 0)
+            fareBase = faresQuee.remove(0);
+            else
+                fareBase = null;
+        }
     }
 
-    private Fare getFaresForNonCoverDays(Fare fareFloor, ArrayList<DayOfWeek> daysCovered) {
+    private Fare getFaresForNonCoverDays(Fare fareFloor, ArrayList<DayOfWeek> daysCovered, Fare fareBase) {
         ArrayList<DayOfWeek> daysToAdd = new ArrayList<DayOfWeek>();
         for (DayOfWeek day : fareFloor.getDays()) {
             if (!daysCovered.contains(day)) {
                 daysToAdd.add(day);
             }
         }
-        Fare fareToAdd = new Fare(fareFloor.getPrice(), fareFloor.getInitialDate(), fareFloor.getFinalDate(),
-                daysToAdd);
-        return fareToAdd;
+        if (daysToAdd.size() > 0) {
+            Fare fareToAdd = new Fare(fareFloor.getPrice(), fareBase.getInitialDate(), fareBase.getFinalDate(),
+                    daysToAdd);
+            return fareToAdd;
+        }
+        return null;
+    }
+
+    private boolean isNotIntersectingDays(Fare fare1, Fare fare2) {
+        for (DayOfWeek day : fare1.getDays()) {
+            if (fare2.getDays().contains(day)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Fare getMinPriceFare(Fare fare1, Fare fare2) {
         return fare1.getPrice() <= fare2.getPrice() ? fare1 : fare2;
     }
 
-    private LocalDate getMinDate(LocalDate date1, LocalDate date2) {
-        return date1.compareTo(date2) <= 0 ? date1 : date2;
+    private boolean isFareFloorMinPrice(Fare fareFloor, Fare fareBase) {
+        return fareFloor.getPrice() <= fareBase.getPrice();
     }
 
     private ArrayList<DayOfWeek> getIntersectionDays(Fare fare1, Fare fare2) {
@@ -99,8 +197,6 @@ public class RoomFares implements HotelObject {
          *
          */
 
-        // TODO: Probar si funciona cuando la primera tarifa es mayor que el initial
-        // date aun asi sea la menor
         double fare = 0;
         ArrayList<Fare> sortedFares = this.faresForRoomType;
         Collections.sort(sortedFares, new FareComparator());

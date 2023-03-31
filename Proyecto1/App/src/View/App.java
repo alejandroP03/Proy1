@@ -13,18 +13,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import Controller.Hotel;
 import Controller.BillService.ServicesBillGenerator;
 import Controller.BillService.StayBillGenerator;
-import Controller.ConsumeHandler.ConsumeRecorder;
-import Controller.Hotel;
 import Controller.BookingHandler.BookingHandler;
+import Controller.ConsumeHandler.ConsumeRecorder;
 import Controller.RegisterHandler.CompanionGuest;
 import Controller.RegisterHandler.Guest;
-import Controller.RegisterHandler.PrincipalGuest;
 import Controller.RegisterHandler.RegisterHandler;
 import Controller.WorkersAuth.HotelWorkersAuth;
-import Model.HotelObjects.*;
-import Model.HotelObjects.RoomRelated.*;
+import Model.HotelObjects.Admin;
+import Model.HotelObjects.Employee;
+import Model.HotelObjects.Food;
+import Model.HotelObjects.Receptionist;
+import Model.HotelObjects.Registration;
+import Model.HotelObjects.Service;
+import Model.HotelObjects.User;
+import Model.HotelObjects.UserType;
+import Model.HotelObjects.RoomRelated.Bed;
+import Model.HotelObjects.RoomRelated.Room;
+import Model.HotelObjects.RoomRelated.RoomFares;
+import Model.HotelObjects.RoomRelated.RoomFeatures;
+import Model.HotelObjects.RoomRelated.RoomModel;
+import Model.HotelObjects.RoomRelated.TypeRoom;
 
 public class App {
     User activeUser;
