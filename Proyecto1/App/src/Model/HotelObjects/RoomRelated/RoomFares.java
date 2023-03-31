@@ -41,6 +41,11 @@ public class RoomFares implements HotelObject {
         faresForRoomType.add(fareBase);
     }
 
+    /*
+     *
+     *
+     *
+     */
     private Fare getFaresForNonCoverDays(Fare fareFloor, ArrayList<DayOfWeek> daysCovered) {
         ArrayList<DayOfWeek> daysToAdd = new ArrayList<DayOfWeek>();
         for (DayOfWeek day : fareFloor.getDays()) {
@@ -78,26 +83,26 @@ public class RoomFares implements HotelObject {
     public ArrayList<Fare> getFaresForRoomType() {
         return faresForRoomType;
     }
-
+    /*
+     * Retorna la tarifa completa de los dias de estadía
+     *
+     * <b> pre: </b> <br>
+     * - La lista no debe estar vacía
+     * - La lista debe contener las fechas que cubren la estadía
+     * - Para todos los días de la semana de la estadía debe existir una tarifa que
+     * lo cubra
+     * <br>
+     *
+     * @params initialDate Dia de inicio de la estadía
+     *
+     * @params finalDate Dia en el que termina la estadía
+     *
+     * @throws Exception Las tarifas en el rango de la estadía están mal
+     * configuradas
+     *
+     */
     public double getFare(LocalDate initialDate, LocalDate finalDate) throws Exception {
-        /*
-         * Retorna la tarifa completa de los dias de estadía
-         *
-         * <b> pre: </b> <br>
-         * - La lista no debe estar vacía
-         * - La lista debe contener las fechas que cubren la estadía
-         * - Para todos los días de la semana de la estadía debe existir una tarifa que
-         * lo cubra
-         * <br>
-         * 
-         * @params initialDate Dia de inicio de la estadía
-         * 
-         * @params finalDate Dia en el que termina la estadía
-         *
-         * @throws Exception Las tarifas en el rango de la estadía están mal
-         * configuradas
-         *
-         */
+
 
         // TODO: Probar si funciona cuando la primera tarifa es mayor que el initial
         // date aun asi sea la menor
