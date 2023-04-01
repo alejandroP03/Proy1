@@ -230,6 +230,7 @@ public class App {
      * <b>pos: </b> Se imprimen las características de la habitación correspondiente
      *
      * @param roomFareId: Conjunto con las características de la habitación
+     *
      */
     private void showRoomFareId(Set<Object> roomFareId) {
         Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
@@ -265,6 +266,7 @@ public class App {
     }
 
     /*
+
      * Imprime cada habitación que tengan las mismas características que se les pase
      * por parámetro
      * <b>pre: </b>El mapa de las habitaciones ya debe estar cargado y debe contener
@@ -277,6 +279,7 @@ public class App {
      * 
      * @param roomMap: Mapa que contiene la información de las habitaciones. roomMap
      * != null.
+     *
      */
 
     private void getRoomsById(Set<Object> roomFareId, Map<Object, Room> roomMap) {
@@ -775,6 +778,7 @@ public class App {
         List<String> roomsIds = closeRegistration.getRegisterRoomsIds();
         StayBillGenerator billGenerator = new StayBillGenerator(closeRegistration);
         System.out.println("Su factura es: ");
+
         System.out.println(billGenerator.calculateTotalCost(hotel.getFaresHandler().getData(),
                 hotel.getServices().getData(), hotel.getRestaurantHandler().getData(), hotel.getRoomsHandler().getData()));
         billGenerator.showBill(hotel.getFaresHandler().getData(), hotel.getServices().getData(),
@@ -899,7 +903,7 @@ public class App {
      * @throws Exception
      */
     public void showRestaurantOptions() throws Exception {
-        hotel.getRestaurantHandler().loadPersistentData();
+        //hotel.getRestaurantHandler().loadPersistentData();
 
         ConsumeRecorder newConsumes = new ConsumeRecorder<Food>();
         Map<Object, Food> mapFoods = hotel.getRestaurantHandler().getData();
@@ -915,20 +919,23 @@ public class App {
             System.out.println("Menu del restaurante: ");
             int posf = 1;
             for (Food availableFood : foodsList) {
+                System.out.println(" ");
                 System.out.println(" ****** Item # " + posf + " *******");
                 System.out.println("Producto: " + availableFood.getName());
-                System.out.println("Se puede subir a la habitacion:" + availableFood.getIsRoomService());
-                System.out.println("Tipo de comida" + availableFood.getAvailability());
+                System.out.println("Se puede subir a la habitacion: " + availableFood.getIsRoomService());
+                System.out.println("Tipo de comida: " + availableFood.getAvailability());
                 System.out.println("Precio de la comida: " + availableFood.getPrice());
                 posf++;
             }
-            System.out.println("Que item del menu desea consumir?");
+            System.out.print("Item a consumir: ");
             int chooseElementMenu = Integer.parseInt(br.readLine());
             Food foodChoosen = foodsList.get(chooseElementMenu - 1);
             addedFoods.add(foodChoosen);
             System.out.println(foodChoosen.getName() + " Ha sido agregado!");
             System.out.println("Desea agregar mas elementos del menu? \n1.Si\n2.No");
+            System.out.print("Ingrese una opcion: ");
             moreFoods = Integer.parseInt(br.readLine());
+
         } while (moreFoods == 1);
 
         System.out.println("Como desea pagar por lo elementos consumidos del menu?");
@@ -1082,7 +1089,7 @@ public class App {
             return mapRegisters.get(dni).getPrincipalGuest();
 
         } else {
-            System.out.print("Ingrese el dni de la persona que lo invitó (El huésped principal) ");
+            System.out.print("Ingrese el dni de la persona responsable (El huésped principal) ");
             String principalDni = br.readLine();
             System.out.print("Ingrese su dni: ");
             String invitedDni = br.readLine();

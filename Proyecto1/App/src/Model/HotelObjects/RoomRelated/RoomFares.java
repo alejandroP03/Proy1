@@ -209,7 +209,7 @@ public class RoomFares implements HotelObject {
             totalFare += fare.getPrice();
             initialDate = initialDate.plusDays(1);
         }
-        
+
         return totalFare;
     }
 
