@@ -267,7 +267,7 @@ public class App {
             else{
                 for (TypeRoom roomType : TypeRoom.values()) {
                     if (object.equals(roomType))
-                        typeRoom = roomType;        
+                        typeRoom = roomType;
                 }
 
                 for (RoomFeatures roomFeature : RoomFeatures.values()) {
