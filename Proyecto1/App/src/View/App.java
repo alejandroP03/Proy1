@@ -257,6 +257,7 @@ public class App {
      * <b>pos: </b> Se imprimen las características de la habitación correspondiente
      *
      * @param roomFareId: Conjunto con las características de la habitación
+     *
      */
     private void showRoomFareId(Set<Object> roomFareId) {
         Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
@@ -292,6 +293,7 @@ public class App {
     }
 
     /*
+
      * Imprime cada habitación que tengan las mismas características que se les pase
      * por parámetro
      * <b>pre: </b>El mapa de las habitaciones ya debe estar cargado y debe contener
@@ -304,6 +306,7 @@ public class App {
      * 
      * @param roomMap: Mapa que contiene la información de las habitaciones. roomMap
      * != null.
+     *
      */
 
     private void getRoomsById(Set<Object> roomFareId, Map<Object, Room> roomMap) {
@@ -836,8 +839,10 @@ public class App {
 
         StayBillGenerator billGenerator = new StayBillGenerator(closeRegistration);
         System.out.println("Su factura es: ");
+
         System.out.println(billGenerator.calculateTotalCost(hotel.getFaresHandler().getData(),
                 hotel.getServices().getData(), hotel.getRestaurantHandler().getData()));
+
         billGenerator.showBill(hotel.getFaresHandler().getData(), hotel.getServices().getData(),
                 hotel.getRestaurantHandler().getData());
         hotel.setOccupied(roomsIds, false);
@@ -1143,7 +1148,7 @@ public class App {
             return mapRegisters.get(dni).getPrincipalGuest();
 
         } else {
-            System.out.print("Ingrese el dni de la persona que lo invitó (El huésped principal) ");
+            System.out.print("Ingrese el dni de la persona responsable (El huésped principal) ");
             String principalDni = br.readLine();
             System.out.print("Ingrese su dni: ");
             String invitedDni = br.readLine();

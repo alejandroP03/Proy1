@@ -204,9 +204,13 @@ public class RoomFares implements HotelObject {
 
         double fare = 0;
         ArrayList<Fare> sortedFares = this.faresForRoomType;
+
         Collections.sort(sortedFares, new FareComparator());
+
         int initialIndex = searchIndexFloorInitialDate(sortedFares, initialDate);
+
         LocalDate actualDate = initialDate;
+
         while (actualDate.compareTo(finalDate) <= 0 && initialIndex < sortedFares.size()) {
             Fare fareDate = sortedFares.get(initialIndex);
             // Revisa si esta dentro del rango

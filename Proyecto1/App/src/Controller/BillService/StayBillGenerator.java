@@ -36,7 +36,6 @@ public class StayBillGenerator {
 
         for(Map.Entry<Object,RoomFares> entry : roomFaresList.entrySet()){
 
-            System.out.println(entry.getValue());
             RoomFares roomFare = entry.getValue();
 
             roomValues += roomFare.getFare(this.registration.getInitialDate(),this.registration.getFinalDate());
@@ -45,7 +44,6 @@ public class StayBillGenerator {
 
         textBill += "Valor habitaciones: " + roomValues;
         if(this.consumedServicesIds.size() > 0){
-            System.out.println("pene");
             for(String serviceId : this.consumedServicesIds){
                 Service service = serviceList.get(serviceId);
                 textBill += service.getName() + ": \n" + "Precio: " + service.getPrice() + "\n" ;
@@ -56,7 +54,7 @@ public class StayBillGenerator {
         }
 
         if(this.consumedFoodsIds.size() > 0){
-            System.out.println("aywey");
+
             for(String foodId : this.consumedFoodsIds){
                 Food food = foodList.get(foodId);
                 textBill += food.getName() + ": \n" + "Precio: " +food.getPrice() + "\n" ;
