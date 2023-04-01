@@ -3,8 +3,8 @@ package Controller;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import Controller.RegisterHandler.RegisterHandler;
 import Model.HotelDataHolder.BookingsDataHandler;
@@ -77,6 +77,15 @@ public class Hotel {
         getBookingsHandler().loadPersistentData();
         getRegistrationHandler().loadPersistentData();
         getRestaurantHandler().loadPersistentData();
+    }
+
+    public void shutDown()throws Exception{
+        getUserHandler().SavePersistentData();
+        getFaresHandler().SavePersistentData();
+        getRoomsHandler().SavePersistentData();
+        getBookingsHandler().SavePersistentData();
+        getRegistrationHandler().SavePersistentData();
+        getRestaurantHandler().SavePersistentData();
     }
 
     /*

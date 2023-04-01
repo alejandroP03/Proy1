@@ -3,7 +3,6 @@ package Model.HotelObjects;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
@@ -15,7 +14,7 @@ import Controller.RegisterHandler.PrincipalGuest;
 public class Registration implements HotelObject {
     private PrincipalGuest principalGuest;
     private ArrayList<CompanionGuest> groupOfGuests;
-    private List<String> registerRoomsIds;
+    private ArrayList<String> registerRoomsIds;
     private ArrayList<String> consumedServicesIds;
     private ArrayList<String> consumedFoodsIds;
     private LocalDate initialDate;
@@ -24,7 +23,7 @@ public class Registration implements HotelObject {
 
 
     public Registration(PrincipalGuest principalGuest, ArrayList<CompanionGuest> groupOfGuests,
-            List<String> registerRoomsIds, LocalDate initialDate, LocalDate finalDate) {
+            ArrayList<String> registerRoomsIds, LocalDate initialDate, LocalDate finalDate) {
 
         this.groupOfGuests = groupOfGuests;
         this.principalGuest = principalGuest;
@@ -60,7 +59,7 @@ public class Registration implements HotelObject {
         return this.consumedFoodsIds;
     }
 
-    public List<String> getRegisterRoomsIds(){
+    public ArrayList<String> getRegisterRoomsIds(){
         return this.registerRoomsIds;
     }
 

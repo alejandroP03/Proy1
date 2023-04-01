@@ -3,8 +3,6 @@ package Model.HotelObjects.RoomRelated;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -121,7 +119,7 @@ public class RoomFares implements HotelObject {
             faresForRoomType.addAll(faresToAdd);
             faresToAdd.clear();
             if (faresQuee.size() > 0)
-            fareBase = faresQuee.remove(0);
+                fareBase = faresQuee.remove(0);
             else
                 fareBase = null;
         }
@@ -181,6 +179,7 @@ public class RoomFares implements HotelObject {
     public ArrayList<Fare> getFaresForRoomType() {
         return faresForRoomType;
     }
+
     /*
      * Retorna la tarifa completa de los dias de estadía
      *
@@ -200,66 +199,30 @@ public class RoomFares implements HotelObject {
      *
      */
     public double getFare(LocalDate initialDate, LocalDate finalDate) throws Exception {
-
-
-        double fare = 0;
-        ArrayList<Fare> sortedFares = this.faresForRoomType;
-        Collections.sort(sortedFares, new FareComparator());
-        int initialIndex = searchIndexFloorInitialDate(sortedFares, initialDate);
-        LocalDate actualDate = initialDate;
-        while (actualDate.compareTo(finalDate) <= 0 && initialIndex < sortedFares.size()) {
-            Fare fareDate = sortedFares.get(initialIndex);
-            // Revisa si esta dentro del rango
-            if (fareDate.getInitialDate().compareTo(actualDate) <= 0
-                    && fareDate.getFinalDate().compareTo(actualDate) >= 0) {
-                // Revisa si el dia hace parte de la tarifa
-                if (fareDate.getDays().contains(actualDate.getDayOfWeek())) {
-                    fare += fareDate.getPrice();
-                    actualDate = actualDate.plusDays(1);
-                } else
-                    ++initialIndex;
-            } else
-                ++initialIndex;
-
+        
+        double totalFare = 0;
+        while(initialDate.compareTo(finalDate) <= 0) {
+            Fare fare = getFareForDate(initialDate);
+            if(fare == null) {
+                throw new Exception("Las tarifas en el rango de la estadía están mal configuradas");
+            }
+            totalFare += fare.getPrice();
+            initialDate = initialDate.plusDays(1);
         }
-
-        if (fare != 0)
-            return fare;
-        else
-            throw new Exception(String.format("La tarifa entre %s y %s está mal configurada", initialDate.toString(),
-                    finalDate.toString()));
+        
+        return totalFare;
     }
 
-    private int searchIndexFloorInitialDate(ArrayList<Fare> fareList, LocalDate initialDate) {
-        /*
-         * Retorna el índice de la fecha estrictamente menor a la fecha dada
-         */
-
-        int mid;
-        int min = 0;
-        int max = fareList.size();
-
-        while (min < max) {
-            mid = (max + min) / 2;
-            if (fareList.get(mid).getInitialDate().compareTo(initialDate) < 0)
-                min = mid + 1;
-            else
-                max = mid - 1;
+    public Fare getFareForDate(LocalDate date) {
+        for (Fare fare : faresForRoomType) {
+            if (fare.getInitialDate().compareTo(date) <= 0 && fare.getFinalDate().compareTo(date) >= 0
+                    && fare.getDays().contains(date.getDayOfWeek())) {
+                return fare;
+            }
         }
-        int ind = (max + min) / 2;
-
-        // Como retorna el valor estrictamente menor, si el siguiente elemento es la
-        // fecha exacta se retorna esa fecha, si no, la anterior
-        return ind + 1 > fareList.size() ? ind - 1
-                : fareList.get(ind + 1).getInitialDate().equals(initialDate) ? ind + 1 : ind;
+        return null;
     }
 
-    private class FareComparator implements Comparator<Fare> {
-        @Override
-        public int compare(Fare fare1, Fare fare2) {
-            return fare1.getInitialDate().compareTo(fare2.getInitialDate());
-        }
-    }
 
     public JSONObject getJsonObject() {
         Map<Object, Object> roomFareData = new HashMap<Object, Object>();

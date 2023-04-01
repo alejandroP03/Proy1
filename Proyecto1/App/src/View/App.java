@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,10 +23,7 @@ import Controller.RegisterHandler.CompanionGuest;
 import Controller.RegisterHandler.Guest;
 import Controller.RegisterHandler.RegisterHandler;
 import Controller.WorkersAuth.HotelWorkersAuth;
-import Model.HotelObjects.Admin;
-import Model.HotelObjects.Employee;
 import Model.HotelObjects.Food;
-import Model.HotelObjects.Receptionist;
 import Model.HotelObjects.Registration;
 import Model.HotelObjects.Service;
 import Model.HotelObjects.User;
@@ -46,8 +44,9 @@ public class App {
         System.out.println(" ");
         System.out.println("Bienvenido al sistema del hotel!");
         App instanceApp = new App();
+
         instanceApp.hotel.startUp();
-        instanceApp.hotel.getRoomsHandler().SavePersistentData();
+        instanceApp.hotel.shutDown();
         instanceApp.authApp();
         // instanceApp.showTypeUser();
 
@@ -153,32 +152,6 @@ public class App {
 
         }
 
-    }
-    // ---------------------- Comprobacion tipo de usuario ----------------------
-
-    /*
-     * Se comprueba que tipo de usuario se registro o inicio sesion dentro del hotel
-     * <br>
-     * <b>pre:</b> El usuario se registro o inicio sesion dentro de la aplicacion
-     * <b>post:</b> Se verifica que tipo de pantalla se le va a mostrar al usuario
-     * segun sea.
-     *
-     * @throw Exception <br>
-     * 1. No se cargo el archivo en donde se encuentran los usuarios
-     *
-     *
-     */
-    private void showTypeUser() throws Exception {
-        if (activeUser instanceof Admin) {
-            showAdminScreen();
-
-        } else if (activeUser instanceof Receptionist) {
-            showRecepcionistScreen();
-
-        } else if (activeUser instanceof Employee) {
-            showEmployeeScreen();
-
-        }
     }
 
     // ---------------------- Pantalla para el Administrador ----------------------
@@ -496,25 +469,8 @@ public class App {
             // LocalDate finalDate = LocalDate.parse(br.readLine());
 
             ArrayList<LocalDate> localDatesList = getGoodDates(false);
-            ArrayList<DayOfWeek> daysList = new ArrayList<>();
-            DayOfWeek[] daysWeek = DayOfWeek.values();
-            int moreDays = 0;
+            ArrayList<DayOfWeek> daysList = getDaysOfWeek();
 
-            do {
-                System.out.println("Dias a la semana que va a ocupar la tarifa ");
-                int x = 1;
-                for (DayOfWeek dayWeek : daysWeek) {
-                    System.out.println(x + "." + dayWeek);
-                    x++;
-                }
-                System.out.print("Ingrese el dia a la semana que desea agregar: ");
-                int chooseDay = Integer.parseInt(br.readLine());
-                DayOfWeek dayChoose = daysWeek[chooseDay - 1];
-                daysList.add(dayChoose);
-                System.out.println("Desea agreagar mas dias? \n1.Si\n2.No");
-                moreDays = Integer.parseInt(br.readLine());
-
-            } while (moreDays == 1);
             hotel.getFaresHandler().FareCreator(roomModel.createTypeRoomId(), price, localDatesList.get(0),
                     localDatesList.get(1), daysList);
             typesRooms.remove(addFair - 1);//
@@ -567,29 +523,8 @@ public class App {
             isForGroup = false;
 
         System.out.println("Que dias a la semana va a estar disponible el servicio?");
-        DayOfWeek[] daysWeek = DayOfWeek.values();
-        Set<DayOfWeek> daySet = new HashSet<DayOfWeek>();
-        while (true) {
-            int x = 1;
-            for (DayOfWeek dayWeek : daysWeek) {
-                System.out.println(x + "." + dayWeek);
-                x++;
-            }
-            System.out.print("Ingrese el dia a la semana que desea agregar: ");
-            String dayWeekStr = br.readLine();
-            int dayWeek = Integer.parseInt(dayWeekStr);
-            DayOfWeek dayChoose = daysWeek[dayWeek - 1];
-            daySet.add(dayChoose);
 
-            System.out.println("Desea ingresar otro dia?");
-            System.out.println("1.Si \n2. No ");
-            String otherDayStr = br.readLine();
-            int otherDay = Integer.parseInt(otherDayStr);
-            if (otherDay == 2) {
-                break;
-            }
-
-        }
+        ArrayList<DayOfWeek> daysList = getDaysOfWeek();
         System.out.println("Ingrese la hora inicial disponible del servicio (en formato HH de 24 horas) ");
         String initialDateStr = br.readLine();
         int initialDateOption = Integer.parseInt(initialDateStr);
@@ -601,8 +536,7 @@ public class App {
         LocalTime initialDate = LocalTime.of(initialDateOption, 0);
         LocalTime finalDate = LocalTime.of(finalDateOption, 0);
 
-        ArrayList<DayOfWeek> dayList = new ArrayList<DayOfWeek>(daySet);
-        hotel.getServices().createNewService(id, name, precio, isForGroup, dayList, initialDate, finalDate);
+        hotel.getServices().createNewService(id, name, precio, isForGroup, daysList, initialDate, finalDate);
         hotel.getServices().SavePersistentData();
         System.out.println("Servicio agregado exitosamente!");
         System.out.println(" ");
@@ -665,11 +599,13 @@ public class App {
         double roomService = Integer.parseInt(roomServiceStr);
         boolean isRoomService = (roomService == 1) ? true : false;
 
-        System.out.println("Ingrese que tipo de comida es");
+        System.out.println("Ingrese que tipo de comida/bebida es");
         System.out.println("1.Desayuno");
         System.out.println("2. Almuerzo");
         System.out.println("3. Cena");
-        System.out.print("ingrese una opcion (1,2,3): ");
+        System.out.println("4. Bebida");
+        System.out.println("5. Licor");
+        System.out.print("ingrese una opcion (1,2,3,4,5): ");
         String typeFoodStr = br.readLine();
         double optionFood = Integer.parseInt(typeFoodStr);
         String typeFood = null;
@@ -679,11 +615,15 @@ public class App {
             typeFood = "Almuerzo";
         } else if (optionFood == 3) {
             typeFood = "Cena";
+        } else if (optionFood == 4) {
+            typeFood = "Bebida";
+        } else if (optionFood == 5) {
+            typeFood = "Licor";
         }
         hotel.getRestaurantHandler().createNewFood(idFood, nameFood, priceFood, isRoomService, typeFood);
         hotel.getRestaurantHandler().SavePersistentData();
 
-        System.out.println("Comida agregada exitosamente! ");
+        System.out.println("Comida/bebida agregada exitosamente! ");
         System.out.println(" ");
         System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
         System.out.print("ingrese una opcion (1 o 2): ");
@@ -833,13 +773,12 @@ public class App {
         String dniRes = br.readLine();
         Registration closeRegistration = hotel.getRegistrationHandler().getData().get(dniRes);
         List<String> roomsIds = closeRegistration.getRegisterRoomsIds();
-
         StayBillGenerator billGenerator = new StayBillGenerator(closeRegistration);
         System.out.println("Su factura es: ");
         System.out.println(billGenerator.calculateTotalCost(hotel.getFaresHandler().getData(),
-                hotel.getServices().getData(), hotel.getRestaurantHandler().getData()));
+                hotel.getServices().getData(), hotel.getRestaurantHandler().getData(), hotel.getRoomsHandler().getData()));
         billGenerator.showBill(hotel.getFaresHandler().getData(), hotel.getServices().getData(),
-                hotel.getRestaurantHandler().getData());
+                hotel.getRestaurantHandler().getData(), hotel.getRoomsHandler().getData());
         hotel.setOccupied(roomsIds, false);
         System.out.println("Se realizó efectivamente el check out");
 
@@ -1161,7 +1100,7 @@ public class App {
         return null;
     }
 
-    public ArrayList<LocalDate> getGoodDates(boolean withNumOfDays) throws Exception {
+    private ArrayList<LocalDate> getGoodDates(boolean withNumOfDays) throws Exception {
         /*
          * Valida que las fechas que se pasan por paramtero sean correctas (sin errores)
          * de digitacion, que la inicial no este despues de la final y que sean actuales
@@ -1227,5 +1166,48 @@ public class App {
         dates.add(initialDate);
         dates.add(finalDate);
         return dates;
+    }
+
+    public ArrayList<DayOfWeek> getDaysOfWeek() throws Exception {
+        /*
+         * Pide a traves de la consola los dias de la semana que se quieren
+         *
+         */
+        String moreDays = "0";
+        DayOfWeek[] days = DayOfWeek.values();
+        Set<DayOfWeek> selectedDays = new HashSet<DayOfWeek>();
+        do {
+            for (int i = 0; i < days.length; i++) {
+                System.out.println((i + 1) + ". " + days[i]);
+            }
+            System.out.println("8. Dias entre semana");
+            System.out.println("9. Fines de semana");
+            System.out.println("10. Todos los dias");
+
+            int selection = Integer.parseInt(br.readLine());
+            if (selection >= 1 && selection <= 7) {
+                selectedDays.add(days[selection - 1]);
+            } else if (selection == 8) {
+                selectedDays.add(DayOfWeek.MONDAY);
+                selectedDays.add(DayOfWeek.TUESDAY);
+                selectedDays.add(DayOfWeek.WEDNESDAY);
+                selectedDays.add(DayOfWeek.THURSDAY);
+                selectedDays.add(DayOfWeek.FRIDAY);
+            } else if (selection == 9) {
+                selectedDays.add(DayOfWeek.SATURDAY);
+                selectedDays.add(DayOfWeek.SUNDAY);
+            } else if (selection == 10) {
+                selectedDays.addAll(Arrays.asList(days));
+            }
+
+            if (selectedDays.size() < 7) {
+                System.out.println("Desea agregar mas dias? (1. Si, 2. No)");
+                moreDays = br.readLine();
+            } else {
+                moreDays = "0";
+            }
+        } while (moreDays.equals("1"));
+
+        return new ArrayList<DayOfWeek>(selectedDays);
     }
 }
