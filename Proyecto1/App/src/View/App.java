@@ -965,7 +965,7 @@ public class App {
      * @throws Exception
      */
     public void showRestaurantOptions() throws Exception {
-        hotel.getRestaurantHandler().loadPersistentData();
+        //hotel.getRestaurantHandler().loadPersistentData();
 
         ConsumeRecorder newConsumes = new ConsumeRecorder<Food>();
         Map<Object, Food> mapFoods = hotel.getRestaurantHandler().getData();
@@ -981,20 +981,23 @@ public class App {
             System.out.println("Menu del restaurante: ");
             int posf = 1;
             for (Food availableFood : foodsList) {
+                System.out.println(" ");
                 System.out.println(" ****** Item # " + posf + " *******");
                 System.out.println("Producto: " + availableFood.getName());
-                System.out.println("Se puede subir a la habitacion:" + availableFood.getIsRoomService());
-                System.out.println("Tipo de comida" + availableFood.getAvailability());
+                System.out.println("Se puede subir a la habitacion: " + availableFood.getIsRoomService());
+                System.out.println("Tipo de comida: " + availableFood.getAvailability());
                 System.out.println("Precio de la comida: " + availableFood.getPrice());
                 posf++;
             }
-            System.out.println("Que item del menu desea consumir?");
+            System.out.print("Item a consumir: ");
             int chooseElementMenu = Integer.parseInt(br.readLine());
             Food foodChoosen = foodsList.get(chooseElementMenu - 1);
             addedFoods.add(foodChoosen);
             System.out.println(foodChoosen.getName() + " Ha sido agregado!");
             System.out.println("Desea agregar mas elementos del menu? \n1.Si\n2.No");
+            System.out.print("Ingrese una opcion: ");
             moreFoods = Integer.parseInt(br.readLine());
+
         } while (moreFoods == 1);
 
         System.out.println("Como desea pagar por lo elementos consumidos del menu?");
