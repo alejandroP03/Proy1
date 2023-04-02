@@ -21,6 +21,16 @@ public class RoomFares implements HotelObject {
         this.typeRoomFare = typeRoomFare;
     }
 
+    public static void main(String[] args) {
+        RoomModel roomModel = new RoomModel(TypeRoom.STANDARD, new HashMap<Bed, Integer>(Map.of(Bed.DOUBLE, 1)), new HashSet<RoomFeatures>());
+        RoomFares roomFares = new RoomFares(roomModel.createTypeRoomId());
+        roomFares.addFare(new Fare(10000, LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 31), new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY))));
+        roomFares.addFare(new Fare(9000, LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 31), new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY))));
+        roomFares.addFare(new Fare(8000, LocalDate.of(2019, 1, 1), LocalDate.of(2020, 1, 31), new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY))));
+        roomFares.addFare(new Fare(7000, LocalDate.of(2018, 1, 1), LocalDate.of(2021, 1, 31), new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY))));
+        System.out.println(roomFares.getJsonObject());
+        
+    }
 
     public void addFare(Fare fare) {
         /*

@@ -1,1 +1,22 @@
-{"SUITE_2":{"isOccupied":false,"featuresList":["KITCHEN","BALCONY","LANDSCAPE_VIEW"],"bookedDates":{},"location":"Piso 11 1101","beds":{"KING_PLUS":1},"type":"SUITE","roomId":"SUITE_2","capacity":4},"SUITE_1":{"isOccupied":false,"featuresList":["KITCHEN","BALCONY","LANDSCAPE_VIEW"],"bookedDates":{},"location":"Piso 11 - 1105","beds":{"KING_PLUS":1},"type":"SUITE","roomId":"SUITE_1","capacity":4}}
+{
+	"SUITE_2": {
+		"isOccupied": false,
+		"featuresList": ["KITCHEN", "BALCONY", "LANDSCAPE_VIEW"],
+		"bookedDates": {},
+		"location": "Piso 11 1101",
+		"beds": { "KING_PLUS": 1 },
+		"type": "SUITE",
+		"roomId": "SUITE_2",
+		"capacity": 4
+	},
+	"SUITE_1": {
+		"isOccupied": false,
+		"featuresList": ["KITCHEN", "BALCONY", "LANDSCAPE_VIEW"],
+		"bookedDates": {},
+		"location": "Piso 11 - 1105",
+		"beds": { "KING_PLUS": 1 },
+		"type": "SUITE",
+		"roomId": "SUITE_1",
+		"capacity": 4
+	}
+}

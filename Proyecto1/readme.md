@@ -1,4 +1,4 @@
-## Table of Contents
+## Tabla de contenidos
 1. [Importacion del proyecto](#Importación-del-proyecto)
 2. [Autenticación de los usuarios](#Autenticación-de-los-usuarios)
 3. [Inicio de sesión como administrador](#Inicio-de-sesión-como-administrador)
@@ -9,14 +9,24 @@
 ## Importación del proyecto
 ***
 
-Asegúrese de importar como carpeta raíz a <b>Proyecto1</b>  y no a la carpeta <b>Grupo-2</b>, ya que 
-al importar la carpeta <b>Grupo-2</b> los paths de los archivos JSON cambian y no es posible cargar, crear
-o modificar cosas en los mismos.
+Asegúrese de importar como directorio raíz a <b>/Proyecto1</b> y no a <b>/Grupo-2</b>, ya que al importar <b>/Grupo-2</b> los paths de los archivos JSON cambian y no es posible cargar, crear o modificar cosas en los mismos.
 
 Igualmente, para evitar errores se recomienda hacer el clone de la siguiente manera:
+
+- Con https:
+
+```bash
+git clone https://github.com/DISC-ISIS1226-RM/Grupo-2.git Proyecto1
 ```
-git clone https://github.com/DISC-ISIS1226-RM/Grupo-2/blob/e6611e9ed846946cb898acfaf84905a8f0fb7880/Proyecto1
+
+- Con ssh:
+
+```bash
+git clone git@github.com:DISC-ISIS1226-RM/Grupo-2.git Proyecto1
 ```
+
+
+
 
 ## Autenticación de los usuarios
 ***
@@ -116,11 +126,11 @@ Nota: Para crear otro servicio, necesita volver a ejecutar esta opción en el me
 
 Es importante que se cumplan los datos descritos, de otra manera el código tendrá error.
 
-### Función 6: Cargar archivo de servicios
+#### Función 6: Cargar archivo de servicios
 Esta función simplemente de cargar el archivo en el cual se van a guardar los datos de los servicios, por lo que no
 tiene ninguna entrada en específico, solamente se encarga de cargar el archivo para los servicios.
 
-### Función 7: Ingresar comidas para el restaurante (manual)
+#### Función 7: Ingresar comidas para el restaurante (manual)
 Esta función se encarga de ingresar nuevas comidas/bebidas al menu del restaurante.
 
 ##### Debe ingresar los datos:
@@ -198,13 +208,13 @@ Hay dos funciones importantes, registrar consumos para el restaurante o consumos
 Debe ingresar 1 o 2 respectivamente para poder ingresar a alguna de estas dos funciones
 
 ##### Debe ingresar los datos (Para consumir en el restaurante):
-* <b> el numero del item del menu a agregar </b> (entero del 1-n items del menu)
+* <b> El numero del item del menu a agregar </b> (entero del 1-n items del menu)
 
 ##### Debe ingresar los datos (Para consumir como servicio) :
-* <b> el numero del servicio a agregar </b> (entero del 1-n servicios registrado)
+* <b> El numero del servicio a agregar </b> (entero del 1-n servicios registrado)
 
 ##### Debe ingresar los datos (Para pagar ya) :
-* <b> tipo de huésped que es:  </b> (1 o 2) 1 =  corresponde al huésped principal; 2= huésped invitado
+* <b> Tipo de huésped que es:  </b> (1 o 2) 1 =  corresponde al huésped principal; 2= huésped invitado
 Si es principal solamente ingresa su número de identificación.
 
 Si es invitado, debe ingresar la identificación de la persona que lo invito(huésped principal) y además
@@ -218,6 +228,133 @@ Todos los datos tomados deben estar cargados antes en el registro, de otro modo 
 
 Este dato corresponde sobre la persona que se hizo el registro y se responsabilizó por las habitaciones
 ocupadas.
+
+## Estructura de la persistencia de datos
+***
+### Importante
+Los archivos pueden no contener datos, sin embargo deben contener mínimamente la estructura de un JSON vacío `` {} `` de lo contrario la aplicación lanzará la excepción `` El archivo JSON no tiene la estructura correcta ``
+
+La persistencia de datos se hace sobre archivos JSON, los cuales se encuentran en la carpeta data. Para mayor facilidad, se divide en 7 archivos JSON, los cuales son:
+##### rooms.json
+``` json
+    //Ejemplo de una habitacion
+    "SUITE_2": {
+		"isOccupied": false,
+		"featuresList": ["KITCHEN", "BALCONY", "LANDSCAPE_VIEW"],
+		"bookedDates": {
+            2023-05-15: 2023-05-20, 
+            2023-05-25: 2023-05-30},
+		"location": "Piso 11 1101",
+		"beds": { "KING_PLUS": 1 , "QUEEN": 1},
+		"type": "SUITE",
+		"roomId": "SUITE_2",
+		"capacity": 4
+	},
+
+```
+
+#### bookings.json  
+```json
+    //Ejemplo de una reserva
+    	"1051065225": {
+		"finalDate": "2024-01-03",
+		"reserviourDNI": "1051065225",
+		"reserviourPhone": "3003273088",
+		"reserviourSupportCardNumber": "1200044405495955",
+		"numberOfGuests": 3,
+		"reserviourName": "Alejandro Pulido", 
+		"reserviourEmail": "diegopulido384@gmail.com",
+		"initialDate": "2023-12-20",
+		"reservedRoomsIds": ["DOUBLE_SUITE_12"]
+	}
+
+```
+#### foodInfo.json  
+``` json
+	"23": {
+		"name": "Hamburguesa en combo",
+		"id": "23",
+		"availability": "Cena",
+		"isRoomService": true,
+		"price": 35000.0
+	}
+```
+
+#### registrations.json  
+``` json
+	"1051065225": {
+		"finalDate": "2024-01-03",
+		"registerRoomsIds": ["DOUBLE_SUITE_12"],
+		"consumedServicesIds": ["23", "25"],
+		"consumedFoodsIds": ["14", "54"],
+		"initialDate": "2023-12-20",
+		"principalGuest": {
+			"name": "Alejandro Pulido",
+			"phoneNumber": "3003273088",
+			"dni": "1051065225",
+			"email": "diegopulido384@gmail.com"
+		},
+		"group": [{ "name": "Valeria Amaya", "dni": "1014977419" }]
+	}
+```
+#### room_fares.json  
+``` json
+"[KITCHEN, BALCONY, LANDSCAPE_VIEW, {KING_PLUS=1}, SUITE]": {
+		"fares": [
+			{
+				"finalDate": "2024-03-30",
+				"days": [
+					"TUESDAY",
+					"SUNDAY",
+					"SATURDAY",
+					"THURSDAY",
+					"FRIDAY",
+					"WEDNESDAY",
+					"MONDAY"
+				],
+				"price": 301.0,
+				"initialDate": "2023-10-10"
+			},
+			{
+				"finalDate": "2024-10-10",
+				"days": [
+					"SUNDAY",
+					"SATURDAY",
+					"FRIDAY",
+				],
+				"price": 305.0,
+				"initialDate": "2024-03-31"
+			},
+        ]
+    }
+```
+#### services.json  
+``` json
+	"1": {
+		"initialTime": "10:00",
+		"price": 23000.0,
+		"name": "Peluquería",
+		"isForGroup": false,
+		"daysAvailable": [
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY"
+        ],
+		"id": "1",
+		"finalTime": "20:00"
+	}
+
+```
+#### users.json
+``` json
+    "alejandroP03": {
+		"password": "passwordSuperSeguro",
+		"userType": "ADMIN",
+		"userName": "alejandroP03"
+	}
+```
 
 ## Comentarios generales
 ***
@@ -249,6 +386,13 @@ Desea agregar mas tipos de cama?
 Ingresar opcion: 2
 // 1 = Si
 // 2 = No
+```
+
+Para el ingreso de fechas, la aplicacion se encarga de verificar que la fecha ingresada sea correcta y manejará todos los errores con respecto a estas, sin embargo, debe tener en cuenta que el formato de fecha es el siguiente: AAAA-MM-DD
+
+```
+Ingrese fecha de inicio en YYYY-MM-DD: 2020-01-01
+
 ```
 
 
