@@ -24,7 +24,6 @@ public class Hotel {
     private ServicesDataHandler servicesHandler = new ServicesDataHandler(new File("App/data/services.json"));
     private FoodDataHandler restaurantHandler = new FoodDataHandler(new File("App/data/foodInfo.json"));
     private UsersDataHandler userHandler = new UsersDataHandler(new File("App/data/users.json"));
-
     private BookingsDataHandler bookingsHandler = new BookingsDataHandler(new File("App/data/bookings.json"));
     private RegistrationDataHandler registrationHandler = new RegistrationDataHandler(
             new File("App/data/registrations.json"));
@@ -77,6 +76,7 @@ public class Hotel {
         getBookingsHandler().loadPersistentData();
         getRegistrationHandler().loadPersistentData();
         getRestaurantHandler().loadPersistentData();
+        getServices().loadPersistentData();
     }
 
     public void shutDown()throws Exception{
@@ -86,6 +86,7 @@ public class Hotel {
         getBookingsHandler().SavePersistentData();
         getRegistrationHandler().SavePersistentData();
         getRestaurantHandler().SavePersistentData();
+        getServices().SavePersistentData();
     }
 
     /*

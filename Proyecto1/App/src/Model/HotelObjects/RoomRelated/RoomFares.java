@@ -21,6 +21,7 @@ public class RoomFares implements HotelObject {
         this.typeRoomFare = typeRoomFare;
     }
 
+
     public void addFare(Fare fare) {
         /*
          * Este código puede mejorarse mucho, pero por ahora funciona y son las 3:00 am
@@ -108,10 +109,22 @@ public class RoomFares implements HotelObject {
                         }
                     }
                     faresForRoomType.remove(ind);
+                } else {
+                    if (fareBase.getFinalDate().isBefore(fareBase.getInitialDate())) {
+                        faresToAdd.add(fareBase);
+                    } else {
+                        Fare fareToAdd = new Fare(fareBase.getPrice(), fareBase.getInitialDate(),
+                                fareFloor.getInitialDate().minusDays(1), fareBase.getDays());
+                        faresToAdd.add(fareToAdd);
+                        Fare fareQuee = new Fare(fareBase.getPrice(), fareFloor.getInitialDate(),
+                                fareBase.getFinalDate(), fareBase.getDays());
+                        faresQuee.add(fareQuee);
+                    }
                 }
                 ind++;
 
             }
+            
             // La lista estaba vacía
             if (ind == 0) {
                 faresToAdd.add(fareBase);
@@ -122,7 +135,9 @@ public class RoomFares implements HotelObject {
                 fareBase = faresQuee.remove(0);
             else
                 fareBase = null;
+
         }
+
     }
 
     /*
@@ -199,11 +214,11 @@ public class RoomFares implements HotelObject {
      *
      */
     public double getFare(LocalDate initialDate, LocalDate finalDate) throws Exception {
-        
+
         double totalFare = 0;
-        while(initialDate.compareTo(finalDate) <= 0) {
+        while (initialDate.compareTo(finalDate) <= 0) {
             Fare fare = getFareForDate(initialDate);
-            if(fare == null) {
+            if (fare == null) {
                 throw new Exception("Las tarifas en el rango de la estadía están mal configuradas");
             }
             totalFare += fare.getPrice();
@@ -223,6 +238,16 @@ public class RoomFares implements HotelObject {
         return null;
     }
 
+    public boolean hasFare(LocalDate initialDate, LocalDate finalDate) {
+        while (initialDate.compareTo(finalDate) <= 0) {
+            Fare fare = getFareForDate(initialDate);
+            if (fare == null) {
+                return false;
+            }
+            initialDate = initialDate.plusDays(1);
+        }
+        return true;
+    }
 
     public JSONObject getJsonObject() {
         Map<Object, Object> roomFareData = new HashMap<Object, Object>();
