@@ -46,8 +46,8 @@ public class App {
         App instanceApp = new App();
 
         instanceApp.hotel.startUp();
-        instanceApp.hotel.shutDown();
         instanceApp.authApp();
+        instanceApp.hotel.shutDown();
         // instanceApp.showTypeUser();
 
     }
@@ -66,7 +66,6 @@ public class App {
      *
      */
     private void authApp() throws Exception {
-
         HotelWorkersAuth authHandler = new HotelWorkersAuth();
 
         System.out.println("1. Registrarse");
