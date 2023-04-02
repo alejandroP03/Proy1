@@ -4,7 +4,8 @@
 3. [Inicio de sesión como administrador](#Inicio-de-sesión-como-administrador)
 4. [Inicio de sesión como recepcionista](#Inicio-de-sesión-como-recepcionista)
 5. [Inicio de sesión como Empleado](#Inicio-de-sesión-como-Empleado)
-6. [Comentarios generales](#Comentarios-generales)
+6. [Estructura de la persistencia de datos](#Estructura-de-la-persistencia-de-datos)
+7. [Comentarios generales](#Comentarios-generales)
 
 ## Importación del proyecto
 ***
