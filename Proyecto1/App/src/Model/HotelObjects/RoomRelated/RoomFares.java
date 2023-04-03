@@ -21,21 +21,6 @@ public class RoomFares implements HotelObject {
         this.typeRoomFare = typeRoomFare;
     }
 
-    public static void main(String[] args) {
-        RoomModel roomModel = new RoomModel(TypeRoom.STANDARD, new HashMap<Bed, Integer>(Map.of(Bed.DOUBLE, 1)),
-                new HashSet<RoomFeatures>());
-        RoomFares roomFares = new RoomFares(roomModel.createTypeRoomId());
-        roomFares.addFare(new Fare(10000, LocalDate.parse("2020-10-10"), LocalDate.parse("2020-10-20"),
-                new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY, DayOfWeek.FRIDAY))));
-
-        roomFares.addFare(new Fare(9000, LocalDate.parse("2020-10-15"), LocalDate.parse("2020-10-30"),
-                new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY, DayOfWeek.FRIDAY))));
-        
-        roomFares.addFare(new Fare(900, LocalDate.parse("2020-10-11"), LocalDate.parse("2020-10-13"),
-                new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY, DayOfWeek.FRIDAY))));
-        System.out.println(roomFares.getJsonObject());
-    }
-
     public void addFare(Fare newFare) {
         /*
          * Este código puede mejorarse mucho, pero por ahora funciona y son las 3:00 am
@@ -60,11 +45,26 @@ public class RoomFares implements HotelObject {
         ArrayList<Fare> newFares = new ArrayList<Fare>();
         ArrayList<Integer> removeFares = new ArrayList<Integer>();
 
+        if (sortedFares.size() > 0) {
+            if (newFare.getInitialDate().isBefore(sortedFares.get(0).getInitialDate())) {
+                newFares.add(new Fare(newFare.getPrice(), newFare.getInitialDate(),
+                        sortedFares.get(0).getInitialDate().minusDays(1), newFare.getDays()));
+                newFare = new Fare(newFare.getPrice(), sortedFares.get(0).getInitialDate(), newFare.getFinalDate(),
+                        newFare.getDays());
+
+            }
+        }
+
         for (int i = 0; i < sortedFares.size(); i++) {
+            if (newFare.getInitialDate().compareTo(newFare.getFinalDate()) > 0) {
+                break;
+            }
+
             Fare fare = sortedFares.get(i);
+
             if (fare.getInitialDate().compareTo(newFare.getInitialDate()) <= 0
                     && fare.getFinalDate().compareTo(newFare.getInitialDate()) >= 0) {
-                
+
                 if (!fare.getInitialDate().isEqual(newFare.getInitialDate())) {
                     newFares.add(
                             new Fare(fare.getPrice(), fare.getInitialDate(), newFare.getInitialDate().minusDays(1),
@@ -80,8 +80,19 @@ public class RoomFares implements HotelObject {
                 removeFares.add(i);
             } else if (fare.getInitialDate().compareTo(newFare.getFinalDate()) <= 0
                     && fare.getFinalDate().compareTo(newFare.getFinalDate()) >= 0) {
-                
+
+                if (!fare.getFinalDate().isEqual(newFare.getFinalDate())) {
+                    newFares.add(new Fare(fare.getPrice(), newFare.getFinalDate().plusDays(1), fare.getFinalDate(),
+                            fare.getDays()));
+
+                }
+                newFares.addAll(getMinFares(fare, newFare));
+                newFare = new Fare(newFare.getPrice(), fare.getFinalDate().plusDays(1), newFare.getFinalDate(),
+                        newFare.getDays());
+                removeFares.add(i);
+
             }
+
         }
 
         if (newFare.getInitialDate().compareTo(newFare.getFinalDate()) < 0) {
@@ -91,6 +102,7 @@ public class RoomFares implements HotelObject {
         for (int i = removeFares.size() - 1; i >= 0; i--) {
             sortedFares.remove((int) removeFares.get(i));
         }
+
         sortedFares.addAll(newFares);
 
         this.faresForRoomType = sortedFares;
@@ -106,10 +118,12 @@ public class RoomFares implements HotelObject {
         float badPrice;
         Fare badFareInter;
         Fare minFareInter;
-        LocalDate initialDateInter = fare.getInitialDate().compareTo(newFare.getInitialDate()) > 0 ? fare.getInitialDate()
-                    : newFare.getInitialDate();
-        LocalDate finalDateInter = fare.getFinalDate().compareTo(newFare.getFinalDate()) < 0 ? fare.getFinalDate() : newFare.getFinalDate();
-            
+        LocalDate initialDateInter = fare.getInitialDate().compareTo(newFare.getInitialDate()) > 0
+                ? fare.getInitialDate()
+                : newFare.getInitialDate();
+        LocalDate finalDateInter = fare.getFinalDate().compareTo(newFare.getFinalDate()) < 0 ? fare.getFinalDate()
+                : newFare.getFinalDate();
+
         ArrayList<DayOfWeek> interceptionDays = getInterceptionDays(fare, newFare);
         ArrayList<DayOfWeek> nonCoverDays = new ArrayList<DayOfWeek>();
         if (fare.getPrice() < newFare.getPrice()) {
@@ -117,14 +131,13 @@ public class RoomFares implements HotelObject {
             badPrice = newFare.getPrice();
             interceptionDays.addAll(fare.getDays());
             interceptionDays = new ArrayList<DayOfWeek>(new HashSet<DayOfWeek>(interceptionDays));
-            
 
             for (DayOfWeek day : newFare.getDays()) {
                 if (!interceptionDays.contains(day)) {
                     nonCoverDays.add(day);
                 }
             }
-            badFareInter = new Fare(badPrice, newFare.getInitialDate(), newFare.getFinalDate(), nonCoverDays);
+            badFareInter = new Fare(badPrice, initialDateInter, finalDateInter, nonCoverDays);
             minFareInter = new Fare(minPrice, initialDateInter, finalDateInter, interceptionDays);
 
         } else {
@@ -137,10 +150,9 @@ public class RoomFares implements HotelObject {
                     nonCoverDays.add(day);
                 }
             }
-            badFareInter = new Fare(badPrice, fare.getInitialDate(), fare.getFinalDate(), nonCoverDays);
+            badFareInter = new Fare(badPrice, initialDateInter, finalDateInter, nonCoverDays);
             minFareInter = new Fare(minPrice, initialDateInter, finalDateInter, interceptionDays);
         }
-
 
         if (nonCoverDays.size() == 0) {
             return new ArrayList<Fare>(Set.of(minFareInter));
