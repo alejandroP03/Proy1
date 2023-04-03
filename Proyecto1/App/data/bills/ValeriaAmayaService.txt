@@ -1,0 +1,7 @@
+Hotel
+Huésped: Valeria Amaya
+DNI: 1014977419
+Peluqueria: 23000.0
+Precio neto: 23000.0
+IVA: 4370.0
+Precio total: 27370.0

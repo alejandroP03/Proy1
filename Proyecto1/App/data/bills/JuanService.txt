@@ -1,7 +1,0 @@
-Hotel
-Huésped: Juan
-DNI: 101019
-aguardiente: 20000.0
-Precio neto: 20000.0
-IVA: 3800.0
-Precio total: 23800.0

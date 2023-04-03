@@ -1,0 +1,7 @@
+Factura total: Huesped principal: Nicolas BedoyaDNI: 10123341456Valor habitaciones: 570.0Hamburguesa en combo: Precio: 35000.0IVA: 6650.0Costo total: 41650.0Factura total: 
+Huesped principal: Nicolas Bedoya
+DNI: 10123341456
+Valor habitaciones: 570.0Hamburguesa en combo: 
+Precio: 35000.0
+IVA: 6650.0
+Costo total: 41650.0

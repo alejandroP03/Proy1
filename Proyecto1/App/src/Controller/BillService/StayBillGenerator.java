@@ -39,7 +39,7 @@ public class StayBillGenerator {
         String textBill = "Factura total: \n" +
                 "Huesped principal: " +
                 this.registration.getPrincipalGuest().getName() + "\n" +
-                "DNI: " + this.registration.getPrincipalGuest().getDni();
+                "DNI: " + this.registration.getPrincipalGuest().getDni() + "\n";
 
         for (String roomId : this.roomsIds) {
             Room room = roomsList.get(roomId);
@@ -49,7 +49,7 @@ public class StayBillGenerator {
             roomValues += roomFares.getFare(registration.getInitialDate(), registration.getFinalDate());
         }
 
-        textBill += "Valor habitaciones: " + roomValues;
+        textBill += "Valor habitaciones: " + roomValues + "\n";
         if (this.consumedServicesIds.size() > 0) {
             for (String serviceId : this.consumedServicesIds) {
                 Service service = serviceList.get(serviceId);
@@ -72,7 +72,7 @@ public class StayBillGenerator {
 
         double iva = total * 0.19;
         total += iva;
-        textBill += "IVA: " + iva + "\n" + "Costo total: " + total;
+        textBill += "IVA: " + iva + "\n" + "Costo total: " + total + "\n";
 
         return textBill;
     }
@@ -81,7 +81,9 @@ public class StayBillGenerator {
             Map<Object, Food> foodList, Map<Object, Room> roomList) throws IOException, Exception {
         String billName = this.registration.getPrincipalGuest().getName().replaceAll("\\s", "") + "StayBill.txt";
         File file = new File("App/data/bills/" + billName);
-
+        if (!file.exists()) {
+            file.createNewFile();
+        }
         String previousBills = "";
 
         BufferedReader br = new BufferedReader(new FileReader(file));

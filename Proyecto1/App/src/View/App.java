@@ -48,8 +48,6 @@ public class App {
         instanceApp.hotel.startUp();
         instanceApp.authApp();
         instanceApp.hotel.shutDown();
-        // instanceApp.showTypeUser();
-
     }
 
     /*
@@ -154,7 +152,9 @@ public class App {
                 }
             } catch (Exception e) {
                 System.out.println(e);
+                hotel.shutDown();
                 authApp();
+
             }
 
         } else {
@@ -190,7 +190,6 @@ public class App {
         System.out.print("Ingrese una opcion: ");
         String opcionStr = br.readLine();
         System.out.println("\n \n");
-
         switch (opcionStr) {
             case "1":
                 createRoom();
@@ -242,12 +241,33 @@ public class App {
      *
      */
 
-    private void showRoomStock() {
+    private void showRoomStock() throws Exception {
         Map<Object, Room> roomMap = new HashMap<Object, Room>(hotel.getRoomsHandler().getData());
-        Map<Object, RoomFares> roomFaresMap = hotel.getFaresHandler().getData();
+        
+        Set<Set<Object>> roomFareIdSet = new HashSet<Set<Object>>();
 
-        for (Map.Entry<Object, RoomFares> roomFareEntry : roomFaresMap.entrySet()) {
-            showRoomFareId((Set<Object>) roomFareEntry.getKey(), roomMap);
+        for (Room rooms : roomMap.values()) {
+            roomFareIdSet.add(rooms.createTypeRoomId());
+
+        }
+
+        for (Set<Object> roomFareId : roomFareIdSet) {
+            showRoomFareId(roomFareId, roomMap);
+        }
+
+        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
+        String masOpciones = br.readLine();
+        switch (masOpciones) {
+            case "1":
+                showAdminScreen();
+                break;
+            case "2":
+                hotel.shutDown();
+                System.out.println("Cerrando aplicacion...");
+                break;
+            default:
+                hotel.shutDown();
+                break;
         }
     }
 
@@ -260,7 +280,7 @@ public class App {
      * @param roomFareId: Conjunto con las características de la habitación
      *
      */
-    private void showRoomFareId(Set<Object> roomFareId, Map<Object, Room> roomMap) {
+    private void showRoomFareId(Set<Object> roomFareId, Map<Object, Room> roomMap) throws Exception {
         Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
         Map<Bed, Integer> mapBeds = null;
         TypeRoom typeRoom = null;
@@ -304,7 +324,7 @@ public class App {
      * @throws Exception <br>
      */
     private void createRoom() throws Exception {
-        loadDataRooms(); // Se carga primero el archivo asi este vacio
+
         System.out.println("------ Crear habitaciones------- ");
         System.out.print("Cuantas habitaciones desea crear? : ");
         String numRoomsStr = br.readLine();
@@ -363,8 +383,11 @@ public class App {
                     System.out.println(x + "." + typeFeature);
                     x++;
                 }
+                System.out.println("4. Ninguna");
                 System.out.print("Elija el tipo de caracteristica que tendra la habitacion: ");
                 String chooseFeatureStr = br.readLine();
+                if (chooseFeatureStr.equals("4"))
+                    break;
                 int chooseFeature = Integer.parseInt(chooseFeatureStr);
                 RoomFeatures featuresChoose = typeFeeatures[chooseFeature - 1];
                 featuresList.add(featuresChoose);
@@ -403,11 +426,8 @@ public class App {
         int masOpciones = Integer.parseInt(br.readLine());
         if (masOpciones == 1)
             showAdminScreen();
-        // try {
-        // createRoom();
-        // } catch (Exception e) {
-        // System.out.println(e);
-        // }
+        if (masOpciones == 2)
+            hotel.shutDown();
 
     }
 
@@ -433,6 +453,8 @@ public class App {
         int masOpciones = Integer.parseInt(br.readLine());
         if (masOpciones == 1)
             showAdminScreen();
+        if (masOpciones == 2)
+            hotel.shutDown();
     }
 
     /*
@@ -514,6 +536,8 @@ public class App {
         int masOpciones = Integer.parseInt(br.readLine());
         if (masOpciones == 1)
             showAdminScreen();
+        else
+            hotel.shutDown();
 
     }
 
@@ -622,11 +646,23 @@ public class App {
      *
      */
     private void loadServices() throws Exception {
-        try {
+        if(hotel.getServices().getData().isEmpty()) {
             hotel.getServices().loadPersistentData();
-            hotel.getServices().SavePersistentData();
-        } catch (Exception e) {
-            System.out.println(e);
+        }
+        System.out.println("Archivo cargado exitosamente!");
+        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
+        String masOpciones = br.readLine();
+        switch (masOpciones) {
+            case "1":
+                showAdminScreen();
+                break;
+            case "2":
+                hotel.shutDown();
+                System.out.println("Cerrando aplicacion...");
+                break;
+            default:
+                hotel.shutDown();
+                break;
         }
     }
 
@@ -708,12 +744,23 @@ public class App {
      *
      */
     private void loadMenuRestaurant() throws Exception {
-
-        try {
-
-            hotel.getRestaurantHandler().SavePersistentData();
-        } catch (Exception e) {
-            System.out.println(e);
+        if(hotel.getRestaurantHandler().getData().isEmpty()) {
+            hotel.getRestaurantHandler().loadPersistentData();
+        }
+        System.out.println("Archivo cargado exitosamente!");
+        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
+        String masOpciones = br.readLine();
+        switch (masOpciones) {
+            case "1":
+                showAdminScreen();
+                break;
+            case "2":
+                hotel.shutDown();
+                System.out.println("Cerrando aplicacion...");
+                break;
+            default:
+                hotel.shutDown();
+                break;
         }
     }
 
@@ -793,7 +840,7 @@ public class App {
             String dni = br.readLine();
             System.out.print("Ingrese el nombre el email del nuevo huesped:  ");
             String email = br.readLine();
-            System.out.print("Ingrese el nombre el numero de celular del nuevo huesped:  ");
+            System.out.print("Ingrese el numero de celular del nuevo huesped:  ");
             String phoneNumber = br.readLine();
             System.out.print("Cuantos acompanantes vienen con el huesped principal? : ");
             String numCompanionStr = br.readLine();
@@ -827,6 +874,21 @@ public class App {
         }
 
         hotel.getRegistrationHandler().SavePersistentData();
+        
+        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
+        String masOpciones = br.readLine();
+        switch (masOpciones) {
+            case "1":
+                showRecepcionistScreen();
+                break;
+            case "2":
+                hotel.shutDown();
+                System.out.println("Cerrando aplicacion...");
+                break;
+            default:
+                hotel.shutDown();
+                break;
+        }
 
     }
 
@@ -883,10 +945,23 @@ public class App {
 
         hotel.getBookingsHandler().getData().put(bookingHdlr.getOpenBooking().getReserviourDNI(),
                 bookingHdlr.getOpenBooking());
-        System.out.println(hotel.getBookingsHandler().getData().get(bookingHdlr.getOpenBooking().getReserviourDNI())
-                .getReservedRoomsIds());
-        hotel.getBookingsHandler().SavePersistentData();
-        hotel.getRoomsHandler().SavePersistentData();
+        
+        hotel.shutDown();
+        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
+        String masOpciones = br.readLine();
+        switch (masOpciones) {
+            case "1":
+                showRecepcionistScreen();
+                break;
+            case "2":
+                hotel.shutDown();
+                System.out.println("Cerrando aplicacion...");
+                break;
+            default:
+                hotel.shutDown();
+                break;
+        }
+
     }
 
     private List<String> selectRooms(boolean isForNow, LocalDate initialDate, LocalDate finalDate) throws Exception {
@@ -1028,6 +1103,20 @@ public class App {
 
         }
         hotel.getRegistrationHandler().SavePersistentData();
+        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
+        String masOpciones = br.readLine();
+        switch (masOpciones) {
+            case "1":
+                showEmployeeScreen();
+                break;
+            case "2":
+                hotel.shutDown();
+                System.out.println("Cerrando aplicacion...");
+                break;
+            default:
+                hotel.shutDown();
+                break;
+        }
 
     }
 
@@ -1040,8 +1129,7 @@ public class App {
      * @throws Exception
      */
     public void showOtherServices() throws Exception {
-        hotel.getServices().loadPersistentData();
-        
+
         ConsumeRecorder<Service> newConsumes = new ConsumeRecorder<Service>();
 
         Map<Object, Service> mapServices = hotel.getServices().getData();
@@ -1109,6 +1197,20 @@ public class App {
 
         }
         hotel.getRegistrationHandler().SavePersistentData();
+        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
+        String masOpciones = br.readLine();
+        switch (masOpciones) {
+            case "1":
+                showRecepcionistScreen();
+                break;
+            case "2":
+                hotel.shutDown();
+                System.out.println("Cerrando aplicacion...");
+                break;
+            default:
+                hotel.shutDown();
+                break;
+        }
     }
 
     /*

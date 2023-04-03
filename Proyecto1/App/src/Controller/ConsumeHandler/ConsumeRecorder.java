@@ -1,10 +1,10 @@
 package Controller.ConsumeHandler;
 
-import Model.HotelObjects.HotelService;
-import Controller.RegisterHandler.Guest;
-
 import java.util.ArrayList;
 import java.util.Map;
+
+import Controller.RegisterHandler.Guest;
+import Model.HotelObjects.HotelService;
 
 public class ConsumeRecorder <T extends HotelService>{
 
@@ -32,7 +32,7 @@ public class ConsumeRecorder <T extends HotelService>{
         }
 
         double iva = total*0.19;
-        textBill += "Precio neto: " + total + "\n" + "IVA: " + iva + "\n" +"Precio total: " + (total+iva);
+        textBill += "Precio neto: " + total + "\n" + "IVA: " + iva + "\n" +"Precio total: " + (total+iva) + "\n";
 
 
         return textBill;

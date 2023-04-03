@@ -69,7 +69,7 @@ public class RegistrationDataHandler extends HotelDataHolder<Registration> {
 
                     JSONArray consumedServicesIds = (JSONArray) bookingEntry.get("consumedServicesIds");
                     for (Object serviceId : consumedServicesIds) {
-                        newRegistration.addConsumedFood(serviceId.toString());
+                        newRegistration.addConsumedServiceId(serviceId.toString());
                     }
 
                     super.getData().put(newRegistration.getPrincipalGuest().getDni(), newRegistration);

@@ -30,7 +30,8 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
 
     /*
      * Crea una nueva tarifa y la ingresa en la estructura que guarda las
-     * tarifas, si la estructura RoomFares ya tiene el id del tipo de habitación, solo la agrega,
+     * tarifas, si la estructura RoomFares ya tiene el id del tipo de habitación,
+     * solo la agrega,
      * si no, crea una nueva habitación
      *
      * <b> pre: </b> isFileLoaded == True
@@ -42,8 +43,6 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
      */
     public void FareCreator(Set<Object> typeRoomId, float price, LocalDate initialDate, LocalDate finalDate,
             ArrayList<DayOfWeek> daysList) throws Exception {
-
-
 
         if (super.getIsFileLoaded()) {
 
@@ -57,17 +56,16 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
             roomFareList.addFare(newFare);
 
             super.getData().put(typeRoomId, roomFareList);
-            System.out.println(typeRoomId);
-            System.out.println(roomFareList);
         } else {
             throw new Exception("El archivo debe cargarse antes de crear un nuevo objeto");
         }
     }
+
     /*
      * Carga la información del archivo en la estructura
      *
-
      *
+     * 
      * <b> post: </b>
      * En el atributo dataHandler va a estar la información del archivo
      *
@@ -80,7 +78,6 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
      */
     @Override
     public void loadPersistentData() {
-
 
         JSONParser pJsonParser = new JSONParser();
         try {
@@ -95,7 +92,7 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
 
                 for (Map.Entry<String, JSONObject> fareListEntry : objMap.entrySet()) {
                     Set<Object> typeRoomId = this.createTypeRoomId(fareListEntry.getKey());
-                    
+
                     RoomFares newRoomFares = getRoomFare(fareListEntry.getValue(), typeRoomId);
                     super.getData().put(typeRoomId, newRoomFares);
                 }
@@ -108,16 +105,17 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
         }
     }
 
-    private RoomFares getRoomFare(JSONObject faresObj, Set<Object> roomFareId){
-    /*
-     * A partir de la persistencia, carga un objeto RoomFare
-     * 
-     * <b> post: </b> <br>
-     *  Devuelve un objeto de tipo RoomFare
-     * 
-     * @param faresObj El objeto JSON con las tarifas de una habitación
-     * @param roomFareId El identificador del tipo de habitación
-     */
+    private RoomFares getRoomFare(JSONObject faresObj, Set<Object> roomFareId) {
+        /*
+         * A partir de la persistencia, carga un objeto RoomFare
+         * 
+         * <b> post: </b> <br>
+         * Devuelve un objeto de tipo RoomFare
+         * 
+         * @param faresObj El objeto JSON con las tarifas de una habitación
+         * 
+         * @param roomFareId El identificador del tipo de habitación
+         */
         RoomFares roomFare = new RoomFares(roomFareId);
         JSONArray faresObjects = (JSONArray) faresObj.get("fares");
 
@@ -126,14 +124,14 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
             Fare newFare = getFare(fareInfo);
             roomFare.addFare(newFare);
         }
-        
+
         return roomFare;
     }
 
-    private Fare getFare(JSONObject fareObj){
+    private Fare getFare(JSONObject fareObj) {
         /*
          * Crea un objeto de tipo Fare a partir de la persistencia
-         *  
+         * 
          * <b> post: </b> <br>
          * Devuelve un objeto de tipo Fare
          * 
@@ -151,31 +149,31 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
             days.add(day);
         }
 
-
-
         Fare newFare = new Fare(price, initialDate, finalDate, days);
-        
+
         return newFare;
     }
 
-    private Set<Object> createTypeRoomId(String roomFareId){
+    private Set<Object> createTypeRoomId(String roomFareId) {
         /*
-         * Se castea el string con la información del tipo de la habitación (camas, características, tipo)
-         * para crear el Set con dicha información (Que actua como nuestro ID de tipo de habitación)
+         * Se castea el string con la información del tipo de la habitación (camas,
+         * características, tipo)
+         * para crear el Set con dicha información (Que actua como nuestro ID de tipo de
+         * habitación)
          * 
          * <b> pre: </b> <br>
          * El String debe tener la siguiente estructura "
          * [
-         *  <<Tipo de habitación>>, 
-         *  <<Característica>>, 
-         *  <<Característica>>, 
-         *  {
-         *     <<Cama>> = <<número de camas>>,
-         *     <<Cama>> = <<número de camas>>,
-         *  }
+         * <<Tipo de habitación>>,
+         * <<Característica>>,
+         * <<Característica>>,
+         * {
+         * <<Cama>> = <<número de camas>>,
+         * <<Cama>> = <<número de camas>>,
+         * }
          * ]"
          * 
-        */
+         */
 
         Set<Object> typeRoomId = new HashSet<Object>();
 
@@ -186,22 +184,22 @@ public class FaresDataHandler extends HotelDataHolder<RoomFares> {
         final String key = matcher.replaceAll(subst);
 
         String[] roomElems = key.split(", ");
-        
-        //Mapa con la composición de las camas
+
+        // Mapa con la composición de las camas
         Map<Bed, Integer> bedComposition = new HashMap<Bed, Integer>();
 
         for (String roomElem : roomElems) {
             String[] elem = roomElem.split("=");
-            
-            //Si el array tiene mas de un elemtno significa que es del mapa
-            if(elem.length > 1){
+
+            // Si el array tiene mas de un elemtno significa que es del mapa
+            if (elem.length > 1) {
                 for (Bed bedType : Bed.values()) {
                     if (elem[0].equals(bedType.toString()))
                         bedComposition.put(bedType, Integer.parseInt(elem[1]));
                 }
             }
-            
-            else{
+
+            else {
                 for (TypeRoom roomType : TypeRoom.values()) {
                     if (elem[0].equals(roomType.toString()))
                         typeRoomId.add(roomType);

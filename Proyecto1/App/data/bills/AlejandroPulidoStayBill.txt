@@ -1,0 +1,10 @@
+Factura total: 
+Huesped principal: Alejandro Pulido
+DNI: 1051065225
+Valor habitaciones: 1445.0
+Traslado al aeropuerto: 
+Precio: 600000.0
+Gin-Tonic: 
+Precio: 27000.0
+IVA: 119130.0
+Costo total: 746130.0

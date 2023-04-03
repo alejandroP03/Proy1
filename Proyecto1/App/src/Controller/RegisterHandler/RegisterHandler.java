@@ -53,8 +53,6 @@ public class RegisterHandler {
     */
     public void getAsociatedBooking(String dni, Map<Object, Booking> bookingMap, ArrayList<CompanionGuest> groupGuests)
             throws Exception {
-
-        System.out.println(bookingMap);
         Booking previousBooking = bookingMap.get(dni);
 
         if (groupGuests.size() == previousBooking.getNumberOfGuests()) {
