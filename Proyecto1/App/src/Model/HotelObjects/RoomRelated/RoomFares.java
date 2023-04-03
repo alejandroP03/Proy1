@@ -171,14 +171,6 @@ public class RoomFares implements HotelObject {
         return interceptionDays;
     }
 
-    private LocalDate minDate(LocalDate date1, LocalDate date2) {
-        if (date1.compareTo(date2) <= 0) {
-            return date1;
-        } else {
-            return date2;
-        }
-    }
-
     public Set<Object> getTypeRoomFare() {
         return typeRoomFare;
     }

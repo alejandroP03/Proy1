@@ -70,6 +70,7 @@ public class FoodDataHandler extends HotelDataHolder<Food> {
             Object jsonObjToFile = pJsonParser.parse(new FileReader(super.getjSONDataFile()));
             JSONObject obj = (JSONObject) jsonObjToFile;
 
+            @SuppressWarnings("unchecked")
             Map<String, JSONObject> objMap = (Map<String, JSONObject>) obj;
 
             if (super.getData().isEmpty()) {

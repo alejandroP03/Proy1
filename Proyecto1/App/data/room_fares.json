@@ -1,116 +1,74 @@
 {
-	"[KITCHEN, BALCONY, LANDSCAPE_VIEW, {KING_PLUS=1}, SUITE]": {
+	"[SUITE, {KING_PLUS=1}, KITCHEN, LANDSCAPE_VIEW, BALCONY]": {
 		"fares": [
 			{
-				"finalDate": "2024-03-30",
-				"days": [
-					"TUESDAY",
-					"SUNDAY",
-					"SATURDAY",
-					"THURSDAY",
-					"FRIDAY",
-					"WEDNESDAY",
-					"MONDAY"
-				],
-				"price": 301.0,
-				"initialDate": "2023-10-10"
-			},
-			{
 				"finalDate": "2024-10-10",
 				"days": [
-					"TUESDAY",
-					"SUNDAY",
-					"SATURDAY",
-					"THURSDAY",
-					"FRIDAY",
 					"WEDNESDAY",
-					"MONDAY"
-				],
-				"price": 301.0,
-				"initialDate": "2024-03-31"
-			},
-			{
-				"finalDate": "2024-10-10",
-				"days": [
-					"TUESDAY",
-					"SUNDAY",
-					"SATURDAY",
-					"THURSDAY",
-					"FRIDAY",
-					"WEDNESDAY",
-					"MONDAY"
-				],
-				"price": 301.0,
-				"initialDate": "2024-03-31"
-			},
-			{
-				"finalDate": "2024-04-02",
-				"days": [
-					"THURSDAY",
-					"SATURDAY",
-					"TUESDAY",
 					"MONDAY",
+					"SATURDAY",
 					"SUNDAY",
-					"FRIDAY",
-					"WEDNESDAY"
+					"TUESDAY",
+					"THURSDAY",
+					"FRIDAY"
 				],
-				"price": 300.0,
-				"initialDate": "2024-03-31"
+				"price": 301.0,
+				"initialDate": "2024-04-03"
 			},
 			{
 				"finalDate": "2023-04-04",
 				"days": [
-					"THURSDAY",
-					"SATURDAY",
-					"TUESDAY",
+					"WEDNESDAY",
 					"MONDAY",
+					"SATURDAY",
 					"SUNDAY",
-					"FRIDAY",
-					"WEDNESDAY"
+					"THURSDAY",
+					"TUESDAY",
+					"FRIDAY"
 				],
-				"price": 300.0,
+				"price": 100.0,
 				"initialDate": "2023-04-02"
 			},
 			{
-				"finalDate": "2024-03-30",
+				"finalDate": "2023-10-09",
 				"days": [
-					"TUESDAY",
-					"SUNDAY",
-					"SATURDAY",
-					"THURSDAY",
-					"FRIDAY",
 					"WEDNESDAY",
-					"MONDAY"
-				],
-				"price": 301.0,
-				"initialDate": "2024-03-31"
-			},
-			{
-				"finalDate": "2024-03-30",
-				"days": [
-					"THURSDAY",
-					"SATURDAY",
-					"TUESDAY",
 					"MONDAY",
+					"SATURDAY",
 					"SUNDAY",
-					"FRIDAY",
-					"WEDNESDAY"
+					"THURSDAY",
+					"TUESDAY",
+					"FRIDAY"
 				],
-				"price": 299.0,
+				"price": 100.0,
 				"initialDate": "2023-04-05"
 			},
 			{
 				"finalDate": "2024-03-30",
 				"days": [
-					"TUESDAY",
-					"SUNDAY",
-					"SATURDAY",
-					"THURSDAY",
-					"FRIDAY",
 					"WEDNESDAY",
-					"MONDAY"
+					"MONDAY",
+					"SATURDAY",
+					"SUNDAY",
+					"TUESDAY",
+					"THURSDAY",
+					"FRIDAY"
 				],
-				"price": 301.0,
+				"price": 100.0,
+				"initialDate": "2023-10-10"
+			},
+			{
+				"finalDate": "2024-04-02",
+				"days": [
+					"WEDNESDAY",
+					"MONDAY",
+					"SATURDAY",
+					"SUNDAY",
+					"TUESDAY",
+					"THURSDAY",
+					"FRIDAY"
+				],
+				"price": 100.0,
 				"initialDate": "2024-03-31"
 			}
 		]

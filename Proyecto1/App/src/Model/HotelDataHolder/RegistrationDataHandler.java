@@ -2,23 +2,17 @@ package Model.HotelDataHolder;
 
 import java.io.File;
 import java.io.FileReader;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Map;
 
-import Model.HotelObjects.RoomRelated.Room;
-import Model.HotelObjects.RoomRelated.TypeRoom;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import Controller.RegisterHandler.CompanionGuest;
 import Controller.RegisterHandler.PrincipalGuest;
-import Model.HotelObjects.Food;
 import Model.HotelObjects.Registration;
-import Model.HotelObjects.Service;
 
 public class RegistrationDataHandler extends HotelDataHolder<Registration> {
 

@@ -1,10 +1,1 @@
-{
-	"23": {
-		"name": "Hamburguesa en combo",
-		"id": "23",
-		"availability": "Cena",
-		"isRoomService": true,
-		"price": 35000.0
-	}
-
-}
+{"23":{"name":"Hamburguesa en combo","id":"23","availability":"Cena","isRoomService":true,"price":35000.0}}

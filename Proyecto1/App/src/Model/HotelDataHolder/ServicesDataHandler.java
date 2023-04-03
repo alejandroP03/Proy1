@@ -48,9 +48,6 @@ public class ServicesDataHandler extends HotelDataHolder<Service> {
         }
     }
 
-    private String getServiceId(Map<Object, Service> serviceList, String id) {
-        return (id);
-    }
 
     /*
      * Carga la información del archivo en la estructura
@@ -69,6 +66,7 @@ public class ServicesDataHandler extends HotelDataHolder<Service> {
         JSONParser pJsonParser = new JSONParser();
         Object jsonObjToFile = pJsonParser.parse(new FileReader(super.getjSONDataFile()));
         JSONObject obj = (JSONObject) jsonObjToFile;
+        @SuppressWarnings("unchecked")
         Map<String, JSONObject> objMap = (Map<String, JSONObject>) obj;
 
         if (super.getData().isEmpty()) {
@@ -80,7 +78,7 @@ public class ServicesDataHandler extends HotelDataHolder<Service> {
                 LocalTime initialTime = LocalTime.parse(((String) serviceEntry.getValue().get("initialTime")));
                 LocalTime finalTime = LocalTime.parse(((String) serviceEntry.getValue().get("finalTime")));
 
-
+                @SuppressWarnings("unchecked")
                 ArrayList<String> daysString = (ArrayList<String>) serviceEntry.getValue().get("daysAvailable");
 
                 ArrayList<DayOfWeek> daysArray = new ArrayList<DayOfWeek>();

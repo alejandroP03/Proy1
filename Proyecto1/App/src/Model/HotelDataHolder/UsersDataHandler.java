@@ -81,6 +81,7 @@ public class UsersDataHandler extends HotelDataHolder<User> {
             Object jsonObjToFile = pJsonParser.parse(new FileReader(super.getjSONDataFile()));
             JSONObject obj = (JSONObject) jsonObjToFile;
 
+            @SuppressWarnings("unchecked")
             Map<String, JSONObject> objMap = (Map<String, JSONObject>) obj;
 
             if (super.getData().isEmpty()){

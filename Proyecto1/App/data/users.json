@@ -1,8 +1,1 @@
-{
-	"a": { "password": "a", "userType": "ADMIN", "userName": "a" },
-	"Diego Alejandro Pulido Bonilla": {
-		"password": "password",
-		"userType": "ADMIN",
-		"userName": "Diego Alejandro Pulido Bonilla"
-	}
-}
+{"a":{"password":"a","userType":"ADMIN","userName":"a"},"Diego Alejandro Pulido Bonilla":{"password":"password","userType":"ADMIN","userName":"Diego Alejandro Pulido Bonilla"}}

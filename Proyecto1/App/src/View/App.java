@@ -452,8 +452,11 @@ public class App {
             List<Room> roomsWithFares = differentiatedRooms[0];
             List<Room> roomsWithoutFares = differentiatedRooms[1];
             int pos = 1;
-            System.out.println(
-                    "Los siguientes tipos de habitaciones NO tienen tarifas asignadas para alguno de los proximos 365 dias:");
+            if (!roomsWithoutFares.isEmpty()) {
+                System.out.println(
+                        "Los siguientes tipos de habitaciones NO tienen tarifas asignadas para alguno de los proximos 365 dias:");
+            }
+
             for (Room availableRoom : roomsWithoutFares) {
                 System.out.println(" ");
                 System.out.println("******* Tipo de habitacion #" + pos + " *******");
@@ -463,7 +466,12 @@ public class App {
                 System.out.println("Características: " + availableRoom.getFeaturesList());
                 pos++;
             }
-            System.out.println("Las siguientes habitaciones ya tienen tarifas asignadas para los proximos 365 dias:");
+
+            if (!roomsWithFares.isEmpty()) {
+                System.out.println(
+                        "Los siguientes tipos de habitaciones SI tienen tarifas asignadas para alguno de los proximos 365 dias:");
+            }
+
             for (Room availableRoom : roomsWithFares) {
                 System.out.println(" ");
                 System.out.println("******* Tipo de habitacion #" + pos + " *******");
@@ -474,17 +482,16 @@ public class App {
                 pos++;
             }
 
-
             System.out.print("Elija a que habitacion desea agreagarle una nueva tarifa: ");
             Room roomSelected;
             int addFair = Integer.parseInt(br.readLine());
-            if(addFair - 1 < roomsWithoutFares.size())
+            if (addFair - 1 < roomsWithoutFares.size())
                 roomSelected = roomsWithoutFares.get(addFair - 1);
             else
                 roomSelected = roomsWithFares.get(addFair - 1 - roomsWithoutFares.size());
 
-            
-            RoomModel roomModel = new RoomModel(roomSelected.getType(), roomSelected.getBeds(), roomSelected.getFeaturesList());
+            RoomModel roomModel = new RoomModel(roomSelected.getType(), roomSelected.getBeds(),
+                    roomSelected.getFeaturesList());
 
             System.out.print("Ingrese el precio para la habitacion: ");
             int price = Integer.parseInt(br.readLine());
@@ -499,7 +506,7 @@ public class App {
             moreFairs = Integer.parseInt(br.readLine());
 
         } while (moreFairs == 1);
-        
+
         hotel.getFaresHandler().SavePersistentData();
         System.out.println("Tarifa agregada exitosamente!");
         System.out.println(" ");
@@ -518,6 +525,7 @@ public class App {
      * @return List<Room>[] <br>
      */
     private List<Room>[] getDifferentiatedRooms() {
+        @SuppressWarnings("unchecked")
         ArrayList<Room>[] allRooms = new ArrayList[2];
         Map<Object, RoomFares> mapFares = hotel.getFaresHandler().getData();
         Map<Object, Room> mapRooms = hotel.getRoomsHandler().getData();
@@ -957,7 +965,7 @@ public class App {
     public void showRestaurantOptions() throws Exception {
         // hotel.getRestaurantHandler().loadPersistentData();
 
-        ConsumeRecorder newConsumes = new ConsumeRecorder<Food>();
+        ConsumeRecorder<Food> newConsumes = new ConsumeRecorder<Food>();
         Map<Object, Food> mapFoods = hotel.getRestaurantHandler().getData();
         ArrayList<Food> foodsList = new ArrayList<>();
         for (Food eachFood : mapFoods.values()) {
@@ -1033,9 +1041,8 @@ public class App {
      */
     public void showOtherServices() throws Exception {
         hotel.getServices().loadPersistentData();
-        Map<Object, Registration> mapRegisters = hotel.getRegistrationHandler().getData();
-
-        ConsumeRecorder newConsumes = new ConsumeRecorder<Service>();
+        
+        ConsumeRecorder<Service> newConsumes = new ConsumeRecorder<Service>();
 
         Map<Object, Service> mapServices = hotel.getServices().getData();
         ArrayList<Service> servicesList = new ArrayList<>();
