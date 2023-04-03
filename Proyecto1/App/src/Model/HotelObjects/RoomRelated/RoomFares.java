@@ -20,14 +20,19 @@ public class RoomFares implements HotelObject {
         this.faresForRoomType = new ArrayList<Fare>();
         this.typeRoomFare = typeRoomFare;
     }
-    
+
     public static void main(String[] args) {
-        RoomModel roomModel = new RoomModel(TypeRoom.STANDARD, new HashMap<Bed, Integer>(Map.of(Bed.DOUBLE, 1)), new HashSet<RoomFeatures>());
+        RoomModel roomModel = new RoomModel(TypeRoom.STANDARD, new HashMap<Bed, Integer>(Map.of(Bed.DOUBLE, 1)),
+                new HashSet<RoomFeatures>());
         RoomFares roomFares = new RoomFares(roomModel.createTypeRoomId());
-        roomFares.addFare(new Fare(10000, LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 31), new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY))));
-        roomFares.addFare(new Fare(9000, LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 31), new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY))));
-        roomFares.addFare(new Fare(8000, LocalDate.of(2019, 1, 1), LocalDate.of(2020, 1, 31), new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY))));
-        roomFares.addFare(new Fare(7000, LocalDate.of(2018, 1, 1), LocalDate.of(2021, 1, 31), new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY))));
+        roomFares.addFare(new Fare(10000, LocalDate.parse("2020-10-10"), LocalDate.parse("2020-10-20"),
+                new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY, DayOfWeek.FRIDAY))));
+
+        roomFares.addFare(new Fare(9000, LocalDate.parse("2020-10-15"), LocalDate.parse("2020-10-30"),
+                new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY, DayOfWeek.FRIDAY))));
+        
+        roomFares.addFare(new Fare(900, LocalDate.parse("2020-10-11"), LocalDate.parse("2020-10-13"),
+                new ArrayList<DayOfWeek>(Set.of(DayOfWeek.MONDAY, DayOfWeek.FRIDAY))));
         System.out.println(roomFares.getJsonObject());
     }
 
@@ -49,114 +54,117 @@ public class RoomFares implements HotelObject {
          * @param fare tarifa a ingresar
          * 
          */
-        ArrayList<Fare> faresToAdd = new ArrayList<Fare>();
-        ArrayList<Fare> intersectedFares = new ArrayList<Fare>();
-        ArrayList<Integer> indexesToRemove = new ArrayList<Integer>();
-        intersectedFares.add(newFare);
-        for (int i = 0; i < faresForRoomType.size(); i++) {
-            Fare fare = faresForRoomType.get(i);
-            if (isIntersecting(fare, newFare)) {
-                intersectedFares.add(fare);
-                indexesToRemove.add(i);
-            } else {
-                faresToAdd.add(fare);
+        ArrayList<Fare> sortedFares = new ArrayList<Fare>(faresForRoomType);
+        sortedFares.sort((Fare fare1, Fare fare2) -> fare1.getInitialDate().compareTo(fare2.getInitialDate()));
+
+        ArrayList<Fare> newFares = new ArrayList<Fare>();
+        ArrayList<Integer> removeFares = new ArrayList<Integer>();
+
+        for (int i = 0; i < sortedFares.size(); i++) {
+            Fare fare = sortedFares.get(i);
+            if (fare.getInitialDate().compareTo(newFare.getInitialDate()) <= 0
+                    && fare.getFinalDate().compareTo(newFare.getInitialDate()) >= 0) {
+                
+                if (!fare.getInitialDate().isEqual(newFare.getInitialDate())) {
+                    newFares.add(
+                            new Fare(fare.getPrice(), fare.getInitialDate(), newFare.getInitialDate().minusDays(1),
+                                    fare.getDays()));
+                }
+                if (newFare.getFinalDate().compareTo(fare.getFinalDate()) < 0) {
+                    newFares.add(new Fare(fare.getPrice(), newFare.getFinalDate().plusDays(1), fare.getFinalDate(),
+                            fare.getDays()));
+                }
+                newFares.addAll(getMinFares(fare, newFare));
+                newFare = new Fare(newFare.getPrice(), fare.getFinalDate().plusDays(1), newFare.getFinalDate(),
+                        newFare.getDays());
+                removeFares.add(i);
+            } else if (fare.getInitialDate().compareTo(newFare.getFinalDate()) <= 0
+                    && fare.getFinalDate().compareTo(newFare.getFinalDate()) >= 0) {
+                
             }
         }
 
-        for (int i = indexesToRemove.size() - 1; i >= 0; i--) {
-            faresForRoomType.remove((int) indexesToRemove.get(i));
+        if (newFare.getInitialDate().compareTo(newFare.getFinalDate()) < 0) {
+            newFares.add(newFare);
         }
 
-        faresToAdd.addAll(getMinFares(intersectedFares, newFare));
+        for (int i = removeFares.size() - 1; i >= 0; i--) {
+            sortedFares.remove((int) removeFares.get(i));
+        }
+        sortedFares.addAll(newFares);
 
-        faresForRoomType.addAll(faresToAdd);
+        this.faresForRoomType = sortedFares;
 
     }
 
-    private ArrayList<Fare> getMinFares(ArrayList<Fare> intersectedFares, Fare newFare) {
-        ArrayList<Fare> minFares = new ArrayList<Fare>();
-        // sort by initial date
-        intersectedFares.sort((Fare f1, Fare f2) -> f1.getInitialDate().compareTo(f2.getInitialDate()));
+    /*
+     * Recibe dos tarifas y para el mismo rango de tiempo retorna las tarifas
+     * correspondientes a los dias de la semana
+     */
+    private ArrayList<Fare> getMinFares(Fare fare, Fare newFare) {
+        float minPrice;
+        float badPrice;
+        Fare badFareInter;
+        Fare minFareInter;
+        LocalDate initialDateInter = fare.getInitialDate().compareTo(newFare.getInitialDate()) > 0 ? fare.getInitialDate()
+                    : newFare.getInitialDate();
+        LocalDate finalDateInter = fare.getFinalDate().compareTo(newFare.getFinalDate()) < 0 ? fare.getFinalDate() : newFare.getFinalDate();
+            
+        ArrayList<DayOfWeek> interceptionDays = getInterceptionDays(fare, newFare);
+        ArrayList<DayOfWeek> nonCoverDays = new ArrayList<DayOfWeek>();
+        if (fare.getPrice() < newFare.getPrice()) {
+            minPrice = fare.getPrice();
+            badPrice = newFare.getPrice();
+            interceptionDays.addAll(fare.getDays());
+            interceptionDays = new ArrayList<DayOfWeek>(new HashSet<DayOfWeek>(interceptionDays));
+            
 
-        for (Fare actualFare : intersectedFares) {
-            Fare fare = actualFare;
-            if (newFare.getInitialDate().isBefore(fare.getInitialDate())) {
-                Fare fareToAdd = new Fare(newFare.getPrice(), newFare.getInitialDate(),
-                        fare.getInitialDate().minusDays(1),
-                        newFare.getDays());
-                minFares.add(fareToAdd);
-                newFare = new Fare(newFare.getPrice(), fare.getInitialDate(), newFare.getFinalDate(),
-                        newFare.getDays());
-            }
-            if (fare.getInitialDate().isBefore(newFare.getInitialDate())) {
-                Fare fareToAdd = new Fare(fare.getPrice(), fare.getInitialDate(), newFare.getInitialDate().minusDays(1),
-                        fare.getDays());
-                minFares.add(fareToAdd);
-                fare = new Fare(fare.getPrice(), newFare.getInitialDate(), fare.getFinalDate(), fare.getDays());
-            }
-            if (newFare.getFinalDate().isBefore(fare.getFinalDate())) {
-                Fare fareToAdd = new Fare(newFare.getPrice(), newFare.getFinalDate().plusDays(1), fare.getFinalDate(),
-                        newFare.getDays());
-                minFares.add(fareToAdd);
-                newFare = new Fare(newFare.getPrice(), fare.getFinalDate(), newFare.getFinalDate(), newFare.getDays());
-            }
-            if (fare.getFinalDate().isBefore(newFare.getFinalDate())) {
-                Fare fareToAdd = new Fare(fare.getPrice(), fare.getFinalDate().plusDays(1), newFare.getFinalDate(),
-                        fare.getDays());
-                minFares.add(fareToAdd);
-                fare = new Fare(fare.getPrice(), newFare.getFinalDate(), fare.getFinalDate(), fare.getDays());
-            }
-            if (fare.getInitialDate().isBefore(fare.getFinalDate())
-                    && newFare.getInitialDate().isBefore(newFare.getFinalDate())) {
-                minFares.addAll(getIntersectionFares(fare, newFare));
-            }
-        }
-        return minFares;
-
-    }
-
-    private ArrayList<Fare> getIntersectionFares(Fare fare1, Fare fare2) {
-        ArrayList<Fare> intersectionFares = new ArrayList<Fare>();
-        ArrayList<DayOfWeek> intersectionDays = new ArrayList<DayOfWeek>();
-        for (DayOfWeek day : fare1.getDays()) {
-            if (fare2.getDays().contains(day)) {
-                intersectionDays.add(day);
-            }
-        }
-
-        Fare badFare;
-        if (fare1.getPrice() < fare2.getPrice()) {
-            intersectionFares.add(fare1);
-            badFare = fare2;
-        } else {
-            intersectionFares.add(fare2);
-            badFare = fare1;
-        }
-
-        if (intersectionDays.size() < badFare.getDays().size()) {
-            ArrayList<DayOfWeek> daysToAdd = new ArrayList<DayOfWeek>();
-            for (DayOfWeek day : badFare.getDays()) {
-                if (!intersectionDays.contains(day)) {
-                    daysToAdd.add(day);
+            for (DayOfWeek day : newFare.getDays()) {
+                if (!interceptionDays.contains(day)) {
+                    nonCoverDays.add(day);
                 }
             }
-            Fare fareToAdd = new Fare(badFare.getPrice(), badFare.getInitialDate(), badFare.getFinalDate(), daysToAdd);
+            badFareInter = new Fare(badPrice, newFare.getInitialDate(), newFare.getFinalDate(), nonCoverDays);
+            minFareInter = new Fare(minPrice, initialDateInter, finalDateInter, interceptionDays);
+
+        } else {
+            minPrice = newFare.getPrice();
+            badPrice = fare.getPrice();
+            interceptionDays.addAll(newFare.getDays());
+            interceptionDays = new ArrayList<DayOfWeek>(new HashSet<DayOfWeek>(interceptionDays));
+            for (DayOfWeek day : fare.getDays()) {
+                if (!interceptionDays.contains(day)) {
+                    nonCoverDays.add(day);
+                }
+            }
+            badFareInter = new Fare(badPrice, fare.getInitialDate(), fare.getFinalDate(), nonCoverDays);
+            minFareInter = new Fare(minPrice, initialDateInter, finalDateInter, interceptionDays);
         }
 
-        return intersectionFares;
+
+        if (nonCoverDays.size() == 0) {
+            return new ArrayList<Fare>(Set.of(minFareInter));
+        } else {
+            return new ArrayList<Fare>(Set.of(minFareInter, badFareInter));
+        }
     }
 
-    private boolean isIntersecting(Fare fare1, Fare fare2) {
-        if (fare1.getInitialDate().compareTo(fare2.getInitialDate()) <= 0) {
-            if (fare1.getFinalDate().compareTo(fare2.getInitialDate()) >= 0) {
-                return true;
-            }
-        } else {
-            if (fare1.getInitialDate().compareTo(fare2.getFinalDate()) <= 0) {
-                return true;
+    private ArrayList<DayOfWeek> getInterceptionDays(Fare fare1, Fare fare2) {
+        ArrayList<DayOfWeek> interceptionDays = new ArrayList<DayOfWeek>();
+        for (DayOfWeek day : fare1.getDays()) {
+            if (fare2.getDays().contains(day)) {
+                interceptionDays.add(day);
             }
         }
-        return false;
+        return interceptionDays;
+    }
+
+    private LocalDate minDate(LocalDate date1, LocalDate date2) {
+        if (date1.compareTo(date2) <= 0) {
+            return date1;
+        } else {
+            return date2;
+        }
     }
 
     public Set<Object> getTypeRoomFare() {
