@@ -40,7 +40,7 @@ public class App {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     public Hotel hotel = new Hotel();
 
-    public static void main(String[] args) throws Exception {
+/*     public static void main(String[] args) throws Exception {
         System.out.println(" ");
         System.out.println("Bienvenido al sistema del hotel!");
         App instanceApp = new App();
@@ -48,7 +48,8 @@ public class App {
         instanceApp.hotel.startUp();
         instanceApp.authApp();
         instanceApp.hotel.shutDown();
-    }
+    } */
+    
 
     /*
      * Autentica a los usuarios del Hotel (Recepcionista, Administrador, Empleado)
