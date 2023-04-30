@@ -1,0 +1,8 @@
+#auth-container {
+    -fx-background-position: center center;
+    -fx-background-image: url("../assets/images/auth_background.png");
+    -fx-background-color: white;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}

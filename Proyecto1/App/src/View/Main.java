@@ -1,31 +1,29 @@
 package View;
 
+import View.Screens.AuthScreen.Auth;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Main extends Application  {
+public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
 
-        
-        try {
+        // EntryPoint
+        Pane authScreen = new Auth();
+        Scene scene = new Scene(authScreen);
 
-            // Show the scene containing the root layout.
-            Label btn = new Label("Hello");
-            btn.setId("btn");
-            Pane pane = new Pane(btn);
-            pane.getStylesheets().add("/Styles/auth.css");
-            Scene scene = new Scene(pane);
+        scene.getStylesheets().add("View/Styles/font.css");
 
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        primaryStage.setMinWidth(1125);
+        primaryStage.setMinHeight(800);
+        primaryStage.setX(300);
+        primaryStage.setY(100);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
     }
 
     public static void main(String[] args) {

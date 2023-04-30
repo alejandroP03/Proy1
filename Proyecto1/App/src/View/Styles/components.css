@@ -1,0 +1,60 @@
+#input {
+    -fx-min-width: 320;
+    -fx-min-height: 44;
+    -fx-max-width: 320;
+    -fx-max-height: 44;
+    -fx-padding: 0 0 0 35;
+
+    -fx-effect: dropshadow(three-pass-box, #676e7614, 5, 0.1, 4, 2);
+
+    -fx-background-color: white;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 12 center;
+    -fx-background-size: 13;
+
+    -fx-border-color: #676e7642;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-weight: 400;
+    -fx-font-size: 16px;
+    -fx-prompt-text-fill: #9EA5AD;
+    -fx-text-fill: #24292E;
+
+}
+
+#input:hover {
+    -fx-border-color: #000000a3;
+
+}
+
+#input:focused {
+    -fx-effect: dropshadow(gaussian, #676e763b, 3, 1, 0, 0);
+}
+
+#input:pressed {
+    -fx-effect: dropshadow(three-pass-box, #676e7614, 5, 0.1, 4, 2);
+}
+
+#input-container {
+    -fx-min-width: 320;
+    -fx-min-height: 100;
+    -fx-max-width: 320;
+    -fx-max-height: 100;
+    -fx-row-alignment: center;
+    -fx-column-alignment: left;
+    -fx-orientation: vertical;
+    -fx-vgap: 8;
+}
+
+#input-label {
+    -fx-font-family: "Inter Medium";
+    -fx-font-size: 14px;
+    -fx-text-fill: #454C52;
+}
+
+#input-help-text {
+    -fx-font-family: "Inter Regular";
+    -fx-font-size: 14px;
+    -fx-text-fill: #676E76;
+}
