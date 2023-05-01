@@ -79,18 +79,32 @@
     -fx-text-fill: #676E76;
 }
 
-#principal{
-    -fx-background-color: #006D77; /* establece el color de fondo del panel */
+#admin{
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%,  rgba(0, 109, 119, 0.201) 50.91%, rgba(226, 149, 120, 0.243) 83.82%, rgba(131, 197, 190, 0.105) 131.92%); /* establece el color de fondo del panel */
     -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
     /*-fx-translate-x: 50px; !* mueve el Pane 50 píxeles a la derecha *!*/
     /*-fx-translate-y: 100px; !* mueve el Pane 100 píxeles hacia abajo *!*/
 
+
+}
+
+#recepcionist{
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(131, 197, 190, 0.3) 62.08%, rgba(226, 149, 120, 0.3) 132.72% ); /* establece el color de fondo del panel */
+    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
+}
+
+#employee{
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(0, 109, 119, 0.201) 50.02%, rgba(226, 149, 120, 0.243) 83.62%, rgba(131, 197, 190, 0.105) 132.72%); /* establece el color de fondo del panel */
+    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
 }
 
 
 
+
+
+
 #background-window {
-    -fx-background-color: #CC3D5B; /* establece el color de fondo del panel */
+    -fx-background-color: #03555C; /* establece el color de fondo del panel */
 }
 
 

@@ -9,7 +9,6 @@
 
     -fx-background-color: white;
     -fx-background-repeat: no-repeat;
-    -fx-background-position: 12 center;
     -fx-background-size: 13;
 
     -fx-border-color: #676e7642;
@@ -22,6 +21,25 @@
     -fx-text-fill: #24292E;
 
 }
+
+.input-text {
+    -fx-background-position: 12 center;
+}
+
+.input-selector {
+    -fx-background-position: 296 center;
+}
+
+.combo-box .arrow,
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-image: url(../assets/icons/arrow-selection.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 15;
+    -fx-translate-x: -280px;
+}
+
 
 #input:hover {
     -fx-border-color: #000000a3;
@@ -48,44 +66,60 @@
 }
 
 #input-label {
-    -fx-font-family: "Inter Medium";
+    -fx-font-family: "Inter";
+    -fx-font-weight: 500;
     -fx-font-size: 14px;
     -fx-text-fill: #454C52;
 }
 
 #input-help-text {
-    -fx-font-family: "Inter Regular";
+    -fx-font-family: "Inter";
+    -fx-font-weight: 400;
     -fx-font-size: 14px;
     -fx-text-fill: #676E76;
 }
 
-#principal{
-    -fx-background-color: #006D77; /* establece el color de fondo del panel */
+#admin{
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%,  rgba(0, 109, 119, 0.201) 50.91%, rgba(226, 149, 120, 0.243) 83.82%, rgba(131, 197, 190, 0.105) 131.92%); /* establece el color de fondo del panel */
     -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
     /*-fx-translate-x: 50px; !* mueve el Pane 50 píxeles a la derecha *!*/
     /*-fx-translate-y: 100px; !* mueve el Pane 100 píxeles hacia abajo *!*/
 
+
+}
+
+#recepcionist{
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(131, 197, 190, 0.3) 62.08%, rgba(226, 149, 120, 0.3) 132.72% ); /* establece el color de fondo del panel */
+    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
+}
+
+#employee{
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(0, 109, 119, 0.201) 50.02%, rgba(226, 149, 120, 0.243) 83.62%, rgba(131, 197, 190, 0.105) 132.72%); /* establece el color de fondo del panel */
+    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
 }
 
 
 
+
+
+
 #background-window {
-    -fx-background-color: #CC3D5B; /* establece el color de fondo del panel */
+    -fx-background-color: #03555C; /* establece el color de fondo del panel */
 }
 
 
 .option-active {
     -fx-background-color: white;
     -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
-    -fx-pref-width: 25%;
-    -fx-pref-height: 25%;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 100px;
 }
 
 .option-inActive {
 
     -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
-    -fx-pref-width: 25%;
-    -fx-pref-height: 25%;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 100px;
 }
 
 

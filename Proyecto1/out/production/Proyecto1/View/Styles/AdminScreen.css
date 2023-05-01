@@ -1,0 +1,12 @@
+#principal-panel {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(0, 109, 119, 0.5) 23.26%, rgba(226, 149, 120, 0.475) 70.4%, rgba(131, 197, 190, 0.47) 139.29%); /* establece el color de fondo del panel */
+    -fx-background-radius: 20px;
+
+}
+
+#grid-rooms {
+    -fx-border-color: #C4C4C4;
+    -fx-border-width: 2px;
+    -fx-background-radius: 20px;
+
+}
