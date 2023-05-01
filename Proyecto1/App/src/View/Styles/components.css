@@ -80,3 +80,34 @@
     -fx-font-size: 14px;
     -fx-text-fill: #676E76;
 }
+
+#principal{
+    -fx-background-color: #006D77; /* establece el color de fondo del panel */
+    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
+    /*-fx-translate-x: 50px; !* mueve el Pane 50 píxeles a la derecha *!*/
+    /*-fx-translate-y: 100px; !* mueve el Pane 100 píxeles hacia abajo *!*/
+
+}
+
+
+
+#background-window {
+    -fx-background-color: #CC3D5B; /* establece el color de fondo del panel */
+}
+
+
+.option-active {
+    -fx-background-color: white;
+    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
+    -fx-pref-width: 100px;
+    -fx-pref-height: 100px;
+}
+
+.option-inActive {
+
+    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
+    -fx-pref-width: 100px;
+    -fx-pref-height: 100px;
+}
+
+
