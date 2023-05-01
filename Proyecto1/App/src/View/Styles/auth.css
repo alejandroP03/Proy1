@@ -1,8 +1,21 @@
 #auth-container {
     -fx-background-position: center center;
     -fx-background-image: url("../assets/images/auth_background.png");
-    -fx-background-color: white;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
+    
+
+}
+
+#auth-title {
+    -fx-font-weight: 700;
+    -fx-font-size: 48px;
+    -fx-fill: white;
+
+}
+
+#auth-form {
+    -fx-padding: 0 0 0 50;
+
 }

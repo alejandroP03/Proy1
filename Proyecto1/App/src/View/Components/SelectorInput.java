@@ -4,31 +4,22 @@ import javafx.scene.control.ComboBox;
 
 public class SelectorInput extends Input<ComboBox<String>> {
 
-    public SelectorInput(String labelText) {
-        super(labelText, new ComboBox<String>() {
-            {
-                getStyleClass().add("input-selector");
-
-            }
-        });
+    public SelectorInput(String labelText, String[] options) {
+        this(labelText, "", options);
 
     }
 
-    public SelectorInput(String labelText, String help_text) {
-        super(labelText, help_text, new ComboBox<String>() {
-            {
-                getStyleClass().add("input-selector");
-
-            }
-        });
+    public SelectorInput(String labelText, String help_text, String[] options) {
+        this(labelText, help_text, "", options);
 
     }
 
-    public SelectorInput(String labelText, String help_text, String iconName) {
+    public SelectorInput(String labelText, String help_text, String iconName, String[] options) {
         super(labelText, help_text, iconName, new ComboBox<String>() {
             {
                 getStyleClass().add("input-selector");
-
+                getItems().addAll(options);
+                setPromptText("Administrador");
             }
         });
 
@@ -36,8 +27,7 @@ public class SelectorInput extends Input<ComboBox<String>> {
 
     @Override
     public String getValue() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getValue'");
+        return this.inputField.getValue();
     }
 
 }
