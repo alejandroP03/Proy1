@@ -48,13 +48,15 @@
 }
 
 #input-label {
-    -fx-font-family: "Inter Medium";
+    -fx-font-family: "Inter";
+    -fx-font-weight: 500;
     -fx-font-size: 14px;
     -fx-text-fill: #454C52;
 }
 
 #input-help-text {
-    -fx-font-family: "Inter Regular";
+    -fx-font-family: "Inter";
+    -fx-font-weight: 400;
     -fx-font-size: 14px;
     -fx-text-fill: #676E76;
 }
