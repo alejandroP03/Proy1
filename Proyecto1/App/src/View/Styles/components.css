@@ -9,7 +9,6 @@
 
     -fx-background-color: white;
     -fx-background-repeat: no-repeat;
-    -fx-background-position: 12 center;
     -fx-background-size: 13;
 
     -fx-border-color: #676e7642;
@@ -22,6 +21,25 @@
     -fx-text-fill: #24292E;
 
 }
+
+.input-text {
+    -fx-background-position: 12 center;
+}
+
+.input-selector {
+    -fx-background-position: 296 center;
+}
+
+.combo-box .arrow,
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-image: url(../assets/icons/arrow-selection.png);
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 15;
+    -fx-translate-x: -280px;
+}
+
 
 #input:hover {
     -fx-border-color: #000000a3;
