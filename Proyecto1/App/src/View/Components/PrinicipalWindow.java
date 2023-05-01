@@ -1,14 +1,14 @@
 package View.Components;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.geometry.*;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-
-import java.awt.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 
 public class PrinicipalWindow extends GridPane{
@@ -23,9 +23,43 @@ public class PrinicipalWindow extends GridPane{
             setId("employee");
         }
 
+<<<<<<< HEAD
         setHgap(50);
         setVgap(50);
         setPadding(new Insets(20, 15, 20, 25));
+=======
+    public PrinicipalWindow() {
+        setId("principal");
+        setHgap(10);
+        setVgap(10);
+        setPadding(new Insets(0, 10, 0, 10));
+
+
+        // Agregar panel de arriba
+        Pane logo = new Pane();
+        add(logo, 0, 0);
+        logo.setStyle("-fx-pref-width: 200px;\n" +
+                "    -fx-pref-height: 50px;" +  "-fx-background-color: white;");
+
+
+//        Pane userInfo = new Pane();
+//        add(userInfo, 3, 0);
+//        userInfo.setStyle("-fx-pref-width: 100px;\n" +
+//                "    -fx-pref-height: 100px;" +  "-fx-background-color: red;");
+//
+//
+//        Pane principalInfo = new Pane();
+//        add(principalInfo, 1, 1);
+//        principalInfo.setStyle("-fx-pref-width: 600px;\n" +
+//                "    -fx-pref-height: 100px;" +  "-fx-background-color: red;");
+
+
+        // Agregar menu de la izquierda
+        add(lateralMenu(), 0, 1);
+
+        ColumnConstraints column1 = new ColumnConstraints();
+        getColumnConstraints().add(0, column1);
+>>>>>>> ece01383c6fc0e5d3ed66efe2784be88e2becc57
 
 
         //getChildren().add(lateralMenu());

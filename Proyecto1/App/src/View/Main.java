@@ -14,8 +14,12 @@ public class Main extends Application {
 
         // EntryPoint
         Pane authScreen = new Auth();
+
         Pane prb = new ScreenAdmin();
         Scene scene = new Scene(prb);
+
+        //Scene scene = new Scene(authScreen);
+
 
 
 

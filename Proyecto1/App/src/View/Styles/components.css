@@ -9,7 +9,7 @@
 
     -fx-background-color: white;
     -fx-background-repeat: no-repeat;
-    -fx-background-size: 13;
+    -fx-background-size: 14;
 
     -fx-border-color: #676e7642;
     -fx-border-width: 1;
@@ -27,7 +27,9 @@
 }
 
 .input-selector {
-    -fx-background-position: 296 center;
+    -fx-background-position: 290 center;
+    -fx-background-size: 15;
+
 }
 
 .combo-box .arrow,
@@ -36,7 +38,7 @@
     -fx-background-image: url(../assets/icons/arrow-selection.png);
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-    -fx-background-size: 15;
+    -fx-background-size: 15px;
     -fx-translate-x: -280px;
 }
 
@@ -121,5 +123,3 @@
     -fx-pref-width: 100px;
     -fx-pref-height: 100px;
 }
-
-

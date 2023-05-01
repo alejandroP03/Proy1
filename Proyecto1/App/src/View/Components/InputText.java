@@ -3,24 +3,14 @@ package View.Components;
 import javafx.scene.control.TextField;
 
 public class InputText extends Input<TextField> {
-
+    
     
     public InputText(String label, String placeholder) {
-        super(label, placeholder, new TextField() {
-            {
-                getStyleClass().add("input-text");
-                setPromptText(placeholder);
-            }
-        });
+        this(label, placeholder, "" );
     }
 
     public InputText(String label, String placeholder, String helpText) {
-        super(label, placeholder, helpText, new TextField() {
-            {
-                getStyleClass().add("input-text");
-                setPromptText(placeholder);
-            }
-        });
+        this(label, placeholder, helpText, "");
     }
 
     public InputText(String label, String placeholder, String help_text, String iconName) {
@@ -30,6 +20,10 @@ public class InputText extends Input<TextField> {
                 setPromptText(placeholder);
             }
         });
+    }
+
+    protected InputText(String label, String placeholder, String help_text, String iconName, TextField field) {
+        super(label, help_text, iconName, field);
     }
 
     @Override
