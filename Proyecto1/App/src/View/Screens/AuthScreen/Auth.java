@@ -2,6 +2,7 @@ package View.Screens.AuthScreen;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -12,7 +13,6 @@ public class Auth extends HBox {
 
     boolean isSignUp = true;
     AuthForm form = new AuthForm(isSignUp);
-    StackPane switchAuthContainer = new StackPane();
     Button switchAuthBtn = new Button(!isSignUp ? "Ir al registro" : "Inciar sesión") {
         {
             setOnAction(new EventHandler<ActionEvent>() {
@@ -22,16 +22,23 @@ public class Auth extends HBox {
                 }
 
             });
+            setId("btn-container");
+        }
+    };
+
+    StackPane switchAuthContainer = new StackPane() {
+        {
+            getChildren().add(switchAuthBtn);
+            setAlignment(Pos.BOTTOM_CENTER);
+            setMargin(switchAuthBtn, new Insets(0, 50, 50, 0));
         }
     };
 
     public Auth() {
-        switchAuthContainer.getChildren().add(switchAuthBtn);
-        setId("switch-id-btn");
 
         getChildren().add(form);
-        getChildren().add(switchAuthBtn);
-        switchAuthBtn.setAlignment(Pos.CENTER_RIGHT);
+        getChildren().add(switchAuthContainer);
+
         setHgrow(form, Priority.ALWAYS);
 
         setId("auth-container");

@@ -1,7 +1,5 @@
 package View;
 
-import Controller.RegisterHandler.PrincipalGuest;
-import View.Components.PrinicipalWindow;
 import View.Screens.AuthScreen.Auth;
 import View.Screens.AuthScreen.General;
 import javafx.application.Application;
@@ -17,7 +15,7 @@ public class Main extends Application {
         // EntryPoint
         Pane authScreen = new Auth();
         Pane prb = new General();
-        Scene scene = new Scene(prb);
+        Scene scene = new Scene(authScreen);
 
 
 

@@ -9,7 +9,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class AuthForm extends VBox {
-    private VBox inputsContainer = new VBox();
+    private VBox inputsContainer = new VBox() {
+        {
+            setAlignment(Pos.TOP_LEFT);
+            setId("auth-form-card");
+
+        }
+    };
 
     public AuthForm(boolean isSignUp) {
         this.switchForm(isSignUp);
@@ -19,21 +25,26 @@ public class AuthForm extends VBox {
 
     public void switchForm(boolean isSignUp) {
         getChildren().clear();
-        getChildren().add(new Text(isSignUp ? "Registro" : "Incio de sesión") {
+        inputsContainer.getChildren().clear();
+
+        Text auth_text = new Text(isSignUp ? "Registro" : "Incio de sesión") {
             {
                 setId("auth-title");
             }
-        });
+        };
 
-        inputsContainer.getChildren().add(
-                new InputText("Nombre", "", "", "person"));
+
+        inputsContainer.getChildren().add(auth_text);
+
+        inputsContainer.getChildren().add(new InputText("Nombre", "", "", "person"));
         if (isSignUp) {
             inputsContainer.getChildren().add(new SelectorInput("Tipo de usuario", "", "person",
                     new String[] { "Administrador", "Recepcionista", "Empleado" }));
         }
         inputsContainer.getChildren().add(new InputPassword());
 
-        setMargin(inputsContainer, new Insets(40, 0 ,0 ,0));
+        VBox.setMargin(auth_text, new Insets(0, 0, 40, 0));
+
 
         getChildren().add(inputsContainer);
     }

@@ -1,14 +1,14 @@
 package View.Components;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.geometry.*;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-
-import java.awt.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 
 public class PrinicipalWindow extends GridPane{
@@ -43,8 +43,7 @@ public class PrinicipalWindow extends GridPane{
         add(lateralMenu(), 0, 1);
 
         ColumnConstraints column1 = new ColumnConstraints();
-        column1.setPercentWidth(50);
-        column1.setHgrow(Priority.ALWAYS);
+        getColumnConstraints().add(0, column1);
 
 
         //getChildren().add(lateralMenu());

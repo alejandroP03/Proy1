@@ -1,10 +1,11 @@
 #auth-container {
     -fx-background-position: center center;
     -fx-background-image: url("../assets/images/auth_background.png");
+
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
-    
+
 
 }
 
@@ -17,5 +18,39 @@
 
 #auth-form {
     -fx-padding: 0 0 0 50;
+}
 
+
+#auth-form-card {
+    -fx-background-color: linear-gradient( rgba(123, 128, 138, 0.66) 8%, rgba(141, 150, 160, 0.66) 46%, rgba(113, 121, 121, 0.66) 100%);
+    -fx-background-radius: 20;
+    -fx-min-width: 420px;
+    -fx-min-height: 600px;
+    -fx-max-width: 420px;
+    -fx-max-height: 600px;
+    -fx-padding: 50 0 0 40;
+    -fx-fill: white;
+
+
+}
+
+#btn-container {
+    -fx-min-width: 265px;
+    -fx-min-height: 85px;
+    -fx-max-width: 265px;
+    -fx-max-height: 85px;
+    -fx-background-color: linear-gradient( rgba(123, 128, 138, 0.66) 8%, rgba(141, 150, 160, 0.66) 46%, rgba(113, 121, 121, 0.66) 100%);
+
+    -fx-font-weight: 400;
+    -fx-font-size: 24px;
+    -fx-fill: white;
+    
+    -fx-background-radius: 20;
+
+    -fx-background-image: url("../assets/icons/person.png");
+
+    -fx-background-position: 220 center;
+    -fx-background-repeat: no-repeat;
+    -fx-padding: 0 30 0 0;
+    -fx-background-size: 20;
 }
