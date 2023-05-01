@@ -1,6 +1,9 @@
 package View;
 
+import Controller.RegisterHandler.PrincipalGuest;
+import View.Components.PrinicipalWindow;
 import View.Screens.AuthScreen.Auth;
+import View.Screens.AuthScreen.General;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -13,9 +16,19 @@ public class Main extends Application {
 
         // EntryPoint
         Pane authScreen = new Auth();
-        Scene scene = new Scene(authScreen);
+        Pane prb = new General();
+        Scene scene = new Scene(prb);
+
+
+
+        scene.getStylesheets().add("View/Styles/components.css");
+        primaryStage.setTitle("Panel con background color");
+
 
         scene.getStylesheets().add("View/Styles/font.css");
+
+
+
 
         primaryStage.setMinWidth(1125);
         primaryStage.setMinHeight(800);

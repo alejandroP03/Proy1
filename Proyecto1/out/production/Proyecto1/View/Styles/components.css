@@ -77,15 +77,15 @@
 .option-active {
     -fx-background-color: white;
     -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
-    -fx-pref-width: 100px;
-    -fx-pref-height: 100px;
+    -fx-pref-width: 25%;
+    -fx-pref-height: 25%;
 }
 
 .option-inActive {
 
     -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
-    -fx-pref-width: 100px;
-    -fx-pref-height: 100px;
+    -fx-pref-width: 25%;
+    -fx-pref-height: 25%;
 }
 
 
