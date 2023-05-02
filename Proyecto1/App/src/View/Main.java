@@ -28,7 +28,7 @@ public class Main extends Application {
         Pane createService = new CreateServiceScreen();  // Probar creacion servicios
 
 
-        Scene scene = new Scene(createService);
+        Scene scene = new Scene(inventoryFood);
 
 
         primaryStage.setTitle("Panel con background color");
@@ -37,7 +37,7 @@ public class Main extends Application {
         scene.getStylesheets().add("View/Styles/font.css");
 
         primaryStage.setMinWidth(1125);
-        primaryStage.setMinHeight(800);
+        primaryStage.setMinHeight(700);
         primaryStage.setX(300);
         primaryStage.setY(100);
         primaryStage.setScene(scene);
