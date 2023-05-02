@@ -1,8 +1,8 @@
 package View.Screens.AuthScreen;
 
-import View.Components.InputPassword;
-import View.Components.InputText;
-import View.Components.SelectorInput;
+import View.Components.Inputs.InputPassword;
+import View.Components.Inputs.InputText;
+import View.Components.Inputs.SelectorInput;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;

@@ -1,6 +1,9 @@
 package View;
 
-import View.Components.ScreensAdmin.*;
+
+
+import View.Screens.AdminScreen.*;
+
 import View.Screens.AuthScreen.Auth;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,7 +18,7 @@ public class Main extends Application {
         // EntryPoint
         Pane authScreen = new Auth();
 
-        Pane prb = new ScreenAdmin(); // Probar pestana principal Admin
+        Pane prb = new RoomManaging(); // Probar pestana principal Admin
         Pane inventoryRoom = new RoomInventory(); // Probar inventario habitaciones
         Pane inventoryFood = new FoodInventory();  // Probar inventario comidas
         Pane invetoryService = new ServicesInventory(); // Probar inventario servicios
@@ -24,7 +27,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(createService);
 
-        scene.getStylesheets().add("View/Styles/components.css");
+
         primaryStage.setTitle("Panel con background color");
 
 
