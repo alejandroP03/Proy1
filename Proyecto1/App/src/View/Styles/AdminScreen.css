@@ -97,7 +97,7 @@
 }
 
 #card-create-service{
-    -fx-background-image: url("/View/assets/images/Rectangle 16.png");
+    -fx-background-image: url("/View/assets/images/blurry-gradient-haikei.png");
     -fx-background-size: cover;
     -fx-background-radius: 20px;
 }
