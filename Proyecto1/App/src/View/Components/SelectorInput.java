@@ -15,14 +15,19 @@ public class SelectorInput extends Input<ComboBox<String>> {
     }
 
     public SelectorInput(String labelText, String help_text, String iconName, String[] options) {
+        this(labelText, help_text, iconName, "", options);
+
+    }
+
+    public SelectorInput(String labelText, String help_text, String iconName, String placeholder, String[] options) {
         super(labelText, help_text, iconName, new ComboBox<String>() {
             {
                 getStyleClass().add("input-selector");
                 getItems().addAll(options);
-                setPromptText("Administrador");
+                setPromptText(placeholder == null || placeholder.isBlank() ? options[0] : placeholder);
+                setValue(options[0]);
             }
         });
-
     }
 
     @Override

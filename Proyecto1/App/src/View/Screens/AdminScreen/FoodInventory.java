@@ -1,4 +1,8 @@
-package View.Components.ScreensAdmin;
+package View.Screens.AdminScreen;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import View.Components.PrinicipalWindow;
 import javafx.geometry.Insets;
@@ -6,12 +10,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.*;
-
-import java.awt.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class FoodInventory extends VBox  {
 
@@ -21,10 +26,10 @@ public class FoodInventory extends VBox  {
         setId("background-window");
         setPrefSize(800,800);
         setAlignment(Pos.CENTER);
-        PrinicipalWindow pw = new PrinicipalWindow("Admin");
+        PrinicipalWindow pw = new PrinicipalWindow("admin");
         setVgrow(pw, Priority.ALWAYS);
         setPadding(new Insets(50));
-        Pane paneGrande = pw.getPaneGrande();
+        Pane mainPane = pw.getMainPane();
         BorderPane borderPane = new BorderPane();
 
 
@@ -38,7 +43,7 @@ public class FoodInventory extends VBox  {
         borderPane.setCenter(centerInfo);
 
 
-        paneGrande.getChildren().add(borderPane);
+        mainPane.getChildren().add(borderPane);
         getChildren().add(pw);
 
 

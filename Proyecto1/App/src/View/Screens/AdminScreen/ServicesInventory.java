@@ -1,16 +1,23 @@
-package View.Components.ScreensAdmin;
+package View.Screens.AdminScreen;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import View.Components.PrinicipalWindow;
+import View.Components.SelectorInput;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.*;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class ServicesInventory extends VBox {
 
@@ -19,10 +26,10 @@ public class ServicesInventory extends VBox {
         setId("background-window");
         setPrefSize(800,800);
         setAlignment(Pos.CENTER);
-        PrinicipalWindow pw = new PrinicipalWindow("Admin");
+        PrinicipalWindow pw = new PrinicipalWindow("admin");
         setVgrow(pw, Priority.ALWAYS);
         setPadding(new Insets(50));
-        Pane paneGrande = pw.getPaneGrande();
+        Pane mainPane = pw.getMainPane();
         BorderPane borderPane = new BorderPane();
 
 
@@ -36,7 +43,7 @@ public class ServicesInventory extends VBox {
         borderPane.setCenter(centerInfo);
 
 
-        paneGrande.getChildren().add(borderPane);
+        mainPane.getChildren().add(borderPane);
         getChildren().add(pw);
 
     }
@@ -60,11 +67,9 @@ public class ServicesInventory extends VBox {
         Label title = new Label("Filtros");
 
         // Filtro habitacion
-        Label availability = new Label("Tipo");
-        MenuButton availabilityMenu = crearMenuButton("Bebida", Arrays.asList("Bebida", "Comida"));
+        SelectorInput availabilityMenu = new SelectorInput("Tipo" ,new String[]{"Bebida", "Comida"});
         // Filtro caracteristicas
-        Label froGroup = new Label("Disponibilidad");
-        MenuButton froGroupMenu= crearMenuButton("Balcon", Arrays.asList("Opción 3", "Opción 5", "Opción 6"));
+        SelectorInput froGroupMenu = new SelectorInput("Disponibilidad", new String[]{"Opción 3", "Opción 5", "Opción 6"});
         // Filtro cama
 
         //Se agrega  a la grilla
@@ -73,9 +78,7 @@ public class ServicesInventory extends VBox {
         filterGrid.setVgap(15);
         filterGrid.setPadding(new Insets(20, 15, 20, 300));
         filterGrid.add(title,0,0);
-        filterGrid.add(availability,0,1);
         filterGrid.add(availabilityMenu,0,2);
-        filterGrid.add(froGroup,1,1);
         filterGrid.add(froGroupMenu,1,2);
 
         //Grilla de abajo

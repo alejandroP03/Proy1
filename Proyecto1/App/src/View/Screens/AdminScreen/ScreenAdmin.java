@@ -1,30 +1,32 @@
-package View.Components.ScreensAdmin;
-
-import Controller.Hotel;
-import Model.HotelObjects.RoomRelated.Bed;
-import Model.HotelObjects.RoomRelated.RoomFeatures;
-import Model.HotelObjects.RoomRelated.TypeRoom;
-import View.Components.Input;
-import View.Components.InputText;
-import View.Components.PrinicipalWindow;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.*;
-
-import javafx.scene.paint.Color;
+package View.Screens.AdminScreen;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import Controller.Hotel;
+import Model.HotelObjects.RoomRelated.Bed;
+import Model.HotelObjects.RoomRelated.RoomFeatures;
+import Model.HotelObjects.RoomRelated.TypeRoom;
+import View.Components.InputText;
+import View.Components.PrinicipalWindow;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Spinner;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 public class ScreenAdmin extends VBox {
         private String selectedOptionBed = "";
@@ -38,10 +40,10 @@ public class ScreenAdmin extends VBox {
                 setId("background-window");
                 setPrefSize(800,800);
                 setAlignment(Pos.CENTER);
-                PrinicipalWindow pw = new PrinicipalWindow("Admin");
+                PrinicipalWindow pw = new PrinicipalWindow("admin");
                 setVgrow(pw, Priority.ALWAYS);
                 setPadding(new Insets(50));
-                Pane paneGrande = pw.getPaneGrande();
+                Pane mainPane = pw.getMainPane();
                 GridPane gridPane = new GridPane();
 
                 //agregar tarjeta de carga
@@ -67,7 +69,7 @@ public class ScreenAdmin extends VBox {
                 gridPane.add(leftGrid, 0, 0);
                 gridPane.add(vboxSinTarifa, 0, 1);
 
-                paneGrande.getChildren().add(gridPane);
+                mainPane.getChildren().add(gridPane);
 
                 getChildren().add(pw);
 

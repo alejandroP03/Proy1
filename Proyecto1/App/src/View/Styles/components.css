@@ -32,14 +32,46 @@
 
 }
 
-.combo-box .arrow,
-.combo-box .arrow-button {
-    -fx-background-color: transparent;
+.combo-box .arrow-button{
+    
     -fx-background-image: url(../assets/icons/arrow-selection.png);
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-    -fx-background-size: 15px;
+    -fx-background-size: 18px;
+
     -fx-translate-x: -280px;
+}
+
+.combo-box .arrow {
+    -fx-max-width: 0;
+    -fx-min-width: 0;
+    -fx-max-height: 0;
+    -fx-min-height: 0;
+}
+
+.combo-box .list-view, .combo-box .list-cell{
+    -fx-background-radius: 8;   
+    -fx-border-radius: 8;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, #676e7614, 5, 0.1, 4, 2);
+
+}
+
+.combo-box .list-view .list-cell{
+    -fx-padding: 10px;
+    -fx-text-fill: #24292E;
+    -fx-font-weight: 600;
+    -fx-padding: 12;
+}
+
+.combo-box .list-view .list-cell:hover{
+    -fx-background-color: #F6F7F9;
+    -fx-text-fill: #24292E;
+}
+
+.combo-box .list-view .list-cell:selected{
+    -fx-background-color: #CED2D6;
+    -fx-font-weight: 900;
 }
 
 
@@ -81,45 +113,63 @@
     -fx-text-fill: #676E76;
 }
 
-#admin{
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%,  rgba(0, 109, 119, 0.201) 50.91%, rgba(226, 149, 120, 0.243) 83.82%, rgba(131, 197, 190, 0.105) 131.92%); /* establece el color de fondo del panel */
-    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
-    /*-fx-translate-x: 50px; !* mueve el Pane 50 píxeles a la derecha *!*/
-    /*-fx-translate-y: 100px; !* mueve el Pane 100 píxeles hacia abajo *!*/
 
+#main{
+    -fx-background-radius: 20px;
+}
+
+.admin-main{
+    -fx-background-color: #03555C;
+}
+
+.recepcionist-main{
+    -fx-background-color: #FFDDD2;
+}
+
+.employee-main{
+    -fx-background-color: #83C5BE;
 
 }
 
-#recepcionist{
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(131, 197, 190, 0.3) 62.08%, rgba(226, 149, 120, 0.3) 132.72% ); /* establece el color de fondo del panel */
-    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
+.admin {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(0, 109, 119, 0.201) 50.91%, rgba(226, 149, 120, 0.243) 83.82%, rgba(131, 197, 190, 0.105) 131.92%);
+
 }
 
-#employee{
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(0, 109, 119, 0.201) 50.02%, rgba(226, 149, 120, 0.243) 83.62%, rgba(131, 197, 190, 0.105) 132.72%); /* establece el color de fondo del panel */
-    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
+.recepcionist {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(131, 197, 190, 0.3) 62.08%, rgba(226, 149, 120, 0.3) 132.72%);
 }
 
+.employee {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(0, 109, 119, 0.201) 50.02%, rgba(226, 149, 120, 0.243) 83.62%, rgba(131, 197, 190, 0.105) 132.72%);
 
+}
+
+#mainPane{
+    -fx-background-color: white;
+}
 
 
 
 
 #background-window {
-    -fx-background-color: #03555C; /* establece el color de fondo del panel */
+    -fx-background-color: #03555C;
+    /* establece el color de fondo del panel */
 }
 
 
 .option-active {
     -fx-background-color: white;
-    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
+    -fx-background-radius: 20px;
+    /* establece el radio de las esquinas del panel */
     -fx-pref-width: 100px;
     -fx-pref-height: 100px;
 }
 
 .option-inActive {
 
-    -fx-background-radius: 20px; /* establece el radio de las esquinas del panel */
+    -fx-background-radius: 20px;
+    /* establece el radio de las esquinas del panel */
     -fx-pref-width: 100px;
     -fx-pref-height: 100px;
 }
