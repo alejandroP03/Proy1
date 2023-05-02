@@ -1,9 +1,9 @@
 package View;
 
-import View.Screens.AdminScreen.FoodInventory;
-import View.Screens.AdminScreen.RoomInventory;
-import View.Screens.AdminScreen.RoomManaging;
-import View.Screens.AdminScreen.ServicesInventory;
+
+
+import View.Screens.AdminScreen.*;
+
 import View.Screens.AuthScreen.Auth;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -19,11 +19,14 @@ public class Main extends Application {
         Pane authScreen = new Auth();
 
         Pane prb = new RoomManaging(); // Probar pestana principal Admin
-        Pane inventoryRoom = new RoomInventory(); // Pronbar inventario habitaciones
-        Pane inventoryFood = new FoodInventory();  // Pronbar inventario comidas
-        Pane invetoryService = new ServicesInventory(); // Porbar inventario servicios
+        Pane inventoryRoom = new RoomInventory(); // Probar inventario habitaciones
+        Pane inventoryFood = new FoodInventory();  // Probar inventario comidas
+        Pane invetoryService = new ServicesInventory(); // Probar inventario servicios
+        Pane createService = new CreateServiceScreen();  // Probar creacion servicios
 
-        Scene scene = new Scene(prb);
+
+        Scene scene = new Scene(createService);
+
 
         primaryStage.setTitle("Panel con background color");
 

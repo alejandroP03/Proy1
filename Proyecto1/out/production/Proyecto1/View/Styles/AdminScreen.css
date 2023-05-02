@@ -101,14 +101,3 @@
     -fx-background-size: cover;
     -fx-background-radius: 20px;
 }
-
-
-#bed-selector, #bed-selector .input{
-    -fx-max-width: 270px;
-    -fx-min-width: 270px;
-}
-
-#bed-selector .combo-box .arrow-button{
-    -fx-translate-x: -230px;
-}
-
