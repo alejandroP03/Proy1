@@ -1,4 +1,4 @@
-package View.Components;
+package View.Components.Inputs;
 
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -24,7 +24,7 @@ public abstract class Input<T extends Control> extends FlowPane {
         });
 
         setId("input-container");
-        getStylesheets().add("View/Styles/components.css");
+        getStylesheets().add("View/Styles/components/inputs.css");
     }
 
     public Input(String labelText, String help_text, T inputField) {

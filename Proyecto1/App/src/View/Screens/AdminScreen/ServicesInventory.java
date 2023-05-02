@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import View.Components.PrinicipalWindow;
-import View.Components.SelectorInput;
+import View.Components.Inputs.SelectorInput;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -23,12 +23,8 @@ public class ServicesInventory extends VBox {
 
     public ServicesInventory(){
         getStylesheets().add("View/Styles/AdminScreen.css");
-        setId("background-window");
-        setPrefSize(800,800);
-        setAlignment(Pos.CENTER);
         PrinicipalWindow pw = new PrinicipalWindow("admin");
         setVgrow(pw, Priority.ALWAYS);
-        setPadding(new Insets(50));
         Pane mainPane = pw.getMainPane();
         BorderPane borderPane = new BorderPane();
 

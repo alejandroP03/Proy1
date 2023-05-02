@@ -1,9 +1,7 @@
 package View.Screens.AdminScreen;
 
-import View.Components.InputText;
 import View.Components.PrinicipalWindow;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import View.Components.Inputs.InputText;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -13,12 +11,10 @@ import javafx.scene.layout.VBox;
 public class CreateServiceScreen extends VBox {
     public CreateServiceScreen(){
         getStylesheets().add("View/Styles/AdminScreen.css");
-        setId("background-window");
-        setPrefSize(800,800);
-        setAlignment(Pos.CENTER);
+        
         PrinicipalWindow pw = new PrinicipalWindow("admin");
         setVgrow(pw, Priority.ALWAYS);
-        setPadding(new Insets(50));
+        
         Pane mainPane = pw.getMainPane();
         VBox vBox = new VBox();
 

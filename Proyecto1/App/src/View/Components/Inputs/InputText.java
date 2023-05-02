@@ -1,4 +1,4 @@
-package View.Components;
+package View.Components.Inputs;
 
 import javafx.scene.control.TextField;
 

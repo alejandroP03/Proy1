@@ -22,12 +22,8 @@ public class RoomInventory extends VBox {
 
     public RoomInventory() {
         getStylesheets().add("View/Styles/AdminScreen.css");
-        setId("background-window");
-        setPrefSize(800, 800);
-        setAlignment(Pos.CENTER);
         PrinicipalWindow pw = new PrinicipalWindow("admin");
         setVgrow(pw, Priority.ALWAYS);
-        setPadding(new Insets(50));
         Pane mainPane = pw.getMainPane();
 
         BorderPane borderPane = new BorderPane();

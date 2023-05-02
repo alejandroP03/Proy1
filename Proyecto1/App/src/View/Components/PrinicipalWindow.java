@@ -22,11 +22,11 @@ public class PrinicipalWindow extends BorderPane {
     };
 
     public PrinicipalWindow(String user) {
-
+        getStylesheets().add("View/Styles/components/principalWindow.css");
         GridPane grid = grid();
         getStyleClass().add(user + "-main");
         grid.getStyleClass().add(user);
-
+        setPadding(new Insets(30));
         setCenter(grid);
 
     }

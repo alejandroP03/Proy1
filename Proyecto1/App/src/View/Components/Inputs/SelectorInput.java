@@ -1,5 +1,6 @@
-package View.Components;
+package View.Components.Inputs;
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
 public class SelectorInput extends Input<ComboBox<String>> {
@@ -33,6 +34,10 @@ public class SelectorInput extends Input<ComboBox<String>> {
     @Override
     public String getValue() {
         return this.inputField.getValue();
+    }
+
+    public ObservableList<String> getItems(){
+        return this.inputField.getItems();
     }
 
 }

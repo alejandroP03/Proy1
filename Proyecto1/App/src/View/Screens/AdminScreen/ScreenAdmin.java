@@ -10,8 +10,9 @@ import Controller.Hotel;
 import Model.HotelObjects.RoomRelated.Bed;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.TypeRoom;
-import View.Components.InputText;
 import View.Components.PrinicipalWindow;
+import View.Components.Inputs.InputText;
+import View.Components.Inputs.SelectorInput;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -36,13 +37,9 @@ public class ScreenAdmin extends VBox {
         public Hotel hotel = Hotel.getInstance();
 
         public ScreenAdmin(){
-                getStylesheets().add("View/Styles/AdminScreen.css");
-                setId("background-window");
-                setPrefSize(800,800);
-                setAlignment(Pos.CENTER);
+                getStylesheets().add("View/Styles/adminScreen.css");
                 PrinicipalWindow pw = new PrinicipalWindow("admin");
                 setVgrow(pw, Priority.ALWAYS);
-                setPadding(new Insets(50));
                 Pane mainPane = pw.getMainPane();
                 GridPane gridPane = new GridPane();
 
@@ -129,49 +126,27 @@ public class ScreenAdmin extends VBox {
                 form.setSpacing(10);
                 form.setPadding(new Insets(30));// agregar espacio entre los nodos
                 InputText locationInput = new InputText("Ubicacion", "E-527", "", "person");
-                //InputText bed = new InputText("Tipo de cama", "", "Elegir tipo cama", "person");
-                Label bedLabel = new Label("Tipo de cama");
-
-                MenuItem kingBed = new MenuItem("KING");
-                MenuItem kingPlus = new MenuItem("KING_PLUS");
-                MenuItem queenBed = new MenuItem("QUEEN");
-                MenuItem doubleBed = new MenuItem("DOUBLE");
-                MenuItem singleBed = new MenuItem("SINGLE");
-                MenuItem cabinBed = new MenuItem("CABIN");
-                MenuButton bedMenu = new MenuButton("KING_PLUS",null,kingBed,kingPlus,queenBed,doubleBed,singleBed,cabinBed);
-
-                Bed[] typeBeds = Bed.values();
-                //Map<Bed, Integer> mapBeds = new HashMap<Bed, Integer>();
+                //
+                SelectorInput bedSelection = new SelectorInput("Tipo de cama", "Elegir tipo de cama", "person", "", new String[]{"King", "King Plus", "Queen", "Doble", "Simple", "Camarote"});
 
 
-
-
-                bedMenu.setOnAction(e -> {
-                        MenuItem selectedItem = (MenuItem) e.getSource();
-                        selectedOptionBed =  selectedItem.getText();
-                        bedMenu.setText(selectedOptionBed);
-//
-//                        System.out.println(bed);
-                });
 
                 Button addBed = new Button("+");
                 Spinner<Integer> spinner = new Spinner<>(0, 10, 1);
                 spinner.setEditable(true);
-                //final String[] bed = {""};
+                
                 final Map<Bed, Integer> mapBeds = new HashMap<Bed, Integer>();
                 final int[] countBed = {0};
                 addBed.setOnAction(e -> {
 
-                        Bed bed = Bed.valueOf(bedMenu.getText());
+                        Bed bed = Bed.valueOf(bedSelection.getValue());
                         countBed[0] = spinner.getValue();
                         mapBeds.put(bed,countBed[0]);
                         System.out.println(mapBeds.get(bed));
 
                 });
 
-                for(MenuItem item: bedMenu.getItems()){
-                        item.setOnAction(e -> bedMenu.setText(item.getText()));
-                }
+
                 Label featuresLabel = new Label("Características de la habitación:");
                 MenuItem balconyFeature = new MenuItem("BALCONY");
                 MenuItem viewFeature = new MenuItem("LANDSCAPE_VIEW");
@@ -185,7 +160,7 @@ public class ScreenAdmin extends VBox {
                 featuresMenu.setOnAction(e -> {
                         MenuItem selectedItemF = (MenuItem) e.getSource();
                         selectedOptionFeature = selectedItemF.getText();
-                        bedMenu.setText(selectedOptionFeature);
+                        
                 });
 
 
@@ -215,7 +190,7 @@ public class ScreenAdmin extends VBox {
                 typeMenu.setOnAction(e -> {
                         MenuItem selectedItemT = (MenuItem) e.getSource();
                         selectedOptionType = selectedItemT.getText();
-                        bedMenu.setText(selectedOptionType);
+                        
                 });
                 for(MenuItem item: typeMenu.getItems()){
                         item.setOnAction(e -> typeMenu.setText(item.getText()));
@@ -253,7 +228,7 @@ public class ScreenAdmin extends VBox {
 
                 addBed.setId("button-form");
                 addRoom.setId("button-form");
-                form.getChildren().addAll(title ,locationInput, bedLabel,bedMenu,spinner,addBed,featuresLabel,featuresMenu,addFeature,typeMenu,addRoom);
+                form.getChildren().addAll(title ,locationInput, bedSelection,spinner,addBed,featuresLabel,featuresMenu,addFeature,typeMenu,addRoom);
 
                 return form;
 
