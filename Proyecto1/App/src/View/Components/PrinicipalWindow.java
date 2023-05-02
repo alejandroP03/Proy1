@@ -3,6 +3,7 @@ package View.Components;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -90,7 +91,9 @@ public class PrinicipalWindow<T extends Pane> extends BorderPane {
                 // Agregar menu de la izquierda
                 add(lateralMenu(), 0, 1);
 
-                add(getMainPane(), 1, 1);
+                add(new ScrollPane(){{
+                    setContent(getMainPane());
+                }}, 1, 1);
                 // getChildren().add(lateralMenu());
                 RowConstraints row1 = new RowConstraints();
                 row1.setMinHeight(30); // altura mínima de 30 píxeles
