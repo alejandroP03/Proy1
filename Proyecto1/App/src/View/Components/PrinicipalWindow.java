@@ -14,21 +14,18 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
-public class PrinicipalWindow extends BorderPane {
-    Pane mainPane = new Pane() {
-        {
-            setId("mainPane");
-        }
-    };
+public class PrinicipalWindow<T extends Pane> extends BorderPane {
+    T mainPane;
 
-    public PrinicipalWindow(String user) {
+    public PrinicipalWindow(String user, T layout) {
+        this.mainPane = layout;
+        mainPane.setId("main-pane");
         getStylesheets().add("View/Styles/components/principalWindow.css");
         GridPane grid = grid();
         getStyleClass().add(user + "-main");
         grid.getStyleClass().add(user);
         setPadding(new Insets(30));
         setCenter(grid);
-
     }
 
     public VBox lateralMenu() {
@@ -129,7 +126,7 @@ public class PrinicipalWindow extends BorderPane {
         };
     }
 
-    public Pane getMainPane() {
+    public T getMainPane() {
         return mainPane;
     }
 

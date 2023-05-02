@@ -35,7 +35,7 @@ public class RoomManaging extends VBox {
         public RoomManaging() {
 
                 getStylesheets().add("View/Styles/admin/adminScreens.css");
-                PrinicipalWindow pw = new PrinicipalWindow("admin");
+                PrinicipalWindow pw = new PrinicipalWindow<Pane>("admin", new Pane());
                 setVgrow(pw, Priority.ALWAYS);
                 Pane mainPane = pw.getMainPane();
                 GridPane gridPane = new GridPane();
