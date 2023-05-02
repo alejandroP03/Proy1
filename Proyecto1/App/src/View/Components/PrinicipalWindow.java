@@ -2,6 +2,7 @@ package View.Components;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,7 +12,7 @@ import javafx.scene.layout.*;
 public class PrinicipalWindow extends GridPane{
     Pane paneGrande;
     public PrinicipalWindow(String user) {
-        
+
         if (user.equals("Admin")){
             setId("admin");
         } else if (user.equals("Recepcionist")) {
@@ -20,13 +21,9 @@ public class PrinicipalWindow extends GridPane{
             setId("employee");
         }
 
-
-        setId("principal");
         setHgap(50);
-        setVgap(50);
+        setVgap(60);
         setPadding(new Insets(20, 15, 20, 25));
-
-
 
         // Agregar menu de la izquierda
         add(lateralMenu(), 0, 1);
@@ -52,6 +49,7 @@ public class PrinicipalWindow extends GridPane{
 // el componente grande se agrega a la segunda fila y columna
         this.paneGrande = new GridPane();
         this.paneGrande.setStyle("-fx-background-color: white;" + "-fx-background-radius: 20px;" );
+
         add(this.paneGrande, 1, 1);
 
 
@@ -67,6 +65,7 @@ public class PrinicipalWindow extends GridPane{
         // la barra superior se agrega a la primera fila
         add(logo(), 0, 0);
 
+
     }
 
     public VBox lateralMenu(){
@@ -76,7 +75,6 @@ public class PrinicipalWindow extends GridPane{
                 verticalIconText("Restaurante", "View/assets/images/building-storefront.png",false),
                 verticalIconText("Servicios", "View/assets/images/shopping-bag.png",false),
                 verticalIconText("Inventario", "View/assets/images/Union.png",false)
-
              );
 
         VBox pane = new VBox();

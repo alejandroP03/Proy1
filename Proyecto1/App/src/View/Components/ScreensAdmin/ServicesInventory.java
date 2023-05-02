@@ -1,0 +1,137 @@
+package View.Components.ScreensAdmin;
+
+import View.Components.PrinicipalWindow;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class ServicesInventory extends VBox {
+
+    public ServicesInventory(){
+        getStylesheets().add("View/Styles/AdminScreen.css");
+        setId("background-window");
+        setPrefSize(800,800);
+        setAlignment(Pos.CENTER);
+        PrinicipalWindow pw = new PrinicipalWindow("Admin");
+        setVgrow(pw, Priority.ALWAYS);
+        setPadding(new Insets(50));
+        Pane paneGrande = pw.getPaneGrande();
+        BorderPane borderPane = new BorderPane();
+
+
+        //Agregar titulo y boton habitaciones
+        StackPane hBox = topBorder();
+        BorderPane.setMargin(hBox, new Insets(0, 40, 50, 330));
+        borderPane.setTop(hBox);
+
+        // Agregar informacion del centro
+        VBox centerInfo = topCenterBorder();
+        borderPane.setCenter(centerInfo);
+
+
+        paneGrande.getChildren().add(borderPane);
+        getChildren().add(pw);
+
+    }
+
+    public StackPane topBorder(){
+        javafx.scene.control.Label title = new Label("Inventario");
+        title.setId("inventory-title");
+        MenuButton menuButton = crearMenuButton("Servicios", Arrays.asList("Opción 7", "Opción 8", "Opción 9"));
+        menuButton.setId("type-inventory");
+        HBox hBox = new HBox();
+        hBox.setSpacing(100);
+        hBox.getChildren().addAll(title, menuButton);
+        hBox.setAlignment(Pos.CENTER);
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().add(hBox);
+        stackPane.setAlignment(Pos.CENTER);
+        return stackPane;
+    }
+
+    public VBox topCenterBorder(){
+        Label title = new Label("Filtros");
+
+        // Filtro habitacion
+        Label availability = new Label("Tipo");
+        MenuButton availabilityMenu = crearMenuButton("Bebida", Arrays.asList("Bebida", "Comida"));
+        // Filtro caracteristicas
+        Label froGroup = new Label("Disponibilidad");
+        MenuButton froGroupMenu= crearMenuButton("Balcon", Arrays.asList("Opción 3", "Opción 5", "Opción 6"));
+        // Filtro cama
+
+        //Se agrega  a la grilla
+        GridPane filterGrid = new GridPane();
+        filterGrid.setHgap(50);
+        filterGrid.setVgap(15);
+        filterGrid.setPadding(new Insets(20, 15, 20, 300));
+        filterGrid.add(title,0,0);
+        filterGrid.add(availability,0,1);
+        filterGrid.add(availabilityMenu,0,2);
+        filterGrid.add(froGroup,1,1);
+        filterGrid.add(froGroupMenu,1,2);
+
+        //Grilla de abajo
+        GridPane infoGrid = new GridPane();
+        Label name = new Label("Nombre");
+        Label type = new Label("Horario");
+        Label availabilityInfo = new Label("Disponibilidad");
+        Label isService = new Label("Para Grupo");
+        Label price = new Label("Precio");
+        infoGrid.setHgap(50);
+        infoGrid.setVgap(15);
+        infoGrid.setPadding(new Insets(20, 15, 20, 200));
+        infoGrid.add(name,0,0);
+        infoGrid.add(type,1,0);
+        infoGrid.add(availabilityInfo,2,0);
+        infoGrid.add(isService,3,0);
+        infoGrid.add(price,4,0);
+        addInfo(infoGrid,"Peluqueria","13:00 - 18: 00","L J D", "Si", "10000");
+
+        VBox topCenter = new VBox();
+        topCenter.getChildren().addAll(filterGrid,infoGrid);
+        topCenter.setSpacing(20);
+
+        return topCenter;
+
+    }
+    public void addInfo(GridPane infoGrid, String name, String type, String availability, String isService, String price){
+        // TODO cuando se anada rows debe incrementar en 1 para que se anada otra finla
+        int rows = 1;
+        Label nameInfo = new Label(name);
+        Label typeInfo = new Label(type);
+        Label availabilityInfo = new Label(availability);
+        Label isServiceInfo = new Label(isService);
+        Label priceInfo = new Label(price);
+        infoGrid.add(nameInfo, 0,rows);
+        infoGrid.add(typeInfo,1,rows);
+        infoGrid.add(availabilityInfo,2,rows);
+        infoGrid.add(isServiceInfo,3,rows);
+        infoGrid.add(priceInfo,4,rows);
+        rows++;
+    }
+
+
+    public MenuButton crearMenuButton(String texto, java.util.List<String> opciones) {
+        MenuButton menuButton = new MenuButton(texto);
+        // Crear una lista de elementos de menú a partir de la lista de opciones dada
+        List<MenuItem> menuItems = opciones.stream()
+                .map(MenuItem::new)
+                .collect(Collectors.toList());
+        // Agregar la lista de elementos de menú al botón de menú
+        menuButton.getItems().addAll(menuItems);
+        menuButton.setId("menu-btn");
+        return menuButton;
+    }
+
+
+
+
+}

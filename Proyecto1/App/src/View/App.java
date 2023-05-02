@@ -38,7 +38,7 @@ import Model.HotelObjects.RoomRelated.TypeRoom;
 public class App {
     User activeUser;
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    public Hotel hotel = new Hotel();
+    public Hotel hotel = Hotel.getInstance();
 
 /*     public static void main(String[] args) throws Exception {
         System.out.println(" ");

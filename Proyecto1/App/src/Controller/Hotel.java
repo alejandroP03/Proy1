@@ -30,6 +30,7 @@ public class Hotel {
 
     private RegisterHandler registerHandler = new RegisterHandler();
 
+    private static Hotel instancia;
 
 
     // private RegistrationDataHandler registrationHandler = new
@@ -67,6 +68,15 @@ public class Hotel {
 
     public RegisterHandler getRegisterHandler(){
         return this.registerHandler;
+    }
+
+    private Hotel(){};
+
+    public static Hotel getInstance(){
+        if(instancia == null){
+            instancia = new Hotel();
+        }
+        return instancia;
     }
 
     public void startUp()throws Exception{
