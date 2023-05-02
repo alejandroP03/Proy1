@@ -28,11 +28,14 @@ public class CreateServiceScreen extends VBox {
         Pane mainPane = pw.getMainPane();
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(50));
+        vBox.setSpacing(40);
 
         // Crear primer card formulario
         vBox.getChildren().add(createServiceCard());
 
         // Crear segundo card de abajo
+        vBox.getChildren().add(loadServices());
+
 
 
 
@@ -76,24 +79,30 @@ public class CreateServiceScreen extends VBox {
     public BorderPane loadServices(){
         Label title = new Label("Cargar servicios");
         Label description = new Label("Carga un archivo con los datos de los servicios");
-
-
-
+        Image imagen = new Image("View/assets/images/Group 79.png");
+        ImageView imageView1 = new ImageView(imagen);
         //Crear el boton
         Button button = new Button();
         HBox hbox = new HBox();
         Label label = new Label("Cargar");
         ImageView imageView = new ImageView(new Image("View/assets/images/arrow-down-tray.png"));
+
         hbox.getChildren().addAll(label, imageView);
         hbox.setSpacing(10);
         button.setGraphic(hbox);
 
+        GridPane gridPane = new GridPane();
+        gridPane.add(title,0,0);
+        gridPane.add(description,0,1,1,2);
+        gridPane.add(hbox,0,3);
+
+
+
         BorderPane borderPane = new BorderPane();
-        //borderPane.setLeft();
+        borderPane.setLeft(gridPane);
+        borderPane.setRight(imageView1);
 
-
-
-        return null;
+        return borderPane;
     }
     public GridPane morePeeopleForm(){
         Label title = new Label("¿El servicio es para varias personas?");
@@ -146,8 +155,7 @@ public class CreateServiceScreen extends VBox {
         GridPane gridPane = new GridPane();
         gridPane.add(initialDateForm,0,0);
         gridPane.add(finalDateForm,1,0);
-
-        gridPane.setHgap(2);
+        gridPane.setHgap(20);
 
         return gridPane;
     }
