@@ -2,8 +2,11 @@ package View;
 
 
 
-import View.Screens.AdminScreen.*;
-
+import View.Screens.AdminScreen.CreateServiceScreen;
+import View.Screens.AdminScreen.FoodInventory;
+import View.Screens.AdminScreen.RoomInventory;
+import View.Screens.AdminScreen.RoomManaging;
+import View.Screens.AdminScreen.ServicesInventory;
 import View.Screens.AuthScreen.Auth;
 import javafx.application.Application;
 import javafx.scene.Scene;

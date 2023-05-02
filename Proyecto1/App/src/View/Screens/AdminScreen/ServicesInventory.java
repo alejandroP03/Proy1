@@ -23,7 +23,7 @@ public class ServicesInventory extends VBox {
 
     public ServicesInventory(){
         getStylesheets().add("View/Styles/admin/adminScreens.css");
-        PrinicipalWindow pw = new PrinicipalWindow("admin");
+        PrinicipalWindow pw = new PrinicipalWindow<Pane>("admin", new Pane());
         setVgrow(pw, Priority.ALWAYS);
         Pane mainPane = pw.getMainPane();
         BorderPane borderPane = new BorderPane();

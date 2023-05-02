@@ -22,7 +22,7 @@ public class RoomInventory extends VBox {
 
     public RoomInventory() {
         getStylesheets().add("View/Styles/admin/adminScreens.css");
-        PrinicipalWindow pw = new PrinicipalWindow("admin");
+        PrinicipalWindow pw = new PrinicipalWindow<Pane>("admin", new Pane());
         setVgrow(pw, Priority.ALWAYS);
         Pane mainPane = pw.getMainPane();
 
