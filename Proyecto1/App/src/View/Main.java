@@ -1,10 +1,10 @@
 package View;
 
-import View.Components.ScreensAdmin.FoodInventory;
-import View.Components.ScreensAdmin.RoomInventory;
-import View.Components.ScreensAdmin.ServicesInventory;
+import View.Screens.AdminScreen.FoodInventory;
+import View.Screens.AdminScreen.RoomInventory;
+import View.Screens.AdminScreen.ScreenAdmin;
+import View.Screens.AdminScreen.ServicesInventory;
 import View.Screens.AuthScreen.Auth;
-import View.Components.ScreensAdmin.ScreenAdmin;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
