@@ -2,7 +2,7 @@ package View;
 
 import View.Screens.AdminScreen.FoodInventory;
 import View.Screens.AdminScreen.RoomInventory;
-import View.Screens.AdminScreen.ScreenAdmin;
+import View.Screens.AdminScreen.RoomManaging;
 import View.Screens.AdminScreen.ServicesInventory;
 import View.Screens.AuthScreen.Auth;
 import javafx.application.Application;
@@ -18,7 +18,7 @@ public class Main extends Application {
         // EntryPoint
         Pane authScreen = new Auth();
 
-        Pane prb = new ScreenAdmin(); // Probar pestana principal Admin
+        Pane prb = new RoomManaging(); // Probar pestana principal Admin
         Pane inventoryRoom = new RoomInventory(); // Pronbar inventario habitaciones
         Pane inventoryFood = new FoodInventory();  // Pronbar inventario comidas
         Pane invetoryService = new ServicesInventory(); // Porbar inventario servicios

@@ -11,15 +11,13 @@ import Model.HotelObjects.RoomRelated.Bed;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.TypeRoom;
 import View.Components.PrinicipalWindow;
+import View.Components.Inputs.InputNumber;
 import View.Components.Inputs.InputText;
 import View.Components.Inputs.SelectorInput;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -28,41 +26,40 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
-public class ScreenAdmin extends VBox {
-        private String selectedOptionBed = "";
-        private String selectedOptionFeature = "";
-        private String selectedOptionType  = "";
-        private int roomCounter = 0;
+public class RoomManaging extends VBox {
+
         public Hotel hotel = Hotel.getInstance();
 
-        public ScreenAdmin(){
-                getStylesheets().add("View/Styles/adminScreen.css");
+        public RoomManaging() {
+
+                getStylesheets().add("View/Styles/admin/adminScreens.css");
                 PrinicipalWindow pw = new PrinicipalWindow("admin");
                 setVgrow(pw, Priority.ALWAYS);
                 Pane mainPane = pw.getMainPane();
                 GridPane gridPane = new GridPane();
 
-                //agregar tarjeta de carga
+                // agregar tarjeta de carga
                 VBox leftGrid = new VBox();
-                leftGrid.setPadding(new Insets(0,30,40,50));
+                leftGrid.setPadding(new Insets(0, 30, 40, 50));
                 BorderPane cargaGrid = loadRooms();
                 leftGrid.getChildren().add(cargaGrid);
 
                 // Agregar habitaciones sin tarifas
                 VBox vboxSinTarifa = new VBox();
-                vboxSinTarifa.setPadding(new Insets(0,0,40,50));
+                vboxSinTarifa.setPadding(new Insets(0, 0, 40, 50));
                 Label titleSintarifa = new Label("Habitaciones sin tarifa");
                 GridPane roomNoFare = noRoomsFare();
                 vboxSinTarifa.setSpacing(12);
                 vboxSinTarifa.getChildren().addAll(titleSintarifa, roomNoFare);
 
-                //Agregar Crear una habitacion
+                // Agregar Crear una habitacion
                 VBox form = createRoom();
                 gridPane.setHgap(20);
                 gridPane.setVgap(30);
                 gridPane.setPadding(new Insets(20, 15, 20, 25));
-                gridPane.add(form, 1, 0,1,3);
+                gridPane.add(form, 1, 0, 1, 3);
                 gridPane.add(leftGrid, 0, 0);
                 gridPane.add(vboxSinTarifa, 0, 1);
 
@@ -70,33 +67,32 @@ public class ScreenAdmin extends VBox {
 
                 getChildren().add(pw);
 
-
         }
 
-        public BorderPane loadRooms(){
+        public BorderPane loadRooms() {
                 Label titulo = new Label("Carga un archivo de habitaciones!");
-                //Imagen personaje a la derecha
+                // Imagen personaje a la derecha
                 Image imagen = new Image("View/assets/images/Group 87.png");
                 ImageView imageView = new ImageView(imagen);
 
                 // agreagar cajas abajo izquierda
                 VBox vboxTextos = new VBox();
-                vboxTextos.getChildren().addAll(smallInfoRooms("Agregadas"),smallInfoRooms("Sin tarifas"));
+                vboxTextos.getChildren().addAll(smallInfoRooms("Agregadas"), smallInfoRooms("Sin tarifas"));
                 vboxTextos.setAlignment(Pos.CENTER_LEFT);
                 vboxTextos.setSpacing(10);
 
                 // Crear el BorderPane y agregar los elementos
                 BorderPane borderPane = new BorderPane();
                 borderPane.setId("principal-panel");
-                borderPane.setPadding(new Insets(30,0,0,25));
+                borderPane.setPadding(new Insets(30, 0, 0, 25));
                 borderPane.setTop(titulo);
                 borderPane.setLeft(vboxTextos);
                 borderPane.setRight(imageView);
 
-                return borderPane ;
+                return borderPane;
         }
 
-        public GridPane smallInfoRooms (String textGrid){
+        public GridPane smallInfoRooms(String textGrid) {
                 // crear las cajas de abajo
                 Image prbImg = new Image("View/assets/images/Group 47.png");
                 ImageView prbImgView = new ImageView(prbImg);
@@ -117,92 +113,62 @@ public class ScreenAdmin extends VBox {
                 return gridPane;
         }
 
+        public VBox createRoom() {
+                Text title = new Text("Crear una habitacion");
 
-
-        public VBox createRoom(){
-                Label title = new Label("                       Crear una habitacion");
                 VBox form = new VBox();
                 form.setId("create-room-tarjet");
                 form.setSpacing(10);
                 form.setPadding(new Insets(30));// agregar espacio entre los nodos
                 InputText locationInput = new InputText("Ubicacion", "E-527", "", "person");
                 //
-                SelectorInput bedSelection = new SelectorInput("Tipo de cama", "Elegir tipo de cama", "person", "", new String[]{"King", "King Plus", "Queen", "Doble", "Simple", "Camarote"});
-
-
+                SelectorInput bedSelector = new SelectorInput("Tipo de cama", "Elegir tipo de cama", "person", "",
+                                new String[] { "King Plus", "King", "Queen", "Doble", "Simple", "Camarote", "Niños" },
+                                Bed.values());
+                bedSelector.setId("bed-selector");
 
                 Button addBed = new Button("+");
-                Spinner<Integer> spinner = new Spinner<>(0, 10, 1);
-                spinner.setEditable(true);
+
+                InputNumber numOfBeds = new InputNumber("", "Cantidad", 1, 10, 1);
+
                 
                 final Map<Bed, Integer> mapBeds = new HashMap<Bed, Integer>();
-                final int[] countBed = {0};
+
+                final int[] countBed = { 0 };
                 addBed.setOnAction(e -> {
 
-                        Bed bed = Bed.valueOf(bedSelection.getValue());
-                        countBed[0] = spinner.getValue();
-                        mapBeds.put(bed,countBed[0]);
+                        Bed bed = (Bed) bedSelector.getValue();
+                        countBed[0] = Integer.parseInt(numOfBeds.getValue());
+                        mapBeds.put(bed, countBed[0]);
                         System.out.println(mapBeds.get(bed));
+                        System.out.println(bed.toString());
 
                 });
 
-
-                Label featuresLabel = new Label("Características de la habitación:");
-                MenuItem balconyFeature = new MenuItem("BALCONY");
-                MenuItem viewFeature = new MenuItem("LANDSCAPE_VIEW");
-                MenuItem kitchenFeature = new MenuItem("KITCHEN");
-
-                MenuButton featuresMenu = new MenuButton("BALCONY",null,balconyFeature,viewFeature,kitchenFeature);
                 Button addFeature = new Button("+");
 
-                //final String[] feature;
-
-                featuresMenu.setOnAction(e -> {
-                        MenuItem selectedItemF = (MenuItem) e.getSource();
-                        selectedOptionFeature = selectedItemF.getText();
-                        
-                });
-
-
-
-
-
-
+                SelectorInput featuresSelector = new SelectorInput("Características", "", "", "",
+                                new String[] { "Balcón", "Vista al paisaje", "Cocina" }, RoomFeatures.values());
 
                 final Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
                 addFeature.setOnAction(e -> {
-                        RoomFeatures feature = RoomFeatures.valueOf(featuresMenu.getText());
+                        RoomFeatures feature = (RoomFeatures) featuresSelector.getValue();
                         featuresList.add(feature);
                         System.out.println(feature);
                         System.out.println(featuresList.toArray().length);
 
-
                 });
-                for(MenuItem item: featuresMenu.getItems()){
-                        item.setOnAction(e -> featuresMenu.setText(item.getText()));
-                }
 
-                MenuItem standardType = new MenuItem("STANDARD");
-                MenuItem suiteType = new MenuItem("SUITE");
-                MenuItem doubleType = new MenuItem("DOUBLE_SUITE");
-                MenuButton typeMenu = new MenuButton("STANDARD",null,standardType,suiteType,doubleType);
-
-                typeMenu.setOnAction(e -> {
-                        MenuItem selectedItemT = (MenuItem) e.getSource();
-                        selectedOptionType = selectedItemT.getText();
-                        
-                });
-                for(MenuItem item: typeMenu.getItems()){
-                        item.setOnAction(e -> typeMenu.setText(item.getText()));
-                }
-
+                SelectorInput typeRoomSelector = new SelectorInput("Tipo de habitación", "", "", "",
+                                new String[] { "Estandar", "Suite", "Suite doble" }, TypeRoom.values());
 
                 Button addRoom = new Button("Agregar -->");
 
-                final TypeRoom[] typeRoom = {null};
-                final String[] location = {""};
+                final TypeRoom[] typeRoom = { null };
+                final String[] location = { "" };
+
                 addRoom.setOnAction(e -> {
-                        typeRoom[0] = TypeRoom.valueOf(typeMenu.getText());
+                        typeRoom[0] = (TypeRoom) typeRoomSelector.getValue();
                         location[0] = locationInput.getValue();
                         try {
                                 hotel.getRoomsHandler().loadPersistentData();
@@ -210,7 +176,8 @@ public class ScreenAdmin extends VBox {
                                 throw new RuntimeException(ex);
                         }
                         try {
-                                hotel.getRoomsHandler().createNewRoom(location[0],false,mapBeds,featuresList,typeRoom[0]);
+                                hotel.getRoomsHandler().createNewRoom(location[0], false, mapBeds, featuresList,
+                                                typeRoom[0]);
                         } catch (Exception ex) {
                                 throw new RuntimeException(ex);
                         }
@@ -220,20 +187,18 @@ public class ScreenAdmin extends VBox {
                                 throw new RuntimeException(ex);
                         }
 
-
                 });
-
-
-
 
                 addBed.setId("button-form");
                 addRoom.setId("button-form");
-                form.getChildren().addAll(title ,locationInput, bedSelection,spinner,addBed,featuresLabel,featuresMenu,addFeature,typeMenu,addRoom);
+                form.getChildren().addAll(title, locationInput, bedSelector, numOfBeds, addBed, featuresSelector,
+                                addFeature, typeRoomSelector, addRoom);
 
                 return form;
 
         }
-        public GridPane noRoomsFare(){
+
+        public GridPane noRoomsFare() {
                 Label roomName = new Label("Habitacion #00");
                 Label roomInfo = new Label("sdklajdkasjdk jkdhsjkadhjkashdjk ajkdh asjk");
                 Button addFairBtn = new Button("+");
@@ -254,6 +219,5 @@ public class ScreenAdmin extends VBox {
 
                 return gridPane;
         }
-
 
 }

@@ -1,4 +1,4 @@
-#input {
+.input {
     -fx-min-width: 320;
     -fx-min-height: 44;
     -fx-max-width: 320;
@@ -75,20 +75,20 @@
 }
 
 
-#input:hover {
+.input:hover {
     -fx-border-color: #000000a3;
 
 }
 
-#input:focused {
+.input:focused {
     -fx-effect: dropshadow(gaussian, #676e763b, 3, 1, 0, 0);
 }
 
-#input:pressed {
+.input:pressed {
     -fx-effect: dropshadow(three-pass-box, #676e7614, 5, 0.1, 4, 2);
 }
 
-#input-container {
+.input-container {
     -fx-min-width: 320;
     -fx-min-height: 100;
     -fx-max-width: 320;
@@ -99,16 +99,22 @@
     -fx-vgap: 8;
 }
 
-#input-label {
+.input-label {
     -fx-font-family: "Inter";
     -fx-font-weight: 500;
     -fx-font-size: 14px;
     -fx-text-fill: #454C52;
 }
 
-#input-help-text {
+.input-help-text {
     -fx-font-family: "Inter";
     -fx-font-weight: 400;
     -fx-font-size: 14px;
     -fx-text-fill: #676E76;
 }
+
+.input-number{
+    -fx-min-width: 65;
+    -fx-max-width: 65;
+}
+

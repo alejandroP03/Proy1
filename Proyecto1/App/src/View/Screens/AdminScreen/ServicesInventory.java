@@ -22,7 +22,7 @@ import javafx.scene.layout.VBox;
 public class ServicesInventory extends VBox {
 
     public ServicesInventory(){
-        getStylesheets().add("View/Styles/AdminScreen.css");
+        getStylesheets().add("View/Styles/admin/adminScreens.css");
         PrinicipalWindow pw = new PrinicipalWindow("admin");
         setVgrow(pw, Priority.ALWAYS);
         Pane mainPane = pw.getMainPane();

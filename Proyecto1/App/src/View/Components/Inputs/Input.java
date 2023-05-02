@@ -15,15 +15,15 @@ public abstract class Input<T extends Control> extends FlowPane {
 
     public Input(String labelText, T inputField) {
         this.inputField = inputField;
-        inputField.setId("input");
+        inputField.getStyleClass().add("input");
         getChildren().add(inputField);
         getChildren().add(0, new Label(labelText) {
             {
-                setId("input-label");
+                getStyleClass().add("input-label");
             }
         });
 
-        setId("input-container");
+        getStyleClass().add("input-container");
         getStylesheets().add("View/Styles/components/inputs.css");
     }
 
@@ -32,7 +32,7 @@ public abstract class Input<T extends Control> extends FlowPane {
 
         getChildren().add(2, new Label(help_text) {
             {
-                setId("input-help-text");
+                getStyleClass().add("input-help-text");
             }
         });
     }
@@ -42,6 +42,6 @@ public abstract class Input<T extends Control> extends FlowPane {
         inputField.setStyle(String.format("-fx-background-image: url('View/assets/icons/%s.png');", iconName));
     }
 
-    abstract public String getValue();
+    abstract public Object getValue();
 
 }

@@ -22,7 +22,7 @@ public class FoodInventory extends VBox  {
 
     public FoodInventory(){
 
-        getStylesheets().add("View/Styles/AdminScreen.css");
+        getStylesheets().add("View/Styles/admin/adminScreens.css");
         
         PrinicipalWindow pw = new PrinicipalWindow("admin");
         setVgrow(pw, Priority.ALWAYS);
