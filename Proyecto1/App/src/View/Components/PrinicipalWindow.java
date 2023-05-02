@@ -28,7 +28,6 @@ public class PrinicipalWindow extends BorderPane {
         grid.getStyleClass().add(user);
         setPadding(new Insets(30));
         setCenter(grid);
-
     }
 
     public VBox lateralMenu() {

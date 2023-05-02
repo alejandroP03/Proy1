@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import View.Components.Inputs.InputText;
@@ -31,6 +32,11 @@ public class CreateServiceScreen extends VBox {
 
         // Crear primer card formulario
         vBox.getChildren().add(createServiceCard());
+
+        // Crear segundo card de abajo
+
+
+
 
         mainPane.getChildren().add(vBox);
         getChildren().add(pw);
@@ -66,6 +72,30 @@ public class CreateServiceScreen extends VBox {
         return gridPane;
     }
 
+
+
+    public BorderPane loadServices(){
+        Label title = new Label("Cargar servicios");
+        Label description = new Label("Carga un archivo con los datos de los servicios");
+
+
+
+        //Crear el boton
+        Button button = new Button();
+        HBox hbox = new HBox();
+        Label label = new Label("Cargar");
+        ImageView imageView = new ImageView(new Image("View/assets/images/arrow-down-tray.png"));
+        hbox.getChildren().addAll(label, imageView);
+        hbox.setSpacing(10);
+        button.setGraphic(hbox);
+
+        BorderPane borderPane = new BorderPane();
+        //borderPane.setLeft();
+
+
+
+        return null;
+    }
     public GridPane morePeeopleForm(){
         Label title = new Label("¿El servicio es para varias personas?");
         // Crear RadioButons
@@ -78,7 +108,6 @@ public class CreateServiceScreen extends VBox {
         hbox.setSpacing(50);
         hbox.setAlignment(Pos.CENTER_LEFT);
         hbox.setPadding(new Insets(10));
-
         GridPane girdPane = new GridPane();
         girdPane.add(title,0,0);
         girdPane.add(hbox,0,1);
@@ -107,16 +136,24 @@ public class CreateServiceScreen extends VBox {
     public GridPane hoursForm(){
 
         InputText initialDateForm = new InputText("Hora inicial", "12:00", "", "person");
+        initialDateForm.setId("initial-date-form");
 
         InputText finalDateForm = new InputText("Hora Final", "15:00", "", "person");
+        finalDateForm.setId("initial-date-form");
+
+        //finalDateForm.setStyle("-fx-min-width: 20px;" + "-fx-max-width: 20px;");
+        //TODO cambiar el width a esos dos Inputs
 
         GridPane gridPane = new GridPane();
         gridPane.add(initialDateForm,0,0);
         gridPane.add(finalDateForm,1,0);
-        gridPane.setHgap(15);
+
+        gridPane.setHgap(2);
 
         return gridPane;
     }
+
+
 
     public Button crearBoton(String texto) {
         Button botonDay  = new Button(texto);

@@ -112,3 +112,9 @@
     -fx-translate-x: -230px;
 }
 
+#initial-date-form .input , #initial-date-form {
+    -fx-max-width: 100px;
+    -fx-min-width: 100px;
+
+}
+
