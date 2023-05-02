@@ -4,10 +4,7 @@ import View.Components.PrinicipalWindow;
 import View.Components.Inputs.InputText;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -19,13 +16,16 @@ import javafx.scene.layout.VBox;
 
 
 public class CreateServiceScreen extends VBox {
+
+    public PrinicipalWindow pw;
+
     public CreateServiceScreen(){
         getStylesheets().add("View/Styles/admin/adminScreens.css");
         
-        PrinicipalWindow<Pane> pw = new PrinicipalWindow<Pane>("admin", new Pane());
+        pw = new PrinicipalWindow<ScrollPane>("admin", new ScrollPane());
+
         setVgrow(pw, Priority.ALWAYS);
-        
-        Pane mainPane = pw.getMainPane();
+        Control mainPane = pw.getMainPane();
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(50));
         vBox.setSpacing(40);
@@ -35,8 +35,6 @@ public class CreateServiceScreen extends VBox {
 
         // Crear segundo card de abajo
         vBox.getChildren().add(loadServices());
-
-
 
 
 
@@ -97,10 +95,11 @@ public class CreateServiceScreen extends VBox {
         gridPane.add(hbox,0,3);
 
 
-
         BorderPane borderPane = new BorderPane();
+        borderPane.setId("load-services-card");
         borderPane.setLeft(gridPane);
         borderPane.setRight(imageView1);
+        borderPane.setPadding(new Insets(30, 0, 0, 25));
 
         return borderPane;
     }
