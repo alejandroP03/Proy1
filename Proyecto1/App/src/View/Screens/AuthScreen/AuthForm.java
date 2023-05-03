@@ -71,6 +71,7 @@ public class AuthForm extends VBox {
             UserType type = (UserType) userType.getValue();
             String password = passwordInput.getValue();
             errorAlert.setHeaderText("Error");
+            errorAlert.setTitle("Error");
 
             try {
                 if(isSignUp){
