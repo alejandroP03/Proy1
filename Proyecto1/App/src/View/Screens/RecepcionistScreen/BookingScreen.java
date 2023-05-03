@@ -1,12 +1,15 @@
 package View.Screens.RecepcionistScreen;
 
 import View.Components.Inputs.SelectorInput;
-import View.Components.ObjectsList;
+
+import View.Components.ObjectLists.ObjectsList;
 import View.Components.PrinicipalWindow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
 import java.awt.*;
@@ -23,6 +26,7 @@ public class BookingScreen extends VBox{
 
         vbox.getChildren().add(titleMenu("sapo"));
         vbox.getChildren().add(filtersForm());
+        vbox.getChildren().add(gridInfo());
         vbox.setSpacing(50);
         vbox.setPadding(new Insets(30,80,40,80));
         vbox.setAlignment(Pos.CENTER);
@@ -57,7 +61,6 @@ public class BookingScreen extends VBox{
         gridPane.add(feature,1,1);
         gridPane.add(bed,2,1);
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.setGridLinesVisible(true);
         gridPane.setHgap(20);
         gridPane.setVgap(10);
 
@@ -65,11 +68,12 @@ public class BookingScreen extends VBox{
 
     }
 
-//    public gridInfo(){
-//        ObjectsList roomList = new ObjectsList(new String[] { "Nombre", "Tipo", "Disponibilidad", "Room Service", "Precio" });
-//
-//        roomList.addElem(new Node[] { new Text("Hamburguesa"), new Text("Comida") });
-//    }
+    public ScrollPane gridInfo(){
+        ObjectsList roomList = new ObjectsList(new String[] { "Nombre", "Camas", "Caracteristicas", "Lugar", "Tipo", "" });
+        roomList.addElem(new Node[] { new Label("Suite 304"), new Label("King 1") , new Label("Balcon"), new Label("Piso  3"), new Label("Suite"), new Button("+")});
+        return  roomList;
+    }
+
 
 
 }
