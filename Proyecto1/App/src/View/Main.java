@@ -1,5 +1,6 @@
 package View;
 
+import View.Components.Calendars.Calendar;
 import View.Screens.AdminScreen.Inventory.InventoryScreen;
 import View.Screens.AuthScreen.Auth;
 import javafx.application.Application;
@@ -15,7 +16,7 @@ public class Main extends Application {
         Auth authScreen = new Auth();
         InventoryScreen inventoryScreen = new InventoryScreen();
 
-        Scene scene = new Scene(inventoryScreen);
+        Scene scene = new Scene(new Calendar());
 
 
         primaryStage.setTitle("Panel con background color");

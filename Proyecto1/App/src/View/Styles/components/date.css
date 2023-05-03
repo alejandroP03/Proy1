@@ -1,0 +1,47 @@
+.date-picker-popup .cell {
+    -fx-border-radius: 50px;
+    -fx-background-radius: 50px;
+
+    -fx-min-width: 48px;
+    -fx-max-width: 48px;
+    -fx-min-height: 48px;
+    -fx-max-height: 48px;
+    -fx-padding: 1;
+}
+
+.date-picker-popup {
+    -fx-min-width: 350px;
+    -fx-max-width: 350px;
+    -fx-min-height: 390px;
+    -fx-max-height: 390px;
+    -fx-background-color: #F6F7F9;
+    -fx-background-radius: 16px;
+    -fx-font-size: 18px;
+    -fx-text-fill: black;
+    -fx-font-family: "Inter";
+    -fx-prompt-text-fill: #A9A9A9;
+}
+
+.date-picker-popup .spinner .button .left-arrow,
+.date-picker-popup .spinner .button .right-arrow {
+  -fx-background-color: #E29578;
+
+}
+
+.date-picker-popup .spinner .button:hover, .date-picker-popup .spinner .button:focused, .date-picker-popup .spinner .button:pressed{
+    -fx-background-color: #83C5BE;
+    -fx-background-radius: 90px;
+    -fx-min-width: 20px;
+    -fx-max-width: 20px;
+    -fx-min-height: 20px;
+    -fx-max-height: 20px;
+}
+
+.date-picker-popup .spinner .button .left-arrow:pressed{
+    -fx-border-color: transparent;
+}
+
+
+.date-picker-popup .month-year-pane, .date-picker-popup .calendar-grid{
+    -fx-background-color: #F6F7F9;
+}

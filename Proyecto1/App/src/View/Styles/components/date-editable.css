@@ -1,0 +1,9 @@
+.date-picker-popup .selected {
+    -fx-background-color: #E29578;
+
+}
+
+.date-picker-popup .cell:hover {
+    -fx-background-color: #FFDDD2;
+
+}

@@ -56,7 +56,6 @@ public class SpanableObjectsList extends ObjectsList {
 
                 @Override
                 public void handle(MouseEvent arg0) {
-                    System.out.println("hey");
                     getChildren().clear();
                     if (isPressed) {
                         for (int i = 0; i < elems.length; i++) {
