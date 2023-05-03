@@ -123,4 +123,18 @@
     -fx-background-radius: 20px;
 }
 
+#input-service-card, #input-service-card .input{
+    -fx-max-width: 500px;
+    -fx-min-width: 500px;
+}
+
+#title-create-service .label{
+    -fx-font-weight: 800;
+    -fx-font-size: 36px;
+    -fx-line-height: 44px;
+    -fx-text-fill: #FFFFFF;
+
+}
+
+
 

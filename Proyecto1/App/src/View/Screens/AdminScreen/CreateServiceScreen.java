@@ -22,10 +22,10 @@ public class CreateServiceScreen extends VBox {
     public CreateServiceScreen(){
         getStylesheets().add("View/Styles/admin/adminScreens.css");
         
-        pw = new PrinicipalWindow<ScrollPane>("admin", new ScrollPane());
+        pw = new PrinicipalWindow<VBox>("admin", new VBox());
 
         setVgrow(pw, Priority.ALWAYS);
-        Control mainPane = pw.getMainPane();
+        Pane mainPane = pw.getMainPane();
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(50));
         vBox.setSpacing(40);
@@ -36,8 +36,6 @@ public class CreateServiceScreen extends VBox {
         // Crear segundo card de abajo
         vBox.getChildren().add(loadServices());
 
-
-
         mainPane.getChildren().add(vBox);
         getChildren().add(pw);
 
@@ -46,10 +44,15 @@ public class CreateServiceScreen extends VBox {
 
     public GridPane createServiceCard(){
         Label title = new Label("Crear servicio");
+        title.setStyle("-fx-font-weight: 800; -fx-font-size: 36px; -fx-line-height: 44px; -fx-text-fill: #FFFFFF;");
+        //title.setId("title-create-service");
         InputText idService = new InputText("ID Servicio", "0123", "", "person");
+        idService.setId("input-service-card");
         InputText nameService = new InputText("Nombre del servicio", "Tender cama", "", "person");
+        nameService.setId("input-service-card");
         InputText priceService = new InputText("Precio del servicio", "100000", "", "person");
-        title.setId("title-card-service");
+        priceService.setId("input-service-card");
+
         GridPane gridPane = new GridPane();
         gridPane.setId("card-create-service");
         gridPane.setHgap(180);
@@ -73,14 +76,15 @@ public class CreateServiceScreen extends VBox {
     }
 
 
-
     public BorderPane loadServices(){
         Label title = new Label("Cargar servicios");
+        title.setStyle("-fx-font-weight: 800; -fx-font-size: 36px; -fx-line-height: 44px; -fx-text-fill: #FFFFFF;");
         Label description = new Label("Carga un archivo con los datos de los servicios");
+        description.setStyle("-fx-font-weight: 300; -fx-font-size: 15px;  -fx-text-fill: #FFFFFF; ");
         Image imagen = new Image("View/assets/images/Group 79.png");
         ImageView imageView1 = new ImageView(imagen);
         //Crear el boton
-        Button button = new Button();
+        Button button = new Button("Cargar");
         HBox hbox = new HBox();
         Label label = new Label("Cargar");
         ImageView imageView = new ImageView(new Image("View/assets/images/arrow-down-tray.png"));
@@ -88,18 +92,20 @@ public class CreateServiceScreen extends VBox {
         hbox.getChildren().addAll(label, imageView);
         hbox.setSpacing(10);
         button.setGraphic(hbox);
+        hbox.setStyle("-fx-background-color: #03555C;");
+        hbox.setPrefWidth(100);
+
 
         GridPane gridPane = new GridPane();
         gridPane.add(title,0,0);
         gridPane.add(description,0,1,1,2);
         gridPane.add(hbox,0,3);
 
-
         BorderPane borderPane = new BorderPane();
         borderPane.setId("load-services-card");
         borderPane.setLeft(gridPane);
         borderPane.setRight(imageView1);
-        borderPane.setPadding(new Insets(30, 0, 0, 25));
+        borderPane.setPadding(new Insets(30, -10, -30, 25));
 
         return borderPane;
     }
@@ -118,9 +124,7 @@ public class CreateServiceScreen extends VBox {
         GridPane girdPane = new GridPane();
         girdPane.add(title,0,0);
         girdPane.add(hbox,0,1);
-
         return girdPane;
-
 
     }
 
@@ -128,14 +132,15 @@ public class CreateServiceScreen extends VBox {
         Label title = new Label("Dias disponible del servicio:");
         String[] dias = {"L", "M", "X", "J", "V", "S", "D"};
         HBox daysVbox = new HBox();
+
         for (String dia : dias) {
             Button dayBtn = crearBoton(dia);
             daysVbox.getChildren().add(dayBtn);
-
         }
+
         daysVbox.setSpacing(15);
         VBox generalVbox = new VBox();
-        generalVbox.setSpacing(20);
+        generalVbox.setSpacing(35);
         generalVbox.getChildren().addAll(title,daysVbox);
         return generalVbox;
     }
@@ -148,13 +153,11 @@ public class CreateServiceScreen extends VBox {
         InputText finalDateForm = new InputText("Hora Final", "15:00", "", "person");
         finalDateForm.setId("initial-date-form");
 
-        //finalDateForm.setStyle("-fx-min-width: 20px;" + "-fx-max-width: 20px;");
-        //TODO cambiar el width a esos dos Inputs
 
         GridPane gridPane = new GridPane();
         gridPane.add(initialDateForm,0,0);
         gridPane.add(finalDateForm,1,0);
-        gridPane.setHgap(20);
+        gridPane.setHgap(35);
 
         return gridPane;
     }
@@ -164,6 +167,7 @@ public class CreateServiceScreen extends VBox {
     public Button crearBoton(String texto) {
         Button botonDay  = new Button(texto);
         // Puedes agregar más propiedades al botón aquí si lo deseas
+
         return botonDay;
     }
 

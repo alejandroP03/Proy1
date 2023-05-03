@@ -16,7 +16,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
-public class PrinicipalWindow<T extends Control> extends BorderPane {
+public class PrinicipalWindow<T extends Pane> extends BorderPane {
     T mainPane;
 
     public PrinicipalWindow(String user, T layout) {
