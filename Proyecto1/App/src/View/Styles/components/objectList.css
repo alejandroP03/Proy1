@@ -26,16 +26,3 @@
 .obj-list__item:hover{
     -fx-background-color: #E5E7EA;
 }
-
-.scroll-bar{
-    -fx-background-color: white;
-}
-
-.scroll-bar .decrement-button, .scroll-bar .increment-button{
-    -fx-max-width: 0;
-}
-
-.scroll-bar .thumb{
-    -fx-background-color: #CED2D6;
-
-}

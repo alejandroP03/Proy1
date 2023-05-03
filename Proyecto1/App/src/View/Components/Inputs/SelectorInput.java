@@ -1,9 +1,12 @@
 package View.Components.Inputs;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 
 public class SelectorInput extends Input<ComboBox<String>> {
@@ -52,6 +55,10 @@ public class SelectorInput extends Input<ComboBox<String>> {
 
     public ObservableList<String> getItems(){
         return this.inputField.getItems();
+    }
+
+    public void addListener(EventHandler<ActionEvent> eventHandler) {
+        inputField.setOnAction(eventHandler);
     }
 
 }
