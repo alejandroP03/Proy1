@@ -1,6 +1,5 @@
 package View;
 
-import View.Components.ObjectsList;
 import View.Screens.AdminScreen.CreateServiceScreen;
 import View.Screens.AdminScreen.FoodInventory;
 import View.Screens.AdminScreen.RoomInventory;
@@ -8,12 +7,8 @@ import View.Screens.AdminScreen.RoomManaging;
 import View.Screens.AdminScreen.ServicesInventory;
 import View.Screens.AuthScreen.Auth;
 import javafx.application.Application;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -30,10 +25,9 @@ public class Main extends Application {
         Pane invetoryService = new ServicesInventory(); // Probar inventario servicios
         Pane createService = new CreateServiceScreen(); // Probar creacion servicios
 
-        ObjectsList obj = new ObjectsList(new String[] { "Nombre", "Camas", "Caracteristica", "Lugar", "Tipo" });
-        obj.addElem(new Node[]{new Text("Pene"), new Label("Hello"), new Button("Jar")});
+        
 
-        Scene scene = new Scene(obj);
+        Scene scene = new Scene(inventoryRoom);
 
         primaryStage.setTitle("Panel con background color");
 

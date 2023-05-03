@@ -1,9 +1,41 @@
 .object-list-container{
     -fx-hbar-policy: as-needed;
     -fx-vbar-policy: as-needed;
+    -fx-background-color: transparent;
 }
 
-.object-list-grid{
-    
+.obj-list__title{
+    -fx-font-weight: 700;
+    -fx-font-size: 16px;
+    -fx-text-fill: #383F45;
+}
+
+.obj-list__item{
+    -fx-border-color: #CED2D6;
+    -fx-border-style: solid none none none;
+    -fx-border-width: 1;
+    -fx-font-weight: 400;
+    -fx-font-size: 16px;
+    -fx-text-fill: #383F45;
+}
+
+.obj-list__row{
+    -fx-background-color: white;
+}
+
+.obj-list__item:hover{
+    -fx-background-color: #E5E7EA;
+}
+
+.scroll-bar{
+    -fx-background-color: white;
+}
+
+.scroll-bar .decrement-button, .scroll-bar .increment-button{
+    -fx-max-width: 0;
+}
+
+.scroll-bar .thumb{
+    -fx-background-color: #CED2D6;
 
 }
