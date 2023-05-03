@@ -1,4 +1,4 @@
-package View;
+package Controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import Controller.Hotel;
 import Controller.BillService.ServicesBillGenerator;
 import Controller.BillService.StayBillGenerator;
 import Controller.BookingHandler.BookingHandler;
@@ -35,21 +34,32 @@ import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.RoomModel;
 import Model.HotelObjects.RoomRelated.TypeRoom;
 
-public class App {
+public class Controller {
     User activeUser;
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     public Hotel hotel = Hotel.getInstance();
+    private HotelWorkersAuth authHandler = HotelWorkersAuth.getInstance();
 
-/*     public static void main(String[] args) throws Exception {
-        System.out.println(" ");
-        System.out.println("Bienvenido al sistema del hotel!");
-        App instanceApp = new App();
 
-        instanceApp.hotel.startUp();
-        instanceApp.authApp();
-        instanceApp.hotel.shutDown();
-    } */
-    
+    /*
+     * AuthMethods
+     * 
+     //TODO Volverlo una clase para solo hacer un llamado a getUserHandler (Si queda tiempo)
+     */
+    public User signUp(String userName, String password, UserType userType) throws Exception {
+        Map<Object, User> userList = hotel.getUserHandler().getData();
+        return authHandler.register(userName, password, userType, userList);
+    }
+
+    public boolean userExist(String userName, String password){
+        Map<Object, User> userList = hotel.getUserHandler().getData();
+        return authHandler.userExists(userName, password, userList);
+    }
+
+    public User signIn(String userName, String password) throws Exception{
+        Map<Object, User> userList = hotel.getUserHandler().getData();
+        return authHandler.login(userName, password, userList);
+    }
 
     /*
      * Autentica a los usuarios del Hotel (Recepcionista, Administrador, Empleado)
@@ -64,13 +74,11 @@ public class App {
      *
      *
      */
-    private void authApp() throws Exception {
-        HotelWorkersAuth authHandler = HotelWorkersAuth.getInstance();
+    private void authApp() {
+        
 
-        System.out.println("1. Registrarse");
-        System.out.println("2. Iniciar sesion");
-        System.out.print("Ingrese la opcion deseada: ");
-        String opcion = br.readLine();
+        
+        /* String opcion = br.readLine();
         if (opcion.equals("1")) {
             System.out.println(" ");
             System.out.println("----- Registro  -----");
@@ -161,7 +169,7 @@ public class App {
         } else {
             System.out.println("Opcion no valida");
             authApp();
-        }
+        } */
     }
 
     // ---------------------- Pantalla para el Administrador ----------------------
@@ -244,7 +252,7 @@ public class App {
 
     private void showRoomStock() throws Exception {
         Map<Object, Room> roomMap = new HashMap<Object, Room>(hotel.getRoomsHandler().getData());
-        
+
         Set<Set<Object>> roomFareIdSet = new HashSet<Set<Object>>();
 
         for (Room rooms : roomMap.values()) {
@@ -647,7 +655,7 @@ public class App {
      *
      */
     private void loadServices() throws Exception {
-        if(hotel.getServices().getData().isEmpty()) {
+        if (hotel.getServices().getData().isEmpty()) {
             hotel.getServices().loadPersistentData();
         }
         System.out.println("Archivo cargado exitosamente!");
@@ -745,7 +753,7 @@ public class App {
      *
      */
     private void loadMenuRestaurant() throws Exception {
-        if(hotel.getRestaurantHandler().getData().isEmpty()) {
+        if (hotel.getRestaurantHandler().getData().isEmpty()) {
             hotel.getRestaurantHandler().loadPersistentData();
         }
         System.out.println("Archivo cargado exitosamente!");
@@ -875,7 +883,7 @@ public class App {
         }
 
         hotel.getRegistrationHandler().SavePersistentData();
-        
+
         System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
         String masOpciones = br.readLine();
         switch (masOpciones) {
@@ -946,7 +954,7 @@ public class App {
 
         hotel.getBookingsHandler().getData().put(bookingHdlr.getOpenBooking().getReserviourDNI(),
                 bookingHdlr.getOpenBooking());
-        
+
         hotel.shutDown();
         System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
         String masOpciones = br.readLine();

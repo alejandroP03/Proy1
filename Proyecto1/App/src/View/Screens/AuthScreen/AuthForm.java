@@ -1,10 +1,6 @@
 package View.Screens.AuthScreen;
 
-import Controller.Hotel;
-import Controller.WorkersAuth.HotelWorkersAuth;
-import Model.HotelObjects.User;
 import Model.HotelObjects.UserType;
-import View.Components.Inputs.Input;
 import View.Components.Inputs.InputPassword;
 import View.Components.Inputs.InputText;
 import View.Components.Inputs.SelectorInput;
@@ -12,15 +8,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 
 public class AuthForm extends VBox {
-
-    HotelWorkersAuth authHandler = HotelWorkersAuth.getInstance();
-    Hotel hotel = Hotel.getInstance();
+    Auth authControl;
 
     private VBox inputsContainer = new VBox() {
         {
@@ -30,8 +22,9 @@ public class AuthForm extends VBox {
         }
     };
 
-    public AuthForm(boolean isSignUp) {
+    public AuthForm(boolean isSignUp, Auth authControl) {
         this.switchForm(isSignUp);
+        this.authControl = authControl;
         setAlignment(Pos.CENTER_LEFT);
         setId("auth-form");
     }
@@ -46,12 +39,11 @@ public class AuthForm extends VBox {
             }
         };
 
-
         inputsContainer.getChildren().add(auth_text);
 
         InputText nameInput = new InputText("Nombre", "", "", "person");
         inputsContainer.getChildren().add(nameInput);
-        SelectorInput userType = new SelectorInput("Tipo de usuario", "", "person","",
+        SelectorInput userType = new SelectorInput("Tipo de usuario", "", "person", "",
                 new String[] { "Administrador", "Recepcionista", "Empleado" }, UserType.values());
         if (isSignUp) {
             inputsContainer.getChildren().add(userType);
@@ -61,11 +53,7 @@ public class AuthForm extends VBox {
 
         Button registerButton = new Button(isSignUp ? "Registrarse" : "Iniciar sesión");
 
-
-        Label errorLabel = new Label("prueba");
-
-
-        registerButton.setOnAction(e->{
+        registerButton.setOnAction(e -> {
             Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
             String name = nameInput.getValue();
             UserType type = (UserType) userType.getValue();
@@ -74,33 +62,31 @@ public class AuthForm extends VBox {
             errorAlert.setTitle("Error");
 
             try {
-                if(isSignUp){
-                    if(name.isBlank() || password.isBlank()){
-
+                boolean userExist = authControl.userExists(name, password);
+                boolean isDataValid = name.isBlank() || password.isBlank();
+                if (isSignUp) {
+                    if (isDataValid) {
                         errorAlert.setContentText("Nombre de usuario invalido o contraseña invalido");
                         errorAlert.showAndWait();
-                    } else if (authHandler.userExists(name,password,hotel.getUserHandler().getData())){
 
+                    } else if (userExist) {
                         errorAlert.setContentText("El usuario ya se encuentra registrado");
                         errorAlert.showAndWait();
                     } else {
-                        authHandler.register(name,password,type,hotel.getUserHandler().getData());
-                        hotel.getUserHandler().SavePersistentData();
-
+                        authControl.signUp(name, password, type);
+                        
                     }
 
-                }
-                else{
-                    if(name.isBlank() || password.isBlank()){
-
+                } else {
+                    if (isDataValid) {
                         errorAlert.setContentText("Nombre de usuario invalido o contraseña invalido");
                         errorAlert.showAndWait();
-                    } else if (!authHandler.userExists(name,password,hotel.getUserHandler().getData())){
-
-                        errorAlert.setContentText("Nombre de usuario invalido o contraseña incorrecto (Verifique si se encuentra registrado)");
+                    } else if (!userExist) {
+                        errorAlert.setContentText(
+                                "Nombre de usuario invalido o contraseña incorrecto (Verifique si se encuentra registrado)");
                         errorAlert.showAndWait();
-                    } else{
-                        authHandler.login(name,password,hotel.getUserHandler().getData());
+                    } else {
+                        authControl.signIn(name, password);
                     }
 
                 }
@@ -109,13 +95,11 @@ public class AuthForm extends VBox {
                 throw new RuntimeException(ex);
             }
 
-
         });
 
         inputsContainer.getChildren().add(registerButton);
 
         VBox.setMargin(auth_text, new Insets(0, 0, 40, 0));
-
 
         getChildren().add(inputsContainer);
     }

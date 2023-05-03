@@ -1,57 +1,19 @@
 package View;
 
-import View.Components.Calendars.Calendar;
-import View.Screens.AdminScreen.CreateServiceScreen;
-import View.Screens.AdminScreen.Inventory.FoodInventory;
-import View.Screens.AdminScreen.Inventory.InventoryScreen;
-import View.Screens.AdminScreen.Inventory.RoomInventory;
-import View.Screens.AdminScreen.Inventory.ServicesInventory;
-import View.Screens.AdminScreen.RoomManaging;
-import View.Screens.AuthScreen.Auth;
-import View.Screens.RecepcionistScreen.*;
+import Controller.Controller;
+import Controller.Router;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
-        // EntryPoint
-        Auth authScreen = new Auth();
-        InventoryScreen inventoryScreen = new InventoryScreen();
-
-
-        Pane prb = new RoomManaging(); // Probar pestana principal Admin
-        Pane inventoryRoom = new RoomInventory(); // Probar inventario habitaciones
-        Pane inventoryFood = new FoodInventory(); // Probar inventario comidas
-        Pane invetoryService = new ServicesInventory(); // Probar inventario servicios
-        Pane createService = new CreateServiceScreen();  // Probar creacion servicios\
-        Pane bookingScreen = new BookingScreen();
-        Pane datePickScreen = new BookingDate(); // Probar el calendario masivo
-        Pane guesForm = new InfoGuest(); // Probar fomulario para un huesped
-        Pane registerForm = new RegisterForm(); // Probar fomrulario de registro
-        Pane companionInfo = new CompanionInfo();
-
-
-        Scene scene = new Scene(companionInfo);
-
-//        Scene scene = new Scene(new Calendar());  // PRobar el calendario
-
-
         primaryStage.setTitle("Panel con background color");
-
-        scene.getStylesheets().add("View/Styles/font.css");
-
         primaryStage.setMinWidth(1125);
-        primaryStage.setMinHeight(600);
-        primaryStage.setX(300);
-        primaryStage.setY(100);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
+        primaryStage.setMinHeight(800);
+        Controller controller = new Controller();
+        new Router(primaryStage, controller);
     }
 
     public static void main(String[] args) {
