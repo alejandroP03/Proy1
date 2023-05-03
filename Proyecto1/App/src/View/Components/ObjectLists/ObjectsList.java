@@ -1,7 +1,5 @@
 package View.Components.ObjectLists;
 
-
-
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -22,8 +20,8 @@ public class ObjectsList extends ScrollPane {
         createList(colHeader);
         setContent(listObj);
         setFitToWidth(true);
-        setFitToHeight(true);   
-
+        setFitToHeight(true);
+        setMaxWidth(1100);
     }
 
     private VBox createList(String[] titles) {
@@ -60,7 +58,7 @@ public class ObjectsList extends ScrollPane {
 
     }
 
-    protected RowGrid getRowGrid(Node[] objects){
+    protected RowGrid getRowGrid(Node[] objects) {
         return new RowGrid(objects) {
             {
                 getStyleClass().add("obj-list__item");
@@ -70,21 +68,18 @@ public class ObjectsList extends ScrollPane {
 
     protected class RowGrid extends GridPane {
 
-
         public RowGrid(Node[] elems) {
             {
                 getStyleClass().add("obj-list__row");
                 setAlignment(Pos.CENTER);
-
                 addElems(elems);
-                
-                
+
             }
         }
 
-        public void addElems(Node[] elems){
-                // Para cada columna le asigna un mismo grow y posiciona los elementos en el
-                // centro
+        public void addElems(Node[] elems) {
+            // Para cada columna le asigna un mismo grow y posiciona los elementos en el
+            // centro
             for (int i = 0; i < elems.length; i++) {
                 getColumnConstraints().add(i, new ColumnConstraints() {
                     {
@@ -95,13 +90,11 @@ public class ObjectsList extends ScrollPane {
                         setHgrow(Priority.ALWAYS);
                     }
                 });
-
+                
                 add(elems[i], i, 0);
             }
         }
 
     }
-
-    
 
 }

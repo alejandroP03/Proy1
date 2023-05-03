@@ -65,36 +65,6 @@
      -fx-text-fill: #9d9b9b;
  }
 
-#type-inventory{
-    -fx-background-color: #E29578;
-    -fx-border-radius: 18px;
-}
-#type-inventory .label{
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-}
-
-#bed-Style{
-    -fx-background-color: #D9F9E6; /* color de fondo */
-    -fx-text-fill: #2F9461; /* color del texto */
-}
-
-
-#feature-Style{
-    -fx-background-color: #FBF2CB; /* color de fondo */
-    -fx-text-fill: #C8811A; /* color del texto */
-}
-
-
-#type-Style{
-    -fx-background-color: #FDE9E9 ; /* color de fondo */
-    -fx-text-fill: #CD3636; /* color del texto */
-}
-
-#inventory-title{
-    -fx-font-weight: 900;
-    -fx-font-size: 36px;
-}
 
 #card-create-service{
     -fx-background-image: url("/View/assets/images/blurry-gradient-haikei.png");
@@ -136,5 +106,9 @@
 
 }
 
+.test{
+    -fx-border-color: red;
+    -fx-border-width: 1;
+}
 
 
