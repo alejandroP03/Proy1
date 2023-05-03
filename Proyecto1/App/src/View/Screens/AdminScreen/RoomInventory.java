@@ -5,26 +5,30 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import View.Components.PrinicipalWindow;
+import View.Components.ObjectLists.ObjectsList;
+import View.Components.ObjectLists.SpanableObjectsList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class RoomInventory extends VBox {
 
     public RoomInventory() {
         getStylesheets().add("View/Styles/admin/adminScreens.css");
-        PrinicipalWindow pw = new PrinicipalWindow<Pane>("admin", new Pane());
+        PrinicipalWindow<VBox> pw = new PrinicipalWindow<VBox>("admin", new VBox());
         setVgrow(pw, Priority.ALWAYS);
-        Pane mainPane = pw.getMainPane();
+        VBox mainPane = pw.getMainPane();
 
         BorderPane borderPane = new BorderPane();
         borderPane.setPadding(new Insets(30, 0, 40, 30));
@@ -43,6 +47,7 @@ public class RoomInventory extends VBox {
         BorderPane.setMargin(leftInfo, new Insets(0, 40, 0, 0));
         borderPane.setLeft(leftInfo);
         mainPane.getChildren().add(borderPane);
+        VBox.setVgrow(borderPane, Priority.ALWAYS);
 
         getChildren().add(pw);
 
@@ -98,46 +103,20 @@ public class RoomInventory extends VBox {
         filterGrid.add(bed, 2, 0);
         filterGrid.add(menuBeds, 2, 1);
 
-        // Creamos la otra grilla de abajo
-        HBox eachInfo = new HBox();
-        Label name = new Label("Nombre");
-        Label beds = new Label("Camas");
-        Label featuresInfo = new Label("Caracteristica");
-        Label place = new Label("Lugar");
-        Label type = new Label("Tipo");
-        eachInfo.getChildren().addAll(name, beds, featuresInfo, place, type);
-        eachInfo.setSpacing(60);
+        ObjectsList obj = new SpanableObjectsList(new String[] { "Nombre", "Camas", "Caracteristica", "Lugar", "Tipo" },
+                new HBox());
+        //TODO Falta crear el span
 
-        VBox infoVBox = new VBox();
-        infoVBox.getChildren().add(eachInfo);
-        infoVBox.setSpacing(20);
+        obj.addElem(new Node[] { new Text("Suite 444"), new Button("Hola"), new Text("Balcon"), new Text("Piso 4"),
+                new Text("Suite") });
 
-        // ejemplo
-        addInfoRooms("Suite 444", "King1", "Balcon", "Piso 4", "Suite", infoVBox);
-        addInfoRooms("Suite 444", "King1", "Balcon", "Piso 4", "Suite", infoVBox);
+
         VBox topCenter = new VBox();
-        topCenter.getChildren().addAll(title, filterGrid, infoVBox);
+
+        topCenter.getChildren().addAll(title, filterGrid, obj);
         topCenter.setSpacing(20);
 
         return topCenter;
-
-    }
-
-    public void addInfoRooms(String name, String beds, String features, String place, String type, VBox container) {
-        // ejemplo:
-        HBox inBox = new HBox();
-        Label nameInf = new Label(name);
-        Label bedsInf = new Label(beds);
-        Label featuresInfo = new Label(features);
-        Label placeInf = new Label(place);
-        Label typeInf = new Label(type);
-        inBox.setSpacing(60);
-        inBox.getChildren().addAll(nameInf, bedsInf, featuresInfo, placeInf, typeInf);
-        bedsInf.setId("bed-Style");
-        featuresInfo.setId("feature-Style");
-        typeInf.setId("type-Style");
-        inBox.setId("info-rooms");
-        container.getChildren().add(inBox);
 
     }
 

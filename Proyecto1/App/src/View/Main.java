@@ -1,7 +1,5 @@
 package View;
 
-
-
 import View.Screens.AdminScreen.CreateServiceScreen;
 import View.Screens.AdminScreen.FoodInventory;
 import View.Screens.AdminScreen.RoomInventory;
@@ -24,17 +22,19 @@ public class Main extends Application {
 
         Pane prb = new RoomManaging(); // Probar pestana principal Admin
         Pane inventoryRoom = new RoomInventory(); // Probar inventario habitaciones
-        Pane inventoryFood = new FoodInventory();  // Probar inventario comidas
+        Pane inventoryFood = new FoodInventory(); // Probar inventario comidas
         Pane invetoryService = new ServicesInventory(); // Probar inventario servicios
+
         Pane createService = new CreateServiceScreen();  // Probar creacion servicios\
         Pane bookingScreen = new BookingScreen();
 
+
+        
 
         Scene scene = new Scene(bookingScreen);
 
 
         primaryStage.setTitle("Panel con background color");
-
 
         scene.getStylesheets().add("View/Styles/font.css");
 
