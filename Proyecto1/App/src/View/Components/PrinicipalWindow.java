@@ -2,10 +2,8 @@ package View.Components;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -21,12 +19,13 @@ public class PrinicipalWindow<T extends Pane> extends BorderPane {
     T mainPane;
 
     public PrinicipalWindow(String user, T layout) {
-        this.mainPane = layout;
-        mainPane.setId("main-pane");
         getStylesheets().add("View/Styles/components/principalWindow.css");
+
+        this.mainPane = layout;
+        this.mainPane.getStyleClass().add("main-pane");
         GridPane grid = grid();
-        getStyleClass().add(user + "-main");
         grid.getStyleClass().add(user);
+        getStyleClass().add(user + "-main");
         setPadding(new Insets(30));
         setCenter(grid);
     }
@@ -43,7 +42,7 @@ public class PrinicipalWindow<T extends Pane> extends BorderPane {
         pane.getChildren().add(vbox);
         vbox.setSpacing(35);
         pane.setAlignment(Pos.CENTER);
-        
+
         return pane;
     }
 
@@ -93,16 +92,23 @@ public class PrinicipalWindow<T extends Pane> extends BorderPane {
                 // Agregar menu de la izquierda
                 add(lateralMenu(), 0, 1);
 
-                add(new ScrollPane(){{
-                    setContent(getMainPane());
-                    setFitToWidth(true);
-                    setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
-                    setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+                add(new ScrollPane(getMainPane()) {
+                    {
 
-                }}, 1, 1);
+                        getStyleClass().add("main-pane");
+
+                        setContent(getMainPane());
+                        setFitToWidth(true);
+                        setFitToHeight(true);
+                        setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+                        setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+
+                    }
+                }, 1, 1);
+
                 // getChildren().add(lateralMenu());
                 RowConstraints row1 = new RowConstraints();
-                row1.setMinHeight(30); // altura mínima de 30 píxeles
+                row1.setMinHeight(80); // altura mínima de 30 píxeles
                 row1.setVgrow(Priority.NEVER); // no se expandirá verticalmente
                 RowConstraints row2 = new RowConstraints();
                 row2.setVgrow(Priority.ALWAYS); // se expandirá verticalmente

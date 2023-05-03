@@ -1,0 +1,55 @@
+.filter-title {
+    -fx-font-weight: 600;
+    -fx-font-size: 16px;
+    -fx-fill-text: #454C52;
+}
+
+#inventory-title{
+    -fx-font-weight: 900;
+    -fx-font-size: 36px;
+}
+
+
+#type-inventory .input{
+    -fx-background-color: #E29578;
+
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-font-weight: 600;
+    -fx-font-size: 16px;
+    -fx-min-width: 220px;
+    -fx-max-width: 220px;
+    -fx-min-height: 60px;
+    -fx-max-height: 60px;
+
+}
+
+#type-inventory .combo-box .list-cell:selected{
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 16px;
+}
+
+#type-inventory .combo-box .list-view .list-cell{
+    -fx-text-fill: #24292E;
+}
+
+#type-inventory .combo-box .arrow-button{
+    -fx-background-image: url("../../assets/icons/arrow-selection-white.png");
+    -fx-background-size: 22px;
+    -fx-translate-x: -180px;
+
+}
+
+#type-inventory .input:hover {
+    -fx-border-color: #e2947885;
+
+}
+
+#type-inventory .input:focused {
+    -fx-effect: dropshadow(gaussian, #e2947894, 3, 1, 0, 0);
+}
+
+#type-inventory .input:pressed {
+    -fx-effect: dropshadow(three-pass-box, #e294788a, 5, 0.1, 4, 2);
+}

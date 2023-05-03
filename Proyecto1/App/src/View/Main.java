@@ -1,10 +1,12 @@
 package View;
 
+import View.Components.Calendars.Calendar;
 import View.Screens.AdminScreen.CreateServiceScreen;
-import View.Screens.AdminScreen.FoodInventory;
-import View.Screens.AdminScreen.RoomInventory;
+import View.Screens.AdminScreen.Inventory.FoodInventory;
+import View.Screens.AdminScreen.Inventory.InventoryScreen;
+import View.Screens.AdminScreen.Inventory.RoomInventory;
+import View.Screens.AdminScreen.Inventory.ServicesInventory;
 import View.Screens.AdminScreen.RoomManaging;
-import View.Screens.AdminScreen.ServicesInventory;
 import View.Screens.AuthScreen.Auth;
 import View.Screens.RecepcionistScreen.*;
 import javafx.application.Application;
@@ -18,7 +20,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 
         // EntryPoint
-        Pane authScreen = new Auth();
+        Auth authScreen = new Auth();
+        InventoryScreen inventoryScreen = new InventoryScreen();
+
 
         Pane prb = new RoomManaging(); // Probar pestana principal Admin
         Pane inventoryRoom = new RoomInventory(); // Probar inventario habitaciones
@@ -34,13 +38,15 @@ public class Main extends Application {
 
         Scene scene = new Scene(companionInfo);
 
+//        Scene scene = new Scene(new Calendar());  // PRobar el calendario
+
 
         primaryStage.setTitle("Panel con background color");
 
         scene.getStylesheets().add("View/Styles/font.css");
 
         primaryStage.setMinWidth(1125);
-        primaryStage.setMinHeight(700);
+        primaryStage.setMinHeight(600);
         primaryStage.setX(300);
         primaryStage.setY(100);
         primaryStage.setScene(scene);

@@ -1,0 +1,4 @@
+.date-picker-popup .cell:hover {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
