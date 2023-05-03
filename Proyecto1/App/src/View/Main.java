@@ -28,7 +28,7 @@ public class Main extends Application {
         Pane createService = new CreateServiceScreen();  // Probar creacion servicios
 
 
-        Scene scene = new Scene(inventoryFood);
+        Scene scene = new Scene(authScreen);
 
 
         primaryStage.setTitle("Panel con background color");
