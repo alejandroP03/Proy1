@@ -10,7 +10,16 @@ import Model.HotelObjects.UserType;
 
 public class HotelWorkersAuth {
 
+    private static HotelWorkersAuth instancia;
 
+    private HotelWorkersAuth(){};
+
+    public static HotelWorkersAuth getInstance(){
+        if(instancia==null){
+            instancia = new HotelWorkersAuth();
+        }
+        return instancia;
+    }
     // methods
 
     /*

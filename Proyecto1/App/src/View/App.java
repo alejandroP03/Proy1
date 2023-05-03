@@ -65,7 +65,7 @@ public class App {
      *
      */
     private void authApp() throws Exception {
-        HotelWorkersAuth authHandler = new HotelWorkersAuth();
+        HotelWorkersAuth authHandler = HotelWorkersAuth.getInstance();
 
         System.out.println("1. Registrarse");
         System.out.println("2. Iniciar sesion");
