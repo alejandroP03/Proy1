@@ -1,1 +1,1 @@
-{"jaime_10":{"password":"1234","userType":"RECEPTIONIST","userName":"jaime_10"},"a":{"password":"a","userType":"ADMIN","userName":"a"},"b":{"password":"b","userType":"RECEPTIONIST","userName":"b"},"sonia_245":{"password":"contrasena","userType":"EMPLOYEE","userName":"sonia_245"},"c":{"password":"c","userType":"EMPLOYEE","userName":"c"},"ADMIN":{"password":"ADMIN","userType":"ADMIN","userName":"ADMIN"}}
+{"a":{"password":"a","userType":"ADMIN","userName":"a"}}

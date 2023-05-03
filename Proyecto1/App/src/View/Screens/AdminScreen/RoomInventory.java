@@ -105,31 +105,11 @@ public class RoomInventory extends VBox {
 
         ObjectsList obj = new SpanableObjectsList(new String[] { "Nombre", "Camas", "Caracteristica", "Lugar", "Tipo" },
                 new HBox());
+        //TODO Falta crear el span
 
         obj.addElem(new Node[] { new Text("Suite 444"), new Button("Hola"), new Text("Balcon"), new Text("Piso 4"),
                 new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
-        obj.addElem(new Node[] { new Text("Suite 444"), new Text("King1"), new Text("Balcon"), new Text("Piso 4"),
-                new Text("Suite") });
+
 
         VBox topCenter = new VBox();
 

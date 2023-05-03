@@ -27,7 +27,7 @@ public class Main extends Application {
 
         
 
-        Scene scene = new Scene(authScreen);
+        Scene scene = new Scene(inventoryFood);
 
 
         primaryStage.setTitle("Panel con background color");
