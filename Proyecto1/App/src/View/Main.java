@@ -8,6 +8,7 @@ import View.Screens.AdminScreen.RoomInventory;
 import View.Screens.AdminScreen.RoomManaging;
 import View.Screens.AdminScreen.ServicesInventory;
 import View.Screens.AuthScreen.Auth;
+import View.Screens.RecepcionistScreen.BookingScreen;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -25,10 +26,11 @@ public class Main extends Application {
         Pane inventoryRoom = new RoomInventory(); // Probar inventario habitaciones
         Pane inventoryFood = new FoodInventory();  // Probar inventario comidas
         Pane invetoryService = new ServicesInventory(); // Probar inventario servicios
-        Pane createService = new CreateServiceScreen();  // Probar creacion servicios
+        Pane createService = new CreateServiceScreen();  // Probar creacion servicios\
+        Pane bookingScreen = new BookingScreen();
 
 
-        Scene scene = new Scene(inventoryFood);
+        Scene scene = new Scene(bookingScreen);
 
 
         primaryStage.setTitle("Panel con background color");

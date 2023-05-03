@@ -4,6 +4,7 @@ import View.Components.PrinicipalWindow;
 import View.Components.Inputs.InputText;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,7 +24,6 @@ public class CreateServiceScreen extends VBox {
         getStylesheets().add("View/Styles/admin/adminScreens.css");
         
         pw = new PrinicipalWindow<VBox>("admin", new VBox());
-
         setVgrow(pw, Priority.ALWAYS);
         Pane mainPane = pw.getMainPane();
         VBox vBox = new VBox();
@@ -85,21 +85,21 @@ public class CreateServiceScreen extends VBox {
         ImageView imageView1 = new ImageView(imagen);
         //Crear el boton
         Button button = new Button("Cargar");
-        HBox hbox = new HBox();
-        Label label = new Label("Cargar");
-        ImageView imageView = new ImageView(new Image("View/assets/images/arrow-down-tray.png"));
+//        HBox hbox = new HBox();
+//        Label label = new Label("Cargar");
+//        ImageView imageView = new ImageView(new Image("View/assets/images/arrow-down-tray.png"));
 
-        hbox.getChildren().addAll(label, imageView);
-        hbox.setSpacing(10);
-        button.setGraphic(hbox);
-        hbox.setStyle("-fx-background-color: #03555C;");
-        hbox.setPrefWidth(100);
+//        hbox.getChildren().addAll(label, imageView);
+//        hbox.setSpacing(10);
+//        button.setGraphic(hbox);
+//        hbox.setStyle("-fx-background-color: #03555C; " + "-fx-border-radius: 20px;" );
 
 
         GridPane gridPane = new GridPane();
         gridPane.add(title,0,0);
         gridPane.add(description,0,1,1,2);
-        gridPane.add(hbox,0,3);
+        GridPane.setValignment(button, VPos.BOTTOM);
+        gridPane.add(button,0,3,1,4);
 
         BorderPane borderPane = new BorderPane();
         borderPane.setId("load-services-card");
@@ -167,7 +167,6 @@ public class CreateServiceScreen extends VBox {
     public Button crearBoton(String texto) {
         Button botonDay  = new Button(texto);
         // Puedes agregar más propiedades al botón aquí si lo deseas
-
         return botonDay;
     }
 
