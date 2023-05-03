@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -94,6 +95,10 @@ public class PrinicipalWindow<T extends Pane> extends BorderPane {
 
                 add(new ScrollPane(){{
                     setContent(getMainPane());
+                    setFitToWidth(true);
+                    setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+                    setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+
                 }}, 1, 1);
                 // getChildren().add(lateralMenu());
                 RowConstraints row1 = new RowConstraints();
