@@ -1,5 +1,6 @@
-package View.Components;
+package View.Components.PrincipalWindow;
 
+import Model.HotelObjects.UserType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -15,37 +16,18 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
-public class PrinicipalWindow<T extends Pane> extends BorderPane {
-    T mainPane;
+public abstract class PrinicipalWindow extends BorderPane {
+    UserType user;
 
-    public PrinicipalWindow(String user, T layout) {
+    public PrinicipalWindow(UserType user) {
         getStylesheets().add("View/Styles/components/principalWindow.css");
+        this.user = user;
 
-        this.mainPane = layout;
-        this.mainPane.getStyleClass().add("main-pane");
-        
-        GridPane grid = grid();
-        grid.getStyleClass().add(user);
-        getStyleClass().add(user + "-main");
         setPadding(new Insets(30));
-        setCenter(grid);
+        getStyleClass().add(user.toString().toLowerCase() + "-main");
     }
 
-    public VBox lateralMenu() {
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(
-                verticalIconText("Habitaciones", "View/assets/images/Subtract.png", true),
-                verticalIconText("Restaurante", "View/assets/images/building-storefront.png", false),
-                verticalIconText("Servicios", "View/assets/images/shopping-bag.png", false),
-                verticalIconText("Inventario", "View/assets/images/Union.png", false));
-
-        VBox pane = new VBox();
-        pane.getChildren().add(vbox);
-        vbox.setSpacing(35);
-        pane.setAlignment(Pos.CENTER);
-
-        return pane;
-    }
+    abstract public VBox lateralMenu();
 
     public VBox verticalIconText(String textImg, String ImgPath, boolean isSelected) {
 
@@ -93,20 +75,6 @@ public class PrinicipalWindow<T extends Pane> extends BorderPane {
                 // Agregar menu de la izquierda
                 add(lateralMenu(), 0, 1);
 
-                add(new ScrollPane(getMainPane()) {
-                    {
-                        getStyleClass().add("main-pane");
-
-                        setContent(getMainPane());
-
-                        setFitToWidth(true);
-                        setFitToHeight(true);
-                        setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
-                        setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-
-                    }
-                }, 1, 1);
-
                 // getChildren().add(lateralMenu());
                 RowConstraints row1 = new RowConstraints();
                 row1.setMinHeight(80); // altura mínima de 30 píxeles
@@ -142,8 +110,29 @@ public class PrinicipalWindow<T extends Pane> extends BorderPane {
         };
     }
 
-    public T getMainPane() {
-        return mainPane;
+    public void setContent(Pane mainPane) {
+        GridPane grid = grid();
+
+        mainPane.getStyleClass().add("main-pane");
+        ScrollPane scrollPane = new ScrollPane() {
+            {
+                getStyleClass().add("main-pane");
+
+                mainPane.setPadding(new Insets(5));
+                setContent(mainPane);
+
+                setFitToWidth(true);
+                setFitToHeight(true);
+                setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+                setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+
+            }
+        };
+
+        grid.add(scrollPane, 1, 1);
+
+        grid.getStyleClass().add(user.toString().toLowerCase());
+        setCenter(grid);
     }
 
     public void userInfo() {

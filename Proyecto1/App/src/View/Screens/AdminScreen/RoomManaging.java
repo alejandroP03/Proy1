@@ -11,10 +11,10 @@ import Controller.Hotel;
 import Model.HotelObjects.RoomRelated.Bed;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.TypeRoom;
-import View.Components.PrinicipalWindow;
 import View.Components.Inputs.InputNumber;
 import View.Components.Inputs.InputText;
 import View.Components.Inputs.SelectorInput;
+import View.Components.PrincipalWindow.PrinicipalWindow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -24,7 +24,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -33,14 +32,12 @@ public class RoomManaging extends VBox {
 
         public Hotel hotel = Hotel.getInstance();
 
-        public RoomManaging(Controller controller) {
+        public RoomManaging(Controller controller, PrinicipalWindow prinicipalWindow) {
 
                 getStylesheets().add("View/Styles/admin/adminScreens.css");
-                PrinicipalWindow pw = new PrinicipalWindow<Pane>("admin", new Pane());
-                setVgrow(pw, Priority.ALWAYS);
-                Pane mainPane = pw.getMainPane();
-                GridPane gridPane = new GridPane();
 
+                GridPane gridPane = new GridPane();
+                setVgrow(prinicipalWindow, Priority.ALWAYS);
                 // agregar tarjeta de carga
                 VBox leftGrid = new VBox();
                 leftGrid.setPadding(new Insets(0, 30, 40, 50));
@@ -64,10 +61,9 @@ public class RoomManaging extends VBox {
                 gridPane.add(leftGrid, 0, 0);
                 gridPane.add(vboxSinTarifa, 0, 1);
 
-                mainPane.getChildren().add(gridPane);
+                prinicipalWindow.setContent(gridPane);
 
-                getChildren().add(pw);
-
+                getChildren().add(prinicipalWindow);
         }
 
         public BorderPane loadRooms() {
@@ -132,7 +128,6 @@ public class RoomManaging extends VBox {
 
                 InputNumber numOfBeds = new InputNumber("", "Cantidad", 1, 10, 1);
 
-                
                 final Map<Bed, Integer> mapBeds = new HashMap<Bed, Integer>();
 
                 final int[] countBed = { 0 };

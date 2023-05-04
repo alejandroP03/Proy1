@@ -1,43 +1,45 @@
 package View.Screens.RecepcionistScreen;
 
+import Controller.Controller;
 import View.Components.Inputs.InputText;
-import View.Components.PrinicipalWindow;
+import View.Components.PrincipalWindow.PrinicipalWindow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 public class RegisterForm extends VBox {
-    public PrinicipalWindow pw;
-    public RegisterForm(){
+    public RegisterForm(Controller controller, PrinicipalWindow prinicipalWindow) {
         getStylesheets().add("View/Styles/recepcionist/recepcionistScreens.css");
-        pw = new PrinicipalWindow<VBox>("recepcionist", new VBox());
-        setVgrow(pw, Priority.ALWAYS);
-        Pane mainPane = pw.getMainPane();
+        setVgrow(prinicipalWindow, Priority.ALWAYS);
+
+        Pane mainPane = new VBox();
+        prinicipalWindow.setContent(mainPane);
         setAlignment(Pos.CENTER);
         BorderPane borderPane = new BorderPane();
         borderPane.setLeft(isReserve());
         borderPane.setRight(guestForm());
         borderPane.setPadding(new Insets(70));
 
-//        GridPane contenPane = new GridPane();
-//        contenPane.setAlignment(Pos.CENTER);
-//        contenPane.add(isReserve(),0,0);
-//        contenPane.add(guestForm(),1,0);
-//        contenPane.setGridLinesVisible(true);
-//        contenPane.setHgap(200);
-//        contenPane.setPadding(new Insets(50));
-
+        // GridPane contenPane = new GridPane();
+        // contenPane.setAlignment(Pos.CENTER);
+        // contenPane.add(isReserve(),0,0);
+        // contenPane.add(guestForm(),1,0);
+        // contenPane.setGridLinesVisible(true);
+        // contenPane.setHgap(200);
+        // contenPane.setPadding(new Insets(50));
 
         mainPane.getChildren().add(borderPane);
-        getChildren().add(pw);
+        getChildren().add(prinicipalWindow);
     }
 
-    public GridPane isReserve(){
+    public GridPane isReserve() {
         Label titleReserve = new Label("Tiene reserva?");
         titleReserve.setId("title-reserve");
         InputText id = new InputText("Cedula", "103938234842", "", "person");
@@ -46,17 +48,17 @@ public class RegisterForm extends VBox {
 
         GridPane gridPane = new GridPane();
 
-        gridPane.add(titleReserve, 0,0);
-        gridPane.add(checkBox, 1,0);
-        gridPane.add(id, 0,1);
+        gridPane.add(titleReserve, 0, 0);
+        gridPane.add(checkBox, 1, 0);
+        gridPane.add(id, 0, 1);
 
-        gridPane.add(searchBtn, 1,2);
+        gridPane.add(searchBtn, 1, 2);
         gridPane.setHgap(-70);
 
-        return  gridPane;
+        return gridPane;
     }
 
-    public VBox guestForm(){
+    public VBox guestForm() {
         Label titleForm = new Label("Huesped Principal");
         titleForm.setId("title-guest-form");
         InputText name = new InputText("Nombre", "Jhon Doe", "", "person");
@@ -67,12 +69,11 @@ public class RegisterForm extends VBox {
         Button sendForm = new Button("Ingresar -->");
         VBox vBox = new VBox();
         sendForm.setId("button-form");
-        vBox.setPadding(new Insets(0,0,0,0));
+        vBox.setPadding(new Insets(0, 0, 0, 0));
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(titleForm, name, phone, id , card, numGuests,sendForm);
+        vBox.getChildren().addAll(titleForm, name, phone, id, card, numGuests, sendForm);
         vBox.setSpacing(15);
-        return  vBox;
+        return vBox;
     }
-
 
 }

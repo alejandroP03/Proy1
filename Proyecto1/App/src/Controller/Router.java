@@ -1,6 +1,9 @@
 package Controller;
 
 import Model.HotelObjects.UserType;
+import View.Components.PrincipalWindow.AdminPrincipalWindow;
+import View.Components.PrincipalWindow.PrinicipalWindow;
+import View.Components.PrincipalWindow.ReceptionistPrincipalWindow;
 import View.Screens.AdminScreen.RoomManaging;
 import View.Screens.AuthScreen.Auth;
 import View.Screens.RecepcionistScreen.BookingScreen;
@@ -31,12 +34,15 @@ public class Router {
     }
 
     public void showUserMainScreen() {
+        PrinicipalWindow pw;
         switch (user) {
             case ADMIN:
-                switchScreen(new RoomManaging(controller));
+                pw = new AdminPrincipalWindow();
+                switchScreen(new RoomManaging(controller, pw));
                 break;
             case RECEPTIONIST:
-                switchScreen(new BookingScreen());
+                pw = new ReceptionistPrincipalWindow();
+                switchScreen(new BookingScreen(controller, pw));
                 break;
             case EMPLOYEE:
                 switchScreen(new VBox(new Text("El que hizo pagar servicios lo hizo mal")));
@@ -48,6 +54,8 @@ public class Router {
 
     public void switchScreen(Parent parent_screen) {
         Scene scene = new Scene(parent_screen);
+        scene.getStylesheets().add("View/Styles/font.css");
+
         mainStage.setScene(scene);
         mainStage.show();
     }

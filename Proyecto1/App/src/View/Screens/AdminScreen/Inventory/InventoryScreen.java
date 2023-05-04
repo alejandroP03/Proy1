@@ -1,7 +1,8 @@
 package View.Screens.AdminScreen.Inventory;
 
-import View.Components.PrinicipalWindow;
+import Controller.Controller;
 import View.Components.Inputs.SelectorInput;
+import View.Components.PrincipalWindow.PrinicipalWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -12,22 +13,19 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class InventoryScreen extends VBox {
-    PrinicipalWindow<BorderPane> pw = new PrinicipalWindow<BorderPane>("admin", new BorderPane());
 
     public enum Inventory {
         ROOMS, FOODS, SERVICE;
     }
 
     Inventory requestedInventory = Inventory.ROOMS;
-    BorderPane mainPane = pw.getMainPane();
+    BorderPane mainPane = new BorderPane();
 
-    public InventoryScreen() {
+    public InventoryScreen(Controller controller, PrinicipalWindow prinicipalWindow) {
         getStylesheets().add("View/Styles/admin/adminScreens.css");
         getStylesheets().add("View/Styles/admin/inventory.css");
-
-        setVgrow(pw, Priority.ALWAYS);
+        setVgrow(prinicipalWindow, Priority.ALWAYS);
         mainPane.setPadding(new Insets(30));
-
         // Agregar titulo y boton habitaciones
         BorderPane titlePane = topBorder();
         BorderPane.setMargin(titlePane, new Insets(0, 0, 0, 330));
@@ -35,8 +33,9 @@ public class InventoryScreen extends VBox {
         VBox.setVgrow(mainPane, Priority.ALWAYS);
         // Agregar informacion del centro
         topCenterBorder(Inventory.ROOMS);
+        prinicipalWindow.setContent(mainPane);
 
-        getChildren().add(pw);
+        getChildren().add(prinicipalWindow);
 
     }
 
