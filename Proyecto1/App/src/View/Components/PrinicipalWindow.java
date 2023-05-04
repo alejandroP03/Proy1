@@ -94,10 +94,10 @@ public class PrinicipalWindow<T extends Pane> extends BorderPane {
 
                 add(new ScrollPane(getMainPane()) {
                     {
-
                         getStyleClass().add("main-pane");
 
                         setContent(getMainPane());
+
                         setFitToWidth(true);
                         setFitToHeight(true);
                         setHbarPolicy(ScrollBarPolicy.AS_NEEDED);

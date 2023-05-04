@@ -1,8 +1,10 @@
 package View;
 
 import Controller.Controller;
-import Controller.Router;
+import View.Components.PrinicipalWindow;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -13,7 +15,10 @@ public class Main extends Application {
         primaryStage.setMinWidth(1125);
         primaryStage.setMinHeight(800);
         Controller controller = new Controller();
-        new Router(primaryStage, controller);
+        // new Router(primaryStage, controller);
+        primaryStage.setScene(new Scene(new PrinicipalWindow<VBox>("admin", new VBox())));
+
+        primaryStage.show();
     }
 
     public static void main(String[] args) {

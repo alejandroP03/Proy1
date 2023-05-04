@@ -1,16 +1,16 @@
-#main{
+#main {
     -fx-background-radius: 20px;
 }
 
-.admin-main{
+.admin-main {
     -fx-background-color: #03555C;
 }
 
-.recepcionist-main{
+.recepcionist-main {
     -fx-background-color: #E29578;
 }
 
-.employee-main{
+.employee-main {
     -fx-background-color: #83C5BE;
 
 }
@@ -29,13 +29,19 @@
 
 }
 
-.scroll-pane, .main-pane{
+.scroll-pane,
+.main-pane {
     -fx-background-color: white;
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
 }
 
+.scroll-pane>.viewport {
+    -fx-background-color: transparent;
+}
+
 .option-active {
+
     -fx-background-color: white;
     -fx-background-radius: 20px;
     /* establece el radio de las esquinas del panel */
