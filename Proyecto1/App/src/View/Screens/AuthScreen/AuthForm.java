@@ -53,18 +53,19 @@ public class AuthForm extends VBox {
 
         Button registerButton = new Button(isSignUp ? "Registrarse" : "Iniciar sesión");
 
-        registerButton.setOnAction(e -> {
+        registerButton.setOnMouseClicked(e -> {
             Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
             String name = nameInput.getValue();
             UserType type = (UserType) userType.getValue();
             String password = passwordInput.getValue();
             errorAlert.setHeaderText("Error");
             errorAlert.setTitle("Error");
-
+            System.out.println("sup");
             try {
                 boolean userExist = authControl.userExists(name, password);
                 boolean isDataValid = name.isBlank() || password.isBlank();
                 if (isSignUp) {
+
                     if (isDataValid) {
                         errorAlert.setContentText("Nombre de usuario invalido o contraseña invalido");
                         errorAlert.showAndWait();
@@ -74,7 +75,7 @@ public class AuthForm extends VBox {
                         errorAlert.showAndWait();
                     } else {
                         authControl.signUp(name, password, type);
-                        
+                        authControl.setUserScene(type);
                     }
 
                 } else {
@@ -87,10 +88,10 @@ public class AuthForm extends VBox {
                         errorAlert.showAndWait();
                     } else {
                         authControl.signIn(name, password);
+                        authControl.setUserScene(type);
                     }
 
                 }
-
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }

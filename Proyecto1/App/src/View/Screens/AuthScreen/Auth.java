@@ -4,24 +4,23 @@ import Controller.Controller;
 import Controller.Router;
 import Model.HotelObjects.User;
 import Model.HotelObjects.UserType;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 
 public class Auth extends HBox {
-
     boolean isSignUp = true;
     AuthForm form = new AuthForm(isSignUp, this);
     Button switchAuthBtn = new Button(!isSignUp ? "Ir al registro" : "Inciar sesión") {
         {
-            setOnAction(new EventHandler<ActionEvent>() {
+            setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
-                public void handle(ActionEvent arg0) {
+                public void handle(MouseEvent arg0) {
                     switchAuth();
                 }
             });
@@ -67,6 +66,11 @@ public class Auth extends HBox {
 
     protected User signIn(String name, String password) throws Exception {
         return auth.signIn(name, password);
+    }
+
+    protected void setUserScene(UserType user) {
+        router.setUser(user);
+        router.showUserMainScreen();
     }
 
 }
