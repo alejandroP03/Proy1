@@ -1,6 +1,7 @@
 package View.Screens.RecepcionistScreen;
 
-import View.Components.PrinicipalWindow;
+import Controller.Controller;
+import View.Components.PrincipalWindow.PrinicipalWindow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.DatePicker;
@@ -12,14 +13,13 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class BookingDate extends VBox {
-    public PrinicipalWindow pw;
 
-    public BookingDate() {
+    public BookingDate(Controller controller, PrinicipalWindow prinicipalWindow) {
         getStylesheets().add("View/Styles/recepcionist/recepcionistScreens.css");
 
-        pw = new PrinicipalWindow<VBox>("recepcionist", new VBox());
-        setVgrow(pw, Priority.ALWAYS);
-        Pane mainPane = pw.getMainPane();
+        setVgrow(prinicipalWindow, Priority.ALWAYS);
+        Pane mainPane = new VBox();
+        prinicipalWindow.setContent(mainPane);
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
         vbox.getChildren().add(titleMenu("asp"));
@@ -29,7 +29,7 @@ public class BookingDate extends VBox {
         vbox.setPadding(new Insets(30, 80, 40, 80));
         vbox.setSpacing(50);
         mainPane.getChildren().add(vbox);
-        getChildren().add(pw);
+        getChildren().add(prinicipalWindow);
     }
 
     public Label titleMenu(String page) {

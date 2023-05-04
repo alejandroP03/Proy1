@@ -1,10 +1,8 @@
 package View;
 
 import Controller.Controller;
-import View.Components.PrinicipalWindow;
+import Controller.Router;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -14,11 +12,8 @@ public class Main extends Application {
         primaryStage.setTitle("Panel con background color");
         primaryStage.setMinWidth(1125);
         primaryStage.setMinHeight(800);
-        Controller controller = new Controller();
-        // new Router(primaryStage, controller);
-        primaryStage.setScene(new Scene(new PrinicipalWindow<VBox>("admin", new VBox())));
 
-        primaryStage.show();
+        new Router(primaryStage, new Controller());
     }
 
     public static void main(String[] args) {
