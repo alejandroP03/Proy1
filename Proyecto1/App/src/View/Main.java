@@ -2,6 +2,8 @@ package View;
 
 
 
+import Controller.Hotel;
+import Model.HotelObjects.Service;
 import View.Screens.AdminScreen.CreateServiceScreen;
 import View.Screens.AdminScreen.FoodInventory;
 import View.Screens.AdminScreen.RoomInventory;
@@ -14,12 +16,19 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
 
         // EntryPoint
+        List<String> listservice = new ArrayList<String>();
+        Hotel hotel = Hotel.getInstance();
+        hotel.getServices().loadPersistentData();
+        listservice.add(hotel.getServices().getData().get("11").getId());
         Pane authScreen = new Auth();
 
         Pane prb = new RoomManaging(); // Probar pestana principal Admin
@@ -27,7 +36,7 @@ public class Main extends Application {
         Pane inventoryFood = new FoodInventory();  // Probar inventario comidas
         Pane invetoryService = new ServicesInventory(); // Probar inventario servicios
         Pane createService = new CreateServiceScreen();  // Probar creacion servicios
-        Pane payService = new PayService(); // Probar pagar servicios
+        Pane payService = new PayService(listservice, true); // Probar pagar servicios
 
 
         Scene scene = new Scene(payService);

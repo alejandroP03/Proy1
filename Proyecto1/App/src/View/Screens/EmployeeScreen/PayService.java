@@ -1,13 +1,10 @@
 package View.Screens.EmployeeScreen;
 
-import Model.HotelObjects.Service;
-import View.Components.Inputs.InputText;
 import View.Components.PrinicipalWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.*;
@@ -40,8 +37,8 @@ public class PayService extends VBox {
     };
 
 
-    public PayService(List<Service> addedServices){
-        this.payForm = new PayServiceForm(isPrincipal, addedServices);
+    public PayService(List<String> addedServices, boolean isService){
+        this.payForm = new PayServiceForm(isPrincipal, addedServices, isService);
         getStylesheets().add("View/Styles/employee/payService.css");
         PrinicipalWindow pw = new PrinicipalWindow<Pane>("employee", new Pane());
         setVgrow(pw, Priority.ALWAYS);
