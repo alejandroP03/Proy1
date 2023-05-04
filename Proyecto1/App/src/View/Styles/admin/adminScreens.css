@@ -86,7 +86,7 @@
 }
 
 #load-services-card{
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #006D77 -70.66%, rgba(126, 193, 187, 0.62) 101.69%); /* establece el color de fondo del panel */
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #0f8c9a -70.66%, rgba(126, 193, 187, 0.62) 101.69%); /* establece el color de fondo del panel */
     -fx-background-radius: 20px;
 }
 

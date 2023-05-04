@@ -34,9 +34,10 @@ public class Main extends Application {
         Pane guesForm = new InfoGuest(); // Probar fomulario para un huesped
         Pane registerForm = new RegisterForm(); // Probar fomrulario de registro
         Pane companionInfo = new CompanionInfo();
+        Pane savedInfo = new DataSaved();
 
 
-        Scene scene = new Scene(companionInfo);
+        Scene scene = new Scene(registerForm);
 
 //        Scene scene = new Scene(new Calendar());  // PRobar el calendario
 
