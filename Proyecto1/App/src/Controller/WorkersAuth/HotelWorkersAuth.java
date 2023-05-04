@@ -10,15 +10,16 @@ import Model.HotelObjects.UserType;
 
 public class HotelWorkersAuth {
 
-    private static HotelWorkersAuth instancia;
+    private static HotelWorkersAuth instance;
 
-    private HotelWorkersAuth(){};
+    private HotelWorkersAuth() {
+    };
 
-    public static HotelWorkersAuth getInstance(){
-        if(instancia==null){
-            instancia = new HotelWorkersAuth();
+    public static HotelWorkersAuth getInstance() {
+        if (instance == null) {
+            instance = new HotelWorkersAuth();
         }
-        return instancia;
+        return instance;
     }
     // methods
 
@@ -39,7 +40,6 @@ public class HotelWorkersAuth {
      */
     public User login(String userName, String password, Map<Object, User> usersList)
             throws Exception {
-
 
         if (userExists(userName, password, usersList)) {
             if (!(userName.isBlank() || password.isBlank())) {
@@ -100,6 +100,7 @@ public class HotelWorkersAuth {
         }
         return newUser;
     }
+
     /*
      * Función auxiliar de login y register. Comprueba que el usuario existe en la
      * lista de usuarios, de ser así,

@@ -1,6 +1,7 @@
 package View;
 
-import View.Components.Calendars.Calendar;
+import Controller.Controller;
+import Controller.Router;
 import View.Screens.AdminScreen.CreateServiceScreen;
 import View.Screens.AdminScreen.Inventory.FoodInventory;
 import View.Screens.AdminScreen.Inventory.InventoryScreen;
@@ -23,7 +24,6 @@ public class Main extends Application {
         Auth authScreen = new Auth();
         InventoryScreen inventoryScreen = new InventoryScreen();
 
-
         Pane prb = new RoomManaging(); // Probar pestana principal Admin
         Pane inventoryRoom = new RoomInventory(); // Probar inventario habitaciones
         Pane inventoryFood = new FoodInventory(); // Probar inventario comidas
@@ -41,18 +41,13 @@ public class Main extends Application {
 
 //        Scene scene = new Scene(new Calendar());  // PRobar el calendario
 
+    public void start(Stage primaryStage) throws Exception {
 
         primaryStage.setTitle("Panel con background color");
-
-        scene.getStylesheets().add("View/Styles/font.css");
-
         primaryStage.setMinWidth(1125);
-        primaryStage.setMinHeight(600);
-        primaryStage.setX(300);
-        primaryStage.setY(100);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.setMinHeight(800);
 
+        new Router(primaryStage, new Controller());
     }
 
     public static void main(String[] args) {

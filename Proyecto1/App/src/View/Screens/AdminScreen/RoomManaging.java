@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import Controller.Controller;
 import Controller.Hotel;
 import Model.HotelObjects.RoomRelated.Bed;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
@@ -32,7 +33,7 @@ public class RoomManaging extends VBox {
 
         public Hotel hotel = Hotel.getInstance();
 
-        public RoomManaging() {
+        public RoomManaging(Controller controller) {
 
                 getStylesheets().add("View/Styles/admin/adminScreens.css");
                 PrinicipalWindow pw = new PrinicipalWindow<Pane>("admin", new Pane());

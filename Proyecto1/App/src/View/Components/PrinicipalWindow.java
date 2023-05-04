@@ -23,6 +23,7 @@ public class PrinicipalWindow<T extends Pane> extends BorderPane {
 
         this.mainPane = layout;
         this.mainPane.getStyleClass().add("main-pane");
+        
         GridPane grid = grid();
         grid.getStyleClass().add(user);
         getStyleClass().add(user + "-main");
