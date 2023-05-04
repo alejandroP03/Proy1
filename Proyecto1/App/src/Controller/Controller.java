@@ -40,25 +40,33 @@ public class Controller {
     public Hotel hotel = Hotel.getInstance();
     private HotelWorkersAuth authHandler = HotelWorkersAuth.getInstance();
 
+    public Controller() throws Exception{
+        hotel.startUp();
+    }
 
     /*
      * AuthMethods
      * 
-     //TODO Volverlo una clase para solo hacer un llamado a getUserHandler (Si queda tiempo)
+     * //TODO Volverlo una clase para solo hacer un llamado a getUserHandler (Si
+     * queda tiempo)
      */
     public User signUp(String userName, String password, UserType userType) throws Exception {
         Map<Object, User> userList = hotel.getUserHandler().getData();
-        return authHandler.register(userName, password, userType, userList);
+        User user = authHandler.register(userName, password, userType, userList);
+        hotel.getUserHandler().SavePersistentData();
+        return user;
     }
 
-    public boolean userExist(String userName, String password){
+    public boolean userExist(String userName, String password) {
         Map<Object, User> userList = hotel.getUserHandler().getData();
         return authHandler.userExists(userName, password, userList);
     }
 
-    public User signIn(String userName, String password) throws Exception{
+    public User signIn(String userName, String password) throws Exception {
         Map<Object, User> userList = hotel.getUserHandler().getData();
-        return authHandler.login(userName, password, userList);
+        User user = authHandler.login(userName, password, userList);
+        hotel.getUserHandler().SavePersistentData();
+        return user;
     }
 
     /*
@@ -75,101 +83,104 @@ public class Controller {
      *
      */
     private void authApp() {
-        
 
-        
-        /* String opcion = br.readLine();
-        if (opcion.equals("1")) {
-            System.out.println(" ");
-            System.out.println("----- Registro  -----");
-            System.out.println("Como desea registrarse?");
-            System.out.println("1. Como administrador");
-            System.out.println("2. Como empleado");
-            System.out.println("3. Como recepcionista");
-            System.out.print("Ingrese la opcion deseada: ");
-            String registro = br.readLine();
-
-            System.out.println("Nombre de usuario: ");
-            String userName = br.readLine();
-            System.out.println("Contraseña: ");
-            String password = br.readLine();
-
-            switch (registro) {
-                case "1":
-                    try {
-                        authHandler.register(userName, password, UserType.ADMIN, hotel.getUserHandler().getData());
-                        hotel.getUserHandler().SavePersistentData();
-                    } catch (Exception e) {
-                        System.out.println(e);
-                        authApp();
-                    }
-                    showAdminScreen();
-                    break;
-                case "2":
-                    try {
-                        authHandler.register(userName, password, UserType.EMPLOYEE, hotel.getUserHandler().getData());
-                        hotel.getUserHandler().SavePersistentData();
-                    } catch (Exception e) {
-                        System.out.println(e);
-                        authApp();
-                    }
-
-                    showEmployeeScreen();
-                    break;
-
-                case "3":
-                    try {
-                        authHandler.register(userName, password, UserType.RECEPTIONIST,
-                                hotel.getUserHandler().getData());
-                        hotel.getUserHandler().SavePersistentData();
-                    } catch (Exception e) {
-                        System.out.println(e);
-                        authApp();
-                    }
-
-                    showRecepcionistScreen();
-                    break;
-                default:
-                    System.out.println("Opcion no valida");
-                    authApp();
-                    break;
-            }
-        } else if (opcion.equals("2")) {
-
-            try {
-                System.out.println(" ");
-                System.out.println("----- Inicio de sesion  -----");
-                System.out.print("Ingrese su usuario: ");
-                String usuarioStr = br.readLine();
-
-                System.out.print("Ingrese su contrasena: ");
-                String contrasenaStr = br.readLine();
-                User actualUser = authHandler.login(usuarioStr, contrasenaStr, hotel.getUserHandler().getData());
-                switch (actualUser.getUserType()) {
-                    case ADMIN:
-                        showAdminScreen();
-                        break;
-                    case RECEPTIONIST:
-                        showRecepcionistScreen();
-                        break;
-                    case EMPLOYEE:
-                        showEmployeeScreen();
-                        break;
-                    default:
-                        break;
-
-                }
-            } catch (Exception e) {
-                System.out.println(e);
-                hotel.shutDown();
-                authApp();
-
-            }
-
-        } else {
-            System.out.println("Opcion no valida");
-            authApp();
-        } */
+        /*
+         * String opcion = br.readLine();
+         * if (opcion.equals("1")) {
+         * System.out.println(" ");
+         * System.out.println("----- Registro  -----");
+         * System.out.println("Como desea registrarse?");
+         * System.out.println("1. Como administrador");
+         * System.out.println("2. Como empleado");
+         * System.out.println("3. Como recepcionista");
+         * System.out.print("Ingrese la opcion deseada: ");
+         * String registro = br.readLine();
+         * 
+         * System.out.println("Nombre de usuario: ");
+         * String userName = br.readLine();
+         * System.out.println("Contraseña: ");
+         * String password = br.readLine();
+         * 
+         * switch (registro) {
+         * case "1":
+         * try {
+         * authHandler.register(userName, password, UserType.ADMIN,
+         * hotel.getUserHandler().getData());
+         * hotel.getUserHandler().SavePersistentData();
+         * } catch (Exception e) {
+         * System.out.println(e);
+         * authApp();
+         * }
+         * showAdminScreen();
+         * break;
+         * case "2":
+         * try {
+         * authHandler.register(userName, password, UserType.EMPLOYEE,
+         * hotel.getUserHandler().getData());
+         * hotel.getUserHandler().SavePersistentData();
+         * } catch (Exception e) {
+         * System.out.println(e);
+         * authApp();
+         * }
+         * 
+         * showEmployeeScreen();
+         * break;
+         * 
+         * case "3":
+         * try {
+         * authHandler.register(userName, password, UserType.RECEPTIONIST,
+         * hotel.getUserHandler().getData());
+         * hotel.getUserHandler().SavePersistentData();
+         * } catch (Exception e) {
+         * System.out.println(e);
+         * authApp();
+         * }
+         * 
+         * showRecepcionistScreen();
+         * break;
+         * default:
+         * System.out.println("Opcion no valida");
+         * authApp();
+         * break;
+         * }
+         * } else if (opcion.equals("2")) {
+         * 
+         * try {
+         * System.out.println(" ");
+         * System.out.println("----- Inicio de sesion  -----");
+         * System.out.print("Ingrese su usuario: ");
+         * String usuarioStr = br.readLine();
+         * 
+         * System.out.print("Ingrese su contrasena: ");
+         * String contrasenaStr = br.readLine();
+         * User actualUser = authHandler.login(usuarioStr, contrasenaStr,
+         * hotel.getUserHandler().getData());
+         * switch (actualUser.getUserType()) {
+         * case ADMIN:
+         * showAdminScreen();
+         * break;
+         * case RECEPTIONIST:
+         * showRecepcionistScreen();
+         * break;
+         * case EMPLOYEE:
+         * showEmployeeScreen();
+         * break;
+         * default:
+         * break;
+         * 
+         * }
+         * } catch (Exception e) {
+         * System.out.println(e);
+         * hotel.shutDown();
+         * authApp();
+         * 
+         * }
+         * 
+         * } else {
+         * System.out.println("Opcion no valida");
+         * authApp();
+         * }
+         */
     }
 
     // ---------------------- Pantalla para el Administrador ----------------------
