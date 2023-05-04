@@ -5,6 +5,7 @@ import View.Components.PrincipalWindow.AdminPrincipalWindow;
 import View.Components.PrincipalWindow.PrinicipalWindow;
 import View.Components.PrincipalWindow.ReceptionistPrincipalWindow;
 import View.Screens.AdminScreen.RoomManaging;
+import View.Screens.AdminScreen.Inventory.InventoryScreen;
 import View.Screens.AuthScreen.Auth;
 import View.Screens.RecepcionistScreen.BookingScreen;
 import javafx.scene.Parent;
@@ -17,11 +18,19 @@ public class Router {
     private UserType user;
     private Stage mainStage;
     private Controller controller;
+    private PrinicipalWindow pw;
 
     public Router(Stage mainStage, Controller controller) {
         this.controller = controller;
         this.mainStage = mainStage;
         switchScreen(new Auth(this, controller));
+
+        // TODO Para probar una pantalla solo agreguen estas lineas con los valores
+        // correspondientes
+        /*
+         * user = UserType.ADMIN;
+         * showUserMainScreen();
+         */
 
     }
 
@@ -34,14 +43,13 @@ public class Router {
     }
 
     public void showUserMainScreen() {
-        PrinicipalWindow pw;
         switch (user) {
             case ADMIN:
-                pw = new AdminPrincipalWindow();
+                pw = new AdminPrincipalWindow(this, controller);
                 switchScreen(new RoomManaging(controller, pw));
                 break;
             case RECEPTIONIST:
-                pw = new ReceptionistPrincipalWindow();
+                pw = new ReceptionistPrincipalWindow(this);
                 switchScreen(new BookingScreen(controller, pw));
                 break;
             case EMPLOYEE:
@@ -52,12 +60,24 @@ public class Router {
 
     }
 
-    public void switchScreen(Parent parent_screen) {
+    private void switchScreen(Parent parent_screen) {
         Scene scene = new Scene(parent_screen);
         scene.getStylesheets().add("View/Styles/font.css");
 
         mainStage.setScene(scene);
         mainStage.show();
+    }
+
+    public void goToRoomManaging() {
+        switchScreen(new RoomManaging(controller, pw));
+    }
+
+    public void goToInventoryScreen() {
+        switchScreen(new InventoryScreen(controller, pw));
+    }
+
+    public void goToBookingScreen() {
+        switchScreen(new BookingScreen(controller, pw));
     }
 
 }

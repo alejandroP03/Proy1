@@ -1,5 +1,6 @@
 package View.Components.PrincipalWindow;
 
+import Controller.Router;
 import Model.HotelObjects.UserType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,8 +19,10 @@ import javafx.scene.layout.VBox;
 
 public abstract class PrinicipalWindow extends BorderPane {
     UserType user;
+    Router router;
 
-    public PrinicipalWindow(UserType user) {
+    public PrinicipalWindow(UserType user, Router router) {
+        this.router = router;
         getStylesheets().add("View/Styles/components/principalWindow.css");
         this.user = user;
 
@@ -29,23 +32,62 @@ public abstract class PrinicipalWindow extends BorderPane {
 
     abstract public VBox lateralMenu();
 
-    public VBox verticalIconText(String textImg, String ImgPath, boolean isSelected) {
+    public class VerticalIconText extends VBox {
+        boolean isSelected;
+        Pane icon = new Pane();
+        Label label = new Label();
 
-        ImageView imageView = new ImageView(new Image(ImgPath));
-        Label label = new Label(textImg);
-        VBox vBox = new VBox();
-        vBox.setAlignment(Pos.CENTER);
-        if (isSelected) {
-            // Backgorund Blanco e imagen Azul
-            vBox.getStyleClass().add("option-active");
-        } else {
-            // texto blanco e imagen blanca
-            vBox.getStyleClass().add("option-inActive");
-            label.setStyle("-fx-text-fill: white;");
+        public VerticalIconText(String textImg, String ImgName, boolean isSelected) {
+            this.isSelected = isSelected;
+
+            icon.getStyleClass().add("main-icon");
+            icon.getStyleClass().add(ImgName);
+            label.setText(textImg);
+            switchSelectedStatusStyle();
+            getStyleClass().add("option");
+            setAlignment(Pos.CENTER);
+            getChildren().addAll(icon, label);
+            setSpacing(15);
         }
-        vBox.getChildren().addAll(imageView, label);
-        vBox.setSpacing(15);
-        return vBox;
+
+        public boolean isSelectedStatus(VerticalIconText selectedBtn) {
+            if (this.equals(selectedBtn)) {
+
+                System.out.println("sup");
+                return true;
+            } else {
+                selectedBtn.switchSelectedStatus();
+                this.isSelected = true;
+                this.switchSelectedStatusStyle();
+
+                selectedBtn = this;
+                return false;
+            }
+
+        }
+
+        private void switchSelectedStatus() {
+            this.isSelected = false;
+            this.switchSelectedStatusStyle();
+        }
+
+        private void switchSelectedStatusStyle() {
+            if (isSelected) {
+                // Backgorund Blanco e imagen Azul
+                getStyleClass().add("option-active");
+                getStyleClass().removeAll("option-inactive");
+                icon.getStyleClass().add("active-" + user.toString().toLowerCase());
+                label.getStyleClass().add("active-" + user.toString().toLowerCase() + "-text");
+
+            } else {
+                // texto blanco e imagen blanca
+                getStyleClass().add("option-inactive");
+                getStyleClass().removeAll("option-active");
+                icon.getStyleClass().removeAll("active-" + user.toString().toLowerCase());
+                label.getStyleClass().removeAll("active-" + user.toString().toLowerCase() + "-text");
+            }
+        }
+
     }
 
     public Pane logo() {
@@ -133,10 +175,6 @@ public abstract class PrinicipalWindow extends BorderPane {
 
         grid.getStyleClass().add(user.toString().toLowerCase());
         setCenter(grid);
-    }
-
-    public void userInfo() {
-
     }
 
 }

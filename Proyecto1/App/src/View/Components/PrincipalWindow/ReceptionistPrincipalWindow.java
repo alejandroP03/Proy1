@@ -1,23 +1,23 @@
 package View.Components.PrincipalWindow;
 
+import Controller.Router;
 import Model.HotelObjects.UserType;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 
 public class ReceptionistPrincipalWindow extends PrinicipalWindow {
+    Router router;
 
-    public ReceptionistPrincipalWindow() {
-        super(UserType.RECEPTIONIST);
+    public ReceptionistPrincipalWindow(Router router) {
+        super(UserType.RECEPTIONIST, router);
+        this.router = router;
     }
 
     @Override
     public VBox lateralMenu() {
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(
-                verticalIconText("Crear reserva", "View/assets/images/Subtract.png", true),
-                verticalIconText("Crear registro", "View/assets/images/building-storefront.png", false),
-                verticalIconText("Check-out", "View/assets/images/shopping-bag.png", false),
-                verticalIconText("Cancelar reserva", "View/assets/images/Union.png", false));
+        // TODO Agregar los botones (revisar que esten los iconos en el css principalWindow)
+        vbox.getChildren().addAll();
 
         VBox pane = new VBox();
         pane.getChildren().add(vbox);
