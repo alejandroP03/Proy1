@@ -102,29 +102,26 @@ public class RoomInventory extends VBox {
                                 setPrefWrapLength(250);
                                 getStyleClass().add("span-pane__inventory-item");
 
-                                VBox nameCont = new VBox(new Label("ID de habitación"), nodes[0]);
-                                nameCont.getStyleClass().add("vbox");
-                                VBox bedsCont = new VBox(new Label("Camas"), nodes[1]);
-                                bedsCont.getStyleClass().add("vbox");
-                                VBox featuresCont = new VBox(new Label("Características"), nodes[2]);
-                                featuresCont.getStyleClass().add("vbox");
-                                VBox locationCont = new VBox(new Label("ID de habitación"), nodes[3]);
-                                locationCont.getStyleClass().add("vbox");
-                                VBox typeCont = new VBox(new Label("Tipo de habitación"), nodes[4]);
-                                typeCont.getStyleClass().add("vbox");
-                                VBox fullCont = new VBox(new Label("Ocupada"), nodes[5]);
-                                fullCont.getStyleClass().add("vbox");
-                                VBox bookedDatesCont = new VBox(new Label("Fechas reservadas"), nodes[6]);
-                                bookedDatesCont.getStyleClass().add("vbox");
-                                VBox faredDatesCont = new VBox(new Label("Fechas con tarifa"), nodes[7]);
-                                faredDatesCont.getStyleClass().add("vbox");
-
-                                getChildren().addAll(nameCont, locationCont, bedsCont, featuresCont, fullCont,
-                                                typeCont, bookedDatesCont, faredDatesCont);
+                                getChildren().addAll(
+                                                new SpanElem("ID de habitación", nodes[0]),
+                                                new SpanElem("Lugar", nodes[3]),
+                                                new SpanElem("Camas", nodes[1]),
+                                                new SpanElem("Características", nodes[2]),
+                                                new SpanElem("Ocupada", nodes[5]),
+                                                new SpanElem("Tipo de habitación", nodes[4]),
+                                                new SpanElem("Fechas reservadas", nodes[6]),
+                                                new SpanElem("Fechas con tarifa", nodes[7]));
 
                         }
                 };
                 return span;
+        }
+
+        private class SpanElem extends VBox {
+                public SpanElem(String label, Node node) {
+                        getChildren().addAll(new Label(label), node);
+                        getStyleClass().add("vbox");
+                }
         }
 
         private class RoomNodes {
