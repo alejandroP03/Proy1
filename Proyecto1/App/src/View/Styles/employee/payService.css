@@ -1,0 +1,22 @@
+#header-pay-service {
+    -fx-font-weight: 700;
+    -fx-font-size: 48px;
+    -fx-fill: black;
+}
+#is-principal {
+    -fx-font-size: 16px;
+    -fx-fill: black;
+
+}
+#button-form{
+    -fx-background-color: #E29578;
+    -fx-background-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-border-color: rgba(103, 110, 118, 0.16);
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow( two-pass-box , rgba(103, 110, 118, 0.08), 2, 5, 0, 0 );
+    -fx-text-fill: white;
+    -fx-min-width: 0px;
+    -fx-pref-width: 100%;
+    -fx-max-width: 17976931px;
+}
