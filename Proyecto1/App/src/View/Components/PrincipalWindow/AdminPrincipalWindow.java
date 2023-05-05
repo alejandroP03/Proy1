@@ -48,7 +48,11 @@ public class AdminPrincipalWindow extends PrinicipalWindow {
 
         inventoryBtn.setOnMouseClicked(e -> {
             if (!inventoryBtn.isSelectedStatus(selectedScreenBtn)) {
-                router.goToInventoryScreen();
+                try {
+                    router.goToInventoryScreen();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
                 this.selectedScreenBtn = inventoryBtn;
             }
         });

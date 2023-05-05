@@ -94,11 +94,11 @@
 
 .inactive-icon {
     -fx-background-color: white;
-    -fx-fill-text: white;
+    -fx-text-fill: white;
 }
 
 .inactive-text {
-    -fx-fill-text: white;
+    -fx-text-fill: white;
 }
 
 
@@ -107,7 +107,7 @@
 }
 
 .active-admin-text {
-    -fx-fill-text: #03555C;
+    -fx-text-fill: #03555C;
 }
 
 .active-recepcionist {
@@ -115,7 +115,7 @@
 }
 
 .active-recepcionist-text {
-    -fx-fill-text: #E29578;
+    -fx-text-fill: #E29578;
 }
 
 .active-employee {
@@ -123,7 +123,7 @@
 }
 
 .active-employee-text {
-    -fx-fill-text: #83C5BE;
+    -fx-text-fill: #83C5BE;
 }
 
 /*Icons*/

@@ -40,15 +40,14 @@ public class Controller {
     public Hotel hotel = Hotel.getInstance();
     private HotelWorkersAuth authHandler = HotelWorkersAuth.getInstance();
 
-    public Controller() throws Exception{
+    public Controller() throws Exception {
         hotel.startUp();
     }
 
     /*
      * AuthMethods
      * 
-     * //TODO Volverlo una clase para solo hacer un llamado a getUserHandler (Si
-     * queda tiempo)
+     * //TODO Volver estos metodos una clase (si queda tiempo)
      */
     public User signUp(String userName, String password, UserType userType) throws Exception {
         Map<Object, User> userList = hotel.getUserHandler().getData();
@@ -70,118 +69,25 @@ public class Controller {
     }
 
     /*
-     * Autentica a los usuarios del Hotel (Recepcionista, Administrador, Empleado)
-     * <br>
-     * <b>pre:</b> El archivo de usuarips ya esta inicializado
-     * <b>post:</b> Un usuario inicia sesion o se registra en el hotel
-     *
-     * @throw Exception <br>
-     * 1. Si se registra un usuario con las mismas credenciales
-     * 2. Si se loggea con datos que no existen
-     *
-     *
-     *
+     * Admin methods
+     * 
+     * //TODO Volver estos metodos una clase (si queda tiempo)
      */
-    private void authApp() {
 
-        /*
-         * String opcion = br.readLine();
-         * if (opcion.equals("1")) {
-         * System.out.println(" ");
-         * System.out.println("----- Registro  -----");
-         * System.out.println("Como desea registrarse?");
-         * System.out.println("1. Como administrador");
-         * System.out.println("2. Como empleado");
-         * System.out.println("3. Como recepcionista");
-         * System.out.print("Ingrese la opcion deseada: ");
-         * String registro = br.readLine();
-         * 
-         * System.out.println("Nombre de usuario: ");
-         * String userName = br.readLine();
-         * System.out.println("Contraseña: ");
-         * String password = br.readLine();
-         * 
-         * switch (registro) {
-         * case "1":
-         * try {
-         * authHandler.register(userName, password, UserType.ADMIN,
-         * hotel.getUserHandler().getData());
-         * hotel.getUserHandler().SavePersistentData();
-         * } catch (Exception e) {
-         * System.out.println(e);
-         * authApp();
-         * }
-         * showAdminScreen();
-         * break;
-         * case "2":
-         * try {
-         * authHandler.register(userName, password, UserType.EMPLOYEE,
-         * hotel.getUserHandler().getData());
-         * hotel.getUserHandler().SavePersistentData();
-         * } catch (Exception e) {
-         * System.out.println(e);
-         * authApp();
-         * }
-         * 
-         * showEmployeeScreen();
-         * break;
-         * 
-         * case "3":
-         * try {
-         * authHandler.register(userName, password, UserType.RECEPTIONIST,
-         * hotel.getUserHandler().getData());
-         * hotel.getUserHandler().SavePersistentData();
-         * } catch (Exception e) {
-         * System.out.println(e);
-         * authApp();
-         * }
-         * 
-         * showRecepcionistScreen();
-         * break;
-         * default:
-         * System.out.println("Opcion no valida");
-         * authApp();
-         * break;
-         * }
-         * } else if (opcion.equals("2")) {
-         * 
-         * try {
-         * System.out.println(" ");
-         * System.out.println("----- Inicio de sesion  -----");
-         * System.out.print("Ingrese su usuario: ");
-         * String usuarioStr = br.readLine();
-         * 
-         * System.out.print("Ingrese su contrasena: ");
-         * String contrasenaStr = br.readLine();
-         * User actualUser = authHandler.login(usuarioStr, contrasenaStr,
-         * hotel.getUserHandler().getData());
-         * switch (actualUser.getUserType()) {
-         * case ADMIN:
-         * showAdminScreen();
-         * break;
-         * case RECEPTIONIST:
-         * showRecepcionistScreen();
-         * break;
-         * case EMPLOYEE:
-         * showEmployeeScreen();
-         * break;
-         * default:
-         * break;
-         * 
-         * }
-         * } catch (Exception e) {
-         * System.out.println(e);
-         * hotel.shutDown();
-         * authApp();
-         * 
-         * }
-         * 
-         * } else {
-         * System.out.println("Opcion no valida");
-         * authApp();
-         * }
-         */
+    public Map<Room, RoomFares> getRoomStock() throws Exception {
+        List<Room> roomMap = new ArrayList<Room>(hotel.getRoomsHandler().getData().values());
+        Map<Object, RoomFares> roomFares = hotel.getFaresHandler().getData();
+
+        Map<Room, RoomFares> roomInfo = new HashMap<Room, RoomFares>();
+        for (Room room : roomMap) {
+            Set<Object> roomId = room.createTypeRoomId();
+            RoomFares asociatedFares = roomFares.get(roomId);
+            roomInfo.put(room, asociatedFares);
+        }
+        return roomInfo;
     }
+
+    // ---------------------- Funciones para el adminsitrador ----------------------
 
     // ---------------------- Pantalla para el Administrador ----------------------
     /*
@@ -201,7 +107,6 @@ public class Controller {
         System.out.println("1. Crear habitaciones (manual) ");
         System.out.println("2. Cargar archivo habitaciones");
         System.out.println("3. Cargar tarifas");
-        System.out.println("4. Consultar inventario de habitaciones");
         System.out.println("5. Crear servicios (manual) ");
         System.out.println("6. Cargar archivo de servcios");
         System.out.println("7. Ingresar comidas para el restaurante (manual)");
@@ -219,9 +124,6 @@ public class Controller {
                 break;
             case "3":
                 loadFares();
-                break;
-            case "4":
-                showRoomStock();
                 break;
             case "5":
                 createService();
@@ -245,94 +147,6 @@ public class Controller {
                 System.out.println("\n \n");
                 break;
         }
-
-    }
-    // ---------------------- Funciones para el adminsitrador ----------------------
-
-    /*
-     * El administrador crea una o varias habitaciones <br>
-     * <b>pre:</b> El archivo de habitaciones debe estar inicializado
-     * <b>post:</b> El administrador carga las caracteristicas de las nuevas
-     * habitaciones
-     *
-     * @throw Exception <br>
-     * 1. No se inicializa el archivo donde se guardan los datos de las habitaciones
-     *
-     *
-     */
-
-    private void showRoomStock() throws Exception {
-        Map<Object, Room> roomMap = new HashMap<Object, Room>(hotel.getRoomsHandler().getData());
-
-        Set<Set<Object>> roomFareIdSet = new HashSet<Set<Object>>();
-
-        for (Room rooms : roomMap.values()) {
-            roomFareIdSet.add(rooms.createTypeRoomId());
-
-        }
-
-        for (Set<Object> roomFareId : roomFareIdSet) {
-            showRoomFareId(roomFareId, roomMap);
-        }
-
-        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
-        String masOpciones = br.readLine();
-        switch (masOpciones) {
-            case "1":
-                showAdminScreen();
-                break;
-            case "2":
-                hotel.shutDown();
-                System.out.println("Cerrando aplicacion...");
-                break;
-            default:
-                hotel.shutDown();
-                break;
-        }
-    }
-
-    /*
-     * Imprime todas las características de una habitación.
-     * <b>pre: </b> El mapa de FaresDataHandler debe estar inicializado y con
-     * información.
-     * <b>pos: </b> Se imprimen las características de la habitación correspondiente
-     *
-     * @param roomFareId: Conjunto con las características de la habitación
-     *
-     */
-    private void showRoomFareId(Set<Object> roomFareId, Map<Object, Room> roomMap) throws Exception {
-        Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
-        Map<Bed, Integer> mapBeds = null;
-        TypeRoom typeRoom = null;
-        for (Object object : roomFareId) {
-            if (object instanceof Map<?, ?>) {
-                mapBeds = (HashMap<Bed, Integer>) object;
-            } else {
-                for (TypeRoom roomType : TypeRoom.values()) {
-                    if (object.equals(roomType))
-                        typeRoom = roomType;
-                }
-
-                for (RoomFeatures roomFeature : RoomFeatures.values()) {
-                    if (object.equals(roomFeature))
-                        featuresList.add(roomFeature);
-                }
-            }
-        }
-        System.out.println("Inventario de habitaciones de tipo " + typeRoom);
-        System.out.println("Con caracteristicas: " + getFeaturesName(featuresList));
-        System.out.println("Y camas: " + getBedsString(mapBeds));
-        System.out.println("-------------------------------------------------");
-        for (Room room : roomMap.values()) {
-            if (room.createTypeRoomId().equals(roomFareId)) {
-                System.out.println(room.getRoomId());
-                System.out.println("Locacion: " + room.getLocation());
-                System.out.println("Estado: " + (room.getIsOcupied() ? "Ocupada" : "Disponible"));
-                System.out.println("\n");
-            }
-
-        }
-        System.out.println("-------------------------------------------------");
 
     }
 
@@ -672,18 +486,6 @@ public class Controller {
         System.out.println("Archivo cargado exitosamente!");
         System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
         String masOpciones = br.readLine();
-        switch (masOpciones) {
-            case "1":
-                showAdminScreen();
-                break;
-            case "2":
-                hotel.shutDown();
-                System.out.println("Cerrando aplicacion...");
-                break;
-            default:
-                hotel.shutDown();
-                break;
-        }
     }
 
     /*
@@ -770,18 +572,6 @@ public class Controller {
         System.out.println("Archivo cargado exitosamente!");
         System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
         String masOpciones = br.readLine();
-        switch (masOpciones) {
-            case "1":
-                showAdminScreen();
-                break;
-            case "2":
-                hotel.shutDown();
-                System.out.println("Cerrando aplicacion...");
-                break;
-            default:
-                hotel.shutDown();
-                break;
-        }
     }
 
     /*

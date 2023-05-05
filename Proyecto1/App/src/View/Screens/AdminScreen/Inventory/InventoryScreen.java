@@ -18,12 +18,14 @@ public class InventoryScreen extends VBox {
         ROOMS, FOODS, SERVICE;
     }
 
+    Controller controller;
     Inventory requestedInventory = Inventory.ROOMS;
     BorderPane mainPane = new BorderPane();
 
-    public InventoryScreen(Controller controller, PrinicipalWindow prinicipalWindow) {
+    public InventoryScreen(Controller controller, PrinicipalWindow prinicipalWindow) throws Exception {
         getStylesheets().add("View/Styles/admin/adminScreens.css");
         getStylesheets().add("View/Styles/admin/inventory.css");
+        this.controller = controller;
         setVgrow(prinicipalWindow, Priority.ALWAYS);
         mainPane.setPadding(new Insets(30));
         // Agregar titulo y boton habitaciones
@@ -48,7 +50,11 @@ public class InventoryScreen extends VBox {
         menuButton.addListener(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                topCenterBorder((Inventory) menuButton.getValue());
+                try {
+                    topCenterBorder((Inventory) menuButton.getValue());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
         });
@@ -62,7 +68,7 @@ public class InventoryScreen extends VBox {
         return titlePane;
     }
 
-    public VBox topCenterBorder(Inventory requestedInventory) {
+    public VBox topCenterBorder(Inventory requestedInventory) throws Exception {
         VBox inventoryBox;
         mainPane.setLeft(new HBox());
         switch (requestedInventory) {
@@ -70,7 +76,7 @@ public class InventoryScreen extends VBox {
                 inventoryBox = new FoodInventory();
                 break;
             case ROOMS:
-                inventoryBox = new RoomInventory();
+                inventoryBox = new RoomInventory(controller.getRoomStock());
                 VBox leftInfo = ((RoomInventory) inventoryBox).leftBorder();
                 BorderPane.setMargin(leftInfo, new Insets(0, 40, 0, 0));
                 mainPane.setLeft(leftInfo);
@@ -79,13 +85,11 @@ public class InventoryScreen extends VBox {
                 inventoryBox = new ServicesInventory();
                 break;
             default:
-                inventoryBox = new RoomInventory();
+                inventoryBox = new RoomInventory(this.controller.getRoomStock());
         }
 
         mainPane.setCenter(inventoryBox);
 
-        mainPane.requestLayout();
-        this.requestLayout();
         return inventoryBox;
     }
 

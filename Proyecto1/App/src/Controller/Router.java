@@ -32,6 +32,9 @@ public class Router {
          * showUserMainScreen();
          */
 
+        user = UserType.ADMIN;
+        showUserMainScreen();
+
     }
 
     public void setUser(UserType user) {
@@ -72,7 +75,7 @@ public class Router {
         switchScreen(new RoomManaging(controller, pw));
     }
 
-    public void goToInventoryScreen() {
+    public void goToInventoryScreen() throws Exception {
         switchScreen(new InventoryScreen(controller, pw));
     }
 

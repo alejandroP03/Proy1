@@ -18,33 +18,29 @@ public class ViewCalendar extends StackPane {
         DatePicker date_picker = new DatePicker();
         StackPane root = new StackPane(date_picker);
         date_picker.setVisible(false);
-        
 
         final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
             public DateCell call(final DatePicker datePicker) {
                 return new DateCell() {
-                    @Override public void updateItem(LocalDate item, boolean empty) {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
                         super.updateItem(item, empty);
                         for (LocalDate localDate : dates) {
                             if (item.equals(localDate)) {
                                 setStyle("-fx-background-color: #E29578;");
-                            }    
+                            }
                         }
                     }
                 };
             }
         };
 
-        
         date_picker.setDayCellFactory(dayCellFactory);
-        
-        DatePickerSkin skin = new DatePickerSkin(date_picker); 
-        Node datePicker = skin.getPopupContent();
 
+        DatePickerSkin skin = new DatePickerSkin(date_picker);
+        Node datePicker = skin.getPopupContent();
         
         root.getChildren().add(datePicker);
-
-        
 
         getChildren().add(root);
 

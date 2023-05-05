@@ -4,13 +4,14 @@
     -fx-fill-text: #454C52;
 }
 
-#inventory-title{
+#inventory-title {
     -fx-font-weight: 900;
     -fx-font-size: 36px;
+
 }
 
 
-#type-inventory .input{
+#type-inventory .input {
     -fx-background-color: #E29578;
 
     -fx-background-radius: 15px;
@@ -24,17 +25,17 @@
 
 }
 
-#type-inventory .combo-box .list-cell:selected{
+#type-inventory .combo-box .list-cell:selected {
     -fx-text-fill: white;
     -fx-font-weight: 600;
     -fx-font-size: 16px;
 }
 
-#type-inventory .combo-box .list-view .list-cell{
+#type-inventory .combo-box .list-view .list-cell {
     -fx-text-fill: #24292E;
 }
 
-#type-inventory .combo-box .arrow-button{
+#type-inventory .combo-box .arrow-button {
     -fx-background-image: url("../../assets/icons/arrow-selection-white.png");
     -fx-background-size: 22px;
     -fx-translate-x: -180px;
@@ -52,4 +53,56 @@
 
 #type-inventory .input:pressed {
     -fx-effect: dropshadow(three-pass-box, #e294788a, 5, 0.1, 4, 2);
+}
+
+.span-pane__inventory-item .label {
+    -fx-font-weight: 400;
+    -fx-font-size: 14px;
+    -fx-text-fill: #676E76;
+
+}
+
+.span-pane__inventory-item .text-room {
+    -fx-font-weight: 800;
+    -fx-font-size: 18px;
+    -fx-text-fill: #383F45;
+
+}
+
+.span-pane__inventory-item .check-box:disabled {
+    -fx-opacity: 1.0;
+
+}
+
+.span-pane__inventory-item .check-box .box {
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-background-color: #9EA5AD;
+}
+
+.span-pane__inventory-item .check-box:selected .box {
+    -fx-background-color: #006D77;
+    -fx-background-image: url("../../assets/icons/check.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 16px;
+    -fx-background-position: center;
+
+}
+
+.span-pane__inventory-item .check-box:selected .mark {
+    -fx-background-color: transparent;
+}
+
+.span-pane__inventory-item .vbox {
+    -fx-spacing: 15;
+    -fx-alignment: center-left;
+    -fx-min-width: 300px;
+    -fx-max-width: 300px;
+
+}
+
+.span-pane__inventory-item .badge-set {
+    -fx-perf-width: 100px;
+    -fx-max-width: 300px;
+    -fx-alignment: center-left;
 }

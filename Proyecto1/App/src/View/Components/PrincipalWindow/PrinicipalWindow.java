@@ -43,6 +43,7 @@ public abstract class PrinicipalWindow extends BorderPane {
             icon.getStyleClass().add("main-icon");
             icon.getStyleClass().add(ImgName);
             label.setText(textImg);
+            label.getStyleClass().add("inactive-text");
             switchSelectedStatusStyle();
             getStyleClass().add("option");
             setAlignment(Pos.CENTER);
@@ -160,7 +161,7 @@ public abstract class PrinicipalWindow extends BorderPane {
             {
                 getStyleClass().add("main-pane");
 
-                mainPane.setPadding(new Insets(5));
+                mainPane.setPadding(new Insets(20));
                 setContent(mainPane);
 
                 setFitToWidth(true);
