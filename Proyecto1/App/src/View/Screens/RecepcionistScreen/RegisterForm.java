@@ -61,5 +61,4 @@ public class RegisterForm extends VBox {
         return  vBox;
     }
 
-
 }

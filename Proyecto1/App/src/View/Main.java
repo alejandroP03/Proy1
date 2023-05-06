@@ -18,13 +18,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
-
-        // EntryPoint
-        Auth authScreen = new Auth();
+    public void start(Stage primaryStage) throws Exception {
         InventoryScreen inventoryScreen = new InventoryScreen();
-
-        Pane prb = new RoomManaging(); // Probar pestana principal Admin
         Pane inventoryRoom = new RoomInventory(); // Probar inventario habitaciones
         Pane inventoryFood = new FoodInventory(); // Probar inventario comidas
         Pane invetoryService = new ServicesInventory(); // Probar inventario servicios
@@ -35,23 +30,20 @@ public class Main extends Application {
         Pane registerForm = new RegisterForm(); // Probar fomrulario de registro
         Pane companionInfo = new CompanionInfo();
         Pane savedInfo = new DataSaved();
+        Pane checkout = new CheckOutScreen();
 
+        Scene scene = new Scene(checkout);
 
-        Scene scene = new Scene(registerForm);
-
-//        Scene scene = new Scene(new Calendar());  // PRobar el calendario
-
-    public void start(Stage primaryStage) throws Exception {
+        primaryStage.setScene(scene);
 
         primaryStage.setTitle("Panel con background color");
         primaryStage.setMinWidth(1125);
         primaryStage.setMinHeight(800);
-
-        new Router(primaryStage, new Controller());
+        primaryStage.show();
+//       new Router(primaryStage, new Controller());
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
 }
