@@ -87,6 +87,12 @@ public class Controller {
         return roomInfo;
     }
 
+    public void createRoom(String location, Map<Bed, Integer> mapBeds, Set<RoomFeatures> featuresList,
+            TypeRoom typeChoose) throws Exception {
+        hotel.getRoomsHandler().createNewRoom(location, false, mapBeds, featuresList, typeChoose);
+        hotel.getRoomsHandler().SavePersistentData();
+    }
+
     // ---------------------- Funciones para el adminsitrador ----------------------
 
     // ---------------------- Pantalla para el Administrador ----------------------
@@ -117,7 +123,7 @@ public class Controller {
         System.out.println("\n \n");
         switch (opcionStr) {
             case "1":
-                createRoom();
+
                 break;
             case "2":
                 loadDataRooms();
@@ -147,121 +153,6 @@ public class Controller {
                 System.out.println("\n \n");
                 break;
         }
-
-    }
-
-    /*
-     * Crea una nueva habitación dados los datos que se pasen por consola.
-     * <b>pre: </b>RoomsDataHandler debe estar inicializado. <br>
-     * <b>pos: </b>Se crea una nueva habitación y se guarda.
-     *
-     * @throws Exception <br>
-     */
-    private void createRoom() throws Exception {
-
-        System.out.println("------ Crear habitaciones------- ");
-        System.out.print("Cuantas habitaciones desea crear? : ");
-        String numRoomsStr = br.readLine();
-        int numRooms = Integer.parseInt(numRoomsStr);
-
-        for (int i = 1; i <= numRooms; i++) {
-            // Se inicializan los datos en 0
-            Bed[] typeBeds = Bed.values();
-            RoomFeatures[] typeFeeatures = RoomFeatures.values();
-            TypeRoom[] typeRooms = TypeRoom.values();
-
-            Map<Bed, Integer> mapBeds = new HashMap<Bed, Integer>();
-            Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
-
-            System.out.println("----------- Datos para la " + (i) + " habitacion -----------");
-            System.out.print("Ingrese la ubicacion de la habitacion: ");
-            String location = br.readLine();
-            boolean isMoreBeds = true;
-
-            // Creacion del mapa para las camas
-
-            while (isMoreBeds) {
-                System.out.println("Tipos de cama disponibles para agregar");
-                int x = 1;
-                for (Bed typeRoom : typeBeds) {
-                    System.out.println(x + "." + typeRoom);
-                    x++;
-                }
-
-                System.out.print("Elija el tipo de cama que desea agregar a la habitacion: ");
-                String chooseBedStr = br.readLine();
-                int chooseBed = Integer.parseInt(chooseBedStr);
-                Bed bedChoose = typeBeds[chooseBed - 1];
-                System.out.print("Cuantas camas de este tipo desea agregar? : ");
-                String numBedsStr = br.readLine();
-                int numBeds = Integer.parseInt(numBedsStr);
-                mapBeds.put(bedChoose, numBeds);
-
-                System.out.println(numBeds + " camas de tipo " + bedChoose + " han sido agregadas a la habitacion");
-
-                System.out.println("Desea agregar mas tipos de cama?");
-                System.out.println("1.Si \n2.No ");
-                System.out.print("Ingresar opcion: ");
-                String isMoreBedsStr = br.readLine();
-                int moreBeds = Integer.parseInt(isMoreBedsStr);
-                if (moreBeds == 2) {
-                    break;
-                }
-            }
-            // Creacion del set para las caracteristicas
-
-            while (isMoreBeds) {
-                System.out.println("Caracteristicas posibles para la habitacion:");
-                int x = 1;
-                for (RoomFeatures typeFeature : typeFeeatures) {
-                    System.out.println(x + "." + typeFeature);
-                    x++;
-                }
-                System.out.println("4. Ninguna");
-                System.out.print("Elija el tipo de caracteristica que tendra la habitacion: ");
-                String chooseFeatureStr = br.readLine();
-                if (chooseFeatureStr.equals("4"))
-                    break;
-                int chooseFeature = Integer.parseInt(chooseFeatureStr);
-                RoomFeatures featuresChoose = typeFeeatures[chooseFeature - 1];
-                featuresList.add(featuresChoose);
-
-                System.out.println("La caracteristica " + featuresChoose + " ha sido agregada");
-
-                System.out.println("Desea agregar mas caracterisitcas a la habitacion?");
-                System.out.println("1.Si \n2. No ");
-                System.out.print("Ingresar opcion: ");
-                String isMoreFeaturesStr = br.readLine();
-                int moreFeatures = Integer.parseInt(isMoreFeaturesStr);
-                if (moreFeatures == 2) {
-                    break;
-                }
-            }
-            // Creacion del tipo de room
-
-            System.out.println("Tipos posibles para la habitacion: ");
-            int x = 1;
-            for (TypeRoom typeRoom : typeRooms) {
-                System.out.println(x + "." + typeRoom);
-                x++;
-            }
-            System.out.print("Elija el tipo de la habitacion: ");
-            String chooseTypeStr = br.readLine();
-            int chooseType = Integer.parseInt(chooseTypeStr);
-            TypeRoom typeChoose = typeRooms[chooseType - 1];
-            System.out.println("La habitacion nueva sera de tipo: " + typeChoose);
-
-            hotel.getRoomsHandler().createNewRoom(location, false, mapBeds, featuresList, typeChoose);
-            hotel.getRoomsHandler().SavePersistentData();
-            System.out.println("La habitacion ha sido creada exitosamente!");
-
-        }
-        System.out.println("Desea hacer algo mas? \n1.Si \n2.No");
-        int masOpciones = Integer.parseInt(br.readLine());
-        if (masOpciones == 1)
-            showAdminScreen();
-        if (masOpciones == 2)
-            hotel.shutDown();
 
     }
 

@@ -50,23 +50,45 @@
 
 #create-room-tarjet {
 
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(226, 149, 120, 0.3) 2.36%, rgba(255, 255, 255, 0.3) 102.55%);
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(226, 148, 120, 0.514) 2.36%, rgba(255, 255, 255, 0.3) 102.55%);
     /* establece el color de fondo del panel */
     -fx-background-radius: 20px;
 
 }
 
-#button-form {
+#create-room-tarjet #title {
+    -fx-font-weight: 900;
+    -fx-font-size: 30px;
+    -fx-text-fill: #000000;
+
+}
+
+#create-room-tarjet #button-form {
+    -fx-background-image: url("../../assets/icons/plus.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 16px;
+}
+
+#create-room-tarjet .button {
+    -fx-min-width: 320px;
+    -fx-max-width: 320px;
+    -fx-min-height: 35px;
+    -fx-max-height: 35px;
     -fx-background-color: #E29578;
     -fx-background-radius: 8px;
-    -fx-border-width: 1px;
-    -fx-border-color: rgba(103, 110, 118, 0.16);
     -fx-border-radius: 8px;
-    -fx-effect: dropshadow(two-pass-box, rgba(103, 110, 118, 0.08), 2, 5, 0, 0);
+}
+
+#create-room-tarjet #button-form-add-room {
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
     -fx-text-fill: white;
-    -fx-min-width: 0px;
-    -fx-pref-width: 100%;
-    -fx-max-width: 17976931px;
+    -fx-background-image: url("../../assets/icons/arrow-right.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 205px;
+    -fx-background-size: 18px;
+
 }
 
 #info-rooms {
@@ -100,12 +122,12 @@
 
 #bed-selector,
 #bed-selector .input {
-    -fx-max-width: 270px;
-    -fx-min-width: 270px;
+    -fx-max-width: 250px;
+    -fx-min-width: 250px;
 }
 
 #bed-selector .combo-box .arrow-button {
-    -fx-translate-x: -230px;
+    -fx-translate-x: -210px;
 }
 
 #initial-date-form .input,

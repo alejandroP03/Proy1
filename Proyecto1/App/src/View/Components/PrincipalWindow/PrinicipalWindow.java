@@ -166,8 +166,8 @@ public abstract class PrinicipalWindow extends BorderPane {
 
                 setFitToWidth(true);
                 setFitToHeight(true);
-                setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
-                setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+                setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+                setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
             }
         };

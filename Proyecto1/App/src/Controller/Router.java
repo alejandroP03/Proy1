@@ -66,9 +66,14 @@ public class Router {
 
     private void switchScreen(Parent parent_screen) {
         Scene scene = new Scene(parent_screen);
+
         scene.getStylesheets().add("View/Styles/font.css");
 
+        double mainStageWidth = mainStage.getWidth();
+        double mainStageHeight = mainStage.getHeight();
         mainStage.setScene(scene);
+        mainStage.setWidth(mainStageWidth);
+        mainStage.setHeight(mainStageHeight);
         mainStage.show();
     }
 

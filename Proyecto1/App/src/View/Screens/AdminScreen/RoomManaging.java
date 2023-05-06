@@ -1,13 +1,11 @@
 package View.Screens.AdminScreen;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import Controller.Controller;
-import Controller.Hotel;
 import Model.HotelObjects.RoomRelated.Bed;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.TypeRoom;
@@ -23,15 +21,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class RoomManaging extends VBox {
-
-	public Hotel hotel = Hotel.getInstance();
 
 	public RoomManaging(Controller controller, PrinicipalWindow prinicipalWindow) {
 
@@ -41,16 +38,13 @@ public class RoomManaging extends VBox {
 		prinicipalWindow.setContent(mainScreen);
 		getChildren().add(prinicipalWindow);
 
-		// Agregar Crear una habitacion
-		VBox form = createRoom();
-
 		VBox centerElem = new VBox(loadRooms(), noFaresContainer());
+		BorderPane.setMargin(centerElem, new Insets(20));
+
 		centerElem.setSpacing(20);
 
-		// mainScreen;
-		mainScreen.setRight(form);
-		BorderPane.setMargin(centerElem, new Insets(20));
 		mainScreen.setCenter(centerElem);
+		mainScreen.setRight(createRoom(controller));
 
 	}
 
@@ -98,43 +92,42 @@ public class RoomManaging extends VBox {
 		return gridPane;
 	}
 
-	public VBox createRoom() {
-		Text title = new Text("Crear una habitacion");
-
+	public VBox createRoom(Controller controller) {
 		VBox form = new VBox();
+		form.setMaxHeight(670);
+		form.setAlignment(Pos.TOP_LEFT);
+		form.setPadding(new Insets(30));
 		form.setId("create-room-tarjet");
 
-		InputText locationInput = new InputText("Ubicacion", "E-527", "", "map");
+		Text title = new Text("Crear una habitacion");
+		title.setId("title");
+
+		InputText locationInput = new InputText("Ubicacion", "Piso 3", "Ubicación física", "map");
 		//
 		SelectorInput bedSelector = new SelectorInput("Tipo de cama", "Elegir tipo de cama", "tag", "",
 				new String[] { "King Plus", "King", "Queen", "Doble", "Simple", "Camarote", "Niños" },
 				Bed.values());
 		bedSelector.setId("bed-selector");
 
-		Button addBed = new Button("+");
-		
-
 		InputNumber numOfBeds = new InputNumber("", "Cantidad", 1, 10, 1);
 
-		final Map<Bed, Integer> mapBeds = new HashMap<Bed, Integer>();
-
-		final int[] countBed = { 0 };
+		Button addBed = new Button();
+		Map<Bed, Integer> mapBeds = new HashMap<Bed, Integer>();
 		addBed.setOnAction(e -> {
-
 			Bed bed = (Bed) bedSelector.getValue();
-			countBed[0] = Integer.parseInt(numOfBeds.getValue());
-			mapBeds.put(bed, countBed[0]);
-			System.out.println(mapBeds.get(bed));
-			System.out.println(bed.toString());
-
+			mapBeds.put(bed, Integer.parseInt(numOfBeds.getValue()));
 		});
 
-		Button addFeature = new Button("+");
+		HBox bedContainerInputs = new HBox(bedSelector, numOfBeds);
+		bedContainerInputs.setSpacing(10);
+		VBox bedContainer = new VBox(bedContainerInputs, addBed);
 
-		SelectorInput featuresSelector = new SelectorInput("Características", "", "", "",
+		SelectorInput featuresSelector = new SelectorInput("Características", "Puede seleccionar más de una", "", "",
 				new String[] { "Balcón", "Vista al paisaje", "Cocina" }, RoomFeatures.values());
 
-		final Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
+		Button addFeature = new Button();
+
+		Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
 		addFeature.setOnAction(e -> {
 			RoomFeatures feature = (RoomFeatures) featuresSelector.getValue();
 			featuresList.add(feature);
@@ -143,40 +136,33 @@ public class RoomManaging extends VBox {
 
 		});
 
-		SelectorInput typeRoomSelector = new SelectorInput("Tipo de habitación", "", "", "",
+		VBox featuresContainer = new VBox(featuresSelector, addFeature);
+
+		SelectorInput typeRoomSelector = new SelectorInput("Tipo de habitación", "Elegir tipo", "", "",
 				new String[] { "Estandar", "Suite", "Suite doble" }, TypeRoom.values());
 
-		Button addRoom = new Button("Agregar -->");
-
-		final TypeRoom[] typeRoom = { null };
-		final String[] location = { "" };
+		Button addRoom = new Button("Agregar");
 
 		addRoom.setOnAction(e -> {
-			typeRoom[0] = (TypeRoom) typeRoomSelector.getValue();
-			location[0] = locationInput.getValue();
+
+			TypeRoom typeRoom = (TypeRoom) typeRoomSelector.getValue();
+			String location = locationInput.getValue();
+
 			try {
-				hotel.getRoomsHandler().loadPersistentData();
+				controller.createRoom(location, mapBeds, featuresList, typeRoom);
 			} catch (Exception ex) {
-				throw new RuntimeException(ex);
-			}
-			try {
-				hotel.getRoomsHandler().createNewRoom(location[0], false, mapBeds, featuresList,
-						typeRoom[0]);
-			} catch (Exception ex) {
-				throw new RuntimeException(ex);
-			}
-			try {
-				hotel.getRoomsHandler().SavePersistentData();
-			} catch (IOException ex) {
-				throw new RuntimeException(ex);
+				System.out.println(ex.getMessage());
 			}
 
 		});
 
 		addBed.setId("button-form");
-		addRoom.setId("button-form");
-		form.getChildren().addAll(title, locationInput, bedSelector, numOfBeds, addBed, featuresSelector,
-				addFeature, typeRoomSelector, addRoom);
+		addFeature.setId("button-form");
+		addRoom.setId("button-form-add-room");
+
+		form.getChildren().addAll(title, locationInput, bedContainer, featuresContainer, typeRoomSelector, addRoom);
+
+		form.setSpacing(30);
 
 		return form;
 
@@ -189,16 +175,24 @@ public class RoomManaging extends VBox {
 		Label titleNoFare = new Label("Habitaciones sin tarifa");
 		titleNoFare.setId("title-no-fare");
 
-		TilePane container_cards = new TilePane();
+		FlowPane container_cards = new FlowPane();
+		container_cards.setPrefWrapLength(800);
 		container_cards.setHgap(10);
 		container_cards.setVgap(10);
 		container_cards.getChildren().addAll(noFareRoomBox(),
 				noFareRoomBox(),
 				noFareRoomBox(),
 				noFareRoomBox(),
+				noFareRoomBox(),
+				noFareRoomBox(),
+				noFareRoomBox(),
+				noFareRoomBox(),
+				noFareRoomBox(),
+				noFareRoomBox(),
 				noFareRoomBox()
 
 		);
+
 		container.getChildren().addAll(titleNoFare, container_cards);
 
 		return container;

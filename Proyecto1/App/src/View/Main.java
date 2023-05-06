@@ -10,8 +10,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Hotel PMS");
-        primaryStage.setMinWidth(1125);
-        primaryStage.setMinHeight(800);
+        primaryStage.setMinWidth(1500);
+        primaryStage.setMinHeight(900);
+        primaryStage.setX(100);
+        primaryStage.setY(100);
 
         new Router(primaryStage, new Controller());
     }
