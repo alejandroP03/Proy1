@@ -82,7 +82,7 @@ public class InventoryScreen extends VBox {
                 mainPane.setLeft(leftInfo);
                 break;
             case SERVICE:
-                inventoryBox = new ServicesInventory();
+                inventoryBox = new ServicesInventory(controller.getServiceStock());
                 break;
             default:
                 inventoryBox = new RoomInventory(this.controller.getRoomStock());

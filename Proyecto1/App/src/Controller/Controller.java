@@ -91,6 +91,10 @@ public class Controller {
         return hotel.getRestaurantHandler().getData();
     }
 
+    public Map<Object, Service> getServiceStock() {
+        return hotel.getServices().getData();
+    }
+
     // ---------------------- Funciones para el adminsitrador ----------------------
 
     // ---------------------- Pantalla para el Administrador ----------------------
