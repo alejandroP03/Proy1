@@ -2,11 +2,13 @@ package Controller;
 
 import Model.HotelObjects.UserType;
 import View.Components.PrincipalWindow.AdminPrincipalWindow;
+import View.Components.PrincipalWindow.EmployeePrincipalWindow;
 import View.Components.PrincipalWindow.PrinicipalWindow;
 import View.Components.PrincipalWindow.ReceptionistPrincipalWindow;
 import View.Screens.AdminScreen.RoomManaging;
 import View.Screens.AdminScreen.Inventory.InventoryScreen;
 import View.Screens.AuthScreen.Auth;
+import View.Screens.EmployeeScreen.PayService;
 import View.Screens.RecepcionistScreen.BookingScreen;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,11 +16,19 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Router {
     private UserType user;
     private Stage mainStage;
     private Controller controller;
     private PrinicipalWindow pw;
+
+    public ArrayList<String> testListFood = new ArrayList<>();
+
+
+
 
     public Router(Stage mainStage, Controller controller) {
         this.controller = controller;
@@ -32,7 +42,7 @@ public class Router {
          * showUserMainScreen();
          */
 
-        user = UserType.ADMIN;
+        user = UserType.EMPLOYEE;
         showUserMainScreen();
 
     }
@@ -56,7 +66,9 @@ public class Router {
                 switchScreen(new BookingScreen(controller, pw));
                 break;
             case EMPLOYEE:
-                switchScreen(new VBox(new Text("El que hizo pagar servicios lo hizo mal")));
+                testListFood.add("1");
+                pw = new EmployeePrincipalWindow(this, controller);
+                switchScreen(new PayService(controller, pw, testListFood, false));
                 break;
 
         }
@@ -82,5 +94,7 @@ public class Router {
     public void goToBookingScreen() {
         switchScreen(new BookingScreen(controller, pw));
     }
+
+
 
 }

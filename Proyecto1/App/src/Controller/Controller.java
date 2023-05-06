@@ -87,6 +87,10 @@ public class Controller {
         return roomInfo;
     }
 
+    public Map<Object, Food> getFoodStock() {
+        return hotel.getRestaurantHandler().getData();
+    }
+
     // ---------------------- Funciones para el adminsitrador ----------------------
 
     // ---------------------- Pantalla para el Administrador ----------------------
