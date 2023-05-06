@@ -1,0 +1,15 @@
+#input-employee-filters, #input-employee-filters .input{
+    -fx-max-width: 200px;
+    -fx-min-width: 200px;
+}
+
+#input-employee-filters .combo-box .arrow-button{
+    -fx-translate-x: -150px;
+}
+
+#title-menu{
+    -fx-font-weight: 600;
+    -fx-font-size: 36px;
+    -fx-line-height: 44px;
+
+}

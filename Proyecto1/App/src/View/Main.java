@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    @Override
+
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Hotel PMS");
         primaryStage.setMinWidth(1500);
@@ -16,10 +16,13 @@ public class Main extends Application {
         primaryStage.setY(100);
 
         new Router(primaryStage, new Controller());
+        primaryStage.show();
+//       new Router(primaryStage, new Controller());
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
 }
+
+

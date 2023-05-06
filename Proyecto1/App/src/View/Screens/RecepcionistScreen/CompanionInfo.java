@@ -6,6 +6,7 @@ import View.Components.PrincipalWindow.PrinicipalWindow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.Pane;
@@ -20,19 +21,20 @@ public class CompanionInfo extends VBox {
         prinicipalWindow.setContent(mainPane);
         VBox vbox = new VBox();
         Label title = new Label("Datos de los acompanantes");
-        title.setStyle("-fx-font-weight: 700;" + "-fx-font-size: 24px;" + "-fx-line-height: 32px;");
-
-        vbox.getChildren().addAll(title, addAccordion(4));
+        Button continueBtn = new Button("Continuar -->");
+        continueBtn.setId("button-form");
+        title.setStyle("-fx-font-weight: 700;"+ "-fx-font-size: 24px;" + "-fx-line-height: 32px;" );
+        vbox.getChildren().addAll(title,addAccordion(4), continueBtn );
         vbox.setAlignment(Pos.CENTER);
-        vbox.setPadding(new Insets(30, 80, 40, 80));
-        vbox.setSpacing(20);
-
+        vbox.setPadding(new Insets(30,80,40,80));
+        vbox.setSpacing(25);
         mainPane.getChildren().add(vbox);
         getChildren().add(prinicipalWindow);
     }
 
     public Accordion addAccordion(int nCompanion) {
         Accordion accordion = new Accordion();
+        accordion.setStyle("-fx-accordion-button-color: white");
         for (int i = 1; i <= nCompanion; i++) {
             addInfo("Huesped " + i, accordion);
             System.out.println(i);

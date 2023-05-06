@@ -26,17 +26,9 @@ public class RegisterForm extends VBox {
         borderPane.setLeft(isReserve());
         borderPane.setRight(guestForm());
         borderPane.setPadding(new Insets(70));
-
-        // GridPane contenPane = new GridPane();
-        // contenPane.setAlignment(Pos.CENTER);
-        // contenPane.add(isReserve(),0,0);
-        // contenPane.add(guestForm(),1,0);
-        // contenPane.setGridLinesVisible(true);
-        // contenPane.setHgap(200);
-        // contenPane.setPadding(new Insets(50));
-
         mainPane.getChildren().add(borderPane);
         getChildren().add(prinicipalWindow);
+
     }
 
     public GridPane isReserve() {
@@ -45,17 +37,15 @@ public class RegisterForm extends VBox {
         InputText id = new InputText("Cedula", "103938234842", "", "person");
         CheckBox checkBox = new CheckBox("");
         Button searchBtn = new Button("Buscar -->");
-
         GridPane gridPane = new GridPane();
 
         gridPane.add(titleReserve, 0, 0);
         gridPane.add(checkBox, 1, 0);
         gridPane.add(id, 0, 1);
-
         gridPane.add(searchBtn, 1, 2);
         gridPane.setHgap(-70);
-
         return gridPane;
+
     }
 
     public VBox guestForm() {
