@@ -631,11 +631,7 @@ public class Controller {
         System.out.print("Número de acompañantes: ");
         int numberOfGuests = Integer.parseInt(br.readLine());
 
-        // System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
-        // LocalDate initialDate = LocalDate.parse(br.readLine());
-        //
-        // System.out.print("Número de dias de la estadía: ");
-        // LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
+
         ArrayList<LocalDate> localDates = getGoodDates(false);
 
         bookingHdlr.createBooking(reserviourName, reserviourDNI, reserviourPhone, reserviourMail,
@@ -664,6 +660,8 @@ public class Controller {
         }
 
     }
+
+
 
     private List<String> selectRooms(boolean isForNow, LocalDate initialDate, LocalDate finalDate) throws Exception {
         List<String> selectedRoomsIds = new ArrayList<String>();

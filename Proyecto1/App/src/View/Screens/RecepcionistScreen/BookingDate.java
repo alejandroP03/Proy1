@@ -1,18 +1,19 @@
 package View.Screens.RecepcionistScreen;
 
 import Controller.Controller;
+import View.Components.Calendars.Calendar;
+import View.Components.MenuCreateBooking;
 import View.Components.PrincipalWindow.PrinicipalWindow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+
+import java.time.LocalDate;
 
 public class BookingDate extends VBox {
+
 
     public BookingDate(Controller controller, PrinicipalWindow prinicipalWindow) {
         getStylesheets().add("View/Styles/recepcionist/recepcionistScreens.css");
@@ -28,46 +29,64 @@ public class BookingDate extends VBox {
 
         vbox.setPadding(new Insets(30, 80, 40, 80));
         vbox.setSpacing(50);
+
         mainPane.getChildren().add(vbox);
         getChildren().add(prinicipalWindow);
     }
 
-    public Label titleMenu(String page) {
-        Label rooms = new Label("Habitaciones  > Fecha > Huesped > Resumen");
-        return rooms;
+    public HBox titleMenu(String page) {
+        MenuCreateBooking topMenuBooking = new MenuCreateBooking();
+
+        return  topMenuBooking;
     }
 
     public GridPane datePick() {
         Label title = new Label("Seleccionar fecha");
-        DatePicker datePicker = new DatePicker();
+        Calendar calendario = new Calendar();
+        LocalDate[] dates = calendario.getDateRange();
+
+
         title.setId("title-date-picker");
         GridPane gridPane = new GridPane();
         gridPane.setVgap(40);
         gridPane.setHgap(50);
         gridPane.add(title, 0, 0);
-        gridPane.add(datePicker, 0, 1);
+        gridPane.add(calendario, 0, 1);
 
         return gridPane;
 
     }
 
     public GridPane infPrice() {
-        Label priceTitle = new Label("Precio Total");
+        Label priceTitle = new Label("Fechas \nseleccionadas");
         priceTitle.setId("title-date-price");
-        Label days = new Label("7 noches");
-        days.setId("info-date-price");
-        Label price = new Label(" 40000 $");
-        price.setId("info-date-price");
+        Label startDate = new Label("Fecha inicial");
+        startDate.setId("info-date-price");
+        Label startDateinfo = new Label(" 10/10/2023");
+        startDateinfo.setId("info-date-price");
+
+        Label finalDate = new Label("Fecha final");
+        finalDate.setId("info-date-price");
+        Label finalDateInfo = new Label(" 10/10/2023");
+        finalDateInfo.setId("info-date-price");
+
         // Grid del precio
         GridPane priceGrid = new GridPane();
-        priceGrid.add(price, 0, 0);
         priceGrid.setVgap(15);
-        HBox infoPrice = new HBox();
-        infoPrice.setSpacing(100);
-        infoPrice.getChildren().addAll(days, price);
+        HBox infoStart = new HBox();
+        infoStart.setSpacing(100);
+        infoStart.getChildren().addAll(startDate, startDateinfo);
+
+        HBox infoFinal = new HBox();
+        infoFinal.setSpacing(100);
+        infoFinal.getChildren().addAll(finalDate, finalDateInfo);
+
         priceGrid.add(priceTitle, 0, 0);
-        priceGrid.add(infoPrice, 0, 1);
-        priceGrid.setAlignment(Pos.BOTTOM_RIGHT);
+        priceGrid.add(infoStart, 0, 1);
+        priceGrid.add(infoFinal, 0, 2);
+
+
+        priceGrid.setAlignment(Pos.CENTER_RIGHT);
         return priceGrid;
     }
 }
