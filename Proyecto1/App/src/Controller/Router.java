@@ -42,7 +42,7 @@ public class Router {
          * showUserMainScreen();
          */
 
-        user = UserType.EMPLOYEE;
+        user = UserType.ADMIN;
         showUserMainScreen();
 
     }
