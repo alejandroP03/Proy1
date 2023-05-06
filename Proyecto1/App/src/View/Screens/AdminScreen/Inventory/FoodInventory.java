@@ -99,9 +99,9 @@ public class FoodInventory extends VBox {
                 private Node[] nodes;
 
                 public FoodNodes(Food food){
-                        String id = food.getName();
+                        String foodName = food.getName();
 
-                        Text name = new Text(id.substring(0,1).toUpperCase() + id.substring(1).toLowerCase()){
+                        Text name = new Text(foodName.substring(0,1).toUpperCase() + foodName.substring(1).toLowerCase()){
                                 {
                                         getStyleClass().add("text-food");
                                 }

@@ -1,5 +1,7 @@
 package View.Screens.AdminScreen.Inventory;
 
+import Model.HotelObjects.Service;
+import View.Components.Badge.BagdeSet;
 import View.Components.Inputs.SelectorInput;
 import View.Components.ObjectLists.ObjectsList;
 import javafx.geometry.Pos;
@@ -11,9 +13,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.util.Map;
+
 public class ServicesInventory extends VBox {
 
-        public ServicesInventory() {
+        public ServicesInventory(Map<Object, Service> servicesInfo) {
                 Label title = new Label("Filtros");
                 title.getStyleClass().add("filter-title");
 
@@ -41,6 +45,35 @@ public class ServicesInventory extends VBox {
                 setAlignment(Pos.TOP_CENTER);
                 getChildren().addAll(filterGrid, servicesList);
                 setSpacing(20);
+
+        }
+
+
+        private Node[] serviceNodes(Service service){
+
+                String serviceName = service.getName();
+                Text name = new Text(serviceName.substring(0,1).toUpperCase() + serviceName.substring(1).toLowerCase()){
+                        {
+                                getStyleClass().add("text-service");
+                        }
+                };
+
+                Text schedule = new Text(service.getInitialTime().toString() + '-' + service.getFinalTime().toString()){
+                        {
+                                getStyleClass().add("schedule-service");
+                        }
+                };
+
+                Node[] nodes = new Node[0];
+
+                return nodes;
+
+        }
+
+        private class ServiceNodes {
+                private Node[] nodes;
+
+                public ServiceNodes(){}
 
         }
 
