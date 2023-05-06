@@ -65,16 +65,16 @@ public class Router {
     }
 
     private void switchScreen(Parent parent_screen) {
+
         Scene scene = new Scene(parent_screen);
-
         scene.getStylesheets().add("View/Styles/font.css");
-
         double mainStageWidth = mainStage.getWidth();
         double mainStageHeight = mainStage.getHeight();
         mainStage.setScene(scene);
         mainStage.setWidth(mainStageWidth);
         mainStage.setHeight(mainStageHeight);
         mainStage.show();
+
     }
 
     // ADMIN SCREENS
@@ -102,4 +102,9 @@ public class Router {
     public void goToCheckOut(){switchScreen(new CheckOutScreen(controller,pw)); }
 
     public void goToCancelBooking(){switchScreen(new CancelBooking(controller,pw)); }
+    public void goToFormGuest(){switchScreen(new InfoGuest(controller,pw));}
+
+    public void goToSaveData(){switchScreen(new DataSaved(controller,pw));}
+
+    public void goToBookingDate(){switchScreen(new BookingDate(controller,pw));}
 }

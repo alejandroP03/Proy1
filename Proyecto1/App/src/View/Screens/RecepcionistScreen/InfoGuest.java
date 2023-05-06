@@ -22,7 +22,7 @@ public class InfoGuest extends VBox {
         prinicipalWindow.setContent(mainPane);
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().add(titleMenu("asp"));
+
         vbox.getChildren().add(guestForm());
         vbox.setPadding(new Insets(30, 80, 40, 80));
         vbox.setSpacing(50);
@@ -46,6 +46,11 @@ public class InfoGuest extends VBox {
         Button sendForm = new Button("Ingresar -->");
 
         sendForm.setOnAction(e -> {
+            String getName = name.getValue();
+            String getPhone = phone.getValue();
+            String getId = id.getValue();
+            String getCard = card.getValue();
+            String getNumGuests = numGuests.getValue();
 
         });
 

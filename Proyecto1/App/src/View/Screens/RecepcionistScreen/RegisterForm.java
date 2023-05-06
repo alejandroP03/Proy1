@@ -19,10 +19,14 @@ public class RegisterForm extends VBox {
         getStylesheets().add("View/Styles/recepcionist/recepcionistScreens.css");
         setVgrow(prinicipalWindow, Priority.ALWAYS);
 
+
         Pane mainPane = new VBox();
         prinicipalWindow.setContent(mainPane);
         setAlignment(Pos.CENTER);
+
         BorderPane borderPane = new BorderPane();
+        mainPane.getChildren().clear();
+
         borderPane.setLeft(isReserve());
         borderPane.setRight(guestForm());
         borderPane.setPadding(new Insets(70));

@@ -661,7 +661,10 @@ public class Controller {
 
     }
 
-
+    public ArrayList<Room> freeRooms(){
+        ArrayList<Room> freeRoomsList;
+        return freeRoomsList = new ArrayList<Room>(hotel.getFreeRooms().values());
+    }
 
     private List<String> selectRooms(boolean isForNow, LocalDate initialDate, LocalDate finalDate) throws Exception {
         List<String> selectedRoomsIds = new ArrayList<String>();

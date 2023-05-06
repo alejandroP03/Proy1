@@ -23,7 +23,8 @@ public class BookingDate extends VBox {
         prinicipalWindow.setContent(mainPane);
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().add(titleMenu("asp"));
+
+        //vbox.getChildren().add(titleMenu("asp"));
         vbox.getChildren().add(datePick());
         vbox.getChildren().add(infPrice());
 
@@ -44,6 +45,9 @@ public class BookingDate extends VBox {
         Label title = new Label("Seleccionar fecha");
         Calendar calendario = new Calendar();
         LocalDate[] dates = calendario.getDateRange();
+        pickDates(dates);
+//        System.out.println(dates[0] );
+//        System.out.println(dates[1] );
 
 
         title.setId("title-date-picker");
@@ -54,7 +58,10 @@ public class BookingDate extends VBox {
         gridPane.add(calendario, 0, 1);
 
         return gridPane;
+    }
 
+    public LocalDate[] pickDates(LocalDate[] dates){
+        return dates;
     }
 
     public GridPane infPrice() {

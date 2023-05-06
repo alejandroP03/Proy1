@@ -127,5 +127,14 @@
 
 }
 
+#active-top-text{
+    -fx-text-fill: #006D77;
+    -fx-font-weight: 500;
+    -fx-font-size: 14px;
+}
+
+#inactive-top-text{
+    -fx-text-fill: grey;
+}
 
 

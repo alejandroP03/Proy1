@@ -32,6 +32,8 @@ public abstract class PrinicipalWindow extends BorderPane {
 
     abstract public VBox lateralMenu();
 
+    abstract public HBox topMenu();
+
     public class VerticalIconText extends VBox {
         boolean isSelected;
         Pane icon = new Pane();
@@ -160,10 +162,10 @@ public abstract class PrinicipalWindow extends BorderPane {
         ScrollPane scrollPane = new ScrollPane() {
             {
                 getStyleClass().add("main-pane");
-
                 mainPane.setPadding(new Insets(20));
+//
+                mainPane.getChildren().add( topMenu());
                 setContent(mainPane);
-
                 setFitToWidth(true);
                 setFitToHeight(true);
                 setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
