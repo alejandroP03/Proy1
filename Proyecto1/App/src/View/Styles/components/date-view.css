@@ -1,4 +1,31 @@
-.date-picker-popup .cell:hover {
+.date-picker-popup .cell {
+    -fx-border-radius: 50px;
+    -fx-background-radius: 50px;
+
+    -fx-min-width: 38px;
+    -fx-max-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-height: 38px;
+    -fx-padding: 1;
+}
+
+.date-picker-popup {
+    -fx-min-width: 300px;
+    -fx-max-width: 300px;
+    -fx-min-height: 350px;
+    -fx-max-height: 350px;
+    -fx-background-color: #F6F7F9;
+    -fx-background-radius: 16px;
+    -fx-font-size: 18px;
+    -fx-text-fill: black;
+    -fx-font-family: "Inter";
+    -fx-prompt-text-fill: #A9A9A9;
+}
+
+.date-picker-popup .cell:hover,
+.date-picker-popup .cell:selected,
+.date-picker-popup .cell:pressed,
+.date-picker-popup .cell:focused {
     -fx-background-color: white;
     -fx-text-fill: black;
 }

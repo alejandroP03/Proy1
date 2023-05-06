@@ -1,7 +1,12 @@
 package Controller;
 
 import Model.HotelObjects.UserType;
+import View.Components.PrincipalWindow.AdminPrincipalWindow;
+import View.Components.PrincipalWindow.PrinicipalWindow;
+import View.Components.PrincipalWindow.ReceptionistPrincipalWindow;
+import View.Screens.AdminScreen.CreateServiceScreen;
 import View.Screens.AdminScreen.RoomManaging;
+import View.Screens.AdminScreen.Inventory.InventoryScreen;
 import View.Screens.AuthScreen.Auth;
 import View.Screens.RecepcionistScreen.BookingScreen;
 import javafx.scene.Parent;
@@ -14,11 +19,22 @@ public class Router {
     private UserType user;
     private Stage mainStage;
     private Controller controller;
+    private PrinicipalWindow pw;
 
     public Router(Stage mainStage, Controller controller) {
         this.controller = controller;
         this.mainStage = mainStage;
         switchScreen(new Auth(this, controller));
+
+        // TODO Para probar una pantalla solo agreguen estas lineas con los valores
+        // correspondientes
+        /*
+         * user = UserType.ADMIN;
+         * showUserMainScreen();
+         */
+
+        user = UserType.ADMIN;
+        showUserMainScreen();
 
     }
 
@@ -33,10 +49,12 @@ public class Router {
     public void showUserMainScreen() {
         switch (user) {
             case ADMIN:
-                switchScreen(new RoomManaging(controller));
+                pw = new AdminPrincipalWindow(this, controller);
+                switchScreen(new RoomManaging(controller, pw));
                 break;
             case RECEPTIONIST:
-                switchScreen(new BookingScreen());
+                pw = new ReceptionistPrincipalWindow(this);
+                switchScreen(new BookingScreen(controller, pw));
                 break;
             case EMPLOYEE:
                 switchScreen(new VBox(new Text("El que hizo pagar servicios lo hizo mal")));
@@ -46,10 +64,29 @@ public class Router {
 
     }
 
-    public void switchScreen(Parent parent_screen) {
+    private void switchScreen(Parent parent_screen) {
         Scene scene = new Scene(parent_screen);
+        scene.getStylesheets().add("View/Styles/font.css");
+
         mainStage.setScene(scene);
         mainStage.show();
+    }
+
+    // ADMIN SCREENS
+    public void goToRoomManaging() {
+        switchScreen(new RoomManaging(controller, pw));
+    }
+
+    public void goToServicesManaging() {
+        switchScreen(new CreateServiceScreen(controller, pw));
+    }
+
+    public void goToInventoryScreen() throws Exception {
+        switchScreen(new InventoryScreen(controller, pw));
+    }
+
+    public void goToBookingScreen() {
+        switchScreen(new BookingScreen(controller, pw));
     }
 
 }

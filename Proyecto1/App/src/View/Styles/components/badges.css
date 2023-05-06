@@ -1,0 +1,36 @@
+#badge:disabled {
+    -fx-min-width: 52px;
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-weight: 500;
+    -fx-font-size: 12px;
+    -fx-padding: 8px;
+    -fx-opacity: 1.0;
+
+}
+
+#badge .label {
+    -fx-min-width: 52px;
+    -fx-pref-width: 52px;
+    -fx-max-width: 120px;
+}
+
+.badge-red,
+.badge-red .label {
+    -fx-text-fill: #CD3636;
+    -fx-background-color: #FDE9E9;
+}
+
+.badge-green,
+.badge-green .label {
+    -fx-text-fill: #2F9461;
+    -fx-background-color: #D9F9E6;
+}
+
+.badge-yellow,
+.badge-yellow .label {
+    -fx-text-fill: #C8811A;
+    -fx-background-color: #FBF2CB;
+}

@@ -1,30 +1,48 @@
 package View.Screens.AdminScreen.Inventory;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import Model.HotelObjects.RoomRelated.Bed;
+import Model.HotelObjects.RoomRelated.Room;
+import Model.HotelObjects.RoomRelated.RoomFares;
+import Model.HotelObjects.RoomRelated.RoomFeatures;
+import Model.HotelObjects.RoomRelated.TypeRoom;
+import View.Components.Badge.Badge;
+import View.Components.Badge.Badge.BadgeColors;
+import View.Components.Badge.BagdeSet;
+import View.Components.Calendars.ViewCalendar;
 import View.Components.Inputs.SelectorInput;
 import View.Components.ObjectLists.ObjectsList;
-import View.Components.ObjectLists.SpanableObjectsList;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class RoomInventory extends VBox {
 
-        public RoomInventory() {
+        public RoomInventory(Map<Room, RoomFares> roomsInfo) {
+
                 Text title = new Text("Filtros");
                 title.getStyleClass().add("filter-title");
 
                 SelectorInput menuType = new SelectorInput("Tipo de habitación", "", "", "",
-                                new String[] { "Bebida", "Comida" });
+                                new String[] { "Estandar", "Suite", "SuiteDoble" }, TypeRoom.values());
 
                 SelectorInput menuFeatures = new SelectorInput("Caracteristica", "", "", "",
-                                new String[] { "Bebida", "Comida" });
+                                new String[] { "Balcón", "Vista al paisaje", "Cocina" }, RoomFeatures.values());
 
-                SelectorInput menuBeds = new SelectorInput("Cama", "", "", "", new String[] { "Bebida", "Comida" });
+                SelectorInput menuBeds = new SelectorInput("Cama", "", "", "",
+                                new String[] { "King plus", "King", "Queen", "Doble", "Simple", "Camarote", "Niños",
+                                }, Bed.values());
 
                 // Se agrega a la grilla
                 GridPane filterGrid = new GridPane();
@@ -36,29 +54,150 @@ public class RoomInventory extends VBox {
                 filterGrid.add(menuFeatures, 1, 1);
                 filterGrid.add(menuBeds, 2, 1);
 
-                ObjectsList obj = new SpanableObjectsList(
-                                new String[] { "Nombre", "Camas", "Caracteristica", "Lugar", "Tipo" },
-                                new HBox());
-                // TODO Falta crear el span
+                ObjectsList obj = new ObjectsList(
+                                new String[] { "ID Habitación", "Camas", "Caracteristica", "Lugar", "Tipo" });
 
-                obj.addElem(new Node[] { new Text("Suite 444"), new Button("Hola"), new Text("Balcon"),
-                                new Text("Piso 4"),
-                                new Text("Suite") });
-                setAlignment(Pos.TOP_CENTER);
+                this.addElements(obj, roomsInfo);
 
                 getChildren().addAll(filterGrid, obj);
                 setSpacing(20);
-
+                setAlignment(Pos.TOP_CENTER);
         }
 
         public VBox leftBorder() {
                 Label title = new Label("Ocupacion");
                 VBox container = new VBox();
-                container.setPrefSize(202, 536);
+                container.setPrefSize(200, 530);
                 container.setId("ocuppied-container");
                 container.getChildren().add(title);
                 container.setAlignment(Pos.CENTER);
                 return container;
+        }
+
+        private void addElements(ObjectsList obj, Map<Room, RoomFares> roomsInfo) {
+                for (Map.Entry<Room, RoomFares> roomsInfoEntries : roomsInfo.entrySet()) {
+                        createRoomNodes(roomsInfoEntries.getKey(), roomsInfoEntries.getValue(), obj);
+
+                }
+
+        }
+
+        private void createRoomNodes(Room room, RoomFares roomFares, ObjectsList obj) {
+                Node[] nodes = new RoomNodes(room, roomFares).getNodes();
+
+                Pane span = getSpan(room, roomFares);
+
+                obj.addElem(nodes, span);
+        }
+
+        private Pane getSpan(Room room, RoomFares roomFares) {
+
+                Node[] nodes = new RoomNodes(room, roomFares).getNodes();
+
+                /* name, beds, features, place, type, isFull, bookedDates, datesWithFare */
+                FlowPane span = new FlowPane(Orientation.HORIZONTAL) {
+                        {
+                                setHgap(30);
+                                setVgap(40);
+                                setPrefWrapLength(250);
+                                getStyleClass().add("span-pane__inventory-item");
+
+                                getChildren().addAll(
+                                                new SpanElem("ID de habitación", nodes[0]),
+                                                new SpanElem("Lugar", nodes[3]),
+                                                new SpanElem("Camas", nodes[1]),
+                                                new SpanElem("Características", nodes[2]),
+                                                new SpanElem("Ocupada", nodes[5]),
+                                                new SpanElem("Tipo de habitación", nodes[4]),
+                                                new SpanElem("Fechas reservadas", nodes[6]),
+                                                new SpanElem("Fechas con tarifa", nodes[7]));
+
+                        }
+                };
+                return span;
+        }
+
+        private class SpanElem extends VBox {
+                public SpanElem(String label, Node node) {
+                        getChildren().addAll(new Label(label), node);
+                        getStyleClass().add("vbox");
+                }
+        }
+
+        private class RoomNodes {
+                private Node[] nodes;
+
+                public RoomNodes(Room room, RoomFares fare) {
+                        String id = room.getRoomId();
+                        Text name = new Text(id.substring(0, 1).toUpperCase() + id.substring(1).toLowerCase()) {
+                                {
+                                        getStyleClass().add("text-room");
+                                }
+                        };
+
+                        BagdeSet beds = new BagdeSet();
+                        for (Map.Entry<Bed, Integer> bedsEntries : room.getBeds().entrySet()) {
+                                beds.addBadge(new Badge(bedsEntries.getKey().getBedName() + ": "
+                                                + bedsEntries.getValue(), BadgeColors.GREEN));
+                        }
+
+                        BagdeSet features = new BagdeSet();
+
+                        for (Object feature : room.getFeaturesList().toArray()) {
+                                RoomFeatures feat = (RoomFeatures) feature;
+                                features.addBadge(new Badge(feat.getFeatureName(), BadgeColors.YELLOW));
+                        }
+
+                        Text place = new Text(room.getLocation()) {
+                                {
+                                        getStyleClass().add("text-room");
+
+                                }
+                        };
+
+                        CheckBox isFull = new CheckBox() {
+                                {
+                                        setSelected(room.getIsOcupied());
+                                        setDisable(true);
+                                }
+                        };
+
+                        BagdeSet type = new BagdeSet();
+
+                        type.addBadge(new Badge(room.getType().getTypeName(), BadgeColors.RED));
+
+                        List<LocalDate> dates = new ArrayList<LocalDate>();
+                        for (Map.Entry<LocalDate, LocalDate> datesEntry : room.getBookedDates().entrySet()) {
+                                for (LocalDate initDate = datesEntry.getKey(); initDate
+                                                .isBefore(datesEntry.getValue()); initDate = initDate.plusDays(1)) {
+                                        dates.add(initDate);
+                                }
+
+                        }
+                        LocalDate[] datesArr = dates.toArray(new LocalDate[] {});
+
+                        ViewCalendar bookedDates = new ViewCalendar(datesArr);
+
+                        List<LocalDate> datesFares = new ArrayList<LocalDate>();
+
+                        for (LocalDate initDate = LocalDate.now(); initDate
+                                        .isBefore(LocalDate.now().plusYears(1)); initDate = initDate.plusDays(1)) {
+                                if (fare != null && fare.hasFare(initDate, initDate.plusDays(1)))
+                                        datesFares.add(initDate);
+                        }
+
+                        LocalDate[] datesFaresArr = datesFares.toArray(new LocalDate[] {});
+
+                        ViewCalendar datesWithFare = new ViewCalendar(datesFaresArr);
+
+                        this.nodes = new Node[] { name, beds, features, place, type, isFull, bookedDates,
+                                        datesWithFare };
+                }
+
+                public Node[] getNodes() {
+                        return nodes;
+                }
+
         }
 
 }
