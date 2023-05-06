@@ -34,6 +34,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -69,7 +70,21 @@ public class RoomManaging extends VBox {
 		// Imagen personaje a la derecha
 		Image imagen = new Image("View/assets/images/Group 87.png");
 		ImageView imageView = new ImageView(imagen);
+		Button btn = new Button("Cargar");
 
+		btn.setAlignment(Pos.CENTER_LEFT);
+		btn.setOnAction(e -> {
+			try {
+				controller.loadRoomsFromFile();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			router.goToRoomManaging();
+		});
+		StackPane imageContainer = new StackPane(imageView, btn);
+		imageContainer.setAlignment(Pos.BOTTOM_RIGHT);
+		btn.toFront();
+		btn.setId("btn-load-rooms");
 		// agreagar cajas abajo izquierda
 		VBox vboxTextos = new VBox();
 		Integer[] nums = controller.getRoomsCount();
@@ -83,7 +98,7 @@ public class RoomManaging extends VBox {
 		borderPane.setPadding(new Insets(30, 0, 0, 25));
 		borderPane.setTop(title);
 		borderPane.setLeft(vboxTextos);
-		borderPane.setRight(imageView);
+		borderPane.setRight(imageContainer);
 
 		return borderPane;
 	}
@@ -202,7 +217,9 @@ public class RoomManaging extends VBox {
 		container.setSpacing(10);
 
 		Label titleNoFare = new Label("Habitaciones sin tarifa");
+		Label subTitleNoFare = new Label("Habitaciones sin tarifa en alguno de los siguientes 365 días:");
 		titleNoFare.setId("title-no-fare");
+		subTitleNoFare.setId("subtitle-no-fare");
 
 		FlowPane container_cards = new FlowPane();
 		container_cards.setPrefWrapLength(800);
@@ -213,7 +230,7 @@ public class RoomManaging extends VBox {
 			container_cards.getChildren().add(noFareRoomBox(room));
 		});
 
-		container.getChildren().addAll(titleNoFare, container_cards);
+		container.getChildren().addAll(titleNoFare, subTitleNoFare, container_cards);
 
 		return container;
 	}

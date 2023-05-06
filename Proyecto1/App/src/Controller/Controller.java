@@ -114,6 +114,14 @@ public class Controller {
         hotel.getFaresHandler().SavePersistentData();
     }
 
+    public void loadRoomsFromFile() throws Exception {
+        if (hotel.getRoomsHandler().getData().size() == 0 && hotel.getFaresHandler().getData().size() == 0) {
+            hotel.getRoomsHandler().loadPersistentData();
+            hotel.getFaresHandler().loadPersistentData();
+        }
+
+    }
+
     // ---------------------- Funciones para el adminsitrador ----------------------
 
     // ---------------------- Pantalla para el Administrador ----------------------
@@ -652,11 +660,6 @@ public class Controller {
         System.out.print("Número de acompañantes: ");
         int numberOfGuests = Integer.parseInt(br.readLine());
 
-        // System.out.print("Fecha del incio de la estadía (YYYY-MM-DD): ");
-        // LocalDate initialDate = LocalDate.parse(br.readLine());
-        //
-        // System.out.print("Número de dias de la estadía: ");
-        // LocalDate finalDate = initialDate.plusDays(Integer.parseInt(br.readLine()));
         ArrayList<LocalDate> localDates = getGoodDates(false);
 
         bookingHdlr.createBooking(reserviourName, reserviourDNI, reserviourPhone, reserviourMail,

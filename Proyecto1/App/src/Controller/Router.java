@@ -9,6 +9,7 @@ import View.Screens.AdminScreen.RoomManaging;
 import View.Screens.AdminScreen.Inventory.InventoryScreen;
 import View.Screens.AuthScreen.Auth;
 import View.Screens.EmployeeScreen.ShowMenu;
+import View.Screens.RecepcionistScreen.BookingDate;
 import View.Screens.RecepcionistScreen.BookingScreen;
 import View.Screens.RecepcionistScreen.CancelBooking;
 import View.Screens.RecepcionistScreen.CheckOutScreen;
@@ -57,7 +58,7 @@ public class Router {
                 break;
             case RECEPTIONIST:
                 pw = new ReceptionistPrincipalWindow(this);
-                switchScreen(new BookingScreen(controller, pw));
+                switchScreen(new BookingDate(controller, pw)); // TODO CAMBiar
                 break;
             case EMPLOYEE:
                 pw = new ReceptionistPrincipalWindow(this);

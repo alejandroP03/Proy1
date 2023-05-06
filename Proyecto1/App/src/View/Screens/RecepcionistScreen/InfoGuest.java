@@ -22,7 +22,6 @@ public class InfoGuest extends VBox {
         prinicipalWindow.setContent(mainPane);
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
-
         vbox.getChildren().add(titleMenu("asp"));
         vbox.getChildren().add(guestForm());
         vbox.setPadding(new Insets(30, 80, 40, 80));
@@ -45,6 +44,11 @@ public class InfoGuest extends VBox {
         InputText card = new InputText("Tarjeta de credito", "1111 0000 3333", "", "person");
         InputText numGuests = new InputText("Numero de huespedes", "3", "", "person");
         Button sendForm = new Button("Ingresar -->");
+
+        sendForm.setOnAction(e -> {
+
+        });
+
         VBox vBox = new VBox();
         sendForm.setId("button-form");
         vBox.setPadding(new Insets(0, 450, 0, 450));

@@ -5,11 +5,33 @@
 
 }
 
+#btn-load-rooms {
+    -fx-min-width: 130px;
+    -fx-max-width: 130px;
+    -fx-min-height: 50px;
+    -fx-max-height: 50px;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-background-color: #366463;
+    -fx-background-radius: 8px;
+    -fx-text-fill: white;
+    -fx-background-image: url("../../assets/icons/download.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 100px;
+    -fx-background-size: 20px;
+}
+
 #title-no-fare {
     -fx-font-weight: 700;
     -fx-font-size: 25px;
     -fx-text-fill: black;
 
+}
+
+#subtitle-no-fare {
+    -fx-font-weight: 600;
+    -fx-font-size: 15px;
+    -fx-text-fill: black;
 }
 
 #no-fare-card {
