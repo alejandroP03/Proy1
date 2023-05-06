@@ -1,6 +1,8 @@
 package View.Screens.RecepcionistScreen;
 
 import Controller.Controller;
+import Model.HotelObjects.RoomRelated.Room;
+import Model.HotelObjects.RoomRelated.RoomFeatures;
 import View.Components.Inputs.SelectorInput;
 import View.Components.ObjectLists.ObjectsList;
 import View.Components.PrincipalWindow.PrinicipalWindow;
@@ -15,17 +17,23 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BookingScreen extends VBox {
+
+    Controller controller;
+
     public BookingScreen(Controller controller, PrinicipalWindow prinicipalWindow) {
         getStylesheets().add("View/Styles/recepcionist/recepcionistScreens.css");
-
+        this.controller = controller;
         Pane mainPane = new VBox();
         prinicipalWindow.setContent(mainPane);
 
         setVgrow(prinicipalWindow, Priority.ALWAYS);
 
         VBox vbox = new VBox();
-        vbox.getChildren().add(titleMenu("sapo"));
+        //vbox.getChildren().add(titleMenu("sapo"));
         vbox.getChildren().add(filtersForm());
         vbox.getChildren().add(gridInfo());
         vbox.setSpacing(50);
@@ -67,13 +75,36 @@ public class BookingScreen extends VBox {
         return gridPane;
 
     }
-
     public ScrollPane gridInfo() {
         ObjectsList roomList = new ObjectsList(
                 new String[] { "Nombre", "Camas", "Caracteristicas", "Lugar", "Tipo", "" });
-        roomList.addElem(new Node[] { new Label("Suite 304"), new Label("King 1"), new Label("Balcon"),
-                new Label("Piso  3"), new Label("Suite"), new Button("+") });
+        addElements(roomList);
         return roomList;
+    }
+
+    public void addElements(ObjectsList roomList){
+        ArrayList<Room> freeRooms =  controller.freeRooms();
+        List<String> selectedRoomsIds = new ArrayList<String>();
+        for (Room availableRoom : freeRooms) {
+            String features = "";
+            for (RoomFeatures feature : availableRoom.getFeaturesList()) {
+                features += feature.getFeatureName();
+                features += ", ";
+            }
+            roomList.addElem(new Node[] { new Label(availableRoom.getRoomId()), new Label("King 1"), new Label(features),
+                    new Label(availableRoom.getLocation()), new Label(availableRoom.getType().getTypeName()), adderBtn(availableRoom.getRoomId(), selectedRoomsIds)
+            });
+        }
+    }
+    public Button adderBtn(String idRoom,  List<String> selectedRoomsIds){
+        Button addRoom = new Button("+");
+        addRoom.setOnMouseClicked(e -> {
+            selectedRoomsIds.add(idRoom);
+            //System.out.println(idRoom);
+        });
+
+        return addRoom;
+
     }
 
 }

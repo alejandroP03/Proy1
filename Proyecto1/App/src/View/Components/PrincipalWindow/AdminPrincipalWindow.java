@@ -4,6 +4,7 @@ import Controller.Controller;
 import Controller.Router;
 import Model.HotelObjects.UserType;
 import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class AdminPrincipalWindow extends PrinicipalWindow {
@@ -69,6 +70,11 @@ public class AdminPrincipalWindow extends PrinicipalWindow {
         pane.setAlignment(Pos.CENTER);
 
         return pane;
+    }
+
+    @Override
+    public HBox topMenu() {
+        return new HBox();
     }
 
 }

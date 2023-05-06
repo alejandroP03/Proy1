@@ -1,5 +1,6 @@
 package View.Screens.RecepcionistScreen;
 
+import Controller.Controller;
 import View.Components.PrincipalWindow.PrinicipalWindow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,7 +10,7 @@ import javafx.scene.layout.*;
 
 public class DataSaved  extends  VBox{
 
-    public DataSaved(PrinicipalWindow prinicipalWindow){
+    public DataSaved(Controller controller , PrinicipalWindow prinicipalWindow){
         getStylesheets().add("View/Styles/recepcionist/recepcionistScreens.css");
         setVgrow(prinicipalWindow, Priority.ALWAYS);
         Pane mainPane = new Pane();

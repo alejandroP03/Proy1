@@ -9,11 +9,7 @@ import View.Screens.AdminScreen.RoomManaging;
 import View.Screens.AdminScreen.Inventory.InventoryScreen;
 import View.Screens.AuthScreen.Auth;
 import View.Screens.EmployeeScreen.ShowMenu;
-import View.Screens.RecepcionistScreen.BookingDate;
-import View.Screens.RecepcionistScreen.BookingScreen;
-import View.Screens.RecepcionistScreen.CancelBooking;
-import View.Screens.RecepcionistScreen.CheckOutScreen;
-import View.Screens.RecepcionistScreen.RegisterForm;
+import View.Screens.RecepcionistScreen.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -70,16 +66,16 @@ public class Router {
     }
 
     private void switchScreen(Parent parent_screen) {
+
         Scene scene = new Scene(parent_screen);
-
         scene.getStylesheets().add("View/Styles/font.css");
-
         double mainStageWidth = mainStage.getWidth();
         double mainStageHeight = mainStage.getHeight();
         mainStage.setScene(scene);
         mainStage.setWidth(mainStageWidth);
         mainStage.setHeight(mainStageHeight);
         mainStage.show();
+
     }
 
     public void popUp(Parent parent_screen, Parent popUp) {
@@ -123,7 +119,14 @@ public class Router {
         switchScreen(new CheckOutScreen(controller, pw));
     }
 
-    public void goToCancelBooking() {
-        switchScreen(new CancelBooking(controller, pw));
-    }
+
+    public void goToCancelBooking(){switchScreen(new CancelBooking(controller,pw)); }
+    public void goToFormGuest(){switchScreen(new InfoGuest(controller,pw));}
+
+    public void goToSaveData(){switchScreen(new DataSaved(controller,pw));}
+
+    public void goToBookingDate(){switchScreen(new BookingDate(controller,pw));}
+
+
+
 }
