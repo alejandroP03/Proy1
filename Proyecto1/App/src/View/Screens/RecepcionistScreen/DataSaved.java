@@ -27,7 +27,6 @@ public class DataSaved  extends  VBox{
         borderPane.setRight(rightCard());
         borderPane.setPadding(new Insets(70));
 
-
         mainPane.getChildren().add(borderPane);
         getChildren().add(pw);
 
@@ -36,7 +35,6 @@ public class DataSaved  extends  VBox{
     public VBox leftCard(){
         Label title = new Label("Datos del Huesped");
         title.setId("data-guest");
-
         HBox name = addInfo("Nombre","JhonDoe");
         HBox phone =addInfo("Telefono","300495473");
         HBox id =addInfo("Cedula","100239320");
@@ -53,17 +51,14 @@ public class DataSaved  extends  VBox{
     public VBox rightCard(){
         Label title = new Label("Datos de la estadia");
         title.setId("data-guest");
-
         HBox time = addInfo("Tiempo de estadia","7 noches");
         HBox price =addInfo("Precio","750.000");
         HBox rooms =addInfo("Habitaciones","100239320");
-
         VBox vBox = new VBox();
         vBox.setSpacing(15);
         vBox.setPadding(new Insets(30));
         vBox.setId("card-data-guest");
         vBox.getChildren().addAll(title,time,price,rooms);
-
         return vBox;
     }
 

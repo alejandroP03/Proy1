@@ -17,17 +17,19 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    public void start(Stage primaryStage) throws Exception {
 
+    public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Hotel PMS");
         primaryStage.setMinWidth(1125);
         primaryStage.setMinHeight(800);
         new Router(primaryStage, new Controller());
-
+        primaryStage.show();
+//       new Router(primaryStage, new Controller());
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
 }
+
+
