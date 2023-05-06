@@ -54,7 +54,7 @@ public class Router {
         switch (user) {
             case ADMIN:
                 pw = new AdminPrincipalWindow(this, controller);
-                switchScreen(new RoomManaging(controller, pw, this));
+                    goToRoomManaging();
                 break;
             case RECEPTIONIST:
                 pw = new ReceptionistPrincipalWindow(this);
@@ -105,7 +105,7 @@ public class Router {
     }
 
     public void goToInventoryScreen() throws Exception {
-        switchScreen(new InventoryScreen(controller, pw));
+        switchScreen(new InventoryScreen(controller, pw, mainStage));
     }
 
     // prinicipal

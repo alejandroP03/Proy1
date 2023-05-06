@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class InventoryScreen extends VBox {
 
@@ -22,7 +23,7 @@ public class InventoryScreen extends VBox {
     Inventory requestedInventory = Inventory.ROOMS;
     BorderPane mainPane = new BorderPane();
 
-    public InventoryScreen(Controller controller, PrinicipalWindow prinicipalWindow) throws Exception {
+    public InventoryScreen(Controller controller, PrinicipalWindow prinicipalWindow, Stage stage) throws Exception {
         getStylesheets().add("View/Styles/admin/adminScreens.css");
         getStylesheets().add("View/Styles/admin/inventory.css");
         this.controller = controller;
@@ -76,7 +77,7 @@ public class InventoryScreen extends VBox {
                 inventoryBox = new FoodInventory();
                 break;
             case ROOMS:
-                inventoryBox = new RoomInventory(controller.getRoomStock());
+                inventoryBox = new RoomInventory(controller.getRoomStock(), controller);
                 VBox leftInfo = ((RoomInventory) inventoryBox).leftBorder();
                 BorderPane.setMargin(leftInfo, new Insets(0, 40, 0, 0));
                 mainPane.setLeft(leftInfo);
@@ -85,7 +86,7 @@ public class InventoryScreen extends VBox {
                 inventoryBox = new ServicesInventory();
                 break;
             default:
-                inventoryBox = new RoomInventory(this.controller.getRoomStock());
+                inventoryBox = new RoomInventory(this.controller.getRoomStock(), controller);
         }
 
         mainPane.setCenter(inventoryBox);

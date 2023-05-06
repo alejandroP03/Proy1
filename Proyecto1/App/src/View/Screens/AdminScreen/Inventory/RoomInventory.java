@@ -1,10 +1,12 @@
 package View.Screens.AdminScreen.Inventory;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import Controller.Controller;
 import Model.HotelObjects.RoomRelated.Bed;
 import Model.HotelObjects.RoomRelated.Room;
 import Model.HotelObjects.RoomRelated.RoomFares;
@@ -16,11 +18,14 @@ import View.Components.Badge.BagdeSet;
 import View.Components.Calendars.ViewCalendar;
 import View.Components.Inputs.SelectorInput;
 import View.Components.ObjectLists.ObjectsList;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -28,9 +33,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class RoomInventory extends VBox {
+        Controller controller;
 
-        public RoomInventory(Map<Room, RoomFares> roomsInfo) {
-
+        public RoomInventory(Map<Room, RoomFares> roomsInfo, Controller controller) {
+                this.controller = controller;
                 Text title = new Text("Filtros");
                 title.getStyleClass().add("filter-title");
 
@@ -65,13 +71,87 @@ public class RoomInventory extends VBox {
         }
 
         public VBox leftBorder() {
-                Label title = new Label("Ocupacion");
+                Label title = new Label("Ocupación");
+                title.getStyleClass().add("ocupation-title");
                 VBox container = new VBox();
+                container.setSpacing(20);
+                container.setPadding(new Insets(20));
                 container.setPrefSize(200, 530);
                 container.setId("ocuppied-container");
-                container.getChildren().add(title);
-                container.setAlignment(Pos.CENTER);
+                container.getChildren().addAll(title, gridDays());
+                container.setAlignment(Pos.TOP_CENTER);
                 return container;
+        }
+
+        private GridPane gridDays() {
+                GridPane grid = new GridPane();
+                grid.setHgap(7);
+                grid.setVgap(7);
+                grid.setAlignment(Pos.CENTER);
+                grid.setId("grid-days");
+
+                int[] ocupation = controller.getDayOcupation();
+                grid.add(new Label("L") {
+                        {
+                                setId("day-label");
+                        }
+                }, 1, 0);
+                grid.add(new Label("I") {
+                        {
+                                setId("day-label");
+                        }
+                }, 3, 0);
+                grid.add(new Label("V") {
+                        {
+                                setId("day-label");
+                        }
+                }, 5, 0);
+                grid.add(new Label("D") {
+                        {
+                                setId("day-label");
+                        }
+                }, 7, 0);
+
+                int i = 1;
+                Month month = LocalDate.now().getMonth();
+                for (LocalDate date = LocalDate.now(); date.isBefore(LocalDate.now().plusDays(365)); date = date
+                                .plusDays(1)) {
+                        int dayOcupation = ocupation[i - 1];
+                        Button day = new Button(dayOcupation + "");
+                        Tooltip tooltip = new Tooltip(date.toString() + "\n" + dayOcupation + " habitaciones ocupadas");
+                        Tooltip.install(day, tooltip);
+                        day.getStyleClass().add("day-button");
+                        int totalRooms = controller.getRoomsCount()[1];
+                        // Get percentage of ocupation nearest to (10 * (2n + 1))%
+                        int percentage = (int) Math.round((dayOcupation * 100.0) / totalRooms);
+
+                        if (1 < percentage && percentage <= 10)
+                                day.getStyleClass().add("ocup" + 10 + "pct");
+                        else if (10 < percentage && percentage <= 30)
+                                day.getStyleClass().add("ocup" + 30 + "pct");
+                        else if (30 < percentage && percentage <= 50)
+                                day.getStyleClass().add("ocup" + 50 + "pct");
+                        else if (50 < percentage && percentage <= 70)
+                                day.getStyleClass().add("ocup" + 70 + "pct");
+                        else if (70 < percentage && percentage <= 90)
+                                day.getStyleClass().add("ocup" + 90 + "pct");
+                        else if (percentage > 90)
+                                day.getStyleClass().add("ocup" + 100 + "pct");
+
+                        grid.add(day, (i % 7) + 1, (i++ / 7) + 1);
+                        if (date.getMonth() == month) {
+                                Label monthLabel = new Label(date.getMonth().toString().substring(0, 3));
+                                monthLabel.setId("day-label");
+                                monthLabel.setMinWidth(40);
+
+                                grid.add(monthLabel, 0, (i / 7) + 1);
+                                month = date.getMonth().plus(1);
+
+                        }
+
+                }
+
+                return grid;
         }
 
         private void addElements(ObjectsList obj, Map<Room, RoomFares> roomsInfo) {
