@@ -15,6 +15,7 @@ import View.Screens.RecepcionistScreen.CheckOutScreen;
 import View.Screens.RecepcionistScreen.RegisterForm;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Router {
@@ -35,7 +36,7 @@ public class Router {
          * showUserMainScreen();
          */
 
-        user = UserType.EMPLOYEE;
+        user = UserType.ADMIN;
         showUserMainScreen();
 
     }
@@ -52,7 +53,7 @@ public class Router {
         switch (user) {
             case ADMIN:
                 pw = new AdminPrincipalWindow(this, controller);
-                switchScreen(new RoomManaging(controller, pw));
+                switchScreen(new RoomManaging(controller, pw, this));
                 break;
             case RECEPTIONIST:
                 pw = new ReceptionistPrincipalWindow(this);
@@ -60,7 +61,7 @@ public class Router {
                 break;
             case EMPLOYEE:
                 pw = new ReceptionistPrincipalWindow(this);
-                switchScreen(new ShowMenu(controller,pw));
+                switchScreen(new ShowMenu(controller, pw));
                 break;
 
         }
@@ -80,9 +81,22 @@ public class Router {
         mainStage.show();
     }
 
+    public void popUp(Parent parent_screen, Parent popUp) {
+        Scene scene = new Scene(new StackPane(parent_screen, popUp));
+
+        scene.getStylesheets().add("View/Styles/font.css");
+
+        double mainStageWidth = mainStage.getWidth();
+        double mainStageHeight = mainStage.getHeight();
+        mainStage.setScene(scene);
+        mainStage.setWidth(mainStageWidth);
+        mainStage.setHeight(mainStageHeight);
+        mainStage.show();
+    }
+
     // ADMIN SCREENS
     public void goToRoomManaging() {
-        switchScreen(new RoomManaging(controller, pw));
+        switchScreen(new RoomManaging(controller, pw, this));
     }
 
     public void goToServicesManaging() {
@@ -98,11 +112,17 @@ public class Router {
         switchScreen(new BookingScreen(controller, pw));
     }
 
-    //Tiene reserva??
-    public void goToRegisterForm(){ switchScreen(new RegisterForm(controller,pw)); }
+    // Tiene reserva??
+    public void goToRegisterForm() {
+        switchScreen(new RegisterForm(controller, pw));
+    }
 
-    //checkout
-    public void goToCheckOut(){switchScreen(new CheckOutScreen(controller,pw)); }
+    // checkout
+    public void goToCheckOut() {
+        switchScreen(new CheckOutScreen(controller, pw));
+    }
 
-    public void goToCancelBooking(){switchScreen(new CancelBooking(controller,pw)); }
+    public void goToCancelBooking() {
+        switchScreen(new CancelBooking(controller, pw));
+    }
 }

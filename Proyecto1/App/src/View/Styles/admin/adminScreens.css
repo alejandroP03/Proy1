@@ -48,6 +48,29 @@
     -fx-text-fill: white;
 }
 
+#title-load-rooms {
+    -fx-font-weight: 700;
+    -fx-font-size: 35px;
+    -fx-text-fill: white;
+
+
+}
+
+#text-small-info {
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-font-size: 14px;
+
+
+}
+
+#num-small-info {
+    -fx-text-fill: white;
+    -fx-font-weight: 300;
+    -fx-font-size: 14px;
+
+}
+
 #create-room-tarjet {
 
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(226, 148, 120, 0.514) 2.36%, rgba(255, 255, 255, 0.3) 102.55%);
@@ -70,7 +93,8 @@
     -fx-background-size: 16px;
 }
 
-#create-room-tarjet .button {
+#create-room-tarjet #button-form,
+#create-room-tarjet #button-form-add-room {
     -fx-min-width: 320px;
     -fx-max-width: 320px;
     -fx-min-height: 35px;
@@ -136,8 +160,6 @@
     -fx-min-width: 100px;
 
 }
-
-
 
 #load-services-card {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #006D77 -70.66%, rgba(126, 193, 187, 0.62) 101.69%);

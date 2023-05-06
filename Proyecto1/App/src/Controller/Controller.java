@@ -74,7 +74,8 @@ public class Controller {
      * //TODO Volver estos metodos una clase (si queda tiempo)
      */
 
-    public Map<Room, RoomFares> getRoomStock() throws Exception {
+    public Map<Room, RoomFares> getRoomStock() {
+
         List<Room> roomMap = new ArrayList<Room>(hotel.getRoomsHandler().getData().values());
         Map<Object, RoomFares> roomFares = hotel.getFaresHandler().getData();
 
@@ -91,6 +92,26 @@ public class Controller {
             TypeRoom typeChoose) throws Exception {
         hotel.getRoomsHandler().createNewRoom(location, false, mapBeds, featuresList, typeChoose);
         hotel.getRoomsHandler().SavePersistentData();
+    }
+
+    public List<Room> getNoFareRooms() {
+
+        return getDifferentiatedRooms()[1];
+    }
+
+    public Integer[] getRoomsCount() {
+        Integer[] roomCount = new Integer[2];
+        roomCount[0] = getDifferentiatedRooms()[0].size();
+        roomCount[1] = getRoomStock().size();
+
+        return roomCount;
+    }
+
+    public void createFare(Set<Object> roomId, float fare, LocalDate startDate, LocalDate endDate,
+            ArrayList<DayOfWeek> daysOfWeek) throws Exception {
+        hotel.getFaresHandler().FareCreator(roomId, fare, startDate, endDate, daysOfWeek);
+        ;
+        hotel.getFaresHandler().SavePersistentData();
     }
 
     // ---------------------- Funciones para el adminsitrador ----------------------
