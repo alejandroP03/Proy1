@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class FoodInventory extends VBox {
 
-        public FoodInventory() {
+        public FoodInventory(Map<Object, Food> foodsInfo) {
 
                 Label title = new Label("Filtros");
                 title.getStyleClass().add("filter-title");
@@ -36,9 +36,10 @@ public class FoodInventory extends VBox {
 
                 ObjectsList foodList = new ObjectsList(
                                 new String[] { "Nombre", "Tipo", "Disponibilidad", "Room Service", "Precio" });
-                foodList.addElem(new Node[] { new Text("Suite 444"), new Button("Hola"), new Text("Balcon"),
-                                new Text("Piso 4"), new Text("Suite"), new HBox() });
+                
 
+
+                this.addElements(foodList, foodsInfo);
                 setAlignment(Pos.TOP_CENTER);
                 getChildren().addAll(filterGrid, foodList);
                 setSpacing(20);
