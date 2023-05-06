@@ -1,14 +1,25 @@
 package View.Screens.AdminScreen;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import Controller.Controller;
+import Controller.Router;
 import Model.HotelObjects.RoomRelated.Bed;
+import Model.HotelObjects.RoomRelated.Room;
 import Model.HotelObjects.RoomRelated.RoomFeatures;
 import Model.HotelObjects.RoomRelated.TypeRoom;
+import View.Components.Badge.Badge;
+import View.Components.Badge.Badge.BadgeColors;
+import View.Components.Badge.BagdeSet;
+import View.Components.Inputs.InputDate;
+import View.Components.Inputs.InputDays;
 import View.Components.Inputs.InputNumber;
 import View.Components.Inputs.InputText;
 import View.Components.Inputs.SelectorInput;
@@ -20,17 +31,22 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class RoomManaging extends VBox {
+	Controller controller;
+	PrinicipalWindow prinicipalWindow;
+	Router router;
 
-	public RoomManaging(Controller controller, PrinicipalWindow prinicipalWindow) {
+	public RoomManaging(Controller controller, PrinicipalWindow prinicipalWindow, Router router) {
+		this.controller = controller;
+		this.prinicipalWindow = prinicipalWindow;
+		this.router = router;
 
 		getStylesheets().add("View/Styles/admin/adminScreens.css");
 		setVgrow(prinicipalWindow, Priority.ALWAYS);
@@ -44,19 +60,35 @@ public class RoomManaging extends VBox {
 		centerElem.setSpacing(20);
 
 		mainScreen.setCenter(centerElem);
-		mainScreen.setRight(createRoom(controller));
+		mainScreen.setRight(createRoom());
 
 	}
 
 	public BorderPane loadRooms() {
-		Label titulo = new Label("Carga un archivo de habitaciones!");
+		Label title = new Label("Carga un archivo de habitaciones!");
+		title.setId("title-load-rooms");
 		// Imagen personaje a la derecha
 		Image imagen = new Image("View/assets/images/Group 87.png");
 		ImageView imageView = new ImageView(imagen);
+		Button btn = new Button("Cargar");
 
+		btn.setAlignment(Pos.CENTER_LEFT);
+		btn.setOnAction(e -> {
+			try {
+				controller.loadRoomsFromFile();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			router.goToRoomManaging();
+		});
+		StackPane imageContainer = new StackPane(imageView, btn);
+		imageContainer.setAlignment(Pos.BOTTOM_RIGHT);
+		btn.toFront();
+		btn.setId("btn-load-rooms");
 		// agreagar cajas abajo izquierda
 		VBox vboxTextos = new VBox();
-		vboxTextos.getChildren().addAll(smallInfoRooms("Agregadas"), smallInfoRooms("Sin tarifas"));
+		Integer[] nums = controller.getRoomsCount();
+		vboxTextos.getChildren().addAll(smallInfoRooms("Agregadas", nums[1]), smallInfoRooms("Sin tarifas", nums[0]));
 		vboxTextos.setAlignment(Pos.CENTER_LEFT);
 		vboxTextos.setSpacing(10);
 
@@ -64,37 +96,36 @@ public class RoomManaging extends VBox {
 		BorderPane borderPane = new BorderPane();
 		borderPane.setId("principal-panel");
 		borderPane.setPadding(new Insets(30, 0, 0, 25));
-		borderPane.setTop(titulo);
+		borderPane.setTop(title);
 		borderPane.setLeft(vboxTextos);
-		borderPane.setRight(imageView);
+		borderPane.setRight(imageContainer);
 
 		return borderPane;
 	}
 
-	public GridPane smallInfoRooms(String textGrid) {
+	public HBox smallInfoRooms(String textGrid, int numGrid) {
 		// crear las cajas de abajo
+		HBox box = new HBox();
+		VBox boxText = new VBox();
+
 		Image prbImg = new Image("View/assets/images/Group 47.png");
 		ImageView prbImgView = new ImageView(prbImg);
 		Label texto = new Label(textGrid);
-		Label num = new Label("0");
+		texto.setId("text-small-info");
+		Label num = new Label(numGrid + "");
+		num.setId("num-small-info");
 
-		// Crear el GridPane y ajustar las columnas
-		GridPane gridPane = new GridPane();
-		gridPane.setPadding(new Insets(2));
-		gridPane.setHgap(10);
-		gridPane.setVgap(-10);
-		gridPane.getColumnConstraints().add(new ColumnConstraints());
-		gridPane.getColumnConstraints().add(new ColumnConstraints(140));
-		// Agregar la imagen y el texto al GridPane
-		gridPane.add(prbImgView, 0, 0);
-		gridPane.add(texto, 1, 0);
-		gridPane.add(num, 1, 1);
-		return gridPane;
+		boxText.getChildren().addAll(texto, num);
+		boxText.setAlignment(Pos.CENTER_LEFT);
+		boxText.setSpacing(5);
+		box.getChildren().addAll(prbImgView, boxText);
+		box.setSpacing(10);
+
+		return box;
 	}
 
-	public VBox createRoom(Controller controller) {
+	public VBox createRoom() {
 		VBox form = new VBox();
-		form.setMaxHeight(670);
 		form.setAlignment(Pos.TOP_LEFT);
 		form.setPadding(new Insets(30));
 		form.setId("create-room-tarjet");
@@ -110,40 +141,53 @@ public class RoomManaging extends VBox {
 		bedSelector.setId("bed-selector");
 
 		InputNumber numOfBeds = new InputNumber("", "Cantidad", 1, 10, 1);
+		BagdeSet bedBagdeSet = new BagdeSet();
+		bedBagdeSet.setMaxWidth(300);
+		bedBagdeSet.setPadding(new Insets(10));
 
 		Button addBed = new Button();
 		Map<Bed, Integer> mapBeds = new HashMap<Bed, Integer>();
-		addBed.setOnAction(e -> {
-			Bed bed = (Bed) bedSelector.getValue();
-			mapBeds.put(bed, Integer.parseInt(numOfBeds.getValue()));
+		addBed.setOnMouseClicked(e -> {
+			Bed bedToAdd = (Bed) bedSelector.getValue();
+			Integer numToAdd = Integer.parseInt(numOfBeds.getValue());
+			bedBagdeSet.clear();
+			for (Map.Entry<Bed, Integer> bedEntry : mapBeds.entrySet()) {
+				Bed bed = bedEntry.getKey();
+				Integer num = bedEntry.getValue();
+				bedBagdeSet.addBadge(new Badge(bed.getBedName() + ": " + num, BadgeColors.GREEN));
+			}
+			mapBeds.put(bedToAdd, numToAdd);
 		});
 
 		HBox bedContainerInputs = new HBox(bedSelector, numOfBeds);
 		bedContainerInputs.setSpacing(10);
-		VBox bedContainer = new VBox(bedContainerInputs, addBed);
+		VBox bedContainer = new VBox(bedContainerInputs, addBed, bedBagdeSet);
 
 		SelectorInput featuresSelector = new SelectorInput("Características", "Puede seleccionar más de una", "", "",
 				new String[] { "Balcón", "Vista al paisaje", "Cocina" }, RoomFeatures.values());
 
 		Button addFeature = new Button();
 
+		BagdeSet featureBadgeSet = new BagdeSet();
+		featureBadgeSet.setMaxWidth(300);
+		featureBadgeSet.setPadding(new Insets(10));
 		Set<RoomFeatures> featuresList = new HashSet<RoomFeatures>();
-		addFeature.setOnAction(e -> {
+		addFeature.setOnMouseClicked(e -> {
 			RoomFeatures feature = (RoomFeatures) featuresSelector.getValue();
 			featuresList.add(feature);
-			System.out.println(feature);
-			System.out.println(featuresList.toArray().length);
-
+			for (RoomFeatures featureEntry : featuresList) {
+				featureBadgeSet.addBadge(new Badge(featureEntry.getFeatureName(), BadgeColors.YELLOW));
+			}
 		});
 
-		VBox featuresContainer = new VBox(featuresSelector, addFeature);
+		VBox featuresContainer = new VBox(featuresSelector, addFeature, featureBadgeSet);
 
 		SelectorInput typeRoomSelector = new SelectorInput("Tipo de habitación", "Elegir tipo", "", "",
 				new String[] { "Estandar", "Suite", "Suite doble" }, TypeRoom.values());
 
 		Button addRoom = new Button("Agregar");
 
-		addRoom.setOnAction(e -> {
+		addRoom.setOnMouseClicked(e -> {
 
 			TypeRoom typeRoom = (TypeRoom) typeRoomSelector.getValue();
 			String location = locationInput.getValue();
@@ -173,42 +217,50 @@ public class RoomManaging extends VBox {
 		container.setSpacing(10);
 
 		Label titleNoFare = new Label("Habitaciones sin tarifa");
+		Label subTitleNoFare = new Label("Habitaciones sin tarifa en alguno de los siguientes 365 días:");
 		titleNoFare.setId("title-no-fare");
+		subTitleNoFare.setId("subtitle-no-fare");
 
 		FlowPane container_cards = new FlowPane();
 		container_cards.setPrefWrapLength(800);
 		container_cards.setHgap(10);
 		container_cards.setVgap(10);
-		container_cards.getChildren().addAll(noFareRoomBox(),
-				noFareRoomBox(),
-				noFareRoomBox(),
-				noFareRoomBox(),
-				noFareRoomBox(),
-				noFareRoomBox(),
-				noFareRoomBox(),
-				noFareRoomBox(),
-				noFareRoomBox(),
-				noFareRoomBox(),
-				noFareRoomBox()
 
-		);
+		controller.getNoFareRooms().forEach(room -> {
+			container_cards.getChildren().add(noFareRoomBox(room));
+		});
 
-		container.getChildren().addAll(titleNoFare, container_cards);
+		container.getChildren().addAll(titleNoFare, subTitleNoFare, container_cards);
 
 		return container;
 	}
 
-	public BorderPane noFareRoomBox() {
+	public BorderPane noFareRoomBox(Room room) {
 		BorderPane noFareCard = new BorderPane();
 		noFareCard.setId("no-fare-card");
 		noFareCard.setMaxSize(500, 80);
 		noFareCard.setMinSize(500, 80);
-		noFareCard.setPadding(new Insets(10));
+		noFareCard.setPadding(new Insets(15));
 
-		Label roomName = new Label("Habitaciones #1");
+		Label roomName = new Label(
+				"Habitaciones #" + room.getRoomId().split("_")[room.getRoomId().split("_").length - 1]);
 		roomName.setId("room-name");
 
-		Label roomInfo = new Label("id s7, suite, Balcony, capacidad 10");
+		String featuresList = "";
+
+		for (RoomFeatures feature : room.getFeaturesList()) {
+			featuresList = feature.getFeatureName() + ", ";
+		}
+
+		String bedsList = "";
+		for (Map.Entry<Bed, Integer> bedEntry : room.getBeds().entrySet()) {
+			Bed bed = bedEntry.getKey();
+			Integer num = bedEntry.getValue();
+			bedsList = bed.getBedName() + ": " + num + ", ";
+		}
+
+		Label roomInfo = new Label(room.getType().getTypeName() + ", " + featuresList + " " + bedsList);
+
 		roomInfo.setId("room-info");
 		VBox.setVgrow(roomInfo, Priority.ALWAYS);
 
@@ -216,7 +268,9 @@ public class RoomManaging extends VBox {
 		info.setAlignment(Pos.CENTER_LEFT);
 
 		Button addFairBtn = new Button();
-		addFairBtn.setOnAction(e -> System.out.println("MAMABICHO"));
+		addFairBtn.setOnMouseClicked(e -> {
+			router.popUp(this, popUpFare(room));
+		});
 
 		BorderPane.setAlignment(info, Pos.CENTER_LEFT);
 		BorderPane.setAlignment(addFairBtn, Pos.CENTER_RIGHT);
@@ -225,6 +279,78 @@ public class RoomManaging extends VBox {
 		noFareCard.setRight(addFairBtn);
 
 		return noFareCard;
+	}
+
+	private VBox popUpFare(Room room) {
+		VBox popUpContainer = new VBox();
+		popUpContainer.getStylesheets().add("View/Styles/admin/popup.css");
+		popUpContainer.getStylesheets().add("View/Styles/components/inputs.css");
+		popUpContainer.setId("pop-up-container");
+
+		VBox popUp = new VBox();
+		popUp.setId("pop-up");
+		popUp.setSpacing(10);
+		popUp.setPadding(new Insets(20));
+		popUp.setAlignment(Pos.CENTER);
+
+		HBox close = new HBox();
+		close.setId("close-pop-up");
+		close.setAlignment(Pos.TOP_RIGHT);
+
+		Button closeBtn = new Button();
+		closeBtn.setId("close-btn");
+		closeBtn.setOnMouseClicked(e -> {
+			router.goToRoomManaging();
+		});
+		close.getChildren().add(closeBtn);
+
+		Text title = new Text("Agregar tarifa");
+		title.setId("pop-up-title");
+
+		Text subTitle = new Text("Agrega una nueva tarifa para la habitacion #" + room.getRoomId().split("_")[1]);
+		subTitle.setId("pop-up-subtitle");
+
+		InputText fareInput = new InputText("Tarifa", "Ingrese la tarifa", "", "buy");
+		fareInput.setId("input-text");
+
+		HBox datesBox = new HBox();
+		datesBox.setAlignment(Pos.CENTER);
+		datesBox.setSpacing(20);
+
+		InputDate dateFrom = new InputDate("Fecha inicial", "", "", "03/08/2023");
+		dateFrom.setId("input-date");
+
+		InputDate dateTo = new InputDate("Fecha final", "", "", "12/09/2023");
+		dateTo.setId("input-date");
+
+		InputDays daysInput = new InputDays("Días para ocupar");
+		daysInput.setId("input-days");
+
+		Button addFareBtn = new Button("Agregar");
+		addFareBtn.setId("button-form");
+		setMargin(addFareBtn, new Insets(10));
+
+		addFareBtn.setOnMouseClicked(e -> {
+			try {
+
+				controller.createFare(room.createTypeRoomId(), Float.parseFloat(fareInput.getValue()),
+						(LocalDate) dateFrom.getValue(), (LocalDate) dateTo.getValue(), new ArrayList<DayOfWeek>(
+								Arrays.asList(daysInput.getValue())));
+				router.goToRoomManaging();
+			} catch (Exception ex) {
+				System.out.println(ex.getStackTrace());
+				System.out.println(ex.getMessage());
+			}
+		});
+
+		popUp.setAlignment(Pos.TOP_CENTER);
+		popUp.setSpacing(20);
+
+		datesBox.getChildren().addAll(dateFrom, dateTo);
+		popUp.getChildren().addAll(close, title, subTitle, fareInput, datesBox, daysInput, addFareBtn);
+		popUpContainer.getChildren().add(popUp);
+
+		return popUpContainer;
 	}
 
 }

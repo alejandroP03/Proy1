@@ -20,36 +20,34 @@ public class Calendar extends StackPane {
         getStylesheets().add("View/Styles/components/date-editable.css");
 
         getChildren().add(date_picker);
-        
-        
+
         date_picker.setVisible(false);
 
         getChildren().add(getDateViewer());
 
     }
 
-    private void getValues(){
+    private void getValues() {
         boolean setedInitialDate = selectedDates[0] != null;
         boolean setedFinalDate = selectedDates[1] != null;
 
         getChildren().clear();
         getChildren().add(date_picker);
-        
+
         if (setedInitialDate && !setedFinalDate) {
             selectedDates[1] = date_picker.getValue();
-            
+
             date_picker.setDayCellFactory(getDayCellFactory());
-            
 
         } else if (setedInitialDate && setedFinalDate) {
             selectedDates = new LocalDate[2];
             selectedDates[0] = date_picker.getValue();
             date_picker = new DatePicker();
-            
+
         } else {
             selectedDates[0] = date_picker.getValue();
         }
-        
+
         getChildren().add(getDateViewer());
     }
 
@@ -63,7 +61,7 @@ public class Calendar extends StackPane {
                         super.updateItem(item, empty);
 
                         LocalDate date = selectedDates[0];
-                        while(!date.equals(selectedDates[1])){
+                        while (!date.equals(selectedDates[1])) {
                             if (item.equals(date)) {
                                 setStyle("-fx-background-color: #E29578;");
                             }
@@ -76,7 +74,7 @@ public class Calendar extends StackPane {
 
     }
 
-    private Node getDateViewer(){
+    private Node getDateViewer() {
         DatePickerSkin skin = new DatePickerSkin(date_picker);
         Node datePicker = skin.getPopupContent();
         datePicker.setOnMouseClicked(new EventHandler<MouseEvent>() {

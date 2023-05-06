@@ -1,0 +1,58 @@
+#pop-up-container {
+    -fx-background-color: #000000cb;
+    -fx-alignment: center;
+}
+
+#pop-up {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-min-width: 550px;
+    -fx-max-width: 550px;
+    -fx-min-height: 700px;
+    -fx-max-height: 700px;
+}
+
+
+#close-btn {
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../assets/icons/close.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 25px;
+    -fx-background-radius: 90px;
+    -fx-min-width: 25px;
+    -fx-max-width: 25px;
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
+}
+
+#pop-up-title {
+    -fx-font-weight: 900;
+    -fx-font-size: 36px;
+    -fx-text-fill: #E29578;
+
+}
+
+#pop-up-subtitle {
+    font-weight: 500;
+    font-size: 16px;
+
+
+    color: #676E76;
+}
+
+
+#button-form {
+    -fx-min-width: 436px;
+    -fx-max-width: 436px;
+    -fx-min-height: 38px;
+    -fx-max-height: 38px;
+    -fx-background-color: #E29578;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-text-fill: #FFFFFF;
+
+}

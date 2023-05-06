@@ -15,4 +15,8 @@ public class BagdeSet extends TilePane {
         getChildren().add(badge);
 
     }
+
+    public void clear() {
+        getChildren().clear();
+    }
 }
