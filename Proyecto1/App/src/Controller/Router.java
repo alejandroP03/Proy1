@@ -4,6 +4,7 @@ import Model.HotelObjects.UserType;
 import View.Components.PrincipalWindow.AdminPrincipalWindow;
 import View.Components.PrincipalWindow.PrinicipalWindow;
 import View.Components.PrincipalWindow.ReceptionistPrincipalWindow;
+import View.Screens.AdminScreen.CreateServiceScreen;
 import View.Screens.AdminScreen.RoomManaging;
 import View.Screens.AdminScreen.Inventory.InventoryScreen;
 import View.Screens.AuthScreen.Auth;
@@ -71,8 +72,13 @@ public class Router {
         mainStage.show();
     }
 
+    // ADMIN SCREENS
     public void goToRoomManaging() {
         switchScreen(new RoomManaging(controller, pw));
+    }
+
+    public void goToServicesManaging() {
+        switchScreen(new CreateServiceScreen(controller, pw));
     }
 
     public void goToInventoryScreen() throws Exception {

@@ -90,7 +90,7 @@ public class Booking implements HotelObject {
 
         JSONArray reservedRoomsIdsObj = new JSONArray();
         for (Object roomId : reservedRoomsIds) {
-            
+
             reservedRoomsIdsObj.add(roomId.toString());
         }
 

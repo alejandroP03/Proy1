@@ -1,53 +1,81 @@
 #principal-panel {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(0, 109, 119, 0.5) 23.26%, rgba(226, 149, 120, 0.475) 70.4%, rgba(131, 197, 190, 0.47) 139.29%); /* establece el color de fondo del panel */
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(0, 109, 119, 0.5) 23.26%, rgba(226, 149, 120, 0.475) 70.4%, rgba(131, 197, 190, 0.47) 139.29%);
+    /* establece el color de fondo del panel */
     -fx-background-radius: 20px;
 
 }
 
-#grid-rooms {
+#title-no-fare {
+    -fx-font-weight: 700;
+    -fx-font-size: 25px;
+    -fx-text-fill: black;
+
+}
+
+#no-fare-card {
     -fx-border-color: #C4C4C4;
     -fx-border-width: 2px;
     -fx-border-radius: 20px;
 
 }
 
-#btn-Add-Fair{
+#no-fare-card #room-name {
+    -fx-font-weight: 700;
+    -fx-font-size: 16px;
+    -fx-text-fill: #366463;
+}
+
+#no-fare-card #room-info {
+    -fx-font-weight: 500;
+    -fx-font-size: 14px;
+    -fx-text-fill: #676E76;
+}
+
+#no-fare-card .button {
     -fx-background-color: #E29578;
     -fx-background-radius: 8px;
-    -fx-border-width: 1px;
-    -fx-border-color: rgba(103, 110, 118, 0.16);
-    -fx-border-radius: 8px;
-    -fx-effect: dropshadow( two-pass-box , rgba(103, 110, 118, 0.08), 2, 5, 0, 0 );
+    -fx-background-image: url("../../assets/icons/plus.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 16px;
+
+    -fx-min-width: 30px;
+    -fx-max-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+
+    -fx-effect: dropshadow(two-pass-box, rgba(103, 110, 118, 0.08), 2, 5, 0, 0);
     -fx-text-fill: white;
 }
 
-#create-room-tarjet{
+#create-room-tarjet {
 
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(226, 149, 120, 0.3) 2.36%, rgba(255, 255, 255, 0.3) 102.55%); /* establece el color de fondo del panel */
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(226, 149, 120, 0.3) 2.36%, rgba(255, 255, 255, 0.3) 102.55%);
+    /* establece el color de fondo del panel */
     -fx-background-radius: 20px;
 
 }
 
-#button-form{
+#button-form {
     -fx-background-color: #E29578;
     -fx-background-radius: 8px;
     -fx-border-width: 1px;
     -fx-border-color: rgba(103, 110, 118, 0.16);
     -fx-border-radius: 8px;
-    -fx-effect: dropshadow( two-pass-box , rgba(103, 110, 118, 0.08), 2, 5, 0, 0 );
+    -fx-effect: dropshadow(two-pass-box, rgba(103, 110, 118, 0.08), 2, 5, 0, 0);
     -fx-text-fill: white;
     -fx-min-width: 0px;
     -fx-pref-width: 100%;
     -fx-max-width: 17976931px;
 }
 
-#info-rooms{
+#info-rooms {
     -fx-border-style: solid;
     -fx-border-color: grey;
     -fx-border-width: 0 0 2 0;
 }
 
-#ocuppied-container{
+#ocuppied-container {
     -fx-background-color: #F6F7F9;
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
@@ -56,56 +84,53 @@
 }
 
 #menu-btn {
-     -fx-background-color: #ffffff;
-     -fx-border-color: grey;
-     -fx-border-radius: 5px;
-     -fx-text-fill: #9d9b9b;
- }
+    -fx-background-color: #ffffff;
+    -fx-border-color: grey;
+    -fx-border-radius: 5px;
+    -fx-text-fill: #9d9b9b;
+}
 
 
-#card-create-service{
+#card-create-service {
     -fx-background-image: url("/View/assets/images/blurry-gradient-haikei.png");
     -fx-background-size: cover;
     -fx-background-radius: 20px;
 }
 
 
-#bed-selector, #bed-selector .input{
+#bed-selector,
+#bed-selector .input {
     -fx-max-width: 270px;
     -fx-min-width: 270px;
 }
 
-#bed-selector .combo-box .arrow-button{
+#bed-selector .combo-box .arrow-button {
     -fx-translate-x: -230px;
 }
 
-#initial-date-form .input , #initial-date-form {
+#initial-date-form .input,
+#initial-date-form {
     -fx-max-width: 100px;
     -fx-min-width: 100px;
 
 }
 
-#load-services-card{
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #006D77 -70.66%, rgba(126, 193, 187, 0.62) 101.69%); /* establece el color de fondo del panel */
+#load-services-card {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #006D77 -70.66%, rgba(126, 193, 187, 0.62) 101.69%);
+    /* establece el color de fondo del panel */
     -fx-background-radius: 20px;
 }
 
-#input-service-card, #input-service-card .input{
+#input-service-card,
+#input-service-card .input {
     -fx-max-width: 500px;
     -fx-min-width: 500px;
 }
 
-#title-create-service .label{
+#title-create-service .label {
     -fx-font-weight: 800;
     -fx-font-size: 36px;
     -fx-line-height: 44px;
     -fx-text-fill: #FFFFFF;
 
 }
-
-.test{
-    -fx-border-color: red;
-    -fx-border-width: 1;
-}
-
-

@@ -41,7 +41,7 @@ public class AdminPrincipalWindow extends PrinicipalWindow {
 
         serviceBtn.setOnMouseClicked(e -> {
             if (!serviceBtn.isSelectedStatus(selectedScreenBtn)) {
-                System.out.println("No implementado");
+                router.goToServicesManaging();
                 this.selectedScreenBtn = serviceBtn;
             }
         });
