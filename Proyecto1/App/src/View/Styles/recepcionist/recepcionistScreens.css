@@ -105,7 +105,27 @@
     -fx-font-size: 48px;
     -fx-line-height: 60px;
 }
+#title-error{
+    -fx-font-weight: 600;
+    -fx-font-size: 16px;
+    -fx-line-height: 24px;
+    -fx-text-fill: #CD3636;
 
+}
+
+#box-error{
+    -fx-background-radius: 20px;
+    -fx-background-color: #FFFBFA;
+
+}
+
+#ms-error{
+    -fx-font-weight: 400;
+    -fx-font-size: 14px;
+    -fx-line-height: 20px;
+    -fx-text-fill: #F34141;
+
+}
 
 
 

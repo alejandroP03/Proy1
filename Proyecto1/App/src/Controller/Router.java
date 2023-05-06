@@ -8,7 +8,11 @@ import View.Screens.AdminScreen.CreateServiceScreen;
 import View.Screens.AdminScreen.RoomManaging;
 import View.Screens.AdminScreen.Inventory.InventoryScreen;
 import View.Screens.AuthScreen.Auth;
+import View.Screens.EmployeeScreen.ShowMenu;
 import View.Screens.RecepcionistScreen.BookingScreen;
+import View.Screens.RecepcionistScreen.CancelBooking;
+import View.Screens.RecepcionistScreen.CheckOutScreen;
+import View.Screens.RecepcionistScreen.RegisterForm;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -33,7 +37,7 @@ public class Router {
          * showUserMainScreen();
          */
 
-        user = UserType.ADMIN;
+        user = UserType.EMPLOYEE;
         showUserMainScreen();
 
     }
@@ -57,7 +61,8 @@ public class Router {
                 switchScreen(new BookingScreen(controller, pw));
                 break;
             case EMPLOYEE:
-                switchScreen(new VBox(new Text("El que hizo pagar servicios lo hizo mal")));
+                pw = new ReceptionistPrincipalWindow(this);
+                switchScreen(new ShowMenu(controller,pw));
                 break;
 
         }
@@ -85,8 +90,16 @@ public class Router {
         switchScreen(new InventoryScreen(controller, pw));
     }
 
+    // prinicipal
     public void goToBookingScreen() {
         switchScreen(new BookingScreen(controller, pw));
     }
 
+    //Tiene reserva??
+    public void goToRegisterForm(){ switchScreen(new RegisterForm(controller,pw)); }
+
+    //checkout
+    public void goToCheckOut(){switchScreen(new CheckOutScreen(controller,pw)); }
+
+    public void goToCancelBooking(){switchScreen(new CancelBooking(controller,pw)); }
 }

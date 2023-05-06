@@ -4,17 +4,16 @@ import Controller.Controller;
 import View.Components.Inputs.InputText;
 import View.Components.PrincipalWindow.PrinicipalWindow;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
-public class CheckOutScreen extends VBox {
+public class CancelBooking  extends VBox{
 
-
-    public CheckOutScreen(Controller controller, PrinicipalWindow prinicipalWindow){
+    public CancelBooking(Controller controller, PrinicipalWindow prinicipalWindow){
         getStylesheets().add("View/Styles/recepcionist/recepcionistScreens.css");
 
         setVgrow(prinicipalWindow, Priority.ALWAYS);
@@ -22,7 +21,6 @@ public class CheckOutScreen extends VBox {
         prinicipalWindow.setContent(borderPane);
         borderPane.setLeft(formLeft());
         borderPane.setRight(boxCardsRight());
-        //borderPane.setBottom(errorMessage ());  TODO mostrar el mensaje de erro en pantalla de checkout
 
         borderPane.setPadding(new Insets(70));
 //        mainPane.getChildren().add(borderPane);
@@ -30,8 +28,9 @@ public class CheckOutScreen extends VBox {
 
     }
 
+
     public VBox formLeft(){
-        Label title = new Label("Check-Out");
+        Label title = new Label("Cancelar reserva");
         title.setId("title-checkOut");
         InputText name = new InputText("Cedula", "10292202029", "", "person");
         VBox vBox = new VBox();
@@ -39,13 +38,13 @@ public class CheckOutScreen extends VBox {
         vBox.setSpacing(20);
         return vBox;
     }
+
     public VBox boxCardsRight(){
         VBox vBox = new VBox();
         // Creacion HBox de botones
         HBox hBoxButtons = new HBox();
-        Button btnCheckOut = new Button("ChekOut -->");
-        Button btnGenBill = new Button("Generar factura -->");
-        hBoxButtons.getChildren().addAll(btnGenBill, btnCheckOut);
+        Button cancelBtn = new Button("Cancelar reserva -->");
+        hBoxButtons.getChildren().addAll(cancelBtn);
         hBoxButtons.setSpacing(20);
         vBox.setSpacing(30);
         vBox.getChildren().addAll(leftCard(),rightCard(), hBoxButtons);
@@ -92,24 +91,5 @@ public class CheckOutScreen extends VBox {
         return hBox;
     }
 
-    public VBox errorMessage (){
-        HBox hBox = new HBox();
-        hBox.setSpacing(15);
-        Image imagen = new Image("View/assets/images/Vector.png");
-        ImageView imageView = new ImageView(imagen);
-        Label titleError = new Label("No se ha realizado el \ncheck-out");
-        titleError.setId("title-error");
-        hBox.getChildren().addAll(imageView, titleError);
-        Label ms = new Label("Debe generar factura por \nprimera vez para poder realizar\nel check-out");
-        ms.setId("ms-error");
-        VBox vBox = new VBox();
-        vBox.setSpacing(15);
-        vBox.setId("box-error");
-        vBox.setPadding(new Insets(30));
-        vBox.getChildren().addAll(hBox,ms);
-        return vBox;
-
-
-    }
 
 }

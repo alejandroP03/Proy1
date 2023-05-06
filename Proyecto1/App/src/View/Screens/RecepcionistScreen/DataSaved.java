@@ -1,6 +1,6 @@
 package View.Screens.RecepcionistScreen;
 
-import View.Components.PrinicipalWindow;
+import View.Components.PrincipalWindow.PrinicipalWindow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,12 +8,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
 public class DataSaved  extends  VBox{
-    public PrinicipalWindow pw;
-    public DataSaved(){
+
+    public DataSaved(PrinicipalWindow prinicipalWindow){
         getStylesheets().add("View/Styles/recepcionist/recepcionistScreens.css");
-        pw = new PrinicipalWindow<VBox>("recepcionist", new VBox());
-        setVgrow(pw, Priority.ALWAYS);
-        Pane mainPane = pw.getMainPane();
+        setVgrow(prinicipalWindow, Priority.ALWAYS);
+        Pane mainPane = new Pane();
+        prinicipalWindow.setContent(mainPane);
+
         Label title = new Label("Resumen");
         title.setId("title-screen-data-guest");
         BorderPane borderPane = new BorderPane();
@@ -28,7 +29,7 @@ public class DataSaved  extends  VBox{
         borderPane.setPadding(new Insets(70));
 
         mainPane.getChildren().add(borderPane);
-        getChildren().add(pw);
+        getChildren().add(prinicipalWindow);
 
     }
 

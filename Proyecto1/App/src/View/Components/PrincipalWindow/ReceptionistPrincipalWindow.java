@@ -7,6 +7,11 @@ import javafx.scene.layout.VBox;
 
 public class ReceptionistPrincipalWindow extends PrinicipalWindow {
     Router router;
+    VerticalIconText bookingBtn = new VerticalIconText("Crear reserva", "git-button", true);
+    VerticalIconText registerBtn = new VerticalIconText("Crear registro", "git-button", false);
+    VerticalIconText checkOutBtn = new VerticalIconText("Check-out", "git-button", false);
+    VerticalIconText cancelBtn = new VerticalIconText("Cancelar reserva", "git-button", false);
+    VerticalIconText selectedScreenBtn = bookingBtn;
 
     public ReceptionistPrincipalWindow(Router router) {
         super(UserType.RECEPTIONIST, router);
@@ -16,9 +21,42 @@ public class ReceptionistPrincipalWindow extends PrinicipalWindow {
     @Override
     public VBox lateralMenu() {
         VBox vbox = new VBox();
-        // TODO Agregar los botones (revisar que esten los iconos en el css principalWindow)
-        vbox.getChildren().addAll();
 
+        bookingBtn.setOnMouseClicked(e -> {
+            if (!bookingBtn.isSelectedStatus(selectedScreenBtn)) {
+                router.goToBookingScreen();
+                this.selectedScreenBtn = bookingBtn;
+            }
+        });
+
+        registerBtn.setOnMouseClicked(e -> {
+            if (!registerBtn.isSelectedStatus(selectedScreenBtn)) {
+                router.goToRegisterForm();
+                this.selectedScreenBtn = registerBtn;
+            }
+        });
+
+        checkOutBtn.setOnMouseClicked(e -> {
+            if (!checkOutBtn.isSelectedStatus(selectedScreenBtn)) {
+                router.goToCheckOut();
+                this.selectedScreenBtn = checkOutBtn;
+            }
+        });
+
+        cancelBtn.setOnMouseClicked(e -> {
+            if (!cancelBtn.isSelectedStatus(selectedScreenBtn)) {
+                router.goToCancelBooking();
+                this.selectedScreenBtn = cancelBtn;
+            }
+        });
+
+        vbox.getChildren().addAll(
+                bookingBtn,
+                registerBtn,
+                checkOutBtn,
+                cancelBtn);
+
+        vbox.getChildren().addAll();
         VBox pane = new VBox();
         pane.getChildren().add(vbox);
         vbox.setSpacing(35);

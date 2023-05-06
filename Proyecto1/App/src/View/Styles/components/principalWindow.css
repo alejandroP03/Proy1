@@ -6,7 +6,7 @@
     -fx-background-color: #03555C;
 }
 
-.recepcionist-main {
+.receptionist-main {
     -fx-background-color: #E29578;
 }
 
@@ -20,7 +20,7 @@
 
 }
 
-.recepcionist {
+.receptionist {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, rgba(131, 197, 190, 0.3) 62.08%, rgba(226, 149, 120, 0.3) 132.72%);
 }
 
@@ -110,11 +110,11 @@
     -fx-text-fill: #03555C;
 }
 
-.active-recepcionist {
+.active-receptionist {
     -fx-background-color: #E29578;
 }
 
-.active-recepcionist-text {
+.active-receptionist-text {
     -fx-text-fill: #E29578;
 }
 
