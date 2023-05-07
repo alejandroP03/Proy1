@@ -7,11 +7,15 @@ import Controller.RegisterHandler.CompanionGuest;
 import Controller.RegisterHandler.Guest;
 import Model.HotelObjects.*;
 import View.Components.Inputs.InputText;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -23,17 +27,17 @@ public class PayServiceForm extends VBox{
 
     Hotel hotel = Hotel.getInstance();
     Map<Object, Registration> mapRegisters = hotel.getRegistrationHandler().getData();
-    Map<Object, Food> mapFoods = hotel.getRestaurantHandler().getData();
     ArrayList<String> addedServices;
     boolean isService;
     ConsumeRecorder<Service> newConsumes = new ConsumeRecorder<Service>();
     ConsumeRecorder<Food> newConsumesFood = new ConsumeRecorder<Food>();
 
 
-    private HBox bigBox = new HBox(){
+    private BorderPane bigBox = new BorderPane(){
         {
-            setAlignment(Pos.CENTER);
+
             setId("big-box");
+
         }
     };
 
@@ -63,26 +67,29 @@ public class PayServiceForm extends VBox{
 
     protected void switchForm(boolean isPrincipal) {
         getChildren().clear();
+        bigBox.getChildren().clear();
         inputsContainer.getChildren().clear();
+        billContainer.getChildren().clear();
 
 
 
-        InputText dniInput = new InputText("DNI", "Ingrese el DNI del huésped principal", "", "person");
-        inputsContainer.getChildren().add(dniInput);
-        InputText dniHPInput = new InputText("DNI del huésped principal", "Ingrese el DNI del huésped principal", "", "person");
+        InputText dniHPInput = new InputText("DNI  del huésped principal", "Ingrese el DNI del huésped  principal", "", "person");
+        inputsContainer.getChildren().add(dniHPInput);
+        InputText dniInput = new InputText("DNI", "Ingrese el DNI del huésped acompañante", "", "person");
 
         Text textBill = new Text();
+
         final String[] tempBill = { "" };
 
-        if(isPrincipal){
-            inputsContainer.getChildren().add(dniHPInput);
+        if(!isPrincipal){
+            inputsContainer.getChildren().add(dniInput);
         }
 
         Button payBtn = new Button("Enviar -->");
         payBtn.setId("button-form");
 
-        // TODO Terminar setOnAction para que los servicios se guarden en billContainer
-        payBtn.setOnAction(e->{
+
+        payBtn.setOnMouseClicked(e->{
             String dni = dniInput.getValue();
             String dniHP = dniHPInput.getValue();
             Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -90,20 +97,23 @@ public class PayServiceForm extends VBox{
             errorAlert.setTitle("Error");
 
             Guest guest;
+            Guest prGuest;
             if(isService){
                 if(isPrincipal){
-                    if(dni.isBlank()){
-                        errorAlert.setContentText("El DNI ingresado no es valido");
+                    if(dniHP.isBlank()){
+                        errorAlert.setContentText("El DNI ingresado no es valido linea 98");
                         errorAlert.showAndWait();
                     } else {
-                        guest = searchConsumer(dni);
-                        if(guest == null){
-                            errorAlert.setContentText("El DNI no ha sido encontrado");
+                        prGuest = searchConsumer(dniHP);
+                        if(prGuest == null){
+                            errorAlert.setContentText("El DNI no ha sido encontrado linea 105");
                             errorAlert.showAndWait();
                         } else{
-                            String newBill = newConsumes.handleInstantPay(this.addedServices,guest,hotel.getServices().getData());
-                            ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill, guest);
+                            String newBill = newConsumes.handleInstantPay(this.addedServices,prGuest,hotel.getServices().getData());
+                            ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill, prGuest);
                             tempBill[0] = newBill;
+                            textBill.setText(tempBill[0]);
+                            textBill.setFont(Font.font("Inter", FontWeight.BLACK, 24));
                             try {
                                 newBillPay.showBill();
                             } catch (IOException ex) {
@@ -115,43 +125,57 @@ public class PayServiceForm extends VBox{
 
                     }
                 } else {
-                    if(dni.isBlank()||dniHP.isBlank()){
-                        errorAlert.setContentText("Alguno de los DNI ingresados no es valido");
+                    if(dni.isBlank() || dniHP.isBlank()){
+                        errorAlert.setContentText("Alguno de los DNI ingresados no es valido linea 121");
                         errorAlert.showAndWait();
 
                     } else{
-                        guest = searchConsumer(dni,dniHP);
-                        if(guest == null){
-                            errorAlert.setContentText("El DNI no ha sido encontrado");
+                        prGuest = searchConsumer(dniHP);
+                        if(prGuest == null){
+                            errorAlert.setContentText("El DNI del huésped principal no ha sido encontrado linea 130");
                             errorAlert.showAndWait();
-                        } else{
-                            String newBill = newConsumes.handleInstantPay(this.addedServices, guest, hotel.getServices().getData());
-                            ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill, guest);
-                            tempBill[0] = newBill;
-                            try {
-                                newBillPay.showBill();
-                            } catch (IOException ex) {
-                                throw new RuntimeException(ex);
+
+                        } else {
+                            guest = searchConsumer(dni, dniHP);
+                            if(guest == null){
+                                errorAlert.setContentText("El DNI no ha sido encontrado linea 136");
+                                errorAlert.showAndWait();
+                            } else{
+                                String newBill = newConsumesFood.handleInstantPay(this.addedServices,guest,hotel.getRestaurantHandler().getData());
+                                ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill, guest);
+                                tempBill[0] = newBill;
+                                textBill.setText(tempBill[0]);
+                                textBill.setFont(Font.font("Inter", FontWeight.BLACK, 24));
+                                try {
+                                    newBillPay.showBill();
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+
                             }
 
                         }
+
+
                     }
                 }
 
             } else {
                 if(isPrincipal){
-                    if(dni.isBlank()){
-                        errorAlert.setContentText("El DNI ingresado no es valido");
+                    if(dniHP.isBlank()){
+                        errorAlert.setContentText("El DNI ingresado no es valido  linea 160");
                         errorAlert.showAndWait();
                     } else {
-                        guest = searchConsumer(dni);
-                        if(guest == null){
-                            errorAlert.setContentText("El DNI no ha sido encontrado");
+                        prGuest = searchConsumer(dniHP);
+                        if(prGuest == null){
+                            errorAlert.setContentText("El DNI del huésped principal no ha sido encontrado linea 165");
                             errorAlert.showAndWait();
                         } else{
-                            String newBill = newConsumesFood.handleInstantPay(this.addedServices,guest,hotel.getRestaurantHandler().getData());
-                            ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill, guest);
+                            String newBill = newConsumesFood.handleInstantPay(this.addedServices,prGuest,hotel.getRestaurantHandler().getData());
+                            ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill, prGuest);
                             tempBill[0] = newBill;
+                            textBill.setText(tempBill[0]);
+                            textBill.setFont(Font.font("Inter", FontWeight.BLACK, 24));
                             try {
                                 newBillPay.showBill();
                             } catch (IOException ex) {
@@ -163,26 +187,38 @@ public class PayServiceForm extends VBox{
 
                     }
                 } else {
-                    if(dni.isBlank()||dniHP.isBlank()){
-                        errorAlert.setContentText("Alguno de los DNI ingresados no es valido");
+                    if(dni.isBlank() || dniHP.isBlank()){
+                        errorAlert.setContentText("Alguno de los DNI ingresados no es válido linea 184");
                         errorAlert.showAndWait();
 
                     } else{
-                        guest = searchConsumer(dni,dniHP);
-                        if(guest == null){
-                            errorAlert.setContentText("El DNI no ha sido encontrado");
+                        prGuest = searchConsumer(dniHP);
+                        if(prGuest == null){
+                            errorAlert.setContentText("El DNI del huésped principal no ha sido encontrado linea 190");
                             errorAlert.showAndWait();
-                        } else{
-                            String newBill = newConsumesFood.handleInstantPay(this.addedServices,guest,hotel.getRestaurantHandler().getData());
-                            ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill, guest);
-                            tempBill[0] = newBill;
-                            try {
-                                newBillPay.showBill();
-                            } catch (IOException ex) {
-                                throw new RuntimeException(ex);
+
+                        } else {
+                            guest = searchConsumer(dni, dniHP);
+                            if(guest == null){
+                                errorAlert.setContentText("El DNI no ha sido encontrado linea 196");
+                                errorAlert.showAndWait();
+                            } else{
+                                String newBill = newConsumesFood.handleInstantPay(this.addedServices,guest,hotel.getRestaurantHandler().getData());
+                                ServicesBillGenerator newBillPay = new ServicesBillGenerator(newBill, guest);
+                                tempBill[0] = newBill;
+                                textBill.setText(tempBill[0]);
+                                textBill.setFont(Font.font("Inter", FontWeight.BLACK, 24));
+                                try {
+                                    newBillPay.showBill();
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+
                             }
 
                         }
+
+
                     }
                 }
 
@@ -191,8 +227,15 @@ public class PayServiceForm extends VBox{
 
         });
 
+
+
+        billContainer.getChildren().add(textBill);
         inputsContainer.getChildren().add(payBtn);
-        bigBox.getChildren().add(inputsContainer);
+
+
+        bigBox.setLeft(inputsContainer);
+        bigBox.setRight(billContainer);
+
 
 
 
@@ -202,9 +245,15 @@ public class PayServiceForm extends VBox{
 
     }
     public Guest searchConsumer(String dniHP){
-        if(mapRegisters.get(dniHP).getPrincipalGuest().getDni().equals(dniHP)){
-            return mapRegisters.get(dniHP).getPrincipalGuest();
+        try{
+            if(mapRegisters.get(dniHP).getPrincipalGuest().getDni().equals(dniHP)){
+                return mapRegisters.get(dniHP).getPrincipalGuest();
+            }
+
+        } catch (NullPointerException e){
+            System.out.println("ALGO FALLO");
         }
+
         return null;
     }
     public Guest searchConsumer(String invitedDNI, String dniHP){

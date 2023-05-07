@@ -22,6 +22,7 @@ import Controller.RegisterHandler.CompanionGuest;
 import Controller.RegisterHandler.Guest;
 import Controller.RegisterHandler.RegisterHandler;
 import Controller.WorkersAuth.HotelWorkersAuth;
+import Model.HotelObjects.Booking;
 import Model.HotelObjects.Food;
 import Model.HotelObjects.Registration;
 import Model.HotelObjects.Service;
@@ -120,6 +121,58 @@ public class Controller {
             hotel.getFaresHandler().loadPersistentData();
         }
 
+    }
+
+    public int[] getDayOcupation() {
+        int[] ocupation = new int[365];
+        // Initialize in zero
+        for (int i = 0; i < ocupation.length; i++) {
+            ocupation[i] = 0;
+        }
+
+        int firstInd = LocalDate.now().getDayOfYear();
+        List<Booking> bookings = new ArrayList<Booking>(hotel.getBookingsHandler().getData().values());
+        for (Booking booking : bookings) {
+            LocalDate startDate = booking.getInitialDate();
+            LocalDate endDate = booking.getFinalDate();
+            for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+                if (date.isAfter(LocalDate.now().plusDays(-1)) && date.isBefore(LocalDate.now().plusDays(366))) {
+                    // Day is next year
+                    if (date.getDayOfYear() - firstInd < 0) {
+                        ocupation[date.getDayOfYear() - firstInd + 365] += 1;
+                    } else {
+                        ocupation[date.getDayOfYear() - firstInd] += 1;
+                    }
+                }
+            }
+
+        }
+
+        List<Registration> registrations = new ArrayList<Registration>(
+                hotel.getRegistrationHandler().getData().values());
+        for (Registration registration : registrations) {
+            LocalDate startDate = registration.getInitialDate();
+            LocalDate endDate = registration.getFinalDate();
+            for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+                if (date.isAfter(LocalDate.now().plusDays(-1)) && date.isBefore(LocalDate.now().plusDays(366))) {
+                    // Day is next year
+                    if (date.getDayOfYear() - firstInd < 0)
+                        ocupation[date.getDayOfYear() - firstInd + 365] += 1;
+                    else
+                        ocupation[date.getDayOfYear() - firstInd] += 1;
+                }
+            }
+        }
+
+        return ocupation;
+    }
+
+    public Map<Object, Food> getFoodStock() {
+        return hotel.getRestaurantHandler().getData();
+    }
+
+    public Map<Object, Service> getServiceStock() {
+        return hotel.getServices().getData();
     }
 
     // ---------------------- Funciones para el adminsitrador ----------------------
@@ -689,11 +742,10 @@ public class Controller {
 
     }
 
-    public ArrayList<Room> freeRooms(){
+    public ArrayList<Room> freeRooms() {
         ArrayList<Room> freeRoomsList;
         return freeRoomsList = new ArrayList<Room>(hotel.getFreeRooms().values());
     }
-
 
     private List<String> selectRooms(boolean isForNow, LocalDate initialDate, LocalDate finalDate) throws Exception {
         List<String> selectedRoomsIds = new ArrayList<String>();

@@ -2,14 +2,20 @@ package Controller;
 
 import Model.HotelObjects.UserType;
 import View.Components.PrincipalWindow.AdminPrincipalWindow;
+import View.Components.PrincipalWindow.EmployeePrincipalWindow;
 import View.Components.PrincipalWindow.PrinicipalWindow;
 import View.Components.PrincipalWindow.ReceptionistPrincipalWindow;
 import View.Screens.AdminScreen.CreateServiceScreen;
 import View.Screens.AdminScreen.RoomManaging;
 import View.Screens.AdminScreen.Inventory.InventoryScreen;
 import View.Screens.AuthScreen.Auth;
-import View.Screens.EmployeeScreen.ShowMenu;
-import View.Screens.RecepcionistScreen.*;
+import View.Screens.RecepcionistScreen.BookingDate;
+import View.Screens.RecepcionistScreen.BookingScreen;
+import View.Screens.RecepcionistScreen.CancelBooking;
+import View.Screens.RecepcionistScreen.CheckOutScreen;
+import View.Screens.RecepcionistScreen.DataSaved;
+import View.Screens.RecepcionistScreen.InfoGuest;
+import View.Screens.RecepcionistScreen.RegisterForm;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -50,15 +56,15 @@ public class Router {
         switch (user) {
             case ADMIN:
                 pw = new AdminPrincipalWindow(this, controller);
-                switchScreen(new RoomManaging(controller, pw, this));
+                goToRoomManaging();
                 break;
             case RECEPTIONIST:
                 pw = new ReceptionistPrincipalWindow(this);
                 switchScreen(new BookingDate(controller, pw)); // TODO CAMBiar
                 break;
             case EMPLOYEE:
-                pw = new ReceptionistPrincipalWindow(this);
-                switchScreen(new ShowMenu(controller, pw));
+                pw = new EmployeePrincipalWindow(this, controller);
+
                 break;
 
         }
@@ -99,7 +105,7 @@ public class Router {
     }
 
     public void goToInventoryScreen() throws Exception {
-        switchScreen(new InventoryScreen(controller, pw));
+        switchScreen(new InventoryScreen(controller, pw, mainStage));
     }
 
     // prinicipal
@@ -117,14 +123,20 @@ public class Router {
         switchScreen(new CheckOutScreen(controller, pw));
     }
 
+    public void goToCancelBooking() {
+        switchScreen(new CancelBooking(controller, pw));
+    }
 
-    public void goToCancelBooking(){switchScreen(new CancelBooking(controller,pw)); }
-    public void goToFormGuest(){switchScreen(new InfoGuest(controller,pw));}
+    public void goToFormGuest() {
+        switchScreen(new InfoGuest(controller, pw));
+    }
 
-    public void goToSaveData(){switchScreen(new DataSaved(controller,pw));}
+    public void goToSaveData() {
+        switchScreen(new DataSaved(controller, pw));
+    }
 
-    public void goToBookingDate(){switchScreen(new BookingDate(controller,pw));}
-
-
+    public void goToBookingDate() {
+        switchScreen(new BookingDate(controller, pw));
+    }
 
 }

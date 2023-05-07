@@ -1,1 +1,13 @@
-{"1051065225":{"finalDate":"2024-01-03","reserviourDNI":"1051065225","reserviourPhone":"3003273030","reserviourSupportCardNumber":"100000443334423","numberOfGuests":1,"reserviourName":"Alejandro Pulido","reserviourEmail":"alejandropulido@correofalso.com","initialDate":"2023-12-20","reservedRoomsIds":["SUITE_2"]}}
+{
+	"1051065225": {
+		"finalDate": "2024-01-03",
+		"reserviourDNI": "1051065225",
+		"reserviourPhone": "3003273030",
+		"reserviourSupportCardNumber": "100000443334423",
+		"numberOfGuests": 1,
+		"reserviourName": "Alejandro Pulido",
+		"reserviourEmail": "alejandropulido@correofalso.com",
+		"initialDate": "2023-12-20",
+		"reservedRoomsIds": ["SUITE_2"]
+	}
+}

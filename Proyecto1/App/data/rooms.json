@@ -19,26 +19,6 @@
 		"roomId": "SUITE_3",
 		"capacity": 6
 	},
-	"DOUBLE_SUITE_20": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "Oda",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_20",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_9": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_9",
-		"capacity": 24
-	},
 	"SUITE_5": {
 		"isOccupied": false,
 		"featuresList": ["LANDSCAPE_VIEW", "KITCHEN"],
@@ -49,46 +29,6 @@
 		"roomId": "SUITE_5",
 		"capacity": 20
 	},
-	"DOUBLE_SUITE_7": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_7",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_12": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_12",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_8": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_8",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_13": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_13",
-		"capacity": 24
-	},
 	"SUITE_2": {
 		"isOccupied": false,
 		"featuresList": ["BALCONY", "LANDSCAPE_VIEW", "KITCHEN"],
@@ -98,26 +38,6 @@
 		"type": "SUITE",
 		"roomId": "SUITE_2",
 		"capacity": 4
-	},
-	"DOUBLE_SUITE_10": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_10",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_21": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "Oda",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_21",
-		"capacity": 24
 	},
 	"SUITE_1": {
 		"isOccupied": false,
@@ -138,75 +58,5 @@
 		"type": "DOUBLE_SUITE",
 		"roomId": "DOUBLE_SUITE_6",
 		"capacity": 9
-	},
-	"DOUBLE_SUITE_11": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_11",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_16": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "Oda",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_16",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_17": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "Oda",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_17",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_14": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "Oda",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_14",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_15": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "Oda",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_15",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_18": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "Oda",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_18",
-		"capacity": 24
-	},
-	"DOUBLE_SUITE_19": {
-		"isOccupied": false,
-		"featuresList": ["LANDSCAPE_VIEW"],
-		"bookedDates": {},
-		"location": "Oda",
-		"beds": { "KING": 8 },
-		"type": "DOUBLE_SUITE",
-		"roomId": "DOUBLE_SUITE_19",
-		"capacity": 24
 	}
 }
