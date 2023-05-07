@@ -33,7 +33,7 @@ public class Router {
          * showUserMainScreen();
          */
 
-        user = UserType.ADMIN;
+        user = UserType.RECEPTIONIST;
         showUserMainScreen();
 
     }
@@ -80,9 +80,7 @@ public class Router {
 
     public void popUp(Parent parent_screen, Parent popUp) {
         Scene scene = new Scene(new StackPane(parent_screen, popUp));
-
         scene.getStylesheets().add("View/Styles/font.css");
-
         double mainStageWidth = mainStage.getWidth();
         double mainStageHeight = mainStage.getHeight();
         mainStage.setScene(scene);

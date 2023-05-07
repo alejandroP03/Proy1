@@ -94,7 +94,7 @@ public class ReceptionistPrincipalWindow extends PrinicipalWindow {
             room.setId("active-top-text");
             guest.setId("inactive-top-text");
             allData.setId("inactive-top-text");
-
+            router.goToBookingScreen();
             //room.setStyle(" -fx-text-fill: #006D77;");
 //
 //            guest.setStyle("-fx-text-fill: grey;");

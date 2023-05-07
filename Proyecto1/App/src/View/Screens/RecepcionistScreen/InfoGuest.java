@@ -5,17 +5,28 @@ import View.Components.Inputs.InputText;
 import View.Components.PrincipalWindow.PrinicipalWindow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class InfoGuest extends VBox {
+
+    private String nameGuest;
+    private String phoneGuest;
+    private String idGuest;
+    private String cardGuest;
+    private String cumCompanion;
+
+    private DataSaved dataSaved;
 
     public InfoGuest(Controller controller, PrinicipalWindow prinicipalWindow) {
 
         getStylesheets().add("View/Styles/recepcionist/recepcionistScreens.css");
+
 
         setVgrow(prinicipalWindow, Priority.ALWAYS);
         Pane mainPane = new VBox();
@@ -23,7 +34,7 @@ public class InfoGuest extends VBox {
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
 
-        vbox.getChildren().add(guestForm());
+        vbox.getChildren().add(guestForm( prinicipalWindow));
         vbox.setPadding(new Insets(30, 80, 40, 80));
         vbox.setSpacing(50);
         mainPane.getChildren().add(vbox);
@@ -35,7 +46,7 @@ public class InfoGuest extends VBox {
         return rooms;
     }
 
-    public VBox guestForm() {
+    public VBox guestForm(PrinicipalWindow prinicipalWindow) {
         Label titleForm = new Label("Huesped Principal");
         titleForm.setId("title-guest-form");
         InputText name = new InputText("Nombre", "Jhon Doe", "", "person");
@@ -46,11 +57,15 @@ public class InfoGuest extends VBox {
         Button sendForm = new Button("Ingresar -->");
 
         sendForm.setOnAction(e -> {
-            String getName = name.getValue();
-            String getPhone = phone.getValue();
-            String getId = id.getValue();
-            String getCard = card.getValue();
-            String getNumGuests = numGuests.getValue();
+            this.nameGuest = name.getValue();
+            this.phoneGuest = phone.getValue();
+            this.idGuest= id.getValue();
+            this.cardGuest = card.getValue();
+            this.cumCompanion = numGuests.getValue();
+
+            prinicipalWindow.setContent(dataSaved.getMainPane());
+
+
 
         });
 

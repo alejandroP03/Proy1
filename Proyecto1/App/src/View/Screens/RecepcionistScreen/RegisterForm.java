@@ -3,6 +3,8 @@ package View.Screens.RecepcionistScreen;
 import Controller.Controller;
 import View.Components.Inputs.InputText;
 import View.Components.PrincipalWindow.PrinicipalWindow;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -27,22 +29,35 @@ public class RegisterForm extends VBox {
         BorderPane borderPane = new BorderPane();
         mainPane.getChildren().clear();
 
-        borderPane.setLeft(isReserve());
-        borderPane.setRight(guestForm());
+        borderPane.setLeft(isReserve(borderPane));
+
+        //borderPane.setRight(guestForm());
+
+
         borderPane.setPadding(new Insets(70));
         mainPane.getChildren().add(borderPane);
         getChildren().add(prinicipalWindow);
 
     }
 
-    public GridPane isReserve() {
+    public GridPane isReserve(BorderPane borderPane ) {
         Label titleReserve = new Label("Tiene reserva?");
         titleReserve.setId("title-reserve");
         InputText id = new InputText("Cedula", "103938234842", "", "person");
         CheckBox checkBox = new CheckBox("");
+        checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    borderPane.setRight(guestForm());
+                } else {
+                    borderPane.setRight(new Pane());
+                }
+            }
+        });
+
         Button searchBtn = new Button("Buscar -->");
         GridPane gridPane = new GridPane();
-
         gridPane.add(titleReserve, 0, 0);
         gridPane.add(checkBox, 1, 0);
         gridPane.add(id, 0, 1);
@@ -61,6 +76,18 @@ public class RegisterForm extends VBox {
         InputText card = new InputText("Tarjeta de credito", "1111 0000 3333", "", "person");
         InputText numGuests = new InputText("Numero de huespedes", "3", "", "person");
         Button sendForm = new Button("Ingresar -->");
+
+        sendForm.setOnAction(e -> {
+            String getName = name.getValue();
+            String getPhone = phone.getValue();
+            String getId = id.getValue();
+            String getCard = card.getValue();
+            String getNumGuests = numGuests.getValue();
+
+
+        });
+
+
         VBox vBox = new VBox();
         sendForm.setId("button-form");
         vBox.setPadding(new Insets(0, 0, 0, 0));

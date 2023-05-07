@@ -9,11 +9,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
 public class DataSaved  extends  VBox{
+    InfoGuest infoGuest;
+    Pane mainPane;
 
     public DataSaved(Controller controller , PrinicipalWindow prinicipalWindow){
         getStylesheets().add("View/Styles/recepcionist/recepcionistScreens.css");
+        mainPane = new Pane();
         setVgrow(prinicipalWindow, Priority.ALWAYS);
-        Pane mainPane = new Pane();
         prinicipalWindow.setContent(mainPane);
 
         Label title = new Label("Resumen");
@@ -32,6 +34,10 @@ public class DataSaved  extends  VBox{
         mainPane.getChildren().add(borderPane);
         getChildren().add(prinicipalWindow);
 
+    }
+
+    public Pane getMainPane(){
+        return this.mainPane;
     }
 
     public VBox leftCard(){
@@ -63,6 +69,8 @@ public class DataSaved  extends  VBox{
         vBox.getChildren().addAll(title,time,price,rooms);
         return vBox;
     }
+
+
 
     public HBox addInfo(String type, String data){
         HBox hBox = new HBox();
