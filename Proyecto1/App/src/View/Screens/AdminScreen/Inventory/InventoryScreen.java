@@ -74,7 +74,7 @@ public class InventoryScreen extends VBox {
         mainPane.setLeft(new HBox());
         switch (requestedInventory) {
             case FOODS:
-                inventoryBox = new FoodInventory();
+                inventoryBox = new FoodInventory(controller.getFoodStock());
                 break;
             case ROOMS:
                 inventoryBox = new RoomInventory(controller.getRoomStock(), controller);
@@ -83,7 +83,7 @@ public class InventoryScreen extends VBox {
                 mainPane.setLeft(leftInfo);
                 break;
             case SERVICE:
-                inventoryBox = new ServicesInventory();
+                inventoryBox = new ServicesInventory(controller.getServiceStock());
                 break;
             default:
                 inventoryBox = new RoomInventory(this.controller.getRoomStock(), controller);

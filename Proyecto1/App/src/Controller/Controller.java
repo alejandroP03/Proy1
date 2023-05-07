@@ -165,7 +165,14 @@ public class Controller {
         }
 
         return ocupation;
+    }
 
+    public Map<Object, Food> getFoodStock() {
+        return hotel.getRestaurantHandler().getData();
+    }
+
+    public Map<Object, Service> getServiceStock() {
+        return hotel.getServices().getData();
     }
 
     // ---------------------- Funciones para el adminsitrador ----------------------
@@ -735,11 +742,10 @@ public class Controller {
 
     }
 
-    public ArrayList<Room> freeRooms(){
+    public ArrayList<Room> freeRooms() {
         ArrayList<Room> freeRoomsList;
         return freeRoomsList = new ArrayList<Room>(hotel.getFreeRooms().values());
     }
-
 
     private List<String> selectRooms(boolean isForNow, LocalDate initialDate, LocalDate finalDate) throws Exception {
         List<String> selectedRoomsIds = new ArrayList<String>();
